@@ -1,0 +1,53 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:xv ="clr-namespace:VirtualizingListView"
+                    >
+    <xv:GroupSort x:Key="GroupSort" />
+    <xv:ISfolder x:Key="IsFolder"/>
+
+    <CollectionViewSource x:Key="myVideoData" Source="{Binding VideoItemViewCollection}">
+        <!--<CollectionViewSource.GroupDescriptions>
+            <PropertyGroupDescription  Converter="{StaticResource GroupSort}" />
+        </CollectionViewSource.GroupDescriptions>-->
+
+
+        <!--<CollectionViewSource.SortDescriptions>
+            <scm:SortDescription PropertyName="CreationDate"  Direction="Ascending"/>
+        </CollectionViewSource.SortDescriptions>-->
+
+    </CollectionViewSource>
+    <Style x:Key="lvStyle" TargetType="{x:Type ListView}">
+        <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True"/>
+        <Setter Property="VirtualizingStackPanel.VirtualizationMode" Value="Recycling"/>
+        <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="True"/>
+        <Setter Property="ListView.ItemsSource" Value="{Binding}"/>
+        <Setter Property="ListView.View">
+            <Setter.Value>
+                <GridView >
+                    <GridViewColumn Header="Id" Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Id}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Name" Width="150">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                <Setter Property="ListView.Cursor" Value="Wait"/>
+                <Setter Property="ListView.Background" Value="LightGray"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

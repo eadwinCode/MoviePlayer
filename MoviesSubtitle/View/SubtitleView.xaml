@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="RealMediaControlSubtitle.View.SubtitleView" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+           
+             xmlns:sub="clr-namespace:OutlineText" xmlns:my1="clr-namespace:System.Drawing;assembly=System.Drawing">
+    <UserControl.Resources>
+        <my1:Font x:Key="Font1">Arial Black, 18pt</my1:Font>
+    </UserControl.Resources>
+   
+        <!--<customlabel:CustomLabel/>-->
+        <!--<my:WindowsFormsHost x:Name="WFH" Background="Transparent" Width="700"/>-->
+        <sub:CustomLabel Text=" " x:Name="OutlineTextSub" SnapsToDevicePixels="True" Width="600"   TextAlignment="Center" TextWrapping="Wrap"
+                               StrokeThickness="1"  Stroke="Black" Visibility="Visible" FontSize="15" 
+                         FontWeight="ExtraBold" FontFamily="/Fonts/#unicode.clearfag">
+            <!--<local1:OutlinedTextBlock.Effect>
+                        <DropShadowEffect   Direction="315" ShadowDepth="1.1" Color="Black" BlurRadius="0" Opacity=".8"/>
+                    </local1:OutlinedTextBlock.Effect>-->
+        </sub:CustomLabel>
+
+</UserControl>

@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3C13D7AA-EC89-49AC-9CDB-1F679D314CB3}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <RootNamespace>VideoPlayer</RootNamespace>
+    <AssemblyName>VideoPlayer</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Practices.Prism">
+      <HintPath>..\..\..\..\Documents\Visual Studio 2010\Projects\RealMediaControl\Libraries\Microsoft.Practices.Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism.Interactivity">
+      <HintPath>..\..\..\..\Documents\Visual Studio 2010\Projects\RealMediaControl\Libraries\Microsoft.Practices.Prism.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism.UnityExtensions">
+      <HintPath>..\..\..\..\Documents\Visual Studio 2010\Projects\RealMediaControl\Libraries\Microsoft.Practices.Prism.UnityExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\..\..\..\Documents\Visual Studio 2010\Projects\RealMediaControl\Libraries\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\..\..\..\Documents\Visual Studio 2010\Projects\RealMediaControl\Libraries\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WPFMediaKit">
+      <HintPath>..\..\..\..\Documents\Visual Studio 2010\Projects\RealMediaControl\Libraries\WPFMediaKit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DragCanvas.cs" />
+    <Compile Include="ICommandBinding.cs" />
+    <Compile Include="IPlayListClose.cs" />
+    <Compile Include="IVideoPlayer.cs" />
+    <Compile Include="MarqueeTextBlock.cs" />
+    <Compile Include="MouseDownHelper.cs" />
+    <Compile Include="MovieTitle_Tab.cs" />
+    <Compile Include="TextBlockService.cs" />
+    <Compile Include="TextConverter.cs" />
+    <Compile Include="Util\Common.cs" />
+    <Compile Include="ViewConverter.cs" />
+    <Compile Include="ViewModel\MediaControllerVM.cs" />
+    <Compile Include="ViewModel\VideoPlayerExtd.cs" />
+    <Compile Include="ViewModel\VideoPlayerVM.cs" />
+    <Compile Include="IMediaController.cs" />
+    <Compile Include="View\MediaController.xaml.cs">
+      <DependentUpon>MediaController.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PlaylistView.xaml.cs">
+      <DependentUpon>PlaylistView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubtitleMediaController.xaml.cs">
+      <DependentUpon>SubtitleMediaController.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VolumeControl.cs" />
+    <Compile Include="VolumeTextConverter.cs" />
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="CustomControl1.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="View\MediaController.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\PlaylistView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubtitleMediaController.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="PlayList\PlayListManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{e8a139d9-5cfe-444f-8435-ccb2e7c6b2d7}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EffectLibrary\EffectLibrary.csproj">
+      <Project>{edb5e8a6-830c-4ea0-b309-c35019aba183}</Project>
+      <Name>EffectLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MoviesSubtitle\MoviesSubtitle.csproj">
+      <Project>{14fb53d7-d259-4555-8e0d-ea8f132f6a77}</Project>
+      <Name>MoviesSubtitle</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VideoComponent\VideoComponent.csproj">
+      <Project>{600b943a-217b-4d03-8fc1-73efa2cad452}</Project>
+      <Name>VideoComponent</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VirtualizingListView\VirtualizingListView.csproj">
+      <Project>{80111b45-bab3-40d7-808f-69d84fef350c}</Project>
+      <Name>VirtualizingListView</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

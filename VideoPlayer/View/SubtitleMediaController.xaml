@@ -1,0 +1,198 @@
+﻿<UserControl x:Class="VideoPlayer.SubtitleMediaController"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:sub="clr-namespace:RealMediaControlSubtitle.View;assembly=MoviesSubtitle"
+             xmlns:rmc="clr-namespace:VideoPlayer"
+             AllowDrop="True"
+             xmlns:util="clr-namespace:Common.Util;assembly=Common">
+    <UserControl.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="ContentControlStyle" TargetType="{x:Type rmc:MediaController}">
+                <Style.Triggers>
+                    <MultiTrigger>
+                        <MultiTrigger.Conditions>
+                            <Condition Value="False"  Property="util:MediaControlExtension.IsMouseOverMediaElement"/>
+                            <Condition Value="True"  Property="util:MediaControlExtension.CanAnimateControl"/>
+                        </MultiTrigger.Conditions>
+                        <MultiTrigger.EnterActions>
+                            <BeginStoryboard x:Name="Current1">
+                                <Storyboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0:0:1"  To="0" Storyboard.TargetProperty="Opacity"/>
+
+                                    </Storyboard>
+                                    <ObjectAnimationUsingKeyFrames BeginTime="0:0:1" Duration="0:0:0.2" Storyboard.TargetProperty="Visibility">
+                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                            <DiscreteObjectKeyFrame.Value>
+                                                <Visibility >Hidden</Visibility>
+                                            </DiscreteObjectKeyFrame.Value>
+                                        </DiscreteObjectKeyFrame>
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </MultiTrigger.EnterActions>
+                        <MultiTrigger.ExitActions>
+                            <RemoveStoryboard BeginStoryboardName="Current1"/>
+                        </MultiTrigger.ExitActions>
+                    </MultiTrigger>
+
+                    <MultiTrigger>
+                        <MultiTrigger.Conditions>
+                            <Condition Property="util:MediaControlExtension.IsMouseOverMediaElement" Value="True"/>
+                            <Condition Value="True"  Property="util:MediaControlExtension.CanAnimateControl"/>
+                        </MultiTrigger.Conditions>
+                        <MultiTrigger.EnterActions>
+                            <BeginStoryboard x:Name="Current2">
+                                <Storyboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0:0:1" To="1" Storyboard.TargetProperty="Opacity"/>
+
+                                    </Storyboard>
+                                    <ObjectAnimationUsingKeyFrames BeginTime="0:0:1" Duration="0:0:0.2" Storyboard.TargetProperty="Visibility">
+                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                            <DiscreteObjectKeyFrame.Value>
+                                                <Visibility>Visible</Visibility>
+                                            </DiscreteObjectKeyFrame.Value>
+                                        </DiscreteObjectKeyFrame>
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </MultiTrigger.EnterActions>
+                        <MultiTrigger.ExitActions>
+                            <RemoveStoryboard BeginStoryboardName="Current2"/>
+                        </MultiTrigger.ExitActions>
+                    </MultiTrigger>
+
+                    <MultiTrigger>
+                        <MultiTrigger.Conditions>
+                            <Condition Value="False"  Property="util:MediaControlExtension.IsMouseOverMediaElement"/>
+                            <Condition Value="False"  Property="util:MediaControlExtension.CanAnimateControl"/>
+                        </MultiTrigger.Conditions>
+                        <MultiTrigger.EnterActions>
+                            <BeginStoryboard x:Name="Current3">
+                                <Storyboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0:0:1"  To="0" Storyboard.TargetProperty="Opacity"/>
+
+                                    </Storyboard>
+                                    <ObjectAnimationUsingKeyFrames BeginTime="0:0:1" Duration="0:0:0.2" Storyboard.TargetProperty="Visibility">
+                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                            <DiscreteObjectKeyFrame.Value>
+                                                <Visibility >Collapsed</Visibility>
+                                            </DiscreteObjectKeyFrame.Value>
+                                        </DiscreteObjectKeyFrame>
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+
+                            </BeginStoryboard>
+                        </MultiTrigger.EnterActions>
+                        <MultiTrigger.ExitActions>
+                            <RemoveStoryboard BeginStoryboardName="Current3"/>
+                        </MultiTrigger.ExitActions>
+                    </MultiTrigger>
+
+                    <MultiTrigger>
+                        <MultiTrigger.Conditions>
+                            <Condition Value="True"  Property="util:MediaControlExtension.IsMouseOverMediaElement"/>
+                            <Condition Value="False"  Property="util:MediaControlExtension.CanAnimateControl"/>
+                        </MultiTrigger.Conditions>
+                        <MultiTrigger.EnterActions>
+                            <BeginStoryboard x:Name="Current4">
+                                <Storyboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0:0:1" To="1" Storyboard.TargetProperty="Opacity"/>
+
+                                    </Storyboard>
+                                    <ObjectAnimationUsingKeyFrames BeginTime="0:0:1" Duration="0:0:0.2" Storyboard.TargetProperty="Visibility">
+                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                            <DiscreteObjectKeyFrame.Value>
+                                                <Visibility >Visible</Visibility>
+                                            </DiscreteObjectKeyFrame.Value>
+                                        </DiscreteObjectKeyFrame>
+                                    </ObjectAnimationUsingKeyFrames>
+
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </MultiTrigger.EnterActions>
+                        <MultiTrigger.ExitActions>
+                            <RemoveStoryboard BeginStoryboardName="Current4"/>
+                        </MultiTrigger.ExitActions>
+                    </MultiTrigger>
+
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="Focusable" Value="False"/>
+            </Style>
+        </ResourceDictionary>
+
+    </UserControl.Resources>
+
+    <!--<Grid Background="Transparent"  HorizontalAlignment="Stretch"
+              VerticalAlignment="Bottom"
+               x:Name="ParentGrid" Grid.Row="0">-->
+
+
+    <!--<Grid Grid.Row="0" x:Name="VideoContent" HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch">
+            -->
+    <!--<controls:MediaUriElement x:Name="MediaElementPlayer" Grid.Row="1"
+                                  DeeperColor="True"
+                                  Margin="4" />-->
+
+    <!--<local:DragCanvas x:Name="mycanvas"  >
+                
+
+                -->
+    <!--<ContentControl Style="{StaticResource ContentControlStyle}" Canvas.Bottom="{Binding ElementName=Windows, Path=ActualHeight}" x:Name="_mediaContainer"/>-->
+    <!--
+
+            </local:DragCanvas>-->
+
+
+
+    <!--<Viewbox Canvas.Bottom="59"  VerticalAlignment="Bottom"  MouseDown="Viewbox_MouseDown"  HorizontalAlignment="Center" >
+                <local1:OutlinedTextBlock  Text=" " SnapsToDevicePixels="True" Width="700"  x:Name="SubtitleText" TextAlignment="Center" TextWrapping="Wrap"
+                               StrokeThickness="2" FontWeight="ExtraBold" Stroke="Black" Visibility="Visible" FontSize="20" 
+                           FontFamily="Arial">
+                    <local1:OutlinedTextBlock.Effect>
+                        <DropShadowEffect   Direction="315" ShadowDepth="1.1" Color="Black" BlurRadius="0" Opacity=".8"/>
+                    </local1:OutlinedTextBlock.Effect>
+                </local1:OutlinedTextBlock>
+            </Viewbox>-->
+    <!--
+
+
+
+
+        </Grid>-->
+    <Grid >
+        <Rectangle Fill="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        
+        </Rectangle>
+        <StackPanel HorizontalAlignment="Stretch"  DockPanel.Dock="Bottom" VerticalAlignment="Bottom" >
+            <Viewbox x:Name="SubviewBox" IsHitTestVisible="False"
+                         Focusable="False" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
+                         Margin="3,0,3,30" >
+                <sub:SubtitleView IsHitTestVisible="False" Width="600"
+                                  Focusable="False" x:Name="SubtitleText"
+                                  SnapsToDevicePixels="True"
+                                  HorizontalAlignment="Stretch" 
+                                  Background="Transparent" VerticalAlignment="Bottom">
+                    <sub:SubtitleView.Effect>
+                        <DropShadowEffect   Direction="315" ShadowDepth="1.1" Color="Black" BlurRadius="0" Opacity=".5"/>
+                    </sub:SubtitleView.Effect>
+                </sub:SubtitleView>
+            </Viewbox>
+            <Grid Grid.Row="1"  x:Name="ControlHolder" >
+                <rmc:MediaController 
+                    Style="{StaticResource ContentControlStyle}"  x:Name="mediacontrol"/>
+            </Grid>
+        </StackPanel>
+    </Grid>
+
+    <!--</Grid>-->
+
+
+</UserControl>

@@ -1,0 +1,293 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{80111B45-BAB3-40D7-808F-69D84FEF350C}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <RootNamespace>VirtualizingListView</RootNamespace>
+    <AssemblyName>VirtualizingListView</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Practices.Prism">
+      <HintPath>..\..\..\..\Documents\Visual Studio 2010\Projects\RealMediaControl\Libraries\Microsoft.Practices.Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism.Interactivity">
+      <HintPath>..\..\..\..\Documents\Visual Studio 2010\Projects\RealMediaControl\Libraries\Microsoft.Practices.Prism.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism.UnityExtensions">
+      <HintPath>..\..\..\..\Documents\Visual Studio 2010\Projects\RealMediaControl\Libraries\Microsoft.Practices.Prism.UnityExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\..\..\..\Documents\Visual Studio 2010\Projects\RealMediaControl\Libraries\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\..\..\..\Documents\Visual Studio 2010\Projects\RealMediaControl\Libraries\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack">
+      <HintPath>..\..\..\..\Documents\Visual Studio 2010\Projects\RealMediaControl\Libraries\Microsoft.WindowsAPICodePack.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell">
+      <HintPath>..\..\..\..\Documents\Visual Studio 2010\Projects\RealMediaControl\Libraries\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActiveItemConverter.cs" />
+    <Compile Include="Customer.cs" />
+    <Compile Include="Customers.cs" />
+    <Compile Include="HideFolder.cs" />
+    <Compile Include="IItemProvider.cs" />
+    <Compile Include="NavigationConverter.cs" />
+    <Compile Include="OtherFiles\TextContexter.cs" />
+    <Compile Include="Util\Common.cs" />
+    <Compile Include="VideoItemViewCollection.cs" />
+    <Compile Include="ViewModel\CollectionVM.cs" />
+    <Compile Include="ViewModel\VirtualizingVM.cs" />
+    <Compile Include="View\FileExplorer.xaml.cs">
+      <DependentUpon>FileExplorer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FileView.xaml.cs">
+      <DependentUpon>FileView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MyTreeView.xaml.cs">
+      <DependentUpon>MyTreeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PlaylistTree.xaml.cs">
+      <DependentUpon>PlaylistTree.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RenameDialog.xaml.cs">
+      <DependentUpon>RenameDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VirtualizingCollection.cs" />
+    <Compile Include="VirtualPanel\VirtualWrapPanel.cs" />
+    <Page Include="Resources\Items.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\ViewStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="CustomControl1.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="View\FileExplorer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\FileView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\MyTreeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\PlaylistTree.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\RenameDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Events\CommonEvents.cs" />
+    <Compile Include="Model\NavigationModel.cs" />
+    <Compile Include="Util\FileLoader.cs" />
+    <Compile Include="OtherFiles\CustomButton.cs" />
+    <Compile Include="OtherFiles\CustomItemProvider.cs" />
+    <Compile Include="OtherFiles\DoubleClick.cs" />
+    <Compile Include="OtherFiles\GroupSort.cs" />
+    <Compile Include="OtherFiles\HeaderImageConverter.cs" />
+    <Compile Include="OtherFiles\ILoadFile.cs" />
+    <Compile Include="OtherFiles\ISfolder.cs" />
+    <Compile Include="OtherFiles\itemListSelector.cs" />
+    <Compile Include="OtherFiles\LoadandSave.cs" />
+    <Compile Include="OtherFiles\MoreTemplateSelector.cs" />
+    <Compile Include="OtherFiles\SerializeDeserializeHelper.cs" />
+    <Compile Include="OtherFiles\ThumbNailConverter.cs" />
+    <Compile Include="OtherFiles\ThumbnailImageSource.cs" />
+    <Compile Include="OtherFiles\VideoItemDoubleClick.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\1444150377_ok.png" />
+    <Resource Include="Resources\Images\1444151826_source_s.png" />
+    <Resource Include="Resources\Images\1468868785_icon-111-search.png" />
+    <Resource Include="Resources\Images\1468868797_search.png" />
+    <Resource Include="Resources\Images\1468868809_search.png" />
+    <Resource Include="Resources\Images\1468869084_icon-111-search.png" />
+    <Resource Include="Resources\Images\1494208427_folder_black_movies.png" />
+    <Resource Include="Resources\Images\1498943046_orange-folder-open.png" />
+    <Resource Include="Resources\Images\1498943107_orange-folder.png" />
+    <Resource Include="Resources\Images\360-view.png" />
+    <Resource Include="Resources\Images\add-button-with-plus-symbol-in-a-black-circle %281%29.png" />
+    <Resource Include="Resources\Images\add-button-with-plus-symbol-in-a-black-circle.png" />
+    <Resource Include="Resources\Images\back.png" />
+    <Resource Include="Resources\Images\check-1-icon.png" />
+    <Resource Include="Resources\Images\close.png" />
+    <Resource Include="Resources\Images\delete.png" />
+    <Resource Include="Resources\Images\diskdrive.png" />
+    <Resource Include="Resources\Images\exit.png" />
+    <Resource Include="Resources\Images\Folder-96.png" />
+    <Resource Include="Resources\Images\folder-icon-128x128.png" />
+    <Resource Include="Resources\Images\folder-icon-256x256.png" />
+    <Resource Include="Resources\Images\folder.png" />
+    <Resource Include="Resources\Images\Folderss - Copy.jpeg" />
+    <Resource Include="Resources\Images\Folderss.jpeg" />
+    <Resource Include="Resources\Images\fullscreen.png" />
+    <Resource Include="Resources\Images\left-arrow %281%29.png" />
+    <Resource Include="Resources\Images\left-arrow.png" />
+    <Resource Include="Resources\Images\magnifier.png" />
+    <Resource Include="Resources\Images\Movies - Copy.png" />
+    <Resource Include="Resources\Images\Movies.png" />
+    <Resource Include="Resources\Images\musica-searcher.png" />
+    <Resource Include="Resources\Images\mute.png" />
+    <Resource Include="Resources\Images\next.png" />
+    <Resource Include="Resources\Images\orange_folder.png" />
+    <Resource Include="Resources\Images\pause.png" />
+    <Resource Include="Resources\Images\pause1.png" />
+    <Resource Include="Resources\Images\play%283%29.png" />
+    <Resource Include="Resources\Images\play-button.png" />
+    <Resource Include="Resources\Images\play.png" />
+    <Resource Include="Resources\Images\play2.png" />
+    <Resource Include="Resources\Images\play3.png" />
+    <Resource Include="Resources\Images\Plus-icon %281%29.png" />
+    <Resource Include="Resources\Images\Plus-icon.png" />
+    <Resource Include="Resources\Images\replay.png" />
+    <Resource Include="Resources\Images\right-arrow %281%29.png" />
+    <Resource Include="Resources\Images\right-arrow.png" />
+    <Resource Include="Resources\Images\save.png" />
+    <Resource Include="Resources\Images\sound-icone-4732-128.png" />
+    <Resource Include="Resources\Images\sound-icone-4732-32.png" />
+    <Resource Include="Resources\Images\speaker.png" />
+    <Resource Include="Resources\Images\speech_bubble_center_2.png" />
+    <Resource Include="Resources\Images\speech_bubble_center_3%282%29.png" />
+    <Resource Include="Resources\Images\spk.png" />
+    <Resource Include="Resources\Images\srt.png" />
+    <Resource Include="Resources\Images\stop.png" />
+    <Resource Include="Resources\Images\update-arrow %281%29.png" />
+    <Resource Include="Resources\Images\update-arrow.png" />
+    <Resource Include="Resources\Images\video.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{e8a139d9-5cfe-444f-8435-ccb2e7c6b2d7}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VideoComponent\VideoComponent.csproj">
+      <Project>{600b943a-217b-4d03-8fc1-73efa2cad452}</Project>
+      <Name>VideoComponent</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\back %281%29.png" />
+    <Resource Include="Resources\Images\next %281%29.png" />
+    <Resource Include="Resources\Images\pause %281%29.png" />
+    <Resource Include="Resources\Images\replay %281%29.png" />
+    <Resource Include="Resources\Images\stop %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\play-button %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\replay %282%29.png" />
+    <Resource Include="Resources\Images\replay %283%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\back %282%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\back %283%29.png" />
+    <Resource Include="Resources\Images\back %284%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\movie-clapper-open.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\video-player.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\playlist.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\fast-forward.png" />
+    <Resource Include="Resources\Images\rewind.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\clear.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\save-file-option.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\film-list.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Field+Tile+in+Gray.jpg" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

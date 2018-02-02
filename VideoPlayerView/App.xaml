@@ -1,0 +1,12 @@
+﻿<Application x:Class="VideoPlayerView.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:VideoPlayerView"
+              xmlns:sw="clr-namespace:WpfStyleableWindow.StyleableWindow"
+              xmlns:VideoPlayer="clr-namespace:VideoPlayer;assembly=VideoPlayer"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+       
+    </Application.Resources>
+   
+</Application>

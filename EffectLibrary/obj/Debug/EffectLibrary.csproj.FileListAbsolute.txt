@@ -1,0 +1,13 @@
+C:\Users\EadwinToochos\Documents\Visual Studio 2010\Projects\RealMediaControl\EffectLibrary\bin\Debug\CustomEffect.dll
+C:\Users\EadwinToochos\Documents\Visual Studio 2010\Projects\RealMediaControl\EffectLibrary\bin\Debug\CustomEffect.pdb
+C:\Users\EadwinToochos\Documents\Visual Studio 2010\Projects\RealMediaControl\EffectLibrary\obj\Debug\CustomEffect.g.resources
+C:\Users\EadwinToochos\Documents\Visual Studio 2010\Projects\RealMediaControl\EffectLibrary\obj\Debug\EffectLibrary.csproj.CoreCompileInputs.cache
+C:\Users\EadwinToochos\Documents\Visual Studio 2010\Projects\RealMediaControl\EffectLibrary\obj\Debug\CustomEffect.dll
+C:\Users\EadwinToochos\Documents\Visual Studio 2010\Projects\RealMediaControl\EffectLibrary\obj\Debug\CustomEffect.pdb
+C:\Users\EadwinToochos\source\repos\Movies\EffectLibrary\bin\Debug\CustomEffect.dll
+C:\Users\EadwinToochos\source\repos\Movies\EffectLibrary\bin\Debug\CustomEffect.pdb
+C:\Users\EadwinToochos\source\repos\Movies\EffectLibrary\obj\Debug\CustomEffect.g.resources
+C:\Users\EadwinToochos\source\repos\Movies\EffectLibrary\obj\Debug\EffectLibrary.csproj.CoreCompileInputs.cache
+C:\Users\EadwinToochos\source\repos\Movies\EffectLibrary\obj\Debug\CustomEffect.dll
+C:\Users\EadwinToochos\source\repos\Movies\EffectLibrary\obj\Debug\CustomEffect.pdb
+C:\Users\EadwinToochos\source\repos\Movies\EffectLibrary\obj\Debug\EffectLibrary.csprojResolveAssemblyReference.cache
