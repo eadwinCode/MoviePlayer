@@ -300,8 +300,8 @@
     </Style>
 
     <Style x:Key="listViewControl" TargetType="{x:Type ListView}">
-        <Setter Property="VirtualizingPanel.IsVirtualizing" Value="True"/>
-        <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Recycling"/>
+        <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True"/>
+        <Setter Property="VirtualizingStackPanel.VirtualizationMode" Value="Recycling"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
@@ -336,8 +336,8 @@
                 <!--
                 </ItemsPanelTemplate>-->
                 <ItemsPanelTemplate>
-                    <VirtualizingStackPanel Orientation="Vertical" VirtualizingPanel.VirtualizationMode="Recycling" 
-                                            VirtualizingPanel.IsVirtualizing="True"/>
+                    <VirtualizingStackPanel Orientation="Vertical" VirtualizingStackPanel.VirtualizationMode="Recycling" 
+                                            VirtualizingStackPanel.IsVirtualizing="True"/>
                     <!--<r:VirtualWrapPanel Orientation="Horizontal" ItemHeight="65" ItemWidth="260" 
                                         VirtualizingPanel.VirtualizationMode="Recycling" 
                                             VirtualizingPanel.IsVirtualizing="True" />-->
@@ -473,8 +473,8 @@
     </Style>
 
     <ItemsPanelTemplate x:Key="VideoItemsPanel">
-        <r:VirtualWrapPanel Orientation="Horizontal" ItemHeight="190" ItemWidth="150" VirtualizingPanel.VirtualizationMode="Recycling" 
-                                            VirtualizingPanel.IsVirtualizing="True" />
+        <r:VirtualWrapPanel Orientation="Horizontal" ItemHeight="190" ItemWidth="150" VirtualizingStackPanel.VirtualizationMode="Recycling" 
+                                            VirtualizingStackPanel.IsVirtualizing="True" />
         <!--<WrapPanel Margin="0,2,0,2" Orientation="Horizontal" />
         ItemHeight="{Binding Path=ItemSize.Height, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"
                      ItemWidth="{Binding Path=ItemSize.Width, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"/>-->
@@ -488,8 +488,8 @@
     </ItemsPanelTemplate>
 
     <Style x:Key="lvStyle1" TargetType="{x:Type ListView}">
-        <Setter Property="VirtualizingPanel.IsVirtualizing" Value="True"/>
-        <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Recycling"/>
+        <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True"/>
+        <Setter Property="VirtualizingStackPanel.VirtualizationMode" Value="Recycling"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
@@ -499,8 +499,8 @@
                 <ItemsPanelTemplate>
                    
                     <r:VirtualWrapPanel Orientation="Horizontal" ItemHeight="190" ItemWidth="150" 
-                                        VirtualizingPanel.VirtualizationMode="Recycling" 
-                                            VirtualizingPanel.IsVirtualizing="True" />
+                                        VirtualizingStackPanel.VirtualizationMode="Recycling" 
+                                            VirtualizingStackPanel.IsVirtualizing="True" />
                     <!--<WrapPanel Margin="0,2,0,2" Orientation="Horizontal" />-->
                     <!--ItemHeight="{Binding Path=ItemSize.Height, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"
                      ItemWidth="{Binding Path=ItemSize.Width, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"/>-->
@@ -684,8 +684,8 @@
             <!--<y:VideoData>-->
             <DockPanel  TextBlock.Foreground="White" LastChildFill="True"  
                                       Height="55"  
-                                     VirtualizingPanel.VirtualizationMode="Recycling" 
-                                     VirtualizingPanel.IsVirtualizing="True" >
+                                     VirtualizingStackPanel.VirtualizationMode="Recycling" 
+                                     VirtualizingStackPanel.IsVirtualizing="True" >
                 <!--<DockPanel.Background>
                     <ImageBrush ImageSource="Images/check-1-icon.png" TileMode="Tile"   Stretch="None" ViewportUnits="Absolute" Opacity="0.095"/>
                 </DockPanel.Background>-->
@@ -777,8 +777,8 @@
             <DockPanel  TextBlock.Foreground="White" Margin="1"
                         LastChildFill="True" HorizontalAlignment="Stretch" 
                         VerticalAlignment="Stretch"
-                        VirtualizingPanel.VirtualizationMode="Recycling" 
-                        VirtualizingPanel.IsVirtualizing="True" >
+                        VirtualizingStackPanel.VirtualizationMode="Recycling" 
+                        VirtualizingStackPanel.IsVirtualizing="True" >
                 <!--<DockPanel.Background>
                     <ImageBrush ImageSource="Images/check-1-icon.png" TileMode="Tile"   Stretch="None" ViewportUnits="Absolute" Opacity="0.095"/>
                 </DockPanel.Background>-->

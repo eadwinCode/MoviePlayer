@@ -7,5 +7,6 @@ namespace VideoPlayer
     {
         MovieTitle_Tab MovieTitle_Tab { get; }
         Panel GroupedControls { get; }
+        VolumeControl VolumeControl { get; }
     }
 }

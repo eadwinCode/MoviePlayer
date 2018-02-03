@@ -19,8 +19,8 @@ namespace WpfStyleableWindow.StyleableWindow
 
         public void Execute(object parameter)
         {
-
-            if (parameter is Window window)
+            Window window = parameter as Window;
+            if (window != null)
             {
                 window.WindowState = WindowState.Minimized;
             }

@@ -11,10 +11,17 @@ namespace Common.Model
         private string filename;
         private bool incollection;
         private double progressLastSeen;
-        public string FileName { get => filename; set => filename = value; }
-        public double ProgressLastSeen { get => progressLastSeen; set => progressLastSeen = value; }
-        public bool InCollection { get => incollection; }
-
+        public string FileName
+        {
+            get { return filename; }
+            set { filename = value; }
+        }
+        public double ProgressLastSeen
+        {
+            get { return progressLastSeen; }
+            set { progressLastSeen = value; }
+        }
+        public bool InCollection { get { return incollection; } }
         
         public PlayedFiles(string FileName, double duration)
         {

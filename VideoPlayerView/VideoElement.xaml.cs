@@ -80,15 +80,36 @@ namespace VideoPlayerView
 
         public IPlayListClose PlayListView { get { return this.playlistview; } }
 
-        public ISubtitleMediaController IVideoPlayer => this.videoplayer;
+        public ISubtitleMediaController IVideoPlayer
+        {
+            get
+            {
+                return this.videoplayer;
+            }
+        }
 
-        UIElement IVideoElement.WindowsTab => this.WindowsTab;
+        UIElement IVideoElement.WindowsTab
+        {
+            get
+            {
+                return this.WindowsTab;
+            }
+        }
 
-        UIElement IVideoElement.WindowsTabDock => this.WindowsTabDock;
+        UIElement IVideoElement.WindowsTabDock
+        {
+            get
+            {
+                return this.WindowsTabDock;
+            }
+        }
 
         public MediaElement MediaPlayer { get { return this.MediaElementPlayer; } }
 
-        public UIElement ParentGrid { get => this._videoContent; }
+        public UIElement ParentGrid
+        {
+            get { return this._videoContent; }
+        }
 
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {

@@ -52,8 +52,8 @@ namespace VirtualizingListView
 
         static void control_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
-            if (sender is UIElement control)
+            UIElement control= sender as UIElement;
+            if (control !=null)
             {
                 var command = control.GetValue(DoubleClickCommand) as ICommand;
                 var commandParameter = control.GetValue(DoubleClickCommandParameter);

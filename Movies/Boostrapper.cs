@@ -12,6 +12,7 @@ using VideoPlayerView.FilePlayer;
 using Common.Interfaces;
 using Common.ApplicationCommands;
 using Common.FileHelper;
+using Movies;
 
 namespace RealMediaControl
 {

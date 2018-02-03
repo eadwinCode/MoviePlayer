@@ -31,7 +31,12 @@ namespace Common.FileHelper
         
         static string[] delimeter = { " " };
 
-        static CreateHelper() => MediaFolderPath = SystemDocumentPath + @"\" + AppName;
+        static CreateHelper() {
+            if (AppName.Contains(".vshost"))
+            {
+               AppName= AppName.Replace(".vshost", "");
+            }
+            MediaFolderPath = SystemDocumentPath + @"\" + AppName; }
 
         public static void LoadFiles()
         {

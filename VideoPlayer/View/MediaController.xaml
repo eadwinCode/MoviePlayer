@@ -4,7 +4,6 @@
              xmlns:y="clr-namespace:VideoPlayer"
               xmlns:cmd="clr-namespace:Common.ApplicationCommands;assembly=Common"
              xmlns:util="clr-namespace:Common.Util;assembly=Common"
-             xmlns:effect="clr-namespace:CustomEffect;assembly=CustomEffect" 
              x:Name="mediaControl" FontFamily="Trebuchet MS" 
              Background="Transparent"
             >
@@ -535,9 +534,9 @@
                             <GradientStop Color="#7F000000"/>
                         </LinearGradientBrush>
                     </Border.Background>
-                    <Border.Effect>
+                    <!--<Border.Effect>
                         <effect:Transparency Opacity="1"  />
-                    </Border.Effect>
+                    </Border.Effect>-->
                 </Border>
             <Border BorderThickness="2"   
                 TextBlock.Foreground="White" 
@@ -933,9 +932,10 @@
 
                         </DockPanel>
 
-                        <y:VolumeControl HorizontalAlignment="Center" Margin="0,5,0,0" 
+                        <y:VolumeControl HorizontalAlignment="Center" Margin="0,5,0,0" x:Name="volCtrl"
                                VerticalAlignment="Bottom" Height="22" Width="120"
-                               DockPanel.Dock="Bottom" DataContext="{Binding ElementName=mediaControl,Path=DataContext}"/>
+                               DockPanel.Dock="Bottom" DataContext="{Binding ElementName=mediaControl,
+                            Path=DataContext}"/>
 
                     </DockPanel>
                     <Grid DockPanel.Dock="Top" x:Name="GroupSlider" Grid.Column="0" Width="320">

@@ -13,7 +13,6 @@
         ContextMenu="{DynamicResource VideoContextMenu}"
         Title="MainWindow" WindowStartupLocation="Manual"
              Width="620" Height="500" MinWidth="320" 
-            xmlns:effects="clr-namespace:CustomEffect;assembly=CustomEffect"
         MinHeight="400" HorizontalContentAlignment="Stretch">
 
 

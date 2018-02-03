@@ -4,7 +4,7 @@
 library
 C#
 .cs
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\obj\Debug\
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\obj\Debug\
 VirtualizingListView
 none
 false
@@ -13,7 +13,7 @@ DEBUG;TRACE
 8975960779
 
 39-1463190796
-231111298571
+23-2135954010
 Resources\Items.xaml;Resources\ViewStyle.xaml;Themes\Generic.xaml;View\FileExplorer.xaml;View\FileView.xaml;View\MyTreeView.xaml;View\PlaylistTree.xaml;View\RenameDialog.xaml;
 
 False

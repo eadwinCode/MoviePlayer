@@ -206,8 +206,8 @@ namespace WpfStyleableWindow.StyleableWindow
         private static void DragLeft(object sender, DragDeltaEventArgs e)
         {
             var thumb = sender as Thumb;
-
-            if (thumb.GetValue(LeftResize) is Window window)
+            Window window = thumb.GetValue(LeftResize) as Window;
+            if (window != null)
             {
                 var horizontalChange = window.SafeWidthChange(e.HorizontalChange, false);
                 window.Width -= horizontalChange;

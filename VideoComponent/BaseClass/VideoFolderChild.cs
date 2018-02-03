@@ -280,7 +280,7 @@ namespace VideoComponent.BaseClass
 
         public ILastSeen LastPlayedPoisition
         {
-            get => lastplayedpoisition; set
+            get { return lastplayedpoisition; } set
             {
                 lastplayedpoisition = value;
                 Progress = value != null ? value.ProgressLastSeen : 0.0;

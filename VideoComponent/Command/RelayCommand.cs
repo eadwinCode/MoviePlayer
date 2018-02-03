@@ -18,7 +18,12 @@ namespace VideoComponent.Command
 
         public RelayCommand(Action execute, Func<bool> canExecute)
         {
-            _execute = execute ?? throw new ArgumentNullException("execute");
+            if (execute == null)
+            {
+                throw new ArgumentNullException("execute");
+            }
+             
+            _execute = execute;
             _canExecute = canExecute;
         }
         public bool CanExecute(object parameter)

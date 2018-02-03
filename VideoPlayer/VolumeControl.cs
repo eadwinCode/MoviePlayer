@@ -15,11 +15,14 @@ namespace VideoPlayer
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(VolumeControl),
                 new FrameworkPropertyMetadata(typeof(VolumeControl)));
-
-            CurrentVolumeSlider = VolumeSliderPart.VolumeSlider;
+            
         }
 
-
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            CurrentVolumeSlider = (Slider)this.Template.FindName("volslider", this);
+        }
         private static Slider currentvolumeslider;
 
         public static Slider CurrentVolumeSlider

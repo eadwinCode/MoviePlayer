@@ -232,13 +232,13 @@ namespace VideoPlayer.ViewModel
         private void VolUp_executed(object sender, ExecutedRoutedEventArgs e)
         {
             ResetVisibilityAnimation();
-            VolumeSliderPart.VolumeSlider.Value += 10;
+            VolumeControl.CurrentVolumeSlider.Value += 10;
         }
 
         private void VolDown_executed(object sender, ExecutedRoutedEventArgs e)
         {
             ResetVisibilityAnimation();
-            VolumeSliderPart.VolumeSlider.Value -= 10;
+            VolumeControl.CurrentVolumeSlider.Value -= 10;
         }
 
         private void Stop_executed(object sender, ExecutedRoutedEventArgs e)

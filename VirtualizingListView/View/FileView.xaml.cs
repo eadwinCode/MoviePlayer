@@ -23,15 +23,15 @@ namespace VirtualizingListView.View
     /// <summary>
     /// Interaction logic for FileView.xaml
     /// </summary>
-    public partial class FileView : UserControl,IFileViewer
+    public partial class FileView : UserControl, IFileViewer
     {
         //private static VirtualizingVM vm;
         private static string ParentDirectory;
         static DispatcherTimer timer;
 
-        public UIElement TreeViewer { get => this.treeviewer; }
+        public UIElement TreeViewer { get { return this.treeviewer; } }
 
-        public UIElement FileExplorer => this.fileexpr;
+        public UIElement FileExplorer { get { return this.fileexpr; } }
 
         public FileView()
         {

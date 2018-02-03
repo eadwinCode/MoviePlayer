@@ -18,6 +18,14 @@ namespace VideoPlayer
 
         public Panel GroupedControls => this.GroupControl;
 
+        public VolumeControl VolumeControl
+        {
+            get
+            {
+                return volCtrl;
+            }
+        }
+
         public MediaController()
         {
             InitializeComponent();
@@ -41,7 +49,6 @@ namespace VideoPlayer
             
         }
         
-
         private void Previous_MouseEnter(object sender, MouseEventArgs e)
         {
             var vm = this.DataContext as MediaControllerVM;

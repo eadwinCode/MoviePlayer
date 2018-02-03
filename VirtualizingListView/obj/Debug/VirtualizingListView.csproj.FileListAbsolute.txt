@@ -1,48 +1,48 @@
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\bin\Debug\VirtualizingListView.dll
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\bin\Debug\VirtualizingListView.pdb
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\bin\Debug\Common.dll
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\bin\Debug\Microsoft.Practices.Prism.dll
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\bin\Debug\Microsoft.Practices.Prism.Interactivity.dll
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\bin\Debug\Microsoft.Practices.Prism.UnityExtensions.dll
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\bin\Debug\Microsoft.Practices.ServiceLocation.dll
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\bin\Debug\Microsoft.Practices.Unity.dll
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\bin\Debug\Microsoft.WindowsAPICodePack.dll
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\bin\Debug\VideoComponent.dll
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\bin\Debug\Newtonsoft.Json.Net20.dll
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\bin\Debug\System.Windows.Interactivity.dll
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\bin\Debug\Common.pdb
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\bin\Debug\VideoComponent.pdb
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\bin\Debug\System.Windows.Interactivity.xml
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\bin\Debug\de\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\bin\Debug\en\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\bin\Debug\es\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\bin\Debug\fr\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\bin\Debug\it\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\bin\Debug\ja\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\bin\Debug\ko\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\bin\Debug\zh-Hans\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\bin\Debug\zh-Hant\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\obj\Debug\VirtualizingListView.csprojResolveAssemblyReference.cache
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\obj\Debug\View\FileExplorer.g.cs
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\obj\Debug\View\FileView.g.cs
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\obj\Debug\View\MyTreeView.g.cs
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\obj\Debug\View\PlaylistTree.g.cs
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\obj\Debug\View\RenameDialog.g.cs
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\obj\Debug\GeneratedInternalTypeHelper.g.cs
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\obj\Debug\VirtualizingListView_MarkupCompile.cache
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\obj\Debug\VirtualizingListView_MarkupCompile.lref
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\obj\Debug\Resources\Items.baml
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\obj\Debug\Resources\ViewStyle.baml
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\obj\Debug\Themes\Generic.baml
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\obj\Debug\View\FileExplorer.baml
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\obj\Debug\View\FileView.baml
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\obj\Debug\View\MyTreeView.baml
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\obj\Debug\View\PlaylistTree.baml
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\obj\Debug\View\RenameDialog.baml
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\obj\Debug\VirtualizingListView.g.resources
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\obj\Debug\VirtualizingListView.Properties.Resources.resources
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\obj\Debug\VirtualizingListView.csproj.GenerateResource.Cache
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\obj\Debug\VirtualizingListView.csproj.CoreCompileInputs.cache
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\obj\Debug\VirtualizingListView.dll
-C:\Users\EadwinToochos\source\repos\Movies\VirtualizingListView\obj\Debug\VirtualizingListView.pdb
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\bin\Debug\VirtualizingListView.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\bin\Debug\VirtualizingListView.pdb
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\bin\Debug\Common.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\bin\Debug\Microsoft.ComponentModel.Composition.Initialization.Desktop.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\bin\Debug\Microsoft.Practices.Prism.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\bin\Debug\Microsoft.Practices.Prism.Interactivity.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\bin\Debug\Microsoft.Practices.Prism.UnityExtensions.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\bin\Debug\Microsoft.Practices.Unity.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\bin\Debug\Microsoft.WindowsAPICodePack.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\bin\Debug\VideoComponent.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\bin\Debug\Newtonsoft.Json.Net20.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\bin\Debug\System.Windows.Interactivity.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\bin\Debug\Common.pdb
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\bin\Debug\VideoComponent.pdb
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\bin\Debug\System.Windows.Interactivity.xml
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\bin\Debug\de\System.Windows.Interactivity.resources.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\bin\Debug\en\System.Windows.Interactivity.resources.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\bin\Debug\es\System.Windows.Interactivity.resources.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\bin\Debug\fr\System.Windows.Interactivity.resources.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\bin\Debug\it\System.Windows.Interactivity.resources.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\bin\Debug\ja\System.Windows.Interactivity.resources.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\bin\Debug\ko\System.Windows.Interactivity.resources.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\bin\Debug\zh-Hans\System.Windows.Interactivity.resources.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\bin\Debug\zh-Hant\System.Windows.Interactivity.resources.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\obj\Debug\VirtualizingListView.csprojResolveAssemblyReference.cache
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\obj\Debug\View\FileExplorer.g.cs
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\obj\Debug\View\FileView.g.cs
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\obj\Debug\View\MyTreeView.g.cs
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\obj\Debug\View\PlaylistTree.g.cs
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\obj\Debug\View\RenameDialog.g.cs
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\obj\Debug\GeneratedInternalTypeHelper.g.cs
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\obj\Debug\VirtualizingListView_MarkupCompile.cache
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\obj\Debug\VirtualizingListView_MarkupCompile.lref
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\obj\Debug\Resources\Items.baml
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\obj\Debug\Resources\ViewStyle.baml
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\obj\Debug\Themes\Generic.baml
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\obj\Debug\View\FileExplorer.baml
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\obj\Debug\View\FileView.baml
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\obj\Debug\View\MyTreeView.baml
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\obj\Debug\View\PlaylistTree.baml
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\obj\Debug\View\RenameDialog.baml
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\obj\Debug\VirtualizingListView.g.resources
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\obj\Debug\VirtualizingListView.Properties.Resources.resources
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\obj\Debug\VirtualizingListView.csproj.GenerateResource.Cache
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\obj\Debug\VirtualizingListView.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VirtualizingListView\obj\Debug\VirtualizingListView.pdb

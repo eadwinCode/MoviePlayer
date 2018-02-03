@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RealMediaControl;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace RealMediaControl
+namespace Movies
 {
     /// <summary>
     /// Interaction logic for App.xaml

@@ -1,56 +1,50 @@
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\VideoPlayerView.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\VideoPlayerView.pdb
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\Common.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\CustomEffect.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\Microsoft.Practices.Prism.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\Microsoft.Practices.Prism.Interactivity.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\Microsoft.Practices.Prism.UnityExtensions.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\Microsoft.Practices.ServiceLocation.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\Microsoft.Practices.Unity.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\VideoComponent.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\VideoPlayer.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\VirtualizingListView.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\Newtonsoft.Json.Net20.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\MoviesSubtitle.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\WPFMediaKit.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\System.Windows.Interactivity.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\DirectShowLib-2005.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\Microsoft.WindowsAPICodePack.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\Common.pdb
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\CustomEffect.pdb
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\VideoComponent.pdb
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\VideoPlayer.pdb
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\VirtualizingListView.pdb
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\MoviesSubtitle.pdb
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\System.Windows.Interactivity.xml
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\de\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\en\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\es\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\fr\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\it\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\ja\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\ko\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\zh-Hans\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\zh-Hant\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\Interop.WMPLib.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\bin\Debug\AxInterop.WMPLib.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\obj\Debug\VideoPlayerView.csprojResolveAssemblyReference.cache
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\obj\Debug\Interop.WMPLib.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\obj\Debug\AxInterop.WMPLib.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\obj\Debug\VideoPlayerView.csproj.ResolveComReference.cache
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\obj\Debug\App.g.cs
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\obj\Debug\VideoElement.g.cs
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\obj\Debug\GeneratedInternalTypeHelper.g.cs
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\obj\Debug\VideoPlayerView_MarkupCompile.cache
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\obj\Debug\VideoPlayerView_MarkupCompile.lref
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\obj\Debug\App.baml
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\obj\Debug\Themes\Generic.baml
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\obj\Debug\VideoElement.baml
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\obj\Debug\VideoPlayerView.g.resources
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\obj\Debug\VideoPlayerView.Properties.Resources.resources
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\obj\Debug\MediaControl.Wmp_test.resources
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\obj\Debug\VideoPlayerView.csproj.GenerateResource.Cache
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\obj\Debug\VideoPlayerView.csproj.CoreCompileInputs.cache
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\obj\Debug\VideoPlayerView.dll
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayerView\obj\Debug\VideoPlayerView.pdb
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\obj\Debug\VideoPlayerView.csprojResolveAssemblyReference.cache
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\obj\Debug\Interop.WMPLib.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\obj\Debug\AxInterop.WMPLib.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\obj\Debug\VideoPlayerView.csproj.ResolveComReference.cache
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\obj\Debug\GeneratedInternalTypeHelper.g.cs
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\obj\Debug\VideoPlayerView_MarkupCompile.cache
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\obj\Debug\VideoPlayerView_MarkupCompile.lref
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\VideoPlayerView.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\VideoPlayerView.pdb
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\Common.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\Microsoft.ComponentModel.Composition.Initialization.Desktop.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\Microsoft.Practices.Prism.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\Microsoft.Practices.Prism.Interactivity.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\Microsoft.Practices.Prism.UnityExtensions.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\Microsoft.Practices.Unity.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\MoviesSubtitle.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\VideoComponent.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\VideoPlayer.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\VirtualizingListView.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\Newtonsoft.Json.Net20.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\System.Windows.Interactivity.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\Microsoft.WindowsAPICodePack.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\Common.pdb
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\MoviesSubtitle.pdb
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\VideoComponent.pdb
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\VideoPlayer.pdb
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\VirtualizingListView.pdb
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\System.Windows.Interactivity.xml
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\de\System.Windows.Interactivity.resources.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\en\System.Windows.Interactivity.resources.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\es\System.Windows.Interactivity.resources.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\fr\System.Windows.Interactivity.resources.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\it\System.Windows.Interactivity.resources.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\ja\System.Windows.Interactivity.resources.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\ko\System.Windows.Interactivity.resources.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\zh-Hans\System.Windows.Interactivity.resources.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\zh-Hant\System.Windows.Interactivity.resources.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\Interop.WMPLib.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\bin\Debug\AxInterop.WMPLib.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\obj\Debug\VideoElement.g.cs
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\obj\Debug\Themes\Generic.baml
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\obj\Debug\VideoElement.baml
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\obj\Debug\VideoPlayerView.g.resources
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\obj\Debug\VideoPlayerView.Properties.Resources.resources
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\obj\Debug\MediaControl.Wmp_test.resources
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\obj\Debug\VideoPlayerView.csproj.GenerateResource.Cache
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\obj\Debug\VideoPlayerView.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayerView\obj\Debug\VideoPlayerView.pdb

@@ -4,9 +4,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
             xmlns:sw="clr-namespace:WpfStyleableWindow.StyleableWindow;assembly=VideoPlayerView"
-            mc:Ignorable="d" x:Class="RealMediaControl.App" x:ClassModifier="public">
+            mc:Ignorable="d" x:Class="Movies.App"
+    >
     <Application.Resources>
-        
+
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Movies;component/Resources/Styles.xaml"/>
@@ -139,7 +140,7 @@
             <SolidColorBrush x:Key="WindowButtonOverColor" Color="LightBlue"/>
             <SolidColorBrush x:Key="WindowButtonPressedColor" Color="DarkBlue"/>
 
-            
+
 
             <Style x:Key="CloseStyle" TargetType="{x:Type Button}">
                 <Setter Property="Height" Value="25"/>
@@ -222,7 +223,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            
+
             <Style x:Key="normbtn" TargetType="{x:Type Button}">
                 <Setter Property="Height" Value="25"/>
                 <Setter Property="Width" Value="25"/>
@@ -339,9 +340,9 @@
             <sw:WindowMinimizeCommand x:Key="MinimizeCommand"></sw:WindowMinimizeCommand>
             <sw:WindowMaximizeCommand x:Key="MaximizeCommand"></sw:WindowMaximizeCommand>
             <sw:WindowCloseCommand x:Key="CloseCommand"></sw:WindowCloseCommand>
-            
-            
-            
+
+
+
             <Style TargetType="{x:Type Button}" x:Key="WindowButton">
                 <Setter Property="Height" Value="25"/>
                 <Setter Property="Width" Value="25"/>
@@ -382,10 +383,12 @@
                      <Border Grid.Row="1" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" >
                     <Grid >
                         <DockPanel LastChildFill="True">
-                            --><!--<Grid.RowDefinitions>
+                            -->
+            <!--<Grid.RowDefinitions>
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>--><!--
+                        </Grid.RowDefinitions>-->
+            <!--
                             <Grid Grid.Row="0" Height="35"   
                                   DockPanel.Dock="Top" Visibility="{Binding WindowsControl,FallbackValue=Visible}" >
                                 <Grid.ColumnDefinitions>
@@ -483,11 +486,12 @@
                     <Border Grid.Row="1" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" >
                         <Grid >
                             <DockPanel LastChildFill="True">
-                                --><!--<Grid.RowDefinitions>
+                                -->
+            <!--<Grid.RowDefinitions>
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>-->
-                                <!--<Grid Grid.Row="0"   DockPanel.Dock="Top" Visibility="{Binding WindowsControl,FallbackValue=Visible}" >
+            <!--<Grid Grid.Row="0"   DockPanel.Dock="Top" Visibility="{Binding WindowsControl,FallbackValue=Visible}" >
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto"/>
                                         <ColumnDefinition Width="auto"/>
@@ -538,7 +542,8 @@
                                         <Button DockPanel.Dock="Right" ToolTip="Close"  Style="{StaticResource CloseStyle}" Command="{StaticResource CloseCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"></Button>
                                     </StackPanel>
 
-                                </Grid>--><!--
+                                </Grid>-->
+            <!--
 
                                 <Grid Background="{TemplateBinding Background}">
                                     <AdornerDecorator>
@@ -620,7 +625,7 @@
                     </MultiTrigger>
                 </ControlTemplate.Triggers>
             </ControlTemplate>
-            
+
             <Style x:Key="CustomWindowStyle" TargetType="{x:Type Window}">
                 <Setter Property="WindowStyle" Value="None"/>
                 <Setter Property="AllowsTransparency" Value="True"/>
@@ -648,7 +653,7 @@
                 <Setter Property="Margin" Value="-1"/>
                 <Setter Property="Foreground" Value="WhiteSmoke"/>
                 <!--<Setter Property="Template" Value="{StaticResource WindowTemplate}"/>-->
-                
+
             </Style>
 
             <Style x:Key="MainWindow" 

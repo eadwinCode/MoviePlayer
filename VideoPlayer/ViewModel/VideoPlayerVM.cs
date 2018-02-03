@@ -75,13 +75,13 @@ namespace VideoPlayer.ViewModel
             MediaControlExtension.SetAnimateWindowsTab(IVideoElement.WindowsTab as UIElement, true);
         }
 
-        private void MediaPlayer_MediaFailed(object sender, WPFMediaKit.DirectShow.MediaPlayers.MediaFailedEventArgs e)
-        {
-            (IVideoElement as Window).Dispatcher.Invoke(new Action(() =>
-            {
-                ResetVisibilityAnimation();
-            }), null);
-        }
+        //private void MediaPlayer_MediaFailed(object sender, WPFMediaKit.DirectShow.MediaPlayers.MediaFailedEventArgs e)
+        //{
+        //    (IVideoElement as Window).Dispatcher.Invoke(new Action(() =>
+        //    {
+        //        ResetVisibilityAnimation();
+        //    }), null);
+        //}
 
         private void VideoPlayerView_Loaded(object sender, RoutedEventArgs e)
         {

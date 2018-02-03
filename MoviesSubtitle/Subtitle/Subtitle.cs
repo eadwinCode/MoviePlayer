@@ -66,17 +66,19 @@ namespace MediaControl.Subtitles
            //(?:\r?\n)*\d+\r?\n\d{2}:\d{2}:\d{2},\d{3} --> \d{2}:\d{2}:\d{2},\d{3}\r?\n
            var lines = File.ReadAllLines(spath);
             // Regex rgx = new Regex(@"\d{2}:\d{2}:\d{2}.\d{3}");
+            int y;
             for (int i = 1; i < lines.Length; i++)
             {
                 try
                 {
                     if (lines[i] != "")
                     {
-                        if (int.TryParse(lines[i].ToString(), out int y))
+                        if (int.TryParse(lines[i].ToString(), out y))
                         {
                             i++;
                         }
-                        string[] time = lines[i].Split(delimeter, StringSplitOptions.RemoveEmptyEntries);
+                        string[] time = lines[i].Split(delimeter, StringSplitOptions.
+                            RemoveEmptyEntries);
                         time[0] = time[0].Replace(",", ".");
                         time[1] = time[1].Replace(",", ".");
                         key = new KeyCode(TimeSpan.Parse(time[0]).TotalSeconds, TimeSpan.Parse(time[1]).TotalSeconds);

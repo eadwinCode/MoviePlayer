@@ -74,7 +74,7 @@ namespace VideoPlayer.ViewModel
         }
         public Slider VolumeSlider
         {
-            get { return VolumeSliderPart.VolumeSlider; }
+            get { return VolumeControl.CurrentVolumeSlider; }
         }
 
         public DelegateCommand PlayBtn
@@ -259,14 +259,14 @@ namespace VideoPlayer.ViewModel
             
         }
 
-        private void MediaPlayer_MediaFailed(object sender, WPFMediaKit.DirectShow.MediaPlayers.MediaFailedEventArgs e)
-        {
-            (IVideoElement as Window).Dispatcher.Invoke(new Action(() =>
-            {
-                PlayBackAction("Failed to Play", "Stop");
-                MediaState = MediaState.Failed;
-            }), null);
-        }
+        //private void MediaPlayer_MediaFailed(object sender, WPFMediaKit.DirectShow.MediaPlayers.MediaFailedEventArgs e)
+        //{
+        //    (IVideoElement as Window).Dispatcher.Invoke(new Action(() =>
+        //    {
+        //        PlayBackAction("Failed to Play", "Stop");
+        //        MediaState = MediaState.Failed;
+        //    }), null);
+        //}
 
         public void NextPlayAction()
         {
@@ -551,6 +551,7 @@ namespace VideoPlayer.ViewModel
                 TimeSpan ts = IVideoElement.MediaPlayer.NaturalDuration.TimeSpan;
                 DragPositionSlider.Maximum = ts.TotalSeconds;
                 DragPositionSlider.SmallChange = 1;
+                SetMediaVolume(VolumeSlider.Value);
             }
             //Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() =>
             //{
@@ -574,8 +575,12 @@ namespace VideoPlayer.ViewModel
         private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             var vol = e.NewValue;
-            if (IVideoElement.MediaPlayer == null) return;
+            SetMediaVolume(vol);
+        }
 
+        private void SetMediaVolume(double vol)
+        {
+            if (IVideoElement.MediaPlayer == null) return;
             IVideoElement.MediaPlayer.Volume = vol / 100;
         }
 

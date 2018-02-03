@@ -12,7 +12,7 @@ using Common;
 using Common.ApplicationCommands;
 using Common.Interfaces;
 
-namespace RealMediaControl
+namespace Movies
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

@@ -1,18 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2B1CD3B5-4FFF-4E3F-AF04-E54193260018}</ProjectGuid>
+    <ProjectGuid>{5CAB894A-9461-4929-9FD9-7D938EDC7EEE}</ProjectGuid>
     <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Movies</RootNamespace>
     <AssemblyName>Movies</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -23,7 +23,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,23 +32,25 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.ComponentModel.Composition.Initialization.Desktop">
+      <HintPath>..\Libraries\Microsoft.ComponentModel.Composition.Initialization.Desktop.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Prism">
-      <HintPath>..\..\..\..\Documents\Visual Studio 2010\Projects\RealMediaControl\Libraries\Microsoft.Practices.Prism.dll</HintPath>
+      <HintPath>..\Libraries\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.Prism.Interactivity">
-      <HintPath>..\..\..\..\Documents\Visual Studio 2010\Projects\RealMediaControl\Libraries\Microsoft.Practices.Prism.Interactivity.dll</HintPath>
+      <HintPath>..\Libraries\Microsoft.Practices.Prism.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.Prism.UnityExtensions">
-      <HintPath>..\..\..\..\Documents\Visual Studio 2010\Projects\RealMediaControl\Libraries\Microsoft.Practices.Prism.UnityExtensions.dll</HintPath>
+      <HintPath>..\Libraries\Microsoft.Practices.Prism.UnityExtensions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
-      <HintPath>..\..\..\..\Documents\Visual Studio 2010\Projects\RealMediaControl\Libraries\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <HintPath>..\Libraries\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.Unity">
-      <HintPath>..\..\..\..\Documents\Visual Studio 2010\Projects\RealMediaControl\Libraries\Microsoft.Practices.Unity.dll</HintPath>
+      <HintPath>..\Libraries\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -70,30 +71,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Boostrapper.cs" />
-    <Compile Include="ViewModel\VideoPlayerVM.cs" />
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="Resources\Styles.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\WindowsStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <Compile Include="ViewModel\VideoPlayerVM.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Boostrapper.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -111,7 +99,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="app.config" />
     <Resource Include="Fonts\comic.ttf" />
     <Resource Include="Fonts\comicbd.ttf" />
     <None Include="Fonts\glyphicons-halflings-regular.eot" />
@@ -123,36 +110,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Common\Common.csproj">
-      <Project>{e8a139d9-5cfe-444f-8435-ccb2e7c6b2d7}</Project>
-      <Name>Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EffectLibrary\EffectLibrary.csproj">
-      <Project>{edb5e8a6-830c-4ea0-b309-c35019aba183}</Project>
-      <Name>EffectLibrary</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MoviesSubtitle\MoviesSubtitle.csproj">
-      <Project>{14fb53d7-d259-4555-8e0d-ea8f132f6a77}</Project>
-      <Name>MoviesSubtitle</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\VideoComponent\VideoComponent.csproj">
-      <Project>{600b943a-217b-4d03-8fc1-73efa2cad452}</Project>
-      <Name>VideoComponent</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\VideoPlayerView\VideoPlayerView.csproj">
-      <Project>{db86dc3f-71e6-4a61-ae92-630546cb4e96}</Project>
-      <Name>VideoPlayerView</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\VideoPlayer\VideoPlayer.csproj">
-      <Project>{3c13d7aa-ec89-49ac-9cdb-1f679d314cb3}</Project>
-      <Name>VideoPlayer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\VirtualizingListView\VirtualizingListView.csproj">
-      <Project>{80111b45-bab3-40d7-808f-69d84fef350c}</Project>
-      <Name>VirtualizingListView</Name>
-    </ProjectReference>
+    <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="EVRPresenter32.dll" />
@@ -195,5 +153,52 @@
     <Resource Include="Resources\Images\video.png" />
     <Resource Include="video.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\WindowsStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{291d89e4-5436-4e99-a402-322d10f2ed0c}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MoviesSubtitle\MoviesSubtitle.csproj">
+      <Project>{a3ee00bb-3c2b-43d1-8780-78c5c678ea2b}</Project>
+      <Name>MoviesSubtitle</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VideoComponent\VideoComponent.csproj">
+      <Project>{5e66548f-63d0-4690-aa1c-d09b203e573e}</Project>
+      <Name>VideoComponent</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VideoPlayerView\VideoPlayerView.csproj">
+      <Project>{964f2df9-2bab-4b2a-a7bb-5a5404c6c24c}</Project>
+      <Name>VideoPlayerView</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VideoPlayer\VideoPlayer.csproj">
+      <Project>{e657ac6b-5b19-4b9f-bf5e-96822234dfdd}</Project>
+      <Name>VideoPlayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VirtualizingListView\VirtualizingListView.csproj">
+      <Project>{3f23b0dc-e93f-45c4-98fe-9e1e4d9de1e7}</Project>
+      <Name>VirtualizingListView</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>

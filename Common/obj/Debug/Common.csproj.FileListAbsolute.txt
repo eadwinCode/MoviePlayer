@@ -1,30 +1,15 @@
-C:\Users\EadwinToochos\source\repos\Movies\Common\bin\Debug\Common.dll
-C:\Users\EadwinToochos\source\repos\Movies\Common\bin\Debug\Common.pdb
-C:\Users\EadwinToochos\source\repos\Movies\Common\bin\Debug\Microsoft.Practices.Prism.dll
-C:\Users\EadwinToochos\source\repos\Movies\Common\bin\Debug\Microsoft.Practices.Prism.Interactivity.dll
-C:\Users\EadwinToochos\source\repos\Movies\Common\bin\Debug\Microsoft.Practices.Prism.UnityExtensions.dll
-C:\Users\EadwinToochos\source\repos\Movies\Common\bin\Debug\Microsoft.Practices.Unity.dll
-C:\Users\EadwinToochos\source\repos\Movies\Common\bin\Debug\Newtonsoft.Json.Net20.dll
-C:\Users\EadwinToochos\source\repos\Movies\Common\bin\Debug\WPFMediaKit.dll
-C:\Users\EadwinToochos\source\repos\Movies\Common\bin\Debug\Microsoft.Practices.ServiceLocation.dll
-C:\Users\EadwinToochos\source\repos\Movies\Common\bin\Debug\System.Windows.Interactivity.dll
-C:\Users\EadwinToochos\source\repos\Movies\Common\bin\Debug\DirectShowLib-2005.dll
-C:\Users\EadwinToochos\source\repos\Movies\Common\bin\Debug\System.Windows.Interactivity.xml
-C:\Users\EadwinToochos\source\repos\Movies\Common\bin\Debug\de\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\source\repos\Movies\Common\bin\Debug\en\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\source\repos\Movies\Common\bin\Debug\es\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\source\repos\Movies\Common\bin\Debug\fr\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\source\repos\Movies\Common\bin\Debug\it\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\source\repos\Movies\Common\bin\Debug\ja\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\source\repos\Movies\Common\bin\Debug\ko\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\source\repos\Movies\Common\bin\Debug\zh-Hans\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\source\repos\Movies\Common\bin\Debug\zh-Hant\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\source\repos\Movies\Common\obj\Debug\GeneratedInternalTypeHelper.g.cs
-C:\Users\EadwinToochos\source\repos\Movies\Common\obj\Debug\Common_MarkupCompile.cache
-C:\Users\EadwinToochos\source\repos\Movies\Common\obj\Debug\Common_MarkupCompile.lref
-C:\Users\EadwinToochos\source\repos\Movies\Common\obj\Debug\Themes\Generic.baml
-C:\Users\EadwinToochos\source\repos\Movies\Common\obj\Debug\Common.g.resources
-C:\Users\EadwinToochos\source\repos\Movies\Common\obj\Debug\Common.csproj.CoreCompileInputs.cache
-C:\Users\EadwinToochos\source\repos\Movies\Common\obj\Debug\Common.dll
-C:\Users\EadwinToochos\source\repos\Movies\Common\obj\Debug\Common.pdb
-C:\Users\EadwinToochos\source\repos\Movies\Common\obj\Debug\Common.csprojResolveAssemblyReference.cache
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\Common\bin\Debug\Common.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\Common\bin\Debug\Common.pdb
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\Common\bin\Debug\Microsoft.Practices.Prism.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\Common\bin\Debug\Newtonsoft.Json.Net20.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\Common\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\Common\obj\Debug\Common.csprojResolveAssemblyReference.cache
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\Common\obj\Debug\GeneratedInternalTypeHelper.g.cs
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\Common\obj\Debug\Common_MarkupCompile.cache
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\Common\obj\Debug\Common_MarkupCompile.lref
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\Common\obj\Debug\Themes\Generic.baml
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\Common\obj\Debug\Common.g.resources
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\Common\obj\Debug\Common.Properties.Resources.resources
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\Common\obj\Debug\Common.csproj.GenerateResource.Cache
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\Common\obj\Debug\Common.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\Common\obj\Debug\Common.pdb

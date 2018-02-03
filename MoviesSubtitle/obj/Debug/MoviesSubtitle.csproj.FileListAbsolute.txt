@@ -1,20 +1,21 @@
-C:\Users\EadwinToochos\source\repos\Movies\MoviesSubtitle\bin\Debug\MoviesSubtitle.dll
-C:\Users\EadwinToochos\source\repos\Movies\MoviesSubtitle\bin\Debug\MoviesSubtitle.pdb
-C:\Users\EadwinToochos\source\repos\Movies\MoviesSubtitle\bin\Debug\Common.dll
-C:\Users\EadwinToochos\source\repos\Movies\MoviesSubtitle\bin\Debug\Microsoft.Practices.Prism.dll
-C:\Users\EadwinToochos\source\repos\Movies\MoviesSubtitle\bin\Debug\Newtonsoft.Json.Net20.dll
-C:\Users\EadwinToochos\source\repos\Movies\MoviesSubtitle\bin\Debug\Microsoft.Practices.ServiceLocation.dll
-C:\Users\EadwinToochos\source\repos\Movies\MoviesSubtitle\bin\Debug\Common.pdb
-C:\Users\EadwinToochos\source\repos\Movies\MoviesSubtitle\obj\Debug\MoviesSubtitle.csprojResolveAssemblyReference.cache
-C:\Users\EadwinToochos\source\repos\Movies\MoviesSubtitle\obj\Debug\View\SubtitleView.g.cs
-C:\Users\EadwinToochos\source\repos\Movies\MoviesSubtitle\obj\Debug\GeneratedInternalTypeHelper.g.cs
-C:\Users\EadwinToochos\source\repos\Movies\MoviesSubtitle\obj\Debug\MoviesSubtitle_MarkupCompile.cache
-C:\Users\EadwinToochos\source\repos\Movies\MoviesSubtitle\obj\Debug\MoviesSubtitle_MarkupCompile.lref
-C:\Users\EadwinToochos\source\repos\Movies\MoviesSubtitle\obj\Debug\Themes\Generic.baml
-C:\Users\EadwinToochos\source\repos\Movies\MoviesSubtitle\obj\Debug\View\SubtitleView.baml
-C:\Users\EadwinToochos\source\repos\Movies\MoviesSubtitle\obj\Debug\MoviesSubtitle.g.resources
-C:\Users\EadwinToochos\source\repos\Movies\MoviesSubtitle\obj\Debug\MoviesSubtitle.Properties.Resources.resources
-C:\Users\EadwinToochos\source\repos\Movies\MoviesSubtitle\obj\Debug\MoviesSubtitle.csproj.GenerateResource.Cache
-C:\Users\EadwinToochos\source\repos\Movies\MoviesSubtitle\obj\Debug\MoviesSubtitle.csproj.CoreCompileInputs.cache
-C:\Users\EadwinToochos\source\repos\Movies\MoviesSubtitle\obj\Debug\MoviesSubtitle.dll
-C:\Users\EadwinToochos\source\repos\Movies\MoviesSubtitle\obj\Debug\MoviesSubtitle.pdb
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\MoviesSubtitle\bin\Debug\MoviesSubtitle.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\MoviesSubtitle\bin\Debug\MoviesSubtitle.pdb
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\MoviesSubtitle\bin\Debug\Common.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\MoviesSubtitle\bin\Debug\VideoComponent.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\MoviesSubtitle\bin\Debug\Microsoft.Practices.Prism.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\MoviesSubtitle\bin\Debug\Newtonsoft.Json.Net20.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\MoviesSubtitle\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\MoviesSubtitle\bin\Debug\Common.pdb
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\MoviesSubtitle\bin\Debug\VideoComponent.pdb
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\MoviesSubtitle\obj\Debug\MoviesSubtitle.csprojResolveAssemblyReference.cache
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\MoviesSubtitle\obj\Debug\View\SubtitleView.g.cs
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\MoviesSubtitle\obj\Debug\GeneratedInternalTypeHelper.g.cs
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\MoviesSubtitle\obj\Debug\MoviesSubtitle_MarkupCompile.cache
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\MoviesSubtitle\obj\Debug\MoviesSubtitle_MarkupCompile.lref
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\MoviesSubtitle\obj\Debug\Themes\Generic.baml
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\MoviesSubtitle\obj\Debug\View\SubtitleView.baml
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\MoviesSubtitle\obj\Debug\MoviesSubtitle.g.resources
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\MoviesSubtitle\obj\Debug\MoviesSubtitle.Properties.Resources.resources
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\MoviesSubtitle\obj\Debug\MoviesSubtitle.csproj.GenerateResource.Cache
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\MoviesSubtitle\obj\Debug\MoviesSubtitle.dll
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\MoviesSubtitle\obj\Debug\MoviesSubtitle.pdb

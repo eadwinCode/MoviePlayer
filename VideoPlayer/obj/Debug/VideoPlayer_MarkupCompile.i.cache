@@ -4,7 +4,7 @@
 library
 C#
 .cs
-C:\Users\EadwinToochos\source\repos\Movies\VideoPlayer\obj\Debug\
+c:\Users\eadwintoochos\documents\visual studio 2015\Projects\Movies\VideoPlayer\obj\Debug\
 VideoPlayer
 none
 false
@@ -12,9 +12,9 @@ DEBUG;TRACE
 
 4358136259
 
-29-1143156388
-24264147405
+26-909750103
+22752942851
 Themes\Generic.xaml;View\MediaController.xaml;View\PlaylistView.xaml;View\SubtitleMediaController.xaml;
 
-True
+False
 

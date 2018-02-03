@@ -1,4 +1,4 @@
-﻿<Window x:Class="RealMediaControl.MainView"
+﻿<Window x:Class="Movies.MainView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:VideoList="clr-namespace:VirtualizingListView.View;assembly=VirtualizingListView"
