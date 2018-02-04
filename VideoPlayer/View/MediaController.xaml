@@ -74,7 +74,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
    
-        <StackPanel VerticalAlignment="Bottom" >
+        <Grid VerticalAlignment="Bottom" >
         <!--<Grid Visibility="{Binding CanAnimate,Converter={StaticResource ViewConverter},
             ConverterParameter='OtherControl', FallbackValue=Colla}">
             <Border  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="75">
@@ -1063,6 +1063,6 @@
                 </Grid>
             </DockPanel>
         </Border>-->
-    </StackPanel>
+    </Grid>
    
 </UserControl>

@@ -687,6 +687,7 @@ namespace VideoPlayer.ViewModel
             if ((IVideoElement as Window).IsLoaded)
             {
                 (IVideoElement as Window).SizeChanged += MediaControllerVM_SizeChanged;
+                (IVideoPlayer as UserControl).SizeChanged += MediaControllerVM_SizeChanged;
             }
             //if (CanAnimate)
             //{
@@ -716,7 +717,7 @@ namespace VideoPlayer.ViewModel
         {
             if (IVideoElement == null || !(IVideoElement as Window).IsLoaded) return;
             Panel panel = (IVideoPlayer.MediaController as IMediaController).GroupedControls;
-            if ((IVideoElement as Window).ActualWidth < 600)
+            if ((IVideoElement as Window).ActualWidth < 600 || (IVideoPlayer as UserControl).ActualWidth < 600)
             {
                 panel.SetValue(DockPanel.DockProperty, Dock.Bottom);
             }
@@ -760,14 +761,6 @@ namespace VideoPlayer.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<IPlayFile>().VideoElement;
-            }
-        }
-
-        private bool issizechanged;
-
-        public bool IsSizeChanged { get { return issizechanged; }
-            set { issizechanged = value;
-                // OnPropertyChanged("IsSizeChanged"); 
             }
         }
     }
