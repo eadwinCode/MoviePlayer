@@ -72,7 +72,7 @@ namespace RealMediaControlSubtitle.View
             {
                 SubtitleFileCompiler.ReadSubtitleFile(subtitlefiles.Directory);
                 IsSubAvailable = true;
-                AdjustFontSize(10.5 * (96.0 / 72.0), .85);
+                AdjustFontSize(11.5 * (96.0 / 72.0), .85);
                 IsDisabled = false;
                 subtitlefiles.IsSelected = true;
             }

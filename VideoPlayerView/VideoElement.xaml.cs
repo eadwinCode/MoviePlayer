@@ -29,25 +29,9 @@ namespace VideoPlayerView
                 NativeMethods.ES_CONTINUOUS 
                 | NativeMethods.ES_SYSTEM_REQUIRED);
 
-            SystemEvents.PowerModeChanged += this.SystemEvents_PowerModeChanged;
+          
         }
-
-        private void SystemEvents_PowerModeChanged(object sender, PowerModeChangedEventArgs e)
-        {
-            switch (e.Mode)
-            {
-                case PowerModes.Resume:
-                    MediaControllerVM.Current.PlayAction();
-                    break;
-                case PowerModes.StatusChange:
-                    break;
-                case PowerModes.Suspend:
-                    MediaControllerVM.Current.PlayAction();
-                    break;
-                default:
-                    break;
-            }
-        }
+        
 
         protected override void OnDrop(DragEventArgs e)
         {

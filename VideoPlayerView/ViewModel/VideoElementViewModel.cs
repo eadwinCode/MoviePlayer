@@ -3,6 +3,7 @@ using Common.Model;
 using Common.Util;
 using Microsoft.Practices.Prism.ViewModel;
 using Microsoft.Practices.ServiceLocation;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -41,6 +42,7 @@ namespace VideoPlayerView.ViewModel
         }
 
         private Visibility fullscreenbtn = Visibility.Collapsed;
+        private bool IsSuspended;
 
         public Visibility FullScreenBtn
         {
@@ -76,7 +78,33 @@ namespace VideoPlayerView.ViewModel
             IVideoElement.PlayListView.OnPlaylistClose += Plv_OnPlaylistClose;
             IVideoElement.IVideoPlayer.ScreenSettingsChanged += IVideoPlayer_ScreenSettingsChanged;
             MediaControlExtension.SetFileexpVisiblity(IVideoElement.PlayListView as UIElement, System.Windows.Visibility.Collapsed);
-           // FocusManager.SetFocusedElement(IVideoElement as DependencyObject,Mouse.Captured);
+            // FocusManager.SetFocusedElement(IVideoElement as DependencyObject,Mouse.Captured);
+
+            SystemEvents.PowerModeChanged += this.SystemEvents_PowerModeChanged;
+        }
+
+        private void SystemEvents_PowerModeChanged(object sender, PowerModeChangedEventArgs e)
+        {
+            switch (e.Mode)
+            {
+                case PowerModes.Resume:
+                    if (IsSuspended)
+                    {
+                        MediaControllerVM.Current.PlayAction(); IsSuspended = false;
+                    }
+                    break;
+                case PowerModes.StatusChange:
+                    break;
+                case PowerModes.Suspend:
+                    if (MediaControllerVM.Current.IsPlaying)
+                    {
+                        MediaControllerVM.Current.PlayAction();
+                        IsSuspended = true;
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void IVideoPlayer_ScreenSettingsChanged(object sender, EventArgs e)

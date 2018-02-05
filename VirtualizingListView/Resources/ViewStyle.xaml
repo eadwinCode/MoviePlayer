@@ -24,6 +24,8 @@
                                     Stretch="UniformToFill" 
                                     ViewportUnits="Absolute" 
                                     Opacity="0.1"/>
+    <ImageBrush x:Key="ImageOutline" ImageSource="Images/check-1-icon.png" TileMode="Tile"   
+                Stretch="None" ViewportUnits="Absolute" Opacity="0.3"/>
 
     <ObjectDataProvider x:Key="SortByEnum" MethodName="GetValues"
                         ObjectType="{x:Type sys:Enum}">

@@ -101,7 +101,7 @@
     <!--<VideoList:VideoComponentList/>-->
     <DockPanel LastChildFill="True" >
 
-        <Border DockPanel.Dock="Top" BorderBrush="{StaticResource ImageBackground}"  BorderThickness="0,0,0,1.2"
+        <Border DockPanel.Dock="Top" BorderBrush="{StaticResource ImageOutline}"  BorderThickness="0,0,0,1.2"
                 CornerRadius="3">
             
             <Grid Grid.Row="0" Height="35"  >
