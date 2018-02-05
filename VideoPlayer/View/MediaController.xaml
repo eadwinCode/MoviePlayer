@@ -543,7 +543,7 @@
                 TextBlock.FontSize="11"
                         util:BorderPart.IsEnabled="True"
                 Background="Transparent">
-                <DockPanel LastChildFill="False">
+                <DockPanel LastChildFill="False" Background="Transparent">
 
                     <!--<Grid.Background>
                     <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
@@ -552,7 +552,9 @@
                     </LinearGradientBrush>
                 </Grid.Background>-->
 
-                    <DockPanel DockPanel.Dock="Right" HorizontalAlignment="Center"
+                    <DockPanel DockPanel.Dock="Right"
+                               Background="Transparent"
+                               HorizontalAlignment="Center"
                                x:Name="GroupControl" VerticalAlignment="Stretch" 
                            LastChildFill="True" Grid.Column="2"  Margin="5,0,30,2" >
                         <DockPanel  DockPanel.Dock="Top" Height="42" >
@@ -932,13 +934,15 @@
 
                         </DockPanel>
 
-                        <y:VolumeControl HorizontalAlignment="Center" Margin="0,5,0,0" x:Name="volCtrl"
+                        <y:VolumeControl HorizontalAlignment="Center" Background="Transparent"
+                                         Margin="0,5,0,0" x:Name="volCtrl"
                                VerticalAlignment="Bottom" Height="22" Width="120"
                                DockPanel.Dock="Bottom" DataContext="{Binding ElementName=mediaControl,
                             Path=DataContext}"/>
 
                     </DockPanel>
-                    <Grid DockPanel.Dock="Top" x:Name="GroupSlider" Grid.Column="0" Width="320">
+                    <Grid DockPanel.Dock="Top" Background="Transparent"
+                          x:Name="GroupSlider" Grid.Column="0" Width="320">
                         <StackPanel  Margin="10,0,5,0"
                            Grid.Row="0"   Width="300">
                             <y:MovieTitle_Tab VerticalAlignment="Top" Padding="2"
