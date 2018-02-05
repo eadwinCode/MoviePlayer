@@ -21,40 +21,46 @@ namespace VideoPlayer.ViewModel
         {
             currentInstance = new MediaControllerVM();
         }
-
-        public bool IsRewindOrFastForward { get; set; }
-        private static MediaControllerVM currentInstance;
-        public static MediaControllerVM Current { get { if (currentInstance == null) { InitInstance(); } return currentInstance; }
-            set { currentInstance = value; } }
-        private bool HasSubcribed = false;
-
-        private VideoFolderChild currentvideoitem;
-        //private object mediapositiontracker;
-        private string playtext;
-        private DelegateCommand _next;
-        public delegate void ExecuteCommand(object sender,bool frompl);
-        public ExecuteCommand CurrentVideoItemChangedEvent;
-        private DelegateCommand _prev;
-        private bool isplaying;
-        public bool IsDragging = false;
-        private DispatcherTimer MediaPositionTimer;
-        public DispatcherTimer positionSlideTimerTooltip;
         
-        public event PropertyChangedEventHandler PropertyChanged;
-        private bool ismousecontrolover;
+        private bool HasSubcribed = false;
+        private static MediaControllerVM currentInstance;
+        private VideoFolderChild currentvideoitem; private bool ismousecontrolover;
         private MediaState mediaState = MediaState.Stopped;
         private DelegateCommand playbtn;
         private DelegateCommand mute;
+        //private object mediapositiontracker;
+        private string playtext;
+        private DelegateCommand _next;
+        private DelegateCommand _prev;
+        private bool isplaying;
+        private DispatcherTimer MediaPositionTimer;
+        private DelegateCommand tofullscreenbtn;
+        private bool cananimate;
+        private bool IsDirectoryChanged;
 
-        public PlayListManager Playlist { get { return (IVideoElement.PlayListView as UserControl).DataContext as PlayListManager; } }
+        public bool IsDragging = false;
+        public ExecuteCommand CurrentVideoItemChangedEvent;
+        public DispatcherTimer positionSlideTimerTooltip;
+        public bool IsRewindOrFastForward { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+       
+        public static MediaControllerVM Current { get { if (currentInstance == null)
+                { InitInstance(); } return currentInstance; }
+            set { currentInstance = value; } }
+
+        
+        public delegate void ExecuteCommand(object sender,bool frompl);
+        
+
+        public PlayListManager Playlist { get { return (IVideoElement.PlayListView 
+                    as UserControl).DataContext as PlayListManager; } }
         //private static Slider positionslider;
 
         public MovieTitle_Tab MovieTitle_Tab
         {
             get { return (IVideoPlayer.MediaController as IMediaController).MovieTitle_Tab; }
         }
-
-
+        
         //public Slider PositionSlider
         //{
         //    get { return ProgressSliderPart.ProgressSlider; }
@@ -72,6 +78,7 @@ namespace VideoPlayer.ViewModel
                 return BorderPart.Border;
             }
         }
+
         public Slider VolumeSlider
         {
             get { return VolumeControl.CurrentVolumeSlider; }
@@ -96,6 +103,7 @@ namespace VideoPlayer.ViewModel
                 playbtn = value;
             }
         }
+
         public DelegateCommand Previous
         {
             get
@@ -107,6 +115,7 @@ namespace VideoPlayer.ViewModel
                 return _prev;
             }
         }
+
         public string PlayText
         {
             get { return playtext; }
@@ -115,6 +124,7 @@ namespace VideoPlayer.ViewModel
                 playtext = value; OnPropertyChanged("PlayText");
             }
         }
+
         public bool IsPlaying
         {
             get { return isplaying; }
@@ -134,8 +144,6 @@ namespace VideoPlayer.ViewModel
             }
         }
         
-
-        private bool cananimate;
         public bool CanAnimate
         {
             get { return cananimate; }
@@ -149,7 +157,6 @@ namespace VideoPlayer.ViewModel
             get { return currentvideoitem; }
         }
         
-        
         public DelegateCommand Next
         {
             get
@@ -161,9 +168,7 @@ namespace VideoPlayer.ViewModel
                 return _next;
             }
         }
-        private DelegateCommand tofullscreenbtn;
-        private bool IsDirectoryChanged;
-
+        
         public DelegateCommand ToFullScreenBtn
         {
             get
@@ -378,7 +383,8 @@ namespace VideoPlayer.ViewModel
                 }
                 else { this.PlayText = "Play"; }
 
-                MovieTitle_Tab.MovieTitleText = CommonHelper.SetPlayerTitle(action, IVideoElement.MediaPlayer.Source.ToString());
+                MovieTitle_Tab.MovieTitleText = CommonHelper.
+                SetPlayerTitle(action, IVideoElement.MediaPlayer.Source.ToString());
                // MediaPositionTimer.Stop();
             }),null);
         }
@@ -717,7 +723,8 @@ namespace VideoPlayer.ViewModel
         {
             if (IVideoElement == null || !(IVideoElement as Window).IsLoaded) return;
             Panel panel = (IVideoPlayer.MediaController as IMediaController).GroupedControls;
-            if ((IVideoElement as Window).ActualWidth < 600 || (IVideoPlayer as UserControl).ActualWidth < 600)
+            if ((IVideoElement as Window).ActualWidth < 600 ||
+                (IVideoPlayer as UserControl).ActualWidth < 600)
             {
                 panel.SetValue(DockPanel.DockProperty, Dock.Bottom);
             }

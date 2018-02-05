@@ -128,10 +128,10 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                <StackPanel Orientation="Horizontal" TextBlock.Foreground="White">
+                <DockPanel  TextBlock.Foreground="White">
                     <!--<TextBlock Text="PlayList - " Foreground="White" Padding="5"/>-->
-                    <TextBlock Text="{Binding PlaylistName}" Padding="5"  FontStyle="Italic" TextTrimming="CharacterEllipsis"/>
-                    <TextBlock Text="*" Height="25" FontSize="24" FontWeight="Bold" Opacity="0">
+                   
+                    <TextBlock Text="*" HorizontalAlignment="Left" DockPanel.Dock="Right" Height="25" FontSize="24" FontWeight="Bold" Opacity="0">
                         <TextBlock.Style>
                     <Style >
                         <Style.Triggers>
@@ -155,7 +155,9 @@
                     </Style>
                 </TextBlock.Style>
                     </TextBlock>
-                </StackPanel>
+                    <TextBlock  Text="{Binding PlaylistName}" Padding="5"  FontStyle="Italic"
+                               TextTrimming="CharacterEllipsis"/>
+                </DockPanel>
             </DockPanel>
             <DockPanel  DockPanel.Dock="Top" LastChildFill="True" Height="0">
 

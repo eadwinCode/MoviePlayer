@@ -80,12 +80,8 @@ C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VideoPlayerView\bin\Debug\j
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VideoPlayerView\bin\Debug\ko\System.Windows.Interactivity.resources.dll
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VideoPlayerView\bin\Debug\zh-Hans\System.Windows.Interactivity.resources.dll
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VideoPlayerView\bin\Debug\zh-Hant\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VideoPlayerView\bin\Debug\Interop.WMPLib.dll
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VideoPlayerView\bin\Debug\AxInterop.WMPLib.dll
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VideoPlayerView\obj\Debug\VideoPlayerView.csprojResolveAssemblyReference.cache
-C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VideoPlayerView\obj\Debug\Interop.WMPLib.dll
-C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VideoPlayerView\obj\Debug\AxInterop.WMPLib.dll
-C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VideoPlayerView\obj\Debug\VideoPlayerView.csproj.ResolveComReference.cache
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VideoPlayerView\obj\Debug\VideoElement.g.cs
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VideoPlayerView\obj\Debug\GeneratedInternalTypeHelper.g.cs
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VideoPlayerView\obj\Debug\VideoPlayerView_MarkupCompile.cache

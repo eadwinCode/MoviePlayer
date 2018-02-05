@@ -15,7 +15,7 @@
                       CommandParameter="{Binding}" />
             <MenuItem Header="Rename Playlist" Command="{x:Static local:PlaylistTree.RenamePlaylist}" 
                       CommandParameter="{Binding}"/>
-            <MenuItem Header="Delete Playlist" Command="{x:Static local:PlaylistTree.RenamePlaylist}" 
+            <MenuItem Header="Delete Playlist" Command="{x:Static local:PlaylistTree.RemovePlaylist}" 
                       CommandParameter="{Binding}"/>
         </ContextMenu>
 

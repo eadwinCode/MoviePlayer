@@ -172,9 +172,9 @@
         
         </Rectangle>
         <StackPanel HorizontalAlignment="Stretch"  DockPanel.Dock="Bottom" VerticalAlignment="Bottom" >
-            <Viewbox x:Name="SubviewBox" IsHitTestVisible="False"
+            <Viewbox x:Name="SubviewBox" IsHitTestVisible="False" 
                          Focusable="False" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
-                         Margin="3,0,3,30" >
+                         Margin="3,0,3,8.4" >
                 <sub:SubtitleView IsHitTestVisible="False" Width="600"
                                   Focusable="False" x:Name="SubtitleText"
                                   SnapsToDevicePixels="True"

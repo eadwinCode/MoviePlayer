@@ -9,9 +9,9 @@
    
         <!--<customlabel:CustomLabel/>-->
         <!--<my:WindowsFormsHost x:Name="WFH" Background="Transparent" Width="700"/>-->
-        <sub:CustomLabel Text=" " x:Name="OutlineTextSub" SnapsToDevicePixels="True" Width="600"   TextAlignment="Center" TextWrapping="Wrap"
+        <sub:CustomLabel Text=" " x:Name="OutlineTextSub" SnapsToDevicePixels="True" TextAlignment="Center" TextWrapping="Wrap"
                                StrokeThickness="1"  Stroke="Black" Visibility="Visible" FontSize="15" 
-                         FontWeight="ExtraBold" FontFamily="/Fonts/#unicode.clearfag">
+                         FontWeight="ExtraBold" FontFamily="Global User Interface">
             <!--<local1:OutlinedTextBlock.Effect>
                         <DropShadowEffect   Direction="315" ShadowDepth="1.1" Color="Black" BlurRadius="0" Opacity=".8"/>
                     </local1:OutlinedTextBlock.Effect>-->

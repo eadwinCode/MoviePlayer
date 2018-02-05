@@ -21,6 +21,12 @@ namespace Movies
             var bootstrapper = new Bootstrapper();
             bootstrapper.Run();
         }
+
+        protected override void OnSessionEnding(SessionEndingCancelEventArgs e)
+        {
+            base.OnSessionEnding(e);
+        }
+
         public void Button_Click(object sender, RoutedEventArgs e)
         {
             Button bb = (Button)sender;
