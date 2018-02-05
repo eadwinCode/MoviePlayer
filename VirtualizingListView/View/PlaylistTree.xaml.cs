@@ -27,7 +27,7 @@ namespace VirtualizingListView.View
 
         public ObservableCollection<PlaylistModel> PlayListCollection
         {
-            get { return CreateHelper.AppPlaylist.MoviePlayList; }
+            get { return ApplicationService.AppPlaylist.MoviePlayList; }
         }
         
 
@@ -195,17 +195,17 @@ namespace VirtualizingListView.View
 
         public void AddMoviePlaylistItem(PlaylistModel plm)
         {
-            if (!CreateHelper.AppPlaylist.MoviePlayList.Contains(plm))
+            if (!ApplicationService.AppPlaylist.MoviePlayList.Contains(plm))
             {
-                CreateHelper.AppPlaylist.MoviePlayList.Add(plm);
+                ApplicationService.AppPlaylist.MoviePlayList.Add(plm);
             }
         }
 
         public void RemoveMoviePlaylistItem(PlaylistModel plm)
         {
-            if (CreateHelper.AppPlaylist.MoviePlayList.Contains(plm))
+            if (ApplicationService.AppPlaylist.MoviePlayList.Contains(plm))
             {
-                CreateHelper.AppPlaylist.MoviePlayList.Remove(plm);
+                ApplicationService.AppPlaylist.MoviePlayList.Remove(plm);
             }
         }
 

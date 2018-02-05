@@ -19,6 +19,12 @@
     <z:ActiveItemConverter x:Key="ActiveItemSelector"/>
     <z:TextContexter x:Key="TextContexter"/>
 
+    <ImageBrush x:Key="ImageBackground" ImageSource="/VirtualizingListView;component/Resources/Images/Movies - Copy.png" 
+                                    TileMode="Tile"   
+                                    Stretch="UniformToFill" 
+                                    ViewportUnits="Absolute" 
+                                    Opacity="0.1"/>
+
     <ObjectDataProvider x:Key="SortByEnum" MethodName="GetValues"
                         ObjectType="{x:Type sys:Enum}">
         <ObjectDataProvider.MethodParameters>

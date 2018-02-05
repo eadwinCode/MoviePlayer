@@ -56,7 +56,7 @@
     <Compile Include="AnimationHelper.cs" />
     <Compile Include="ApplicationCommands\VideoPlayerCommands.cs" />
     <Compile Include="CustomControl1.cs" />
-    <Compile Include="FileHelper\CreateHelper.cs" />
+    <Compile Include="FileHelper\ApplicationService.cs" />
     <Compile Include="FileHelper\SavedPlaylist.cs" />
     <Compile Include="FileHelper\Settings.cs" />
     <Compile Include="IItemProvider.cs" />

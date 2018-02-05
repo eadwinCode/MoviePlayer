@@ -98,6 +98,8 @@ C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Movies\obj\Debug\Resources\
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Movies\obj\Debug\Movies.g.resources
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Movies\obj\Debug\Movies.Properties.Resources.resources
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Movies\obj\Debug\Movies.csproj.GenerateResource.Cache
-C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Movies\obj\Debug\Movies.csproj.CoreCompileInputs.cache
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Movies\obj\Debug\Movies.exe
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Movies\obj\Debug\Movies.pdb
+C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Movies\obj\Debug\SplashScreen.baml
+C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Movies\obj\Debug\SplashScreen.g.cs
+C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Movies\obj\Debug\Movies.csproj.CoreCompileInputs.cache

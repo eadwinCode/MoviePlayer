@@ -130,10 +130,10 @@ namespace VirtualizingListView.ViewModel
 
         public DirectoryInfo DirectoryPosition
         {
-            get { return CreateHelper.AppSettings.LastDirectory; }
+            get { return ApplicationService.AppSettings.LastDirectory; }
             set
             {
-                CreateHelper.AppSettings.LastDirectory = value; 
+                ApplicationService.AppSettings.LastDirectory = value; 
                 CurrentDir = value.Name + " - " 
                     + value.FullName;
             }
@@ -184,11 +184,11 @@ namespace VirtualizingListView.ViewModel
         {
             get
             {
-                return CreateHelper.AppSettings.ViewType;
+                return ApplicationService.AppSettings.ViewType;
             }
             set
             {
-                CreateHelper.AppSettings.ViewType = value;
+                ApplicationService.AppSettings.ViewType = value;
                 UpdateView(value);
                 //if (ViewChanged != null)
                 //{
@@ -439,9 +439,9 @@ namespace VirtualizingListView.ViewModel
         public void VideoComponentViewModel_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
             //this.IsLoaded = true;
-            if (CreateHelper.AppSettings.LastDirectory != null)
+            if (ApplicationService.AppSettings.LastDirectory != null)
             {
-                TreeViewUpdate(CreateHelper.AppSettings.LastDirectory.FullName);
+                TreeViewUpdate(ApplicationService.AppSettings.LastDirectory.FullName);
             }
         }
 

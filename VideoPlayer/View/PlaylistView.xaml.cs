@@ -62,7 +62,10 @@ namespace VideoPlayer
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var vm = this.DataContext as PlayListManager;
-            OnPlaylistClose?.Invoke(sender, null);
+            if (OnPlaylistClose != null)
+            {
+                OnPlaylistClose.Invoke(sender, null);
+            }
             (MediaControllerVM.Current.IVideoElement as Window).Focus();
             vm.IsSaveDialogEnable = false;
         }
@@ -133,7 +136,10 @@ namespace VideoPlayer
 
         internal void OnPlaylistCloseExecute(object sender)
         {
-            OnPlaylistClose?.Invoke(sender, null);
+            if (OnPlaylistClose != null)
+            {
+                OnPlaylistClose.Invoke(sender, null);
+            }
         }
         
     }

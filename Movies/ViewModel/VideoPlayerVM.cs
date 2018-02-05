@@ -110,6 +110,7 @@ namespace RealMediaControl.ViewModel
         public void Window_Loaded(object sender, RoutedEventArgs e)
         {
             //IShell.PlayListView.OnPlaylistClose += plv_OnPlaylistClose;
+            
             Instance_CloseFileExporerEvent(this, new EventArgs());
             var commandbings = (IShell as Window).CommandBindings;
             commandbings.Add(new CommandBinding(VideoPlayerCommands.Play, Play_executed));
@@ -162,7 +163,7 @@ namespace RealMediaControl.ViewModel
 
         private void VideoPlayerVM_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            CreateHelper.SaveFiles();
+            ApplicationService.SaveFiles();
         }
 
         private void AddtoPlayList_executed(object sender, ExecutedRoutedEventArgs e)

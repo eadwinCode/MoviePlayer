@@ -10,10 +10,11 @@ using System.IO;
 using System.Linq;
 using System.Security.Principal;
 using System.Text;
+using System.Windows;
 
 namespace Common.FileHelper
 {
-    public static class CreateHelper
+    public static class ApplicationService
     {
         public const string Settings = "Settings";
         private const string SettingsFileName = "Settings.json";
@@ -28,10 +29,10 @@ namespace Common.FileHelper
         private static string MediaFolderPath;
         public static Settings AppSettings = new Settings();
         public static SavedPlaylistCollection AppPlaylist = new SavedPlaylistCollection();
-        
+
         static string[] delimeter = { " " };
 
-        static CreateHelper() {
+        static ApplicationService() {
             if (AppName.Contains(".vshost"))
             {
                AppName= AppName.Replace(".vshost", "");
@@ -80,7 +81,7 @@ namespace Common.FileHelper
             return false;
         }
 
-        public static void Folder()
+        public static void CreateFolder()
         {
             try
             {

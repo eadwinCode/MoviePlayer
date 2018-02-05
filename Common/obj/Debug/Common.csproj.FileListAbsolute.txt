@@ -26,6 +26,6 @@ C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Common\obj\Debug\Themes\Gen
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Common\obj\Debug\Common.g.resources
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Common\obj\Debug\Common.Properties.Resources.resources
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Common\obj\Debug\Common.csproj.GenerateResource.Cache
-C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Common\obj\Debug\Common.csproj.CoreCompileInputs.cache
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Common\obj\Debug\Common.dll
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Common\obj\Debug\Common.pdb
+C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Common\obj\Debug\Common.csproj.CoreCompileInputs.cache

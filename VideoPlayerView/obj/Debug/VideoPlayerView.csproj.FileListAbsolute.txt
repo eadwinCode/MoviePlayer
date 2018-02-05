@@ -92,6 +92,6 @@ C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VideoPlayerView\obj\Debug\V
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VideoPlayerView\obj\Debug\VideoPlayerView.Properties.Resources.resources
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VideoPlayerView\obj\Debug\MediaControl.Wmp_test.resources
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VideoPlayerView\obj\Debug\VideoPlayerView.csproj.GenerateResource.Cache
-C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VideoPlayerView\obj\Debug\VideoPlayerView.csproj.CoreCompileInputs.cache
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VideoPlayerView\obj\Debug\VideoPlayerView.dll
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VideoPlayerView\obj\Debug\VideoPlayerView.pdb
+C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VideoPlayerView\obj\Debug\VideoPlayerView.csproj.CoreCompileInputs.cache

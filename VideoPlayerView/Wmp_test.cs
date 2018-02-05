@@ -147,7 +147,7 @@ namespace MediaControl
             {
                 LastSeenHelper.AddLastSeen(CurrentVideoItem.ParentDirectory, CurrentVideoItem.LastPlayedPoisition);
             }
-            CreateHelper.SaveLastSeenFile(CurrentVideoItem.ParentDirectory);
+            ApplicationService.SaveLastSeenFile(CurrentVideoItem.ParentDirectory);
         }
         
 

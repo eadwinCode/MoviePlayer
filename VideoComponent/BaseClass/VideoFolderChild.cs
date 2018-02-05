@@ -233,11 +233,11 @@ namespace VideoComponent.BaseClass
         {
             get
             {
-                if (!HasThumbnail && CreateHelper.AppSettings.ViewType == ViewType.Large)
+                if (!HasThumbnail && ApplicationService.AppSettings.ViewType == ViewType.Large)
                 {
                     return false;
                 }
-                if (CreateHelper.AppSettings.ViewType == ViewType.Small && MaxiProgress == null)
+                if (ApplicationService.AppSettings.ViewType == ViewType.Small && MaxiProgress == null)
                 {
                     return false;
                 }
@@ -290,7 +290,7 @@ namespace VideoComponent.BaseClass
         
         public ObservableCollection<PlaylistModel> PlayListItems
         {
-            get { return CreateHelper.AppPlaylist.MoviePlayList; }
+            get { return ApplicationService.AppPlaylist.MoviePlayList; }
         }
     }
 }

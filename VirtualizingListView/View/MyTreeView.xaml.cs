@@ -45,7 +45,7 @@ namespace VirtualizingListView.View
             AddToTreeView( Environment.GetFolderPath(Environment.SpecialFolder.Desktop),false);
             AddToTreeView(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos),false);
 
-            foreach (string item in CreateHelper.AppSettings.TreeViewItems)
+            foreach (string item in ApplicationService.AppSettings.TreeViewItems)
             {
                 AddToTreeView(item);
             }
@@ -191,17 +191,17 @@ namespace VirtualizingListView.View
 
         public void AddTreeViewItem(string dir)
         {
-            if (!CreateHelper.AppSettings.TreeViewItems.Contains(dir))
+            if (!ApplicationService.AppSettings.TreeViewItems.Contains(dir))
             {
-                CreateHelper.AppSettings.TreeViewItems.Add(dir);
+                ApplicationService.AppSettings.TreeViewItems.Add(dir);
             }
         }
 
         public void RemoveTreeViewItem(string dir)
         {
-            if (CreateHelper.AppSettings.TreeViewItems.Contains(dir))
+            if (ApplicationService.AppSettings.TreeViewItems.Contains(dir))
             {
-                CreateHelper.AppSettings.TreeViewItems.Remove(dir);
+                ApplicationService.AppSettings.TreeViewItems.Remove(dir);
             }
         }
 

@@ -38,6 +38,6 @@ C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\MoviesSubtitle\obj\Debug\Vi
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\MoviesSubtitle\obj\Debug\MoviesSubtitle.g.resources
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\MoviesSubtitle\obj\Debug\MoviesSubtitle.Properties.Resources.resources
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\MoviesSubtitle\obj\Debug\MoviesSubtitle.csproj.GenerateResource.Cache
-C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\MoviesSubtitle\obj\Debug\MoviesSubtitle.csproj.CoreCompileInputs.cache
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\MoviesSubtitle\obj\Debug\MoviesSubtitle.dll
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\MoviesSubtitle\obj\Debug\MoviesSubtitle.pdb
+C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\MoviesSubtitle\obj\Debug\MoviesSubtitle.csproj.CoreCompileInputs.cache

@@ -35,12 +35,20 @@ namespace RealMediaControl
 
         protected override DependencyObject CreateShell()
         {
-            CreateHelper.Folder();
-            CreateHelper.LoadFiles();
-
+            SplashScreenWindow splashscreenwindow = new SplashScreenWindow();
+            splashscreenwindow.Show();
+            ApplicationService.CreateFolder();
+            ApplicationService.LoadFiles();
             MainView shell = new MainView();
+           
+            
             this.Container.RegisterInstance<IShell>(shell);
-            this.Container.RegisterType<IPlayFile,PlayFile>();
+            this.Container.RegisterType<IPlayFile, PlayFile>();
+            shell.Dispatcher.BeginInvoke((Action)delegate
+            {
+                shell.Show();
+                splashscreenwindow.Close();
+            });
             return shell;
         }
 
@@ -49,7 +57,6 @@ namespace RealMediaControl
         protected override void InitializeShell()
         {
             base.InitializeShell();
-
             App.Current.MainWindow = (Window)this.Shell;
             App.Current.MainWindow.Show();
         }

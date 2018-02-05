@@ -90,6 +90,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SplashScreen.xaml.cs">
+      <DependentUpon>SplashScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\VideoPlayerVM.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -130,42 +133,6 @@
   <ItemGroup>
     <Content Include="EVRPresenter32.dll" />
     <Content Include="Fonts\glyphicons-halflings-regular.svg" />
-    <Resource Include="Resources\Images\1444150377_ok.png" />
-    <Resource Include="Resources\Images\1444151826_source_s.png" />
-    <Resource Include="Resources\Images\1468868785_icon-111-search.png" />
-    <Resource Include="Resources\Images\1468868797_search.png" />
-    <Resource Include="Resources\Images\1468868809_search.png" />
-    <Resource Include="Resources\Images\1468869084_icon-111-search.png" />
-    <Resource Include="Resources\Images\1494208427_folder_black_movies.png" />
-    <Resource Include="Resources\Images\back.png" />
-    <Resource Include="Resources\Images\check-1-icon.png" />
-    <Resource Include="Resources\Images\diskdrive.png" />
-    <Resource Include="Resources\Images\exit.png" />
-    <Resource Include="Resources\Images\Folder-96.png" />
-    <Resource Include="Resources\Images\folder-icon-128x128.png" />
-    <Resource Include="Resources\Images\folder-icon-256x256.png" />
-    <Resource Include="Resources\Images\folder.png" />
-    <Resource Include="Resources\Images\Movies.png" />
-    <Resource Include="Resources\Images\mute.png" />
-    <Resource Include="Resources\Images\next.png" />
-    <Resource Include="Resources\Images\orange_folder.png" />
-    <Resource Include="Resources\Images\pause.png" />
-    <Resource Include="Resources\Images\pause1.png" />
-    <Resource Include="Resources\Images\play%283%29.png" />
-    <Resource Include="Resources\Images\play-button.png" />
-    <Resource Include="Resources\Images\play.png" />
-    <Resource Include="Resources\Images\play2.png" />
-    <Resource Include="Resources\Images\play3.png" />
-    <Resource Include="Resources\Images\save.png" />
-    <Resource Include="Resources\Images\sound-icone-4732-128.png" />
-    <Resource Include="Resources\Images\sound-icone-4732-32.png" />
-    <Resource Include="Resources\Images\speaker.png" />
-    <Resource Include="Resources\Images\speech_bubble_center_2.png" />
-    <Resource Include="Resources\Images\speech_bubble_center_3%282%29.png" />
-    <Resource Include="Resources\Images\spk.png" />
-    <Resource Include="Resources\Images\srt.png" />
-    <Resource Include="Resources\Images\stop.png" />
-    <Resource Include="Resources\Images\video.png" />
     <Resource Include="video.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -178,6 +145,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\WindowsStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SplashScreen.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

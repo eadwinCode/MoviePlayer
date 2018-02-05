@@ -120,17 +120,12 @@
         </Grid>-->
         <!--"#FFA37C36" #FF134F02{Binding LoadingProgress }-->
         <Grid  Grid.Row="1" DockPanel.Dock="Top"  >
-            <DockPanel Grid.Row="0" TextBlock.Foreground="White" LastChildFill="True">
+            <DockPanel Grid.Row="0" Background="{StaticResource ImageBackground}" TextBlock.Foreground="White" LastChildFill="True">
                 <!--<Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="150"/>
                 </Grid.ColumnDefinitions>-->
-                <DockPanel.Background>
-                    <ImageBrush ImageSource="/VirtualizingListView;component/Resources/Images/Movies - Copy.png" 
-                            TileMode="Tile"   Stretch="Uniform" 
-                            ViewportUnits="Absolute" Opacity="0.095"/>
-                </DockPanel.Background>
 
                 <StackPanel Name="Navigator" DockPanel.Dock="Left"
                             Grid.Column="0" Margin="3,3,5,3" HorizontalAlignment="Left" Orientation="Horizontal" >
@@ -369,7 +364,7 @@
                     ScrollViewer.VerticalScrollBarVisibility="Auto" 
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                     ScrollViewer.IsDeferredScrollingEnabled="False" 
-                    
+                    Background="Transparent"
                     ItemsSource="{Binding Source={StaticResource myVideoData}}"
                     ItemTemplateSelector="{Binding MyTemplateChange}"
                     Grid.RowSpan="2" >

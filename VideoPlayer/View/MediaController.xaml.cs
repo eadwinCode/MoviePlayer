@@ -14,9 +14,9 @@ namespace VideoPlayer
     {
         private Slider CurrentSlider;
 
-        public MovieTitle_Tab MovieTitle_Tab => this.MovieBoard;
+        public MovieTitle_Tab MovieTitle_Tab { get { return this.MovieBoard; } }
 
-        public Panel GroupedControls => this.GroupControl;
+        public Panel GroupedControls { get { return this.GroupControl; } }
 
         public VolumeControl VolumeControl
         {

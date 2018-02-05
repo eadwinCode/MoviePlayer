@@ -204,10 +204,11 @@ namespace VideoPlayer
 
         protected void OnProperChanged(string PropertyName)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
+            if (PropertyChanged != null)
+            {
+                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(PropertyName));
+            }
         }
     }
-
-
 
 }

@@ -360,7 +360,7 @@ namespace VideoPlayer.ViewModel
             HasSubcribed = false;
             if (CurrentVideoItem != null)
             {
-                CreateHelper.SaveLastSeenFile(CurrentVideoItem.ParentDirectory);
+                ApplicationService.SaveLastSeenFile(CurrentVideoItem.ParentDirectory);
             }
             currentvideoitem = null;
             Current = null;
@@ -418,7 +418,7 @@ namespace VideoPlayer.ViewModel
             if (IsDirectoryChanged)
             {
                 IsDirectoryChanged = false;
-                CreateHelper.SaveLastSeenFile(CurrentVideoItem.ParentDirectory);
+                ApplicationService.SaveLastSeenFile(CurrentVideoItem.ParentDirectory);
             }
         }
         

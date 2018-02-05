@@ -110,8 +110,8 @@ namespace VirtualizingListView.Util
             List<FileInfo> files = FileExplorerCommonHelper.GetFilesByExtensions(Parentdir.Directory, formats);
             if (files.Count > 0)
             {
-                CreateHelper.CreateLastSeenFolder(Parentdir);
-                CreateHelper.LoadLastSeenFile(Parentdir);
+                ApplicationService.CreateLastSeenFolder(Parentdir);
+                ApplicationService.LoadLastSeenFile(Parentdir);
             }
 
             for (int i = 0; i < files.Count; i++)
@@ -143,8 +143,8 @@ namespace VirtualizingListView.Util
         {
             IFolder Parentdir = new VideoFolder(directoryInfo.Parent.FullName);
 
-            CreateHelper.CreateLastSeenFolder(Parentdir);
-            CreateHelper.LoadLastSeenFile(Parentdir);
+            ApplicationService.CreateLastSeenFolder(Parentdir);
+            ApplicationService.LoadLastSeenFile(Parentdir);
             FileInfo fileInfo = new FileInfo(directoryInfo.FullName);
             VideoFolderChild vd;
             PlayedFiles pdf = (PlayedFiles)LastSeenHelper.GetProgress(Parentdir, fileInfo.Name);
