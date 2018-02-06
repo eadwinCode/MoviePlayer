@@ -25,9 +25,9 @@ namespace VirtualizingListView.View
         private object dummyNode = null;
         private TreeViewItem SelectedTreeViewItem;
 
-        public UserControl MoviesFolder => this;
+        public UserControl MoviesFolder { get { return this; } }
 
-        public UserControl MoviesPLaylist => this.PlaylistView;
+        public UserControl MoviesPLaylist { get { return this.PlaylistView; } }
 
         public MyTreeView()
         {

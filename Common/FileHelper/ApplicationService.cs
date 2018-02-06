@@ -162,22 +162,17 @@ namespace Common.FileHelper
 
         public static bool SaveTreeViewFiles()
         {
-            if (AppSettings.TreeViewItems.Count > 0)
+            try
             {
-                try
-                {
-                    string path = FileExistOrCreate(SettingsFileName, true);
-                    string json = JsonConvert.SerializeObject(AppSettings, Formatting.Indented);
-                    File.WriteAllText(path, json);
-                    return true;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-               
+                string path = FileExistOrCreate(SettingsFileName, true);
+                string json = JsonConvert.SerializeObject(AppSettings, Formatting.Indented);
+                File.WriteAllText(path, json);
+                return true;
             }
-            return false;
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public static bool SavePlaylistFiles()

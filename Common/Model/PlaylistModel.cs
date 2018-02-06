@@ -19,7 +19,7 @@ namespace Common.Model
             set { playlistName = value; RaisePropertyChanged(() => this.PlaylistName); }
         }
 
-    public ObservableCollection<string> ItemsPaths => itemsPath;
+        public ObservableCollection<string> ItemsPaths { get { return itemsPath; } }
         private bool isactive;
         public bool IsActive
         {

@@ -113,7 +113,6 @@
     <Compile Include="Util\FileLoader.cs" />
     <Compile Include="VideoItemViewCollection.cs" />
     <Compile Include="ViewModel\CollectionVM.cs" />
-    <Compile Include="ViewModel\VirtualizingVM.cs" />
     <Compile Include="View\FileExplorer.xaml.cs">
       <DependentUpon>FileExplorer.xaml</DependentUpon>
     </Compile>

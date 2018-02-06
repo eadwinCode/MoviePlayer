@@ -16,5 +16,5 @@ DEBUG;TRACE
 22115224668
 Themes\Generic.xaml;View\MediaController.xaml;View\PlaylistView.xaml;View\SubtitleMediaController.xaml;
 
-False
+True
 

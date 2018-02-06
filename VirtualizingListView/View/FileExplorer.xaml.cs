@@ -34,9 +34,9 @@ namespace VirtualizingListView.View
             set { SetValue(IsNavigationEnabledProperty, value); }
         }
 
-        public ListView FileExplorerListView => collections;
+        public ListView FileExplorerListView { get { return collections; } }
         private VideoFolder VideoFolder = null;
-        public object ContextMenuObject => VideoFolder;
+        public object ContextMenuObject { get { return VideoFolder; } }
 
         // Using a DependencyProperty as the backing store for IsNavigationEnabled.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsNavigationEnabledProperty =

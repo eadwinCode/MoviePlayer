@@ -1,6 +1,7 @@
 ﻿<UserControl x:Name="userControl" x:Class="VirtualizingListView.View.FileExplorer"
             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:cmd="clr-namespace:Common.ApplicationCommands;assembly=Common"
               xmlns:view="clr-namespace:VirtualizingListView.View"
                  xmlns:xv ="clr-namespace:VirtualizingListView" 
              >
@@ -218,7 +219,7 @@
                             </Style>
                         </Button.Style>
                     </Button>
-                    <Button Command="{Binding Refresh}" x:Name="Refresh" Width="32" Height="32">
+                    <Button Command="{x:Static cmd:VideoPlayerCommands.RefreshFiles}" x:Name="Refresh" Width="32" Height="32">
                         <Button.Style>
                             <Style TargetType="Button" >
                                 <Setter Property="Focusable" Value="False"/>

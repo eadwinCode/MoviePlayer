@@ -51,7 +51,12 @@ namespace Common.ApplicationCommands
         private static RoutedCommand topmost = new RoutedCommand("TopMost", typeof(VideoPlayerCommands));
         private static RoutedCommand removefromls = new RoutedCommand("RemoveFromLastSeen", typeof(VideoPlayerCommands));
         private static RoutedCommand selectedsub = new RoutedCommand("SelectedSub", typeof(VideoPlayerCommands));
+        private static RoutedCommand refreshfiles = new RoutedCommand("RefreshFiles", typeof(VideoPlayerCommands));
 
+        public static RoutedCommand RefreshFiles
+        {
+            get { return refreshfiles; }
+        }
 
         public static RoutedCommand PausePlay
         {

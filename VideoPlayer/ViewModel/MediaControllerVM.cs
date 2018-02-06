@@ -551,14 +551,19 @@ namespace VideoPlayer.ViewModel
 
         private void SetControllerDetails()
         {
+            Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() =>
+            {
             if (CurrentVideoItem == null) return;
             if (IVideoElement.MediaPlayer.HasVideo)
             {
-                TimeSpan ts = IVideoElement.MediaPlayer.NaturalDuration.TimeSpan;
+                TimeSpan ts = new TimeSpan();
+                if (IVideoElement.MediaPlayer.NaturalDuration.HasTimeSpan)
+                    ts = IVideoElement.MediaPlayer.NaturalDuration.TimeSpan;
                 DragPositionSlider.Maximum = ts.TotalSeconds;
                 DragPositionSlider.SmallChange = 1;
                 SetMediaVolume(VolumeSlider.Value);
             }
+            }), null);
             //Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() =>
             //{
             //    if (IVideoPlayer.MediaPlayer.MediaUriPlayer.HasVideo)

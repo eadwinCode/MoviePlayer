@@ -69,8 +69,7 @@ namespace VirtualizingListView.ViewModel
         public ExecuteCommand ViewChanged;
 
         public DelegateCommand Next { get; private set; }
-
-        public DelegateCommand Refresh { get; private set; }
+        
 
         public DelegateCommand Previous { get; private set; }
 
@@ -250,7 +249,6 @@ namespace VirtualizingListView.ViewModel
             TemplateToggle = new RelayCommand(() => TemplateToggleAction());
             Next = new DelegateCommand(() => Next_Action(), CanNextExecute);
             Previous = new DelegateCommand(() => Previous_Action(), CanPreviousExecute);
-            Refresh = new DelegateCommand(() => Refresh_Action(), CanRefresh);
             UpdateView(this.ViewType);
             //  VideoItemPanel
             //  var sds = Application.Current;
@@ -284,12 +282,13 @@ namespace VirtualizingListView.ViewModel
             //NoSearchfound = Visibility.Collapsed;
         }
         
-        private bool CanRefresh()
+        public bool CanRefresh()
         {
-            return this.CurrentDir != null;
+            if (VideoDataAccess == null) return false;
+            return this.CurrentDir != null && VideoDataAccess.OtherFiles.Count > 0;
         }
 
-        private void Refresh_Action()
+        public void Refresh_Action()
         {
             if (Search != null)
             {
@@ -307,7 +306,8 @@ namespace VirtualizingListView.ViewModel
 
         public void CloseFileExplorerAction(object sender = null)
         {
-            CloseFileExporerEvent?.Invoke(sender, new EventArgs());
+            if(CloseFileExporerEvent != null)
+                CloseFileExporerEvent.Invoke(sender, new EventArgs());
         }
 
         private void UpdateViewCollection()
@@ -453,7 +453,6 @@ namespace VirtualizingListView.ViewModel
             //Previous = CanPreviousExecute();
             Next.RaiseCanExecuteChanged();
             Previous.RaiseCanExecuteChanged();
-            Refresh.RaiseCanExecuteChanged();
         }
 
         public void Previous_Action()

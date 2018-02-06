@@ -118,10 +118,22 @@ namespace RealMediaControl.ViewModel
             commandbings.Add(new CommandBinding(VideoPlayerCommands.WMPPlay, WMPPlay_executed));
             commandbings.Add(new CommandBinding(VideoPlayerCommands.AddTo, AddTo_executed));
             commandbings.Add(new CommandBinding(VideoPlayerCommands.NewPlaylist, NewPlaylist_executed));
+            commandbings.Add(new CommandBinding(VideoPlayerCommands.RefreshFiles, 
+                RefreshFiles_executed, RefreshFiles_Enabled));
             commandbings.Add(new CommandBinding(VideoPlayerCommands.RemoveFromLastSeen,
                 RemoveFromLS_executed,RemoveFromLS_enabled));
 
             (IShell as Window).Closing += VideoPlayerVM_Closing;
+        }
+
+        private void RefreshFiles_Enabled(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = CollectionViewModel.Instance.CanRefresh();
+        }
+
+        private void RefreshFiles_executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            CollectionViewModel.Instance.Refresh_Action();
         }
 
         private void RemoveFromLS_enabled(object sender, CanExecuteRoutedEventArgs e)
