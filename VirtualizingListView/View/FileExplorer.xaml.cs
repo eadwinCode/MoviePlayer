@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using VideoComponent.BaseClass;
 using VideoComponent.Command;
 using VideoComponent.Events;
@@ -50,10 +51,26 @@ namespace VirtualizingListView.View
             DataContext = CollectionViewModel.Instance;
             CollectionViewModel.Instance.GetFileExplorerInstance(this);
             this.Loaded += CollectionViewModel.Instance.VideoComponentViewModel_Loaded;
+            
             //this.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.Sort, 
             //    Sort_executed, View_enabled));
             //this.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.View,
             //    View_executed, View_enabled));
+        }
+
+        private ScrollViewer ScrollViewer
+        {
+            get
+            {
+                Border border = (Border)VisualTreeHelper.GetChild(collections, 0);
+
+                return (ScrollViewer)VisualTreeHelper.GetChild(border, 0);
+            }
+        }
+
+        public void ResetScrollBar(){
+            this.ScrollViewer.ScrollToVerticalOffset(-1);
+            this.ScrollViewer.ScrollToHorizontalOffset(-1);
         }
 
         private void View_enabled(object sender, CanExecuteRoutedEventArgs e)

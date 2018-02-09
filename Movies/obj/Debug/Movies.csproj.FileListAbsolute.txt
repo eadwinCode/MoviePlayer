@@ -65,7 +65,6 @@ C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Movies\bin\Debug\VideoPlaye
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Movies\bin\Debug\VirtualizingListView.dll
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Movies\bin\Debug\Newtonsoft.Json.Net20.dll
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Movies\bin\Debug\AxInterop.WMPLib.dll
-C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Movies\bin\Debug\Interop.WMPLib.dll
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Movies\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Movies\bin\Debug\System.Windows.Interactivity.dll
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Movies\bin\Debug\Microsoft.WindowsAPICodePack.dll

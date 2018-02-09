@@ -112,7 +112,8 @@ namespace VideoComponent.BaseClass
         public List<SubtitleFilesModel> SubPath
         {
             get { return subpath; }
-            set { subpath = value; RaisePropertyChangedEvent("SubVisible"); }
+            set { subpath = value; RaisePropertyChangedEvent("SubVisible");
+                RaisePropertyChangedEvent("SubPath"); }
         }
 
         public BitmapSource Thumbnail
@@ -247,6 +248,7 @@ namespace VideoComponent.BaseClass
 
         public void PlayCompletely(){
             LastSeenHelper.RemoveLastSeen(base.ParentDirectory, lastplayedpoisition);
+            LastPlayedPoisition = new PlayedFiles(this.FileName);
         }
 
         public bool HasProgress

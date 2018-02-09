@@ -168,9 +168,7 @@
 
         </Grid>-->
     <Grid >
-        <Rectangle Fill="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        
-        </Rectangle>
+       
         <StackPanel HorizontalAlignment="Stretch"  DockPanel.Dock="Bottom" VerticalAlignment="Bottom" >
             <Viewbox x:Name="SubviewBox" IsHitTestVisible="False" 
                          Focusable="False" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"

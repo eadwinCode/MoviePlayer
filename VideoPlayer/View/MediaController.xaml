@@ -957,6 +957,7 @@
                                   x:Name="lcSlider"
                                 Thumb.DragCompleted="PositionSlider_DragCompleted"
                                 Thumb.DragStarted="PositionSlider_DragStarted"
+                                Thumb.DragDelta="PositionSlider_DragDelta"
                                 MouseDown="PositionSlider_PreviewMouseDown"
                                 PreviewMouseDown="PositionSlider_PreviewMouseDown"
                                 PreviewMouseUp="PositionSlider_MouseUp"

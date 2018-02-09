@@ -293,7 +293,8 @@ namespace VirtualizingListView.VirtualPanel
             {
                 _extent = extent;
                 if (_owner != null)
-                    _owner.InvalidateScrollInfo(); if (_offset.Y > _extent.Height) { SetVerticalOffset(-1); } else { SubtractOffset(true); }
+                    _owner.InvalidateScrollInfo(); //if (_offset.Y > _extent.Height) {
+                    SetVerticalOffset(-1); //} else { SubtractOffset(true); }
             }
 
             // Update viewport
@@ -301,7 +302,8 @@ namespace VirtualizingListView.VirtualPanel
             {
                 _viewport = availableSize;
                 if (_owner != null)
-                    _owner.InvalidateScrollInfo(); if (_offset.Y > _extent.Height) { SetVerticalOffset(-1); } else { SubtractOffset(true); }
+                    _owner.InvalidateScrollInfo(); if (_offset.Y > _extent.Height) {
+                    SetVerticalOffset(-1); } else { SubtractOffset(true); }
             }
         }
 

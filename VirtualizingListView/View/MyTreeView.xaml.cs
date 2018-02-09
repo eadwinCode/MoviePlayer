@@ -140,10 +140,7 @@ namespace VirtualizingListView.View
                 item.ContextMenuOpening += new ContextMenuEventHandler(FolderList_ContextMenuOpening);
             }
            
-            if (dirinfo.GetDirectories().Count() > 0)
-            {
-                item.Items.Add(dummyNode);
-            }
+            item.Items.Add(dummyNode);
 
             item.Expanded += new RoutedEventHandler(Folder_Expanded);
             FolderList.Items.Add(item);

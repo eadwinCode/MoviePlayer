@@ -122,13 +122,13 @@
                 </Label>
 
                 <StackPanel Grid.Column="1" DockPanel.Dock="Left" Orientation="Horizontal">
-                    <Label  Content="{Binding ElementName=_mainView, Path=Title}" Padding="4,3,0,0"                                                                                  
+                    <Label  Content="{Binding ElementName=_mainView, Path=Title}" Padding="4,4,0,0"                                                                                  
                                     HorizontalContentAlignment="Left"
                                     VerticalContentAlignment="Stretch"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
                                     Foreground="White"                                           
-                                    FontSize="16"
+                                    FontSize="15"
                                     sw:WindowDragBehavior.LeftMouseButtonDrag="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                                     sw:ControlDoubleClickBehavior.ExecuteCommand="{StaticResource MaximizeCommand}"
                                     sw:ControlDoubleClickBehavior.ExecuteCommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"

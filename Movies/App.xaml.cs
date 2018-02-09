@@ -16,6 +16,17 @@ namespace Movies
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            this.DispatcherUnhandledException += App_DispatcherUnhandledException;
+        }
+
+        private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            string message = e.Exception.InnerException == null ? e.Exception.Message : e.Exception.InnerException.Message;
+            MessageBox.Show(message, "Movie Player", MessageBoxButton.OK, MessageBoxImage.Error);
+            e.Handled = true;
+        }
 
         public Button normmiaxbtn;
         protected override void OnStartup(StartupEventArgs e)

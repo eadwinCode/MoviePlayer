@@ -17,11 +17,11 @@ namespace VirtualizingListView
            if (itm == null) return item as DataTemplate;
            if (itm.FileType == FileType.Folder)
            {
-               return ((FrameworkElement)container).FindResource("FolderView") as DataTemplate;
+               return ((FrameworkElement)container).FindResource("FolderLargeTemplate") as DataTemplate;
            }
            else
            {
-               return ((FrameworkElement)container).FindResource("TempMore") as DataTemplate;
+               return ((FrameworkElement)container).FindResource("FileLargeTemplate") as DataTemplate;
            }
        }
     }

@@ -81,7 +81,8 @@ namespace MediaControl.Subtitles
                             RemoveEmptyEntries);
                         time[0] = time[0].Replace(",", ".");
                         time[1] = time[1].Replace(",", ".");
-                        key = new KeyCode(TimeSpan.Parse(time[0]).TotalSeconds, TimeSpan.Parse(time[1]).TotalSeconds);
+                        key = new KeyCode(TimeSpan.Parse(time[0]).
+                            TotalSeconds, TimeSpan.Parse(time[1]).TotalSeconds);
                         string message = AddMessage(ref i, lines);
                         try
                         {

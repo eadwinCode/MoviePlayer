@@ -11,7 +11,7 @@
         <Border Background="{StaticResource ImageBackground}">
             <DockPanel  Margin="4">
                 <Image Source="/VirtualizingListView;component/Resources/Images/video-player.png" 
-                   Grid.Row="0" Width="50" Grid.Column="0" IsEnabled="False" />
+                   Grid.Row="0" Width="50" Grid.Column="0" IsEnabled="True" Margin="10,0,0,0" />
                 <TextBlock Text=" Movies" HorizontalAlignment="Center"
                        VerticalAlignment="Center" Width="292" 
                        FontFamily="Comic Sans MS" 

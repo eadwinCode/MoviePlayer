@@ -9,7 +9,7 @@ using Common.Util;
 
 namespace VirtualizingListView
 {
-    public class itemListSelector : DataTemplateSelector
+    public class ItemListSelector : DataTemplateSelector
     {
         public override DataTemplate SelectTemplate(object item, System.Windows.DependencyObject container)
         {
@@ -17,11 +17,11 @@ namespace VirtualizingListView
             if (itm == null) return item as DataTemplate;
             if (itm.FileType == FileType.Folder)
             {
-                return ((FrameworkElement)container).FindResource("FolderTempLess") as DataTemplate;
+                return ((FrameworkElement)container).FindResource("FolderSmallTemplate") as DataTemplate;
             }
             else
             {
-                return ((FrameworkElement)container).FindResource("TempLess") as DataTemplate;
+                return ((FrameworkElement)container).FindResource("FileSmallTemplate") as DataTemplate;
             }
         }
     }

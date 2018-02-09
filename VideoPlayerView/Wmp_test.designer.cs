@@ -33,7 +33,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).BeginInit();
             this.SuspendLayout();
             // 
-            // axWindowsMediaPlayer2
+            // axWindowsMediaPlayer1
             // 
             this.axWindowsMediaPlayer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.axWindowsMediaPlayer1.Enabled = true;
@@ -47,6 +47,7 @@
             // 
             this.ClientSize = new System.Drawing.Size(282, 253);
             this.Controls.Add(this.axWindowsMediaPlayer1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Wmp_test";
             ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).EndInit();
             this.ResumeLayout(false);

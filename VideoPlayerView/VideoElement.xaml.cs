@@ -147,7 +147,7 @@ namespace VideoPlayerView
 
         protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
         {
-            if (!(e.OriginalSource is Rectangle)) return;
+            if (!(e.OriginalSource is Rectangle || e.OriginalSource is MediaElement)) return;
             var vm = (VideoPlayerVM)videoplayer.DataContext;
             vm.OnMouseDoubleClick(e);
         }

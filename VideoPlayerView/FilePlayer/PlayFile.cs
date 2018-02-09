@@ -63,49 +63,60 @@ namespace VideoPlayerView.FilePlayer
 
             (IShell as Window).WindowState = WindowState.Minimized;
         }
-
         
-
         private void InitPlayerView(object obj = null)
         {
-            if (_videoelement == null)
+            try
             {
-                _videoelement = new VideoElement();
-                (_videoelement as Window).Closing += PlayFile_Closing;
-                (_videoelement as Window).Closed += PlayFile_Closed;
-            }
+                if (_videoelement == null)
+                {
+                    _videoelement = new VideoElement();
+                    (_videoelement as Window).Closing += PlayFile_Closing;
+                    (_videoelement as Window).Closed += PlayFile_Closed;
+                }
 
-            if (WindowsMediaPlayer != null)
-            {
-                WindowsMediaPlayer.Close();
-            }
+                if (WindowsMediaPlayer != null)
+                {
+                    WindowsMediaPlayer.Close();
+                }
             //if ((_videoelement as Window).Owner != (IShell as Window))
             //{
             //    (_videoelement as Window).Owner = IShell as Window;
             //}
             (_videoelement as Window).Show();
 
-            if (obj != null)
-                MediaControllerVM.Current.GetVideoItem((VideoFolderChild)obj);
+                if (obj != null)
+                    MediaControllerVM.Current.GetVideoItem((VideoFolderChild)obj);
+            }
+            catch (Exception)
+            {
+                Window_Closing();
+                throw;
+            }
+           
         }
 
         private void InitWMPView(object obj)
         {
             #region Creating VideoPlayer Object
-            if (WindowsMediaPlayer == null)
+            try
             {
-                WindowsMediaPlayer = new Wmp_test();
-                WindowsMediaPlayer.FormClosed += WindowsMediaPlayer_FormClosed;
-            }
+                if (WindowsMediaPlayer == null)
+                {
+                    WindowsMediaPlayer = new Wmp_test();
+                    WindowsMediaPlayer.FormClosed += WindowsMediaPlayer_FormClosed;
+                }
 
-            if (_videoelement != null)
-            {
-                (_videoelement as Window).Close();
+                if (_videoelement != null)
+                {
+                    (_videoelement as Window).Close();
+                }
+                WindowsMediaPlayer.OpenFile((VideoFolderChild)obj);
+                WindowsMediaPlayer.Show();
             }
-            WindowsMediaPlayer.OpenFile((VideoFolderChild)obj);
-            WindowsMediaPlayer.Show();
+            catch (Exception) { throw; }
             #endregion
-          
+
         }
 
         private void WindowsMediaPlayer_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
@@ -123,6 +134,7 @@ namespace VideoPlayerView.FilePlayer
 
             MediaControllerVM.Current.Playlist.Add(vfc);
         }
+
         public void PlayFileFromPlayList(PlaylistModel plm)
         {
             InitPlayerView();
@@ -132,8 +144,7 @@ namespace VideoPlayerView.FilePlayer
             MediaControllerVM.Current.Playlist.PlayFromAList(plm);
             (IShell as Window).WindowState = WindowState.Minimized;
         }
-
-
+        
         private void PlayFile_Closed(object sender, EventArgs e)
         {
             if (_videoelement != null)
@@ -150,24 +161,25 @@ namespace VideoPlayerView.FilePlayer
 
         private void Window_Closing()
         {
-            var vm = (_videoelement as Window).DataContext as VideoPlayerVM;
-            vm = null;
-            MediaControllerVM.Current.CloseMediaPlayer();
-           
-            _videoelement = null;
-            (IShell as Window).WindowState = ShellState;
+            try
+            {
+                if (MediaControllerVM.Current.MediaState == MediaState.Playing
+                    || MediaControllerVM.Current.MediaState == MediaState.Paused)
+                {
+                    MediaControllerVM.Current.CloseMediaPlayer();
+                }
+
+                _videoelement = null;
+                (IShell as Window).WindowState = ShellState;
+            }
+            catch(Exception) { }
         }
 
         private static void GetVideoItem()
         {
             //
         }
-
-        private IShell Shell()
-        {
-            return IShell;
-        }
-
+        
         private IShell IShell
         {
             get { return ServiceLocator.Current.GetInstance<IShell>(); }

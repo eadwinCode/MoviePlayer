@@ -368,25 +368,29 @@ namespace VideoPlayer.ViewModel
             {
                 Playlist.CurrentPlaylist.SetIsActive(false);
             }
-            
+            IVideoElement.MediaPlayer.Source = null;
 
             //}), null);
         }
 
         private void PlayBackAction(string action, string playbtn = null)
         {
-            (IVideoElement as Window).Dispatcher.Invoke(new Action(() =>
-            {
+            //(IVideoElement as Window).Dispatcher.Invoke(new Action(() =>
+            //{
                 if (playbtn != null)
                 {
                     this.PlayText = playbtn;
                 }
                 else { this.PlayText = "Play"; }
 
+            if (IVideoElement.MediaPlayer.Source != null)
+            {
                 MovieTitle_Tab.MovieTitleText = CommonHelper.
-                SetPlayerTitle(action, IVideoElement.MediaPlayer.Source.ToString());
+                               SetPlayerTitle(action, IVideoElement.MediaPlayer.Source.ToString());
+            }
+               
                // MediaPositionTimer.Stop();
-            }),null);
+            //}),null);
         }
 
         private void MediaControlReset()
@@ -497,6 +501,8 @@ namespace VideoPlayer.ViewModel
             DragPositionSlider.IsEnabled = false;
             PlayBackAction("Failed to Play", "Stop");
             MediaState = MediaState.Failed;
+            CloseMediaPlayer();
+            throw new Exception(e.ErrorException.Message);
         }
 
         void MediaPlayer_MediaEnded(object sender, RoutedEventArgs e)

@@ -22,6 +22,7 @@ using VirtualizingListView.Model;
 using VirtualizingListView.OtherFiles;
 using VirtualizingListView.Util;
 using Common.FileHelper;
+using VirtualizingListView.View;
 
 namespace VirtualizingListView.ViewModel
 {
@@ -51,10 +52,10 @@ namespace VirtualizingListView.ViewModel
         public event EventHandler CloseFileExporerEvent;
         private DelegateCommand fileaccess;
         private IFileExplorer ifileExplorer;
-        //private ICollectionView myVideoDataFilter;
+        private ICollectionView myVideoDataFilter;
 
         internal void GetFileExplorerInstance(IFileExplorer ifileExplorer){
-            this.ifileExplorer = ifileExplorer;
+            this.ifileExplorer = ifileExplorer; 
             (ifileExplorer as UserControl).Loaded += CollectionViewModel_Loaded;
         }
 
@@ -83,7 +84,8 @@ namespace VirtualizingListView.ViewModel
         {
             get { return videoitemviewcollection; }
             set { videoitemviewcollection = value;
-               
+                myVideoDataFilter = (CollectionView)CollectionViewSource.GetDefaultView(IFileExplorer.FileExplorerListView.ItemsSource);
+                if (myVideoDataFilter != null) myVideoDataFilter.Refresh();
                 RaisePropertyChanged(() => this.VideoItemViewCollection); }
         }    
 
@@ -284,7 +286,9 @@ namespace VirtualizingListView.ViewModel
         
         public bool CanRefresh()
         {
-            if (VideoDataAccess == null) return false;
+            if (VideoDataAccess == null || 
+                VideoDataAccess.OtherFiles == null) return false;
+
             return this.CurrentDir != null && VideoDataAccess.OtherFiles.Count > 0;
         }
 
@@ -333,6 +337,11 @@ namespace VirtualizingListView.ViewModel
         
         public void TreeViewUpdate(string obj)
         {
+            DirectoryInfo directoryInfo = new DirectoryInfo(obj);
+            if (!directoryInfo.Exists)
+            {
+                throw new FileNotFoundException("Can not find "+obj+" directory");
+            }
             if (Search != null)
             {
                 CancelSearchAction();
@@ -377,7 +386,7 @@ namespace VirtualizingListView.ViewModel
             if (VideoItemViewCollection != null)
             {
                 DataTemplateSelector sed = MyTemplateChange;
-                if (sed.GetType() == new itemListSelector().GetType())
+                if (sed.GetType() == new ItemListSelector().GetType())
                 {
                     ViewType = ViewType.Large;
                 }
@@ -396,11 +405,14 @@ namespace VirtualizingListView.ViewModel
             {
                 MyTemplateChange = new MoreTemplateSelector();
                 ListViewStyle = (Style)Application.Current.FindResource("lvStyle1");
+                
+               
             }
             else
             {
-                MyTemplateChange = new itemListSelector();
+                MyTemplateChange = new ItemListSelector();
                 ListViewStyle = (Style)Application.Current.FindResource("listViewControl");
+                
                 //ListViewStyle = (Style)Application.Current.FindResource("lvStyle1");
             }
         }
@@ -443,6 +455,8 @@ namespace VirtualizingListView.ViewModel
             {
                 TreeViewUpdate(ApplicationService.AppSettings.LastDirectory.FullName);
             }
+
+            
         }
 
         private void CheckCanExecut()
@@ -527,6 +541,10 @@ namespace VirtualizingListView.ViewModel
             this.DirectoryPosition = obj.Directory;
             this.VideoDataAccess = obj;
             Navigation.Add(new NavigationModel { Dir = DirectoryPosition, VideoData = VideoDataAccess });
+            if (IFileExplorer != null && ViewType == ViewType.Small)
+            {
+                (IFileExplorer as FileExplorer).ResetScrollBar();
+            }
             CheckCanExecut();
             CheckSort();
             
@@ -614,7 +632,8 @@ namespace VirtualizingListView.ViewModel
         public void Search_TextChanged()
         {
             //Window1.returneditems = 0;
-            CollectionViewSource.GetDefaultView(IFileExplorer.FileExplorerListView.ItemsSource).Refresh();
+            CollectionViewSource.GetDefaultView(IFileExplorer.FileExplorerListView.ItemsSource)
+                .Refresh();
 
             //if (Window1.returneditems == 0)
             //{
@@ -642,7 +661,8 @@ namespace VirtualizingListView.ViewModel
             //myVideoDataFilter = (CollectionView)CollectionViewSource.GetDefaultView(GetAllFiles(IFileExplorer.FileExplorerListView.ItemsSource));
             //myVideoDataFilter.Filter = new Predicate<object>(myVideofilter);
             InitSearchItems(true);
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(IFileExplorer.FileExplorerListView.ItemsSource);
+            CollectionView view = (CollectionView)CollectionViewSource.
+                GetDefaultView(IFileExplorer.FileExplorerListView.ItemsSource);
             view.Filter = MyVideofilter;
 
             //IFileExplorer.FileExplorerListView.ItemsSource = myVideoDataFilter;
@@ -743,7 +763,6 @@ namespace VirtualizingListView.ViewModel
 
         private void CollectionViewModel_Loaded(object sender, RoutedEventArgs e)
         {
-            //myVideoDataFilter = (CollectionView)CollectionViewSource.GetDefaultView(VideoItemViewCollection);
             //myVideoDataFilter.Filter = new Predicate<object>(myVideofilter);
         }
 

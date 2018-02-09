@@ -361,10 +361,10 @@
             </DockPanel>
 
         </Grid>
+
         <ListView  Style="{Binding ListViewStyle}"   x:Name="collections"
                     ScrollViewer.VerticalScrollBarVisibility="Auto" 
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                    ScrollViewer.IsDeferredScrollingEnabled="False" 
                     Background="Transparent"
                     ItemsSource="{Binding Source={StaticResource myVideoData}}"
                     ItemTemplateSelector="{Binding MyTemplateChange}"
@@ -372,6 +372,26 @@
 
             <!--ContextMenu="{StaticResource ListViewCntxtMenu}" {Binding VideoItem} Loaded="ListView_Loaded" ItemTemplate="{DynamicResource ItemTemplate}" ItemsPanel="{StaticResource VideoItemsPanel}"
                                   " ItemsSource="{Binding Mode=OneWay, Source={StaticResource myVideoData}}"-->
+            <!--<ListView.GroupStyle>
+                <GroupStyle >
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <VirtualizingStackPanel Orientation="Vertical" >
+                                <TextBlock  Margin="10,2,2,2"  FontSize="15" Foreground="#FFC8BFBF" Text="{Binding Path=Name}" FontFamily="Segoe UI" />
+                                <Border  Margin="6"  Background="White" BorderBrush="Gray" BorderThickness=".5"/>
+                            </VirtualizingStackPanel>
+                        </DataTemplate>
+                        --><!--<DataTemplate>
+                            <VirtualizingStackPanel Orientation="Vertical" >
+                                <TextBlock  Margin="10,2,2,2"  FontSize="15" Foreground="White" Text="{Binding Path=Name}" />
+                                <Border  Margin="6"  Background="White" BorderBrush="White" BorderThickness=".5"/>
+                            </VirtualizingStackPanel>
+                        </DataTemplate>--><!--
+                       
+                    </GroupStyle.HeaderTemplate>
+            </GroupStyle>
+
+        </ListView.GroupStyle>-->
 
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
@@ -392,28 +412,7 @@
         </ListView>
     </DockPanel>
 </UserControl>
-<!--<ListView.GroupStyle>
-            <GroupStyle > 
-                <GroupStyle.HeaderTemplate>
-                        <DataTemplate>
-                            <VirtualizingStackPanel Orientation="Vertical" >
-                                <TextBlock  Margin="10,2,2,2"  FontSize="15" Foreground="#FFC8BFBF" Text="{Binding Path=Name}" FontFamily="Segoe UI" />
-                                <Border  Margin="6"  Background="White" BorderBrush="Gray" BorderThickness=".5"/>
-                            </VirtualizingStackPanel>
-                        </DataTemplate>
-                        -->
-<!--<DataTemplate>
-                            <VirtualizingStackPanel Orientation="Vertical" >
-                                <TextBlock  Margin="10,2,2,2"  FontSize="15" Foreground="White" Text="{Binding Path=Name}" />
-                                <Border  Margin="6"  Background="White" BorderBrush="White" BorderThickness=".5"/>
-                            </VirtualizingStackPanel>
-                        </DataTemplate>-->
-<!--
-                    </GroupStyle.HeaderTemplate>
-            </GroupStyle>
-
-        </ListView.GroupStyle>
-        <ListView.ItemContainerStyle>
+      <!--  <ListView.ItemContainerStyle>
             <Style TargetType="ListViewItem">
                 <Setter Property="Focusable" Value="False"/>
                 <Setter Property="Background" Value="Transparent"/>

@@ -201,10 +201,12 @@ namespace OutlineText
             //    //e.Graphics.FillPath(foreBrush, gp);
             //}
             this.EnsureGeometry();
-            drawingContext.DrawText(this.FormatedText, new Point(0,0));
+            //drawingContext.DrawText(this.FormatedText, new Point(0,0));
+            drawingContext.DrawGeometry(this.Fill, new Pen(Brushes.Black, this.StrokeThickness)
+            { LineJoin = PenLineJoin.Round }, this.textGeometry);
             //formattedText.SetForegroundBrush(Brushes.Black);
             //drawingContext.DrawText(formattedText, new Point(1, 1));
-            drawingContext.DrawGeometry(null, new Pen(Brushes.Black, this.StrokeThickness) { LineJoin = PenLineJoin.Round }, this.textGeometry);
+           // drawingContext.DrawGeometry(null, new Pen(Brushes.Black, this.StrokeThickness) { LineJoin = PenLineJoin.Round }, this.textGeometry);
 
         }
 

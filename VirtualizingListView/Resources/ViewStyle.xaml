@@ -1,23 +1,23 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
-                    xmlns:y="clr-namespace:VideoComponent.BaseClass;assembly=VideoComponent"
-                    xmlns:r="clr-namespace:VirtualizingListView.VirtualPanel"
+                    xmlns:VideoComponent="clr-namespace:VideoComponent.BaseClass;assembly=VideoComponent"
+                    xmlns:VirtualPanel="clr-namespace:VirtualizingListView.VirtualPanel"
                     xmlns:cmd="clr-namespace:Common.ApplicationCommands;assembly=Common"
                     xmlns:enum ="clr-namespace:Common.Util;assembly=Common"
-                    xmlns:z="clr-namespace:VirtualizingListView" 
+                    xmlns:local="clr-namespace:VirtualizingListView" 
                     xmlns:View="clr-namespace:VirtualizingListView.View" >
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/VideoComponent;component/Themes/Generic.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <z:DoubleClick x:Key="ClickAction" />
-    <z:ThumbnailImageSource x:Key="ImageSource"/>
-    <z:ThumbNailConverter x:Key="ThumbnailConverter"/>
-    <z:itemListSelector x:Key="VDataTemplateSelector"/>
-    <z:ActiveItemConverter x:Key="ActiveItemSelector"/>
-    <z:TextContexter x:Key="TextContexter"/>
+    <local:DoubleClick x:Key="ClickAction" />
+    <local:ThumbnailImageSource x:Key="ImageSource"/>
+    <local:ThumbNailConverter x:Key="ThumbnailConverter"/>
+    <local:ItemListSelector x:Key="VDataTemplateSelector"/>
+    <local:ActiveItemConverter x:Key="ActiveItemSelector"/>
+    <local:TextContexter x:Key="TextContexter"/>
 
     <ImageBrush x:Key="ImageBackground" ImageSource="/VirtualizingListView;component/Resources/Images/Movies - Copy.png" 
                                     TileMode="Tile"   
@@ -344,8 +344,10 @@
                 <!--
                 </ItemsPanelTemplate>-->
                 <ItemsPanelTemplate>
-                    <VirtualizingStackPanel Orientation="Vertical" VirtualizingStackPanel.VirtualizationMode="Recycling" 
+                    <VirtualizingStackPanel Orientation="Vertical" 
+                                            VirtualizingStackPanel.VirtualizationMode="Recycling" 
                                             VirtualizingStackPanel.IsVirtualizing="True"/>
+
                     <!--<r:VirtualWrapPanel Orientation="Horizontal" ItemHeight="65" ItemWidth="260" 
                                         VirtualizingPanel.VirtualizationMode="Recycling" 
                                             VirtualizingPanel.IsVirtualizing="True" />-->
@@ -361,8 +363,6 @@
                 <Setter Property="Cursor" Value="Wait"/>
             </DataTrigger>
         </Style.Triggers>
-
-
     </Style>
    
     <Style x:Key="txtbxstyle" TargetType="{x:Type TextBox}">
@@ -481,19 +481,19 @@
     </Style>
 
     <ItemsPanelTemplate x:Key="VideoItemsPanel">
-        <r:VirtualWrapPanel Orientation="Horizontal" ItemHeight="190" ItemWidth="150" VirtualizingStackPanel.VirtualizationMode="Recycling" 
+        <VirtualPanel:VirtualWrapPanel Orientation="Horizontal" ItemHeight="190" ItemWidth="150" VirtualizingStackPanel.VirtualizationMode="Recycling" 
                                             VirtualizingStackPanel.IsVirtualizing="True" />
         <!--<WrapPanel Margin="0,2,0,2" Orientation="Horizontal" />
         ItemHeight="{Binding Path=ItemSize.Height, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"
                      ItemWidth="{Binding Path=ItemSize.Width, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"/>-->
     </ItemsPanelTemplate>
 
-    <ItemsPanelTemplate x:Key="TempLess_panel">
+    <!--<ItemsPanelTemplate x:Key="FileSmallTemplate_panel">
         <WrapPanel Margin="0,2,0,2" Orientation="Horizontal" />
-        <!-- <VirtualizingStackPanel IsItemsHost="True" Orientation="Vertical"
+        --><!-- <VirtualizingStackPanel IsItemsHost="True" Orientation="Vertical"
                                             VirtualizingStackPanel.VirtualizationMode="Recycling" 
-                                            VirtualizingStackPanel.IsVirtualizing="True"/>-->
-    </ItemsPanelTemplate>
+                                            VirtualizingStackPanel.IsVirtualizing="True"/>--><!--
+    </ItemsPanelTemplate>-->
 
     <Style x:Key="lvStyle1" TargetType="{x:Type ListView}">
         <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True"/>
@@ -505,8 +505,8 @@
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                   
-                    <r:VirtualWrapPanel Orientation="Horizontal" ItemHeight="190" ItemWidth="150" 
+
+                    <VirtualPanel:VirtualWrapPanel Orientation="Horizontal" ItemHeight="190" ItemWidth="150" 
                                         VirtualizingStackPanel.VirtualizationMode="Recycling" 
                                             VirtualizingStackPanel.IsVirtualizing="True" />
                     <!--<WrapPanel Margin="0,2,0,2" Orientation="Horizontal" />-->
@@ -522,14 +522,14 @@
         </Style.Triggers>
     </Style>
 
-    <DataTemplate x:Key="TempMore">
-        <z:CustomButton ContextMenu="{StaticResource fileexprcntxtmenu}" 
+    <DataTemplate x:Key="FileLargeTemplate">
+        <local:CustomButton ContextMenu="{StaticResource fileexprcntxtmenu}" 
                         Background="{Binding IsActive, Converter={StaticResource ActiveItemSelector}}"
                         Margin="4" x:Name="main" 
                         Style="{StaticResource ContentContainer}"
                          BorderBrush="Transparent" BorderThickness="0"
-              z:VideoItemDoubleClick.DoubleClickCommand="{StaticResource ClickAction}"
-              z:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding DataContext, 
+              local:VideoItemDoubleClick.DoubleClickCommand="{StaticResource ClickAction}"
+              local:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding DataContext, 
             RelativeSource={RelativeSource Self}}"  
                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  
                         TextBlock.Foreground="White" TextBlock.FontStyle="Italic"  >
@@ -551,7 +551,7 @@
                                     ToolTip="Subtitle Found"  Stretch="UniformToFill" Source="Images/1444151826_source_s.png"/>
                     <Image x:Name="img" Grid.Column="0"  Source="{Binding Thumbnail}"  Stretch="UniformToFill" />
                     <Image Source="Images/video-player.png" Width="50" Height="50" HorizontalAlignment="Center"  VerticalAlignment="Center" Visibility="{Binding HasThumbnail, Converter={StaticResource ThumbnailConverter}}"/>
-                    <y:PreviewClass x:Name="PreviewVideo"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                    <VideoComponent:PreviewClass x:Name="PreviewVideo"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                     <!--Background="#FF1F1F1F"-->
                 </Grid>
                 
@@ -580,7 +580,7 @@
                 </Border>
             </Grid>
             <!--</y:VideoData>-->
-        </z:CustomButton>
+        </local:CustomButton>
 
         <DataTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
@@ -611,12 +611,12 @@
         </DataTemplate.Triggers>
     </DataTemplate>
 
-    <DataTemplate x:Key="FolderView" >
+    <DataTemplate x:Key="FolderLargeTemplate" >
 
-        <z:CustomButton Background="Transparent" Margin="4" x:Name="main" Style="{StaticResource ContentContainer}"
+        <local:CustomButton Background="Transparent" Margin="4" x:Name="main" Style="{StaticResource ContentContainer}"
                         BorderBrush="Transparent" BorderThickness="0"
-              z:VideoItemDoubleClick.DoubleClickCommand="{StaticResource ClickAction}"
-              z:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding DataContext, RelativeSource={RelativeSource Self}}" 
+              local:VideoItemDoubleClick.DoubleClickCommand="{StaticResource ClickAction}"
+              local:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding DataContext, RelativeSource={RelativeSource Self}}" 
                 Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  
                         TextBlock.Foreground="White" TextBlock.FontStyle="Italic">
             <Grid >
@@ -652,7 +652,7 @@
                     </Grid>
                 </Grid>
             </Grid>
-        </z:CustomButton>
+        </local:CustomButton>
         <DataTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
                 <Setter TargetName="main" Property="Background">
@@ -680,14 +680,14 @@
         </DataTemplate.Triggers>
     </DataTemplate>
 
-    <DataTemplate x:Key="TempLess">
-        <z:CustomButton ContextMenu="{StaticResource fileexprcntxtmenu}" 
+    <DataTemplate x:Key="FileSmallTemplate">
+        <local:CustomButton ContextMenu="{StaticResource fileexprcntxtmenu}" 
                 Background="{Binding IsActive, Converter={StaticResource ActiveItemSelector}}" 
                 Margin="4" x:Name="main"
                 Style="{StaticResource ContentContainer}"
                BorderBrush="Transparent" BorderThickness="0"
-              z:VideoItemDoubleClick.DoubleClickCommand="{StaticResource ClickAction}"
-              z:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding DataContext, RelativeSource={RelativeSource Self}}"
+              local:VideoItemDoubleClick.DoubleClickCommand="{StaticResource ClickAction}"
+              local:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding DataContext, RelativeSource={RelativeSource Self}}"
               HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
             <!--<y:VideoData>-->
             <DockPanel  TextBlock.Foreground="White" LastChildFill="True"  
@@ -713,7 +713,7 @@
                                 ToolTip="Subtitle Found"  
                                Stretch="UniformToFill" Source="Images/1444151826_source_s.png"/>
                         <Image  Source="Images/video-player.png"/>
-                        <y:PreviewClass Background="Transparent" Panel.ZIndex="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                        <VideoComponent:PreviewClass Background="Transparent" Panel.ZIndex="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
                     </Grid>
 
                 </Border>
@@ -757,7 +757,7 @@
             </DockPanel>
 
             <!--</y:VideoData>-->
-        </z:CustomButton>
+        </local:CustomButton>
 
         <DataTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
@@ -772,16 +772,16 @@
     </DataTemplate>
 
     <DataTemplate x:Key="PLayTemplate">
-        <z:CustomButton ContextMenu="{StaticResource Playlistcntxtmenu}"
+        <local:CustomButton ContextMenu="{StaticResource Playlistcntxtmenu}"
                 Background="{Binding IsActive, Converter={StaticResource ActiveItemSelector}}" 
                 Margin="4" x:Name="main"
                 Style="{StaticResource ContentContainer}"
                BorderBrush="Transparent" BorderThickness="0"
-              z:VideoItemDoubleClick.DoubleClickCommand="{x:Static cmd:VideoPlayerCommands.Play}"
-              z:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding DataContext, RelativeSource={RelativeSource Self}}"
+              local:VideoItemDoubleClick.DoubleClickCommand="{x:Static cmd:VideoPlayerCommands.Play}"
+              local:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding DataContext, RelativeSource={RelativeSource Self}}"
                Height="38">
-            <!--<y:VideoData>  z:VideoItemDoubleClick.DoubleClickCommand="{StaticResource ClickAction}"
-              z:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}"-->
+            <!--<y:VideoData>  local:VideoItemDoubleClick.DoubleClickCommand="{StaticResource ClickAction}"
+              local:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}"-->
             <DockPanel  TextBlock.Foreground="White" Margin="1"
                         LastChildFill="True" HorizontalAlignment="Stretch" 
                         VerticalAlignment="Stretch"
@@ -811,7 +811,7 @@
             </DockPanel>
 
             <!--</y:VideoData>-->
-        </z:CustomButton>
+        </local:CustomButton>
 
         <DataTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
@@ -825,12 +825,12 @@
         </DataTemplate.Triggers>
     </DataTemplate>
 
-    <DataTemplate x:Key="FolderTempLess">
-        <z:CustomButton Background="Transparent" Margin="4" x:Name="main" 
+    <DataTemplate x:Key="FolderSmallTemplate">
+        <local:CustomButton Background="Transparent" Margin="4" x:Name="main" 
                         Style="{StaticResource ContentContainer}"
                          BorderBrush="Transparent" BorderThickness="0"
-              z:VideoItemDoubleClick.DoubleClickCommand="{StaticResource ClickAction}"
-              z:VideoItemDoubleClick.DoubleClickCommandParameter
+              local:VideoItemDoubleClick.DoubleClickCommand="{StaticResource ClickAction}"
+              local:VideoItemDoubleClick.DoubleClickCommandParameter
                         ="{Binding DataContext, RelativeSource={RelativeSource Self}}"
               >
             <!--<y:VideoData >-->
@@ -889,7 +889,7 @@
 
             <!--</y:VideoData>-->
 
-        </z:CustomButton>
+        </local:CustomButton>
 
         <DataTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="true">

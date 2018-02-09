@@ -73,7 +73,7 @@ namespace Common.FileHelper
                 }
                 catch (Exception)
                 {
-                    throw;
+                    //throw;
                 }
 
             }
@@ -99,7 +99,7 @@ namespace Common.FileHelper
             }
             catch (IOException)
             {
-                throw;
+               // throw;
             }
         }
         
