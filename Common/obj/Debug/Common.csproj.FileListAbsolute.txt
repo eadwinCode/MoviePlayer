@@ -18,7 +18,6 @@ C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Common\bin\Debug\Common.pdb
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Common\bin\Debug\Microsoft.Practices.Prism.dll
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Common\bin\Debug\Newtonsoft.Json.Net20.dll
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Common\bin\Debug\Microsoft.Practices.ServiceLocation.dll
-C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Common\obj\Debug\Common.csprojResolveAssemblyReference.cache
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Common\obj\Debug\GeneratedInternalTypeHelper.g.cs
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Common\obj\Debug\Common_MarkupCompile.cache
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Common\obj\Debug\Common_MarkupCompile.lref
@@ -26,6 +25,7 @@ C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Common\obj\Debug\Themes\Gen
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Common\obj\Debug\Common.g.resources
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Common\obj\Debug\Common.Properties.Resources.resources
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Common\obj\Debug\Common.csproj.GenerateResource.Cache
+C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Common\obj\Debug\Common.csproj.CoreCompileInputs.cache
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Common\obj\Debug\Common.dll
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Common\obj\Debug\Common.pdb
-C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Common\obj\Debug\Common.csproj.CoreCompileInputs.cache
+C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\Common\obj\Debug\Common.csprojResolveAssemblyReference.cache

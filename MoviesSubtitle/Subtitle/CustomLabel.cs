@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -96,6 +97,8 @@ namespace OutlineText
         public Geometry textGeometry;
         private RichTextBox rtb;
         public static FormattedText formattedText;
+        private bool RunTextStyleBackground;
+
         //public Brush Colord;
 
 
@@ -261,10 +264,18 @@ namespace OutlineText
                 rtb = new RichTextBox();
                 var flowdoc = Joint_FlowDocument(p);
                 rtb.Document = flowdoc;
-                FlowDocumentExtensions.GetFormattedText(this.rtb.Document, this);
+                Task.Factory.StartNew(() => GetFlowDocStyle())
+              .ContinueWith(t => this.RunTextStyleBackground= t.Result,
+              TaskScheduler.FromCurrentSynchronizationContext());
+                
             }
 
 
+        }
+
+        private bool GetFlowDocStyle()
+        {
+            return FlowDocumentExtensions.GetFormattedText(this.rtb.Document, this);
         }
 
         private FlowDocument Joint_FlowDocument(string flowDocument1)

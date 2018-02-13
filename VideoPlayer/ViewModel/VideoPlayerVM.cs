@@ -37,7 +37,6 @@ namespace VideoPlayer.ViewModel
             MousemoveTimer = new DispatcherTimer(DispatcherPriority.Background);
             ScreenSetting = SCREENSETTINGS.Normal;
             VideoPlayerView.Loaded += VideoPlayerView_Loaded;
-            
         }
         
         private void Init()

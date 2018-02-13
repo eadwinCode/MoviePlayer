@@ -764,12 +764,17 @@
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="Button">
-                                                    <Border CornerRadius="16" x:Name="border"  Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                                                    <Border CornerRadius="16" x:Name="border"  
+                                                            Width="{TemplateBinding Width}" 
+                                                            Height="{TemplateBinding Height}">
 
-                                                        <Image Opacity=".7" SnapsToDevicePixels="True" x:Name="contentPresenter" Margin="1,6,1,0" Source="/VirtualizingListView;component/Resources/Images/next.png" />
+                                                        <Image Opacity=".7" 
+                                                               SnapsToDevicePixels="True" 
+                                                               x:Name="contentPresenter" 
+                                                               Margin="1,6,1,0" 
+                             Source="/VirtualizingListView;component/Resources/Images/next.png" />
 
                                                     </Border>
-
                                                     <ControlTemplate.Triggers>
                                                         <Trigger Property="IsDefaulted" Value="true">
                                                             <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>

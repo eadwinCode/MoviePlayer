@@ -92,6 +92,6 @@ C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VirtualizingListView\obj\De
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VirtualizingListView\obj\Debug\VirtualizingListView.g.resources
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VirtualizingListView\obj\Debug\VirtualizingListView.Properties.Resources.resources
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VirtualizingListView\obj\Debug\VirtualizingListView.csproj.GenerateResource.Cache
+C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VirtualizingListView\obj\Debug\VirtualizingListView.csproj.CoreCompileInputs.cache
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VirtualizingListView\obj\Debug\VirtualizingListView.dll
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VirtualizingListView\obj\Debug\VirtualizingListView.pdb
-C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VirtualizingListView\obj\Debug\VirtualizingListView.csproj.CoreCompileInputs.cache

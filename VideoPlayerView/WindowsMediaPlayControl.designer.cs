@@ -1,6 +1,6 @@
 ﻿namespace MediaControl
 {
-    partial class Wmp_test
+    partial class WindowsMediaPlayControl
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Wmp_test));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WindowsMediaPlayControl));
             this.axWindowsMediaPlayer1 = new AxWMPLib.AxWindowsMediaPlayer();
             ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).BeginInit();
             this.SuspendLayout();
@@ -43,12 +43,12 @@
             this.axWindowsMediaPlayer1.Size = new System.Drawing.Size(282, 253);
             this.axWindowsMediaPlayer1.TabIndex = 0;
             // 
-            // Wmp_test
+            // WindowsMediaPlayControl
             // 
             this.ClientSize = new System.Drawing.Size(282, 253);
             this.Controls.Add(this.axWindowsMediaPlayer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Wmp_test";
+            this.Name = "WindowsMediaPlayControl";
             ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).EndInit();
             this.ResumeLayout(false);
 
@@ -57,7 +57,6 @@
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-
         private AxWMPLib.AxWindowsMediaPlayer axWindowsMediaPlayer1;
     }
 }

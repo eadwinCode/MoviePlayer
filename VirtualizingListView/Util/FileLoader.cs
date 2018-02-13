@@ -132,7 +132,14 @@ namespace VirtualizingListView.Util
                 {
                     vd.LastPlayedPoisition = new PlayedFiles(files[i].Name);
                 }
-
+                using (ShellObject shell = ShellObject.FromParsingName(vd.FilePath))
+                {
+                    IShellProperty prop = shell.Properties.System.Media.Duration;
+                    vd.Duration = prop.FormatForDisplay(PropertyDescriptionFormat.ShortTime);
+                    var duration = shell.Properties.System.Media.Duration;
+                    if (duration.Value != null)
+                        vd.MaxiProgress = double.Parse(duration.Value.ToString());
+                }
 
                 Toparent.Add(vd);
             }

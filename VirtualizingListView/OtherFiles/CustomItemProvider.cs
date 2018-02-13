@@ -108,12 +108,13 @@ namespace VirtualizingListView.OtherFiles
             {
                 if (list[i].HasCompleteLoad)
                 {
+                    SearchSubtitleFile(list[i]);
                     continue;
                 }
                 Loadthumbnails(list[i]);
                 //Thread.SpinWait(list.Count());
                 if (CollectionVM.VideoDataAccess.Tag != null) Thread.Sleep(10);
-                System.Threading.Thread.Sleep(5);
+                Thread.Sleep(5);
             }
 
             if (BGW.CancellationPending)
@@ -122,6 +123,21 @@ namespace VirtualizingListView.OtherFiles
                 Trace.WriteLine("Backgroundworking Canceled... ");
                 return;
             }
+        }
+
+        private void SearchSubtitleFile(VideoFolder item)
+        {
+            if (item.FileType == FileType.Folder) return;
+            if ((item as VideoFolderChild).HasSearchSubtitleFile) return;
+
+            Dispatcher.BeginInvoke(new Action(delegate
+            {
+                var itemchild = (VideoFolderChild)item;
+                if (files == null)
+                    files = FileExplorerCommonHelper.GetSubtitleFiles(CollectionVM.VideoDataAccess.Directory);
+
+                itemchild.SubPath = GetSubtitlePath(item);
+            }),DispatcherPriority.Background);
         }
 
         private VideoFolder GetItems(VideoFolder item)
@@ -149,16 +165,13 @@ namespace VirtualizingListView.OtherFiles
                         if (CollectionVM.ViewType == ViewType.Large)
                             itemchild.Thumbnail = shell.Thumbnail.LargeBitmapSource;
 
-                        IShellProperty prop = shell.Properties.System.Media.Duration;
-                        itemchild.Duration = prop.FormatForDisplay(PropertyDescriptionFormat.ShortTime);
-                        var duration = shell.Properties.System.Media.Duration;
-                        if (duration.Value != null)
-                            itemchild.MaxiProgress = double.Parse(duration.Value.ToString());
+                        //IShellProperty prop = shell.Properties.System.Media.Duration;
+                        //itemchild.Duration = prop.FormatForDisplay(PropertyDescriptionFormat.ShortTime);
+                        //var duration = shell.Properties.System.Media.Duration;
+                        //if (duration.Value != null)
+                        //    itemchild.MaxiProgress = double.Parse(duration.Value.ToString());
 
-                        if(files == null)
-                            files = FileExplorerCommonHelper.GetSubtitleFiles(CollectionVM.VideoDataAccess.Directory);
-                    } 
-                    itemchild.SubPath = GetSubtitlePath(item);
+                    }
                 }
             }));
         }

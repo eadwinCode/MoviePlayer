@@ -30,7 +30,7 @@ namespace VideoPlayerView.FilePlayer
 
         public IVideoElement VideoElement { get { return _videoelement; } }
         private static IVideoElement _videoelement;
-        private Wmp_test WindowsMediaPlayer;
+        private WindowsMediaPlayControl WindowsMediaPlayer;
         private bool HasScubscribed;
         private WindowState ShellState = WindowState.Normal;
 
@@ -103,7 +103,7 @@ namespace VideoPlayerView.FilePlayer
             {
                 if (WindowsMediaPlayer == null)
                 {
-                    WindowsMediaPlayer = new Wmp_test();
+                    WindowsMediaPlayer = new WindowsMediaPlayControl();
                     WindowsMediaPlayer.FormClosed += WindowsMediaPlayer_FormClosed;
                 }
 
@@ -163,16 +163,11 @@ namespace VideoPlayerView.FilePlayer
         {
             try
             {
-                if (MediaControllerVM.Current.MediaState == MediaState.Playing
-                    || MediaControllerVM.Current.MediaState == MediaState.Paused)
-                {
-                    MediaControllerVM.Current.CloseMediaPlayer();
-                }
-
+                MediaControllerVM.Current.CloseMediaPlayer();
                 _videoelement = null;
                 (IShell as Window).WindowState = ShellState;
             }
-            catch(Exception) { }
+            catch (Exception) { }
         }
 
         private static void GetVideoItem()

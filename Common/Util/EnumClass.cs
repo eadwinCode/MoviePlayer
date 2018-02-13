@@ -12,6 +12,12 @@ namespace Common.Util
         File
     }
 
+    public enum VolumeState
+    {
+        Muted,
+        Active
+    }
+
     public enum SortType
     {
         Date,

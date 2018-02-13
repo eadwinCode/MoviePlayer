@@ -61,7 +61,7 @@
             <Grid Background="{StaticResource WindowBackColor}">
                 <Border Grid.Row="1" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" >
                     <DockPanel>
-                        <VideoPlayer:PlaylistView Cursor="Arrow" x:Name="plv" Width="10" Grid.Column="1"  DockPanel.Dock="Right" 
+                        <VideoPlayer:PlaylistView Focusable="False" Cursor="Arrow" x:Name="playlistview" Width="10" Grid.Column="1"  DockPanel.Dock="Right" 
                                                   Margin="0,0,0,0"  />
                         <DockPanel LastChildFill="True" Grid.Column="0">
                             <Grid Background="{TemplateBinding Background}">
@@ -91,7 +91,7 @@
 
             <ControlTemplate.Triggers>
                     <Trigger Property="IsMouseOver" Value="true">
-                        <Setter TargetName="plv" Property="Cursor" Value="Arrow"/>
+                        <Setter TargetName="playlistview" Property="Cursor" Value="Arrow"/>
                     </Trigger>
                 <MultiTrigger>
                     <MultiTrigger.Conditions>
@@ -124,10 +124,10 @@
             <sw:WindowCloseCommand x:Key="CloseCommand"></sw:WindowCloseCommand>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid Background="Black" x:Name="_videoContent" 
-          sw:WindowDragBehavior.LeftMouseButtonDrag="{Binding
+    <Grid Background="Black" x:Name="_videoContent" >
+          <!-- sw:WindowDragBehavior.LeftMouseButtonDrag="{Binding
         RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}">
-        <!--<VideoPlayer:PlaylistView x:Name="plv" Width="10" DockPanel.Dock="Right" Margin="0,32,0,0"  />-->
+       <VideoPlayer:PlaylistView x:Name="plv" Width="10" DockPanel.Dock="Right" Margin="0,32,0,0"  />-->
 
         <MediaElement x:Name="MediaElementPlayer" 
                       HorizontalAlignment="Stretch"
@@ -137,14 +137,18 @@
 
         <VideoPlayer:SubtitleMediaController  VerticalAlignment="Stretch" x:Name="videoplayer"/>
 
-        <Border x:Name="WindowsTab" VerticalAlignment="Top" >
+        <Border x:Name="WindowsTab" VerticalAlignment="Top" 
+                sw:WindowDragBehavior.LeftMouseButtonDrag="{Binding
+        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                >
             <Border.Background>
-                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox"
+                                     StartPoint="0.5,0">
                     <GradientStop Color="Transparent"/>
                     <GradientStop Color="#7F000000"/>
                 </LinearGradientBrush>
             </Border.Background>
-            <DockPanel LastChildFill="True" x:Name="WindowsTabDock">
+            <DockPanel LastChildFill="True" Background="Transparent" x:Name="WindowsTabDock">
                 <Button HorizontalAlignment="Left" VerticalAlignment="Top" 
                           DockPanel.Dock="Left" Margin="10" 
                           Width="32" >
@@ -191,7 +195,7 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                <DockPanel Grid.Column="3" DockPanel.Dock="Right" Margin="0,0,5,0">
+                <DockPanel Grid.Column="3" DockPanel.Dock="Right" Margin="0,0,5,0" Background="Transparent">
                     <Button DockPanel.Dock="Right" Width="40" ToolTip="Close" Height="32" 
                             Command="{StaticResource CloseCommand}" 
                             CommandParameter="{Binding RelativeSource=

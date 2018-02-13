@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,15 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AxInterop.WMPLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\AxInterop.WMPLib.dll</HintPath>
-    </Reference>
-    <Reference Include="Interop.WMPLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>..\Libraries\Interop.WMPLib.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.ComponentModel.Composition.Initialization.Desktop">
       <HintPath>..\Libraries\Microsoft.ComponentModel.Composition.Initialization.Desktop.dll</HintPath>
     </Reference>
@@ -104,18 +96,18 @@
     <Compile Include="WindowsStyleClass\WindowMaximizeCommand.cs" />
     <Compile Include="WindowsStyleClass\WindowMinimizeCommand.cs" />
     <Compile Include="WindowsStyleClass\WindowResizeBehavior.cs" />
-    <Compile Include="Wmp_test.cs">
+    <Compile Include="WindowsMediaPlayControl.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Wmp_test.designer.cs">
-      <DependentUpon>Wmp_test.cs</DependentUpon>
+    <Compile Include="WindowsMediaPlayControl.designer.cs">
+      <DependentUpon>WindowsMediaPlayControl.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Wmp_test.resx">
-      <DependentUpon>Wmp_test.cs</DependentUpon>
+    <EmbeddedResource Include="WindowsMediaPlayControl.resx">
+      <DependentUpon>WindowsMediaPlayControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -154,6 +146,25 @@
       <Project>{3f23b0dc-e93f-45c4-98fe-9e1e4d9de1e7}</Project>
       <Name>VirtualizingListView</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="AxWMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="WMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

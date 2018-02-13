@@ -211,13 +211,14 @@
             <ListView Margin="2" Grid.Row="2" SelectionMode="Single" 
                       BorderBrush="Transparent" BorderThickness="0" 
                       ItemsSource="{Binding PlayList}" 
-                  ItemTemplate="{StaticResource PLayTemplate}" 
+                  ItemTemplate="{StaticResource PLayListTemplate}" 
                    ScrollViewer.VerticalScrollBarVisibility="Auto" 
                                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                  Background="Transparent" Style="{StaticResource listViewControl}"
+                  Background="Transparent" Style="{StaticResource PlaylistListView}"
                   >
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
+                       
                         <Setter Property="Focusable" Value="False"/>
                         <Setter Property="Background" Value="Transparent"/>
                         <Setter Property="Template">

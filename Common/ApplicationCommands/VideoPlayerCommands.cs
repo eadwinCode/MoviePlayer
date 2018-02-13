@@ -23,6 +23,8 @@ namespace Common.ApplicationCommands
 
             Rewind.InputGestures.Add(new KeyGesture(Key.Left, ModifierKeys.Control));
             FastForward.InputGestures.Add(new KeyGesture(Key.Right, ModifierKeys.Control));
+            ShiftRewind.InputGestures.Add(new KeyGesture(Key.Left, ModifierKeys.Shift));
+            ShiftFastForward.InputGestures.Add(new KeyGesture(Key.Right, ModifierKeys.Shift));
         }
 
         private static RoutedCommand _playorpause = new RoutedCommand("PausePlay", typeof(VideoPlayerCommands));
@@ -40,6 +42,8 @@ namespace Common.ApplicationCommands
 
         private static RoutedCommand fforward = new RoutedCommand("FastForward", typeof(VideoPlayerCommands));
         private static RoutedCommand rewind = new RoutedCommand("Rewind", typeof(VideoPlayerCommands));
+        private static RoutedCommand shiftforward = new RoutedCommand("ShitFastForward", typeof(VideoPlayerCommands));
+        private static RoutedCommand shiftrewind = new RoutedCommand("ShitRewind", typeof(VideoPlayerCommands));
 
         private static RoutedCommand play = new RoutedCommand("Play", typeof(VideoPlayerCommands));
         private static RoutedCommand addtoplaylist = new RoutedCommand("AddtoPL", typeof(VideoPlayerCommands));
@@ -92,6 +96,10 @@ namespace Common.ApplicationCommands
         {
             get { return rewind; }
         }
+        public static RoutedCommand ShiftRewind
+        {
+            get { return shiftrewind; }
+        }
         public static RoutedCommand WMPPlay
         {
             get { return wmpplay; }
@@ -101,7 +109,10 @@ namespace Common.ApplicationCommands
         {
             get { return fforward; }
         }
-
+        public static RoutedCommand ShiftFastForward
+        {
+            get { return shiftforward; }
+        }
         public static RoutedCommand MinimizeMediaCtrl
         {
             get { return minimizemediactrl; }

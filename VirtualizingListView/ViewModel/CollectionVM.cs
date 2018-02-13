@@ -346,14 +346,14 @@ namespace VirtualizingListView.ViewModel
             {
                 CancelSearchAction();
             }
-            Task.Factory.StartNew(() => NewMethod(obj))
+            Task.Factory.StartNew(() => GetVideoFolder(obj))
                 .ContinueWith(t => this.VideoDataAccess = t.Result,
                 TaskScheduler.FromCurrentSynchronizationContext()).Wait(200);
             //StartLoadingProcedure(obj);
         }
         
 
-        private VideoFolder NewMethod(string obj)
+        private VideoFolder GetVideoFolder(string obj)
         {
             return StartLoadingProcedure(obj);
         }
@@ -541,13 +541,12 @@ namespace VirtualizingListView.ViewModel
             this.DirectoryPosition = obj.Directory;
             this.VideoDataAccess = obj;
             Navigation.Add(new NavigationModel { Dir = DirectoryPosition, VideoData = VideoDataAccess });
+            CheckCanExecut();
+            CheckSort();
             if (IFileExplorer != null && ViewType == ViewType.Small)
             {
                 (IFileExplorer as FileExplorer).ResetScrollBar();
             }
-            CheckCanExecut();
-            CheckSort();
-            
         }
 
         private void RefreshLink()

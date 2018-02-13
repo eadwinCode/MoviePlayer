@@ -392,7 +392,7 @@ namespace OutlineText
             return sb.ToString();
         }
 
-        internal static void GetFormattedText(FlowDocument doc, CustomLabel outlinedTextBlock)
+        internal static bool GetFormattedText(FlowDocument doc, CustomLabel outlinedTextBlock)
         {
             if (doc == null)
             {
@@ -479,7 +479,7 @@ namespace OutlineText
                 }
             }
 
-           
+            return true;
         }
     }
 }

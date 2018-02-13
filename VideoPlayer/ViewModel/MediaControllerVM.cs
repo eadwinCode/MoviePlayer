@@ -21,7 +21,7 @@ namespace VideoPlayer.ViewModel
         {
             currentInstance = new MediaControllerVM();
         }
-        
+
         private bool HasSubcribed = false;
         private static MediaControllerVM currentInstance;
         private VideoFolderChild currentvideoitem; private bool ismousecontrolover;
@@ -43,34 +43,48 @@ namespace VideoPlayer.ViewModel
         public DispatcherTimer positionSlideTimerTooltip;
         public bool IsRewindOrFastForward { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
-       
-        public static MediaControllerVM Current { get { if (currentInstance == null)
-                { InitInstance(); } return currentInstance; }
-            set { currentInstance = value; } }
+        public VolumeState VolumeState = VolumeState.Active;
+        public static MediaControllerVM Current
+        {
+            get
+            {
+                if (currentInstance == null)
+                { InitInstance(); }
+                return currentInstance;
+            }
+            set { currentInstance = value; }
+        }
 
-        
-        public delegate void ExecuteCommand(object sender,bool frompl);
-        
 
-        public PlayListManager Playlist { get { return (IVideoElement.PlayListView 
-                    as UserControl).DataContext as PlayListManager; } }
+        public delegate void ExecuteCommand(object sender, bool frompl);
+
+
+        public PlayListManager Playlist
+        {
+            get
+            {
+                return (IVideoElement.PlayListView
+as UserControl).DataContext as PlayListManager;
+            }
+        }
         //private static Slider positionslider;
 
         public MovieTitle_Tab MovieTitle_Tab
         {
             get { return (IVideoPlayer.MediaController as IMediaController).MovieTitle_Tab; }
         }
-        
+
         //public Slider PositionSlider
         //{
         //    get { return ProgressSliderPart.ProgressSlider; }
         //   // set { positionslider = value; OnPropertyChanged("PositionSlider"); }
         //}
 
-        public Slider DragPositionSlider {
+        public Slider DragPositionSlider
+        {
             get { return DragProgressSliderPart.ProgressSlider; }
         }
-        
+
         private Border Border
         {
             get
@@ -93,7 +107,7 @@ namespace VideoPlayer.ViewModel
                     playbtn = new DelegateCommand(() =>
                     {
                         PlayAction();
-                    },CanPlay);
+                    }, CanPlay);
                 }
 
                 return playbtn;
@@ -143,20 +157,22 @@ namespace VideoPlayer.ViewModel
                 OnPropertyChanged("IsMouseControlOver");
             }
         }
-        
+
         public bool CanAnimate
         {
             get { return cananimate; }
-            set { cananimate = value; OnPropertyChanged("CanAnimate");
+            set
+            {
+                cananimate = value; OnPropertyChanged("CanAnimate");
                 //PositioSliderInit(HasSubcribed); 
             }
-        } 
+        }
 
         public VideoFolderChild CurrentVideoItem
         {
             get { return currentvideoitem; }
         }
-        
+
         public DelegateCommand Next
         {
             get
@@ -168,7 +184,7 @@ namespace VideoPlayer.ViewModel
                 return _next;
             }
         }
-        
+
         public DelegateCommand ToFullScreenBtn
         {
             get
@@ -204,7 +220,6 @@ namespace VideoPlayer.ViewModel
         public MediaControllerVM()
         {
             //  PlayListManager.Current.SetController(this);
-           
         }
 
         private void Init()
@@ -225,6 +240,9 @@ namespace VideoPlayer.ViewModel
                 IVideoElement.MediaPlayer.MediaOpened += MediaPlayer_MediaOpened;
                 IVideoElement.MediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
                 IVideoElement.MediaPlayer.MediaFailed += MediaPlayer_MediaFailed;
+                IVideoElement.MediaPlayer.BufferingStarted += MediaPlayer_BufferingStarted;
+                IVideoElement.MediaPlayer.BufferingEnded += MediaPlayer_BufferingEnded;
+
                 MediaPositionTimer = new DispatcherTimer();
                 MediaPositionTimer.Tick += MediaPositionTimer_Tick;
                 MediaPositionTimer.Interval = TimeSpan.FromMilliseconds(200);
@@ -237,9 +255,19 @@ namespace VideoPlayer.ViewModel
             }
         }
 
+        private void MediaPlayer_BufferingEnded(object sender, RoutedEventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+
+        private void MediaPlayer_BufferingStarted(object sender, RoutedEventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+
         private void MediaPlayer_MediaClosed(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private void MediaUriPlayer_MediaPositionChanged(object sender, EventArgs e)
@@ -261,7 +289,7 @@ namespace VideoPlayer.ViewModel
             //        }
             //    }), null);
             //}
-            
+
         }
 
         //private void MediaPlayer_MediaFailed(object sender, WPFMediaKit.DirectShow.MediaPlayers.MediaFailedEventArgs e)
@@ -283,7 +311,7 @@ namespace VideoPlayer.ViewModel
             Previous.RaiseCanExecuteChanged();
             Next.RaiseCanExecuteChanged();
         }
-        
+
         public bool CanNext()
         {
             if (IVideoElement == null)
@@ -315,7 +343,7 @@ namespace VideoPlayer.ViewModel
             }
             return Playlist == null ? false : Playlist.CanPrevious;
         }
-        
+
         public MediaState MediaState
         {
             get { return mediaState; }
@@ -357,6 +385,7 @@ namespace VideoPlayer.ViewModel
             //Current = null;
             MediaPlayStopAction();
             MediaPositionTimer.Stop();
+            Unsubscribe();
             HasSubcribed = false;
             if (CurrentVideoItem != null)
             {
@@ -373,23 +402,43 @@ namespace VideoPlayer.ViewModel
             //}), null);
         }
 
+        private void Unsubscribe()
+        {
+            #region VolumeSliderEvents
+            VolumeSlider.MouseDown -= VolumeSlider_MouseDown;
+            VolumeSlider.PreviewMouseDown -= VolumeSlider_MouseDown;
+            VolumeSlider.ValueChanged -= VolumeSlider_ValueChanged;
+            #endregion
+
+            #region BorderEvents
+            this.Border.MouseEnter -= MainControl_MouseEnter;
+            this.Border.MouseLeave -= MainControl_MouseLeave;
+            #endregion
+
+            IVideoElement.MediaPlayer.MediaOpened -= MediaPlayer_MediaOpened;
+            IVideoElement.MediaPlayer.MediaEnded -= MediaPlayer_MediaEnded;
+            IVideoElement.MediaPlayer.MediaFailed -= MediaPlayer_MediaFailed;
+            IVideoElement.MediaPlayer.BufferingStarted -= MediaPlayer_BufferingStarted;
+            IVideoElement.MediaPlayer.BufferingEnded -= MediaPlayer_BufferingEnded;
+        }
+
         private void PlayBackAction(string action, string playbtn = null)
         {
             //(IVideoElement as Window).Dispatcher.Invoke(new Action(() =>
             //{
-                if (playbtn != null)
-                {
-                    this.PlayText = playbtn;
-                }
-                else { this.PlayText = "Play"; }
+            if (playbtn != null)
+            {
+                this.PlayText = playbtn;
+            }
+            else { this.PlayText = "Play"; }
 
             if (IVideoElement.MediaPlayer.Source != null)
             {
                 MovieTitle_Tab.MovieTitleText = CommonHelper.
                                SetPlayerTitle(action, IVideoElement.MediaPlayer.Source.ToString());
             }
-               
-               // MediaPositionTimer.Stop();
+
+            // MediaPositionTimer.Stop();
             //}),null);
         }
 
@@ -410,7 +459,7 @@ namespace VideoPlayer.ViewModel
             CurrentVideoItem.LastPlayedPoisition.ProgressLastSeen = (double)CurrentVideoItem.Progress;
             if (!CurrentVideoItem.HasLastSeen && CurrentVideoItem.Progress > 0)
             {
-                LastSeenHelper.AddLastSeen(CurrentVideoItem.ParentDirectory,CurrentVideoItem.LastPlayedPoisition);
+                LastSeenHelper.AddLastSeen(CurrentVideoItem.ParentDirectory, CurrentVideoItem.LastPlayedPoisition);
             }
 
             if (mediaState == MediaState.Stopped)
@@ -425,7 +474,7 @@ namespace VideoPlayer.ViewModel
                 ApplicationService.SaveLastSeenFile(CurrentVideoItem.ParentDirectory);
             }
         }
-        
+
         protected void OnPropertyChanged(string PropertyName)
         {
             if (PropertyChanged != null)
@@ -434,7 +483,7 @@ namespace VideoPlayer.ViewModel
             }
         }
 
-        public void GetVideoItem(VideoFolderChild obj,bool frompl = false)
+        public void GetVideoItem(VideoFolderChild obj, bool frompl = false)
         {
             NewVideoAction(obj, frompl);
         }
@@ -486,7 +535,7 @@ namespace VideoPlayer.ViewModel
         {
             if (!IsDragging)
             {
-                CurrentVideoItem.Progress = DragPositionSlider.Value = 
+                CurrentVideoItem.Progress = DragPositionSlider.Value =
                     IVideoElement.MediaPlayer.Position.TotalSeconds;
                 if (IVideoPlayer.Subtitle.HasSub)
                 {
@@ -510,10 +559,16 @@ namespace VideoPlayer.ViewModel
 
             IVideoElement.MediaPlayer.Close();
             MediaState = MediaState.Finished;
+            CurrentVideoItem.IsActive = false;
             //Task.Factory.StartNew(() => this.AsynSearchForNextItem()).
             //ContinueWith(t => GetVideoItem(t.Result), 
             //TaskScheduler.FromCurrentSynchronizationContext()).Wait(200);
-            GetVideoItem(this.AsynSearchForNextItem());
+            var nextItem = this.AsynSearchForNextItem();
+            if (nextItem != null)
+            {
+                GetVideoItem(nextItem);
+            }
+
         }
 
         private VideoFolderChild AsynSearchForNextItem()
@@ -559,16 +614,16 @@ namespace VideoPlayer.ViewModel
         {
             Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() =>
             {
-            if (CurrentVideoItem == null) return;
-            if (IVideoElement.MediaPlayer.HasVideo)
-            {
-                TimeSpan ts = new TimeSpan();
-                if (IVideoElement.MediaPlayer.NaturalDuration.HasTimeSpan)
-                    ts = IVideoElement.MediaPlayer.NaturalDuration.TimeSpan;
-                DragPositionSlider.Maximum = ts.TotalSeconds;
-                DragPositionSlider.SmallChange = 1;
-                SetMediaVolume(VolumeSlider.Value);
-            }
+                if (CurrentVideoItem == null) return;
+                if (IVideoElement.MediaPlayer.HasVideo)
+                {
+                    TimeSpan ts = new TimeSpan();
+                    if (IVideoElement.MediaPlayer.NaturalDuration.HasTimeSpan)
+                        ts = IVideoElement.MediaPlayer.NaturalDuration.TimeSpan;
+                    DragPositionSlider.Maximum = ts.TotalSeconds;
+                    DragPositionSlider.SmallChange = 1;
+                    SetMediaVolume(VolumeSlider.Value);
+                }
             }), null);
             //Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() =>
             //{
@@ -636,18 +691,20 @@ namespace VideoPlayer.ViewModel
             }
         }
         #endregion
-        
+
         public void MuteAction()
         {
             if (!IVideoElement.MediaPlayer.IsMuted)
             {
                 IVideoElement.MediaPlayer.IsMuted = true;
                 VolumeSlider.IsEnabled = false;
+                VolumeState = VolumeState.Muted;
             }
             else
             {
                 IVideoElement.MediaPlayer.IsMuted = false;
                 VolumeSlider.IsEnabled = true;
+                VolumeState = VolumeState.Active;
             }
 
             //if (IVideoElement.MediaPlayer.IsMuted)
@@ -674,7 +731,7 @@ namespace VideoPlayer.ViewModel
                 IVideoElement.MediaPlayer.Pause();
                 MediaState = MediaState.Paused;
                 PlayText = "Play";
-                MovieTitle_Tab.MovieTitleText = CommonHelper.SetPlayerTitle("Paused", 
+                MovieTitle_Tab.MovieTitleText = CommonHelper.SetPlayerTitle("Paused",
                     IVideoElement.MediaPlayer.Source.ToString());
                 MediaPositionTimer.Stop();
             }
@@ -683,7 +740,7 @@ namespace VideoPlayer.ViewModel
                 IVideoElement.MediaPlayer.Play();
                 MediaState = MediaState.Playing;
                 PlayText = "Pause";
-                MovieTitle_Tab.MovieTitleText = CommonHelper.SetPlayerTitle("Playing", 
+                MovieTitle_Tab.MovieTitleText = CommonHelper.SetPlayerTitle("Playing",
                     IVideoElement.MediaPlayer.Source.ToString());
                 MediaPositionTimer.Start();
             }
@@ -743,7 +800,7 @@ namespace VideoPlayer.ViewModel
             {
                 panel.SetValue(DockPanel.DockProperty, Dock.Right);
             }
-                
+
         }
 
         private void _nextbtn_ToolTipOpening(object sender, ToolTipEventArgs e)
@@ -766,11 +823,12 @@ namespace VideoPlayer.ViewModel
         {
             //MovieTitle_Tab.MovieText = null;
         }
-        
+
         public ISubtitleMediaController IVideoPlayer
         {
-            get {
-                return IVideoElement.IVideoPlayer; 
+            get
+            {
+                return IVideoElement.IVideoPlayer;
             }
         }
 

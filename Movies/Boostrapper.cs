@@ -52,8 +52,6 @@ namespace RealMediaControl
             return shell;
         }
 
-        
-
         protected override void InitializeShell()
         {
             base.InitializeShell();

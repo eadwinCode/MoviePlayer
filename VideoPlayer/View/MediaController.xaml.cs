@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.Util;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -52,9 +53,10 @@ namespace VideoPlayer
         private void Previous_MouseEnter(object sender, MouseEventArgs e)
         {
             var vm = this.DataContext as MediaControllerVM;
-            if (vm.IsPlaying)
+            if (vm.IsPlaying && vm.DragPositionSlider.Value < 50)
             {
-                MediaControllerVM.Current.MovieTitle_Tab.MovieText = "Next:- " + vm.Playlist.WhatsNextItem();
+                MediaControllerVM.Current.MovieTitle_Tab.MovieText =
+                    "Next:- " + vm.Playlist.WhatsNextItem();
                 Button tt = (Button)sender;
                 tt.ToolTip = MovieTitle_Tab.MovieText;
             }
@@ -99,8 +101,10 @@ namespace VideoPlayer
             }
             var x = Mouse.GetPosition(CurrentSlider).X;
             var ratio = x / CurrentSlider.ActualWidth;
-            UpdateText(x, ratio, TimeSpan.FromSeconds(Math.Round((ratio * CurrentSlider.Maximum), 10)).ToString(@"hh\:mm\:ss"));
-            //positionslider.ToolTip = CommonHelper.SetDuration(Math.Round((ratio * positionslider.Maximum), 10));
+            UpdateText(x, ratio, TimeSpan.FromSeconds(Math.Round((ratio *
+                CurrentSlider.Maximum), 10)).ToString(@"hh\:mm\:ss"));
+            //positionslider.ToolTip = CommonHelper.SetDuration(Math.Round((ratio *
+            //positionslider.Maximum), 10));
         }
 
         
@@ -155,10 +159,10 @@ namespace VideoPlayer
         private void PositionSlider_MouseEnter(object sender, MouseEventArgs e)
         {
             CurrentSlider = sender as Slider;
-            if (MediaControllerVM.Current.MediaState == MediaState.Playing || MediaControllerVM.Current.MediaState == MediaState.Paused)
+            if (MediaControllerVM.Current.MediaState == MediaState.Playing 
+                || MediaControllerVM.Current.MediaState == MediaState.Paused)
             {
                 CurrentSlider.Cursor = Cursors.Hand;
-
                 // positionSlideTimer.Start();
                 MediaControllerVM.Current.positionSlideTimerTooltip.Start();
             }
@@ -189,10 +193,14 @@ namespace VideoPlayer
         private void PositionSlider_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
         {
             // var slider = (Slider)sender;
-            MediaControllerVM.Current.IVideoElement.MediaPlayer.ScrubbingEnabled = true;
-            MediaControllerVM.Current.IVideoElement.MediaPlayer.IsMuted = true;
-            MediaControllerVM.Current.IVideoElement.MediaPlayer.Pause();
+            if (MediaControllerVM.Current.MediaState == MediaState.Playing)
+                MediaControllerVM.Current.IVideoElement.MediaPlayer.Pause();
 
+            MediaControllerVM.Current.IVideoElement.MediaPlayer.ScrubbingEnabled = true;
+            if (MediaControllerVM.Current.VolumeState == VolumeState.Active)
+            {
+                MediaControllerVM.Current.IVideoElement.MediaPlayer.IsMuted = true;
+            }
             //CurrentSlider.Cursor = Cursors.Hand;
             //MediaControllerVM.Current.IsDragging = true;
             //MediaControllerVM.Current.IVideoPlayer.MediaPlayer.MediaPosition = (long)(CurrentSlider.Value * 10000000);
@@ -205,9 +213,16 @@ namespace VideoPlayer
             MediaControllerVM.Current.IVideoElement.MediaPlayer.Position
                 = TimeSpan.FromSeconds(CurrentSlider.Value);
             MediaControllerVM.Current.positionSlideTimerTooltip.Start();
+
             MediaControllerVM.Current.IVideoElement.MediaPlayer.ScrubbingEnabled = false;
-            MediaControllerVM.Current.IVideoElement.MediaPlayer.IsMuted = false;
-            MediaControllerVM.Current.IVideoElement.MediaPlayer.Play();
+            if (MediaControllerVM.Current.MediaState == MediaState.Playing)
+                MediaControllerVM.Current.IVideoElement.MediaPlayer.Play();
+            
+            if (MediaControllerVM.Current.VolumeState
+                == VolumeState.Active)
+            {
+                MediaControllerVM.Current.IVideoElement.MediaPlayer.IsMuted = false;
+            }
             //MediaControllerVM.Current.IVideoPlayer.MediaPlayer.MediaPosition = (long)CurrentSlider.Value * 10000000;
             //MediaControllerVM.Current.IsDragging = false;
             //MediaControllerVM.Current.positionSlideTimerTooltip.Start();

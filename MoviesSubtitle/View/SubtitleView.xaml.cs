@@ -3,6 +3,7 @@ using Common.Model;
 using HTMLConverter;
 using MediaControl.Subtitles;
 using System;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace RealMediaControlSubtitle.View
@@ -57,7 +58,18 @@ namespace RealMediaControlSubtitle.View
         public void SetText(double position)
         {
             //HtmlToXamlConverter.ConvertHtmlToXaml(, true)
-            OutlineTextSub.Text = HtmlToXamlConverter.ConvertHtmlToXaml(SubtitleFileCompiler.GetSubtitle(position), true);
+            Task.Factory.StartNew(() => GetText(position))
+               .ContinueWith(t => OutlineTextSub.Text = t.Result,
+               TaskScheduler.FromCurrentSynchronizationContext());
+           // OutlineTextSub.Text = HtmlToXamlConverter.ConvertHtmlToXaml(SubtitleFileCompiler.
+            //    GetSubtitle(position), true);
+
+        }
+
+        private string GetText(double position)
+        {
+            return HtmlToXamlConverter.ConvertHtmlToXaml(SubtitleFileCompiler.
+                GetSubtitle(position), true);
         }
 
         public void Clear()

@@ -309,7 +309,7 @@
 
     <Style x:Key="listViewControl" TargetType="{x:Type ListView}">
         <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True"/>
-        <Setter Property="VirtualizingStackPanel.VirtualizationMode" Value="Recycling"/>
+        <Setter Property="VirtualizingStackPanel.VirtualizationMode" Value="Standard"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
@@ -344,9 +344,11 @@
                 <!--
                 </ItemsPanelTemplate>-->
                 <ItemsPanelTemplate>
-                    <VirtualizingStackPanel Orientation="Vertical" 
-                                            VirtualizingStackPanel.VirtualizationMode="Recycling" 
-                                            VirtualizingStackPanel.IsVirtualizing="True"/>
+                    <VirtualPanel:VirtualWrapPanel  IsItemsHost="True" Orientation="Vertical"
+                                            VirtualizingStackPanel.VirtualizationMode="Standard" 
+                                            VirtualizingStackPanel.IsVirtualizing="True"
+                                                     ItemHeight="63"
+                                                     />
 
                     <!--<r:VirtualWrapPanel Orientation="Horizontal" ItemHeight="65" ItemWidth="260" 
                                         VirtualizingPanel.VirtualizationMode="Recycling" 
@@ -364,7 +366,67 @@
             </DataTrigger>
         </Style.Triggers>
     </Style>
-   
+
+    <Style x:Key="PlaylistListView" TargetType="{x:Type ListView}">
+        <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True"/>
+        <Setter Property="VirtualizingStackPanel.VirtualizationMode" Value="Standard"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <!--<Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListView">
+                    <ScrollViewer >
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid>
+                                <TextBlock x:Name="toberemove" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                           Foreground="Gray" FontStyle="Italic" FontSize="11" Margin="0,3,0,0"  
+                                           Text="No Media File Here"/>
+                                <ItemsPresenter/>
+                            </Grid>
+                        </Border>
+                    </ScrollViewer>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger  Binding="{Binding HasItems, RelativeSource={RelativeSource Self}}" Value="true">
+                            <Setter TargetName="toberemove" Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>-->
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <!--<ItemsPanelTemplate>
+                    <WrapPanel Margin="0,2,0,2" Orientation="Horizontal" />
+                    -->
+                <!-- ItemHeight="{Binding Path=ItemSize.Height, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"
+                     ItemWidth="{Binding Path=ItemSize.Width, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"/>-->
+                <!--
+                </ItemsPanelTemplate>-->
+                <ItemsPanelTemplate>
+                    <VirtualPanel:VirtualWrapPanel  IsItemsHost="True" Orientation="Vertical"
+                                            VirtualizingStackPanel.VirtualizationMode="Standard" 
+                                            VirtualizingStackPanel.IsVirtualizing="True"
+                                                     ItemHeight="40"
+                                                     />
+
+                    <!--<r:VirtualWrapPanel Orientation="Horizontal" ItemHeight="65" ItemWidth="260" 
+                                        VirtualizingPanel.VirtualizationMode="Recycling" 
+                                            VirtualizingPanel.IsVirtualizing="True" />-->
+                    <!--<WrapPanel Margin="0,2,0,2" Orientation="Horizontal" />-->
+                    <!--ItemHeight="{Binding Path=ItemSize.Height, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"
+                     ItemWidth="{Binding Path=ItemSize.Width, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"/>-->
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                <Setter Property="Cursor" Value="Wait"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
     <Style x:Key="txtbxstyle" TargetType="{x:Type TextBox}">
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
@@ -771,15 +833,15 @@
         </DataTemplate.Triggers>
     </DataTemplate>
 
-    <DataTemplate x:Key="PLayTemplate">
+    <DataTemplate x:Key="PLayListTemplate">
         <local:CustomButton ContextMenu="{StaticResource Playlistcntxtmenu}"
-                Background="{Binding IsActive, Converter={StaticResource ActiveItemSelector}}" 
-                Margin="4" x:Name="main"
-                Style="{StaticResource ContentContainer}"
+               Background="{Binding IsActive, Converter={StaticResource ActiveItemSelector}}" 
+               Margin="2" x:Name="main" Focusable="False"
+               Style="{StaticResource ContentContainer}" Height="38"
                BorderBrush="Transparent" BorderThickness="0"
-              local:VideoItemDoubleClick.DoubleClickCommand="{x:Static cmd:VideoPlayerCommands.Play}"
-              local:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding DataContext, RelativeSource={RelativeSource Self}}"
-               Height="38">
+               local:VideoItemDoubleClick.DoubleClickCommand="{x:Static cmd:VideoPlayerCommands.Play}"
+               local:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding DataContext, RelativeSource={RelativeSource Self}}"
+               >
             <!--<y:VideoData>  local:VideoItemDoubleClick.DoubleClickCommand="{StaticResource ClickAction}"
               local:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}"-->
             <DockPanel  TextBlock.Foreground="White" Margin="1"
@@ -800,9 +862,8 @@
                     <TextBlock   Text="{Binding Duration}"
                                         FontSize="10" Padding="2"/>
                 </StackPanel>
-                <TextBlock FontStyle="Italic" Padding="2"
-                           Height="20" 
-                           x:Name="hh"  
+                <TextBlock FontStyle="Italic" Padding="2" TextWrapping="Wrap"
+                           x:Name="hh"  FontWeight="Bold"
                            ToolTip="{Binding TooltipMessage}"
                            Text="{Binding FileName}"
                            TextTrimming="CharacterEllipsis"  />

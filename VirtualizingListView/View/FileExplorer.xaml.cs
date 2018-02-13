@@ -58,19 +58,29 @@ namespace VirtualizingListView.View
             //    View_executed, View_enabled));
         }
 
-        private ScrollViewer ScrollViewer
+        private ScrollViewer scrollviewer;
+        public ScrollViewer ScrollViewer
         {
             get
             {
-                Border border = (Border)VisualTreeHelper.GetChild(collections, 0);
+                if (scrollviewer == null)
+                {
+                    Border border = (Border)VisualTreeHelper.GetChild(collections, 0);
+                    scrollviewer = (ScrollViewer)VisualTreeHelper.GetChild(border, 0);
+                }
 
-                return (ScrollViewer)VisualTreeHelper.GetChild(border, 0);
+
+                return scrollviewer;
             }
         }
 
-        public void ResetScrollBar(){
-            this.ScrollViewer.ScrollToVerticalOffset(-1);
-            this.ScrollViewer.ScrollToHorizontalOffset(-1);
+        public void ResetScrollBar()
+        {
+            this.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                this.ScrollViewer.ScrollToVerticalOffset(-1);
+                this.ScrollViewer.ScrollToHorizontalOffset(-1);
+            }));
         }
 
         private void View_enabled(object sender, CanExecuteRoutedEventArgs e)

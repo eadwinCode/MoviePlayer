@@ -8,7 +8,7 @@ using VideoPlayer.PlayList;
 
 namespace MediaControl
 {
-    public partial class Wmp_test : Form
+    public partial class WindowsMediaPlayControl : Form
     {
         public double resumeposition;
        // private int currentpos;
@@ -18,13 +18,14 @@ namespace MediaControl
         public VideoFolderChild CurrentVideoItem;
         private DispatcherTimer MediaPositionTimer;
 
-        public Wmp_test()
+        public WindowsMediaPlayControl()
         {
             InitializeComponent();
             axWindowsMediaPlayer1.uiMode = "full";
             axWindowsMediaPlayer1.stretchToFit = true;
             axWindowsMediaPlayer1.PlayStateChange +=
-                new AxWMPLib._WMPOCXEvents_PlayStateChangeEventHandler(mediaElement1_PlayStateChange);
+                new AxWMPLib.
+                _WMPOCXEvents_PlayStateChangeEventHandler(mediaElement1_PlayStateChange);
             
             axWindowsMediaPlayer1.MediaError += AxWindowsMediaPlayer1_MediaError;
             MediaPositionTimer = new DispatcherTimer();

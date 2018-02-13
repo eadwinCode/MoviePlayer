@@ -14,7 +14,7 @@
         </Rectangle>
         <sub:CustomLabel Text=" " x:Name="OutlineTextSub" SnapsToDevicePixels="True" TextAlignment="Center" TextWrapping="Wrap"
                                StrokeThickness="1" Fill="White"  Stroke="Black" Visibility="Visible" FontSize="15" 
-                         FontWeight="Bold" FontFamily="Global User Interface">
+                        FontWeight="Bold" FontFamily="Global User Interface">
             <sub:CustomLabel.LayoutTransform>
                 <ScaleTransform CenterX="1" CenterY="2"/>
             </sub:CustomLabel.LayoutTransform>

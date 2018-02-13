@@ -101,6 +101,9 @@ namespace VideoComponent.BaseClass
             }
         }
 
+
+        public bool HasSearchSubtitleFile { get; set; }
+
         public override bool HasThumbnail
         {
             get

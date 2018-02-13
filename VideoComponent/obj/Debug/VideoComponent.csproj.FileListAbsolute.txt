@@ -60,6 +60,6 @@ C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VideoComponent\obj\Debug\Th
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VideoComponent\obj\Debug\VideoComponent.g.resources
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VideoComponent\obj\Debug\VideoComponent.Properties.Resources.resources
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VideoComponent\obj\Debug\VideoComponent.csproj.GenerateResource.Cache
+C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VideoComponent\obj\Debug\VideoComponent.csproj.CoreCompileInputs.cache
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VideoComponent\obj\Debug\VideoComponent.dll
 C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VideoComponent\obj\Debug\VideoComponent.pdb
-C:\Users\EadwinToochos\Desktop\Movie-Player-WPF.NET-\VideoComponent\obj\Debug\VideoComponent.csproj.CoreCompileInputs.cache

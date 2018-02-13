@@ -80,7 +80,7 @@ namespace VideoPlayerView
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            playlistview = (IPlayListClose)this.Template.FindName("plv", this);
+            playlistview = (IPlayListClose)this.Template.FindName("playlistview", this);
         }
 
         public IPlayListClose PlayListView { get { return this.playlistview; } }
@@ -119,6 +119,8 @@ namespace VideoPlayerView
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
             base.OnPreviewKeyDown(e);
+            this.Focus();
+            
         }
         protected override void OnPreviewKeyUp(KeyEventArgs e)
         {
@@ -126,10 +128,7 @@ namespace VideoPlayerView
             
             if (MediaControllerVM.Current.IsRewindOrFastForward)
             {
-                MediaPlayer.ScrubbingEnabled = false;
-                MediaPlayer.Play();
-                MediaControllerVM.Current.IsRewindOrFastForward = false;
-                MediaPlayer.IsMuted = false;
+                ((IVideoPlayer as UserControl).DataContext as VideoPlayerVM).RestoreMediaState();
             }
             ((IVideoPlayer as UserControl).DataContext as VideoPlayerVM).VisibilityAnimation();
         }

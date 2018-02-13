@@ -46,6 +46,8 @@ namespace VideoPlayer.ViewModel
                 FullScreen_executed, FullScreen_enabled));
             IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.Rewind, 
                 Rewind_executed, Rewind_enabled));
+            IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.ShiftRewind,
+                ShiftRewind_executed, Rewind_enabled));
 
             IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.DisableSubtitle,
                 DisableSubtitle_executed, DisableSubtitle_enabled));
@@ -53,7 +55,21 @@ namespace VideoPlayer.ViewModel
                 SelectedSub_executed));
             IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.FastForward, 
                 FastForward_executed, Rewind_enabled));
+            IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.ShiftFastForward,
+               ShiftFastForward_executed, Rewind_enabled));
             // IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.MinimizeMediaCtrl, MinimizeMediaCtrl_executed));
+        }
+
+        private void ShiftFastForward_executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            ReWindFastForward();
+            IVideoElement.MediaPlayer.Position += TimeSpan.FromMilliseconds(1500);
+        }
+
+        private void ShiftRewind_executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            ReWindFastForward();
+            IVideoElement.MediaPlayer.Position -= TimeSpan.FromMilliseconds(1500);
         }
 
         private void DisableSubtitle_enabled(object sender, CanExecuteRoutedEventArgs e)
@@ -62,6 +78,20 @@ namespace VideoPlayer.ViewModel
             var iSubtitle = (this.ISubtitleMediaController.Subtitle as ISubtitle);
             menuItem.IsChecked = iSubtitle.IsDisabled? true:false;
             e.CanExecute = iSubtitle.HasSub || iSubtitle.IsDisabled;
+        }
+
+        public void RestoreMediaState()
+        {
+            IVideoElement.MediaPlayer.ScrubbingEnabled = false;
+            if (MediaControllerVM.Current.MediaState == MediaState.Playing)
+                IVideoElement.MediaPlayer.Play();
+
+            MediaControllerVM.Current.IsRewindOrFastForward = false;
+            if (MediaControllerVM.Current.VolumeState
+                == VolumeState.Active)
+            {
+                IVideoElement.MediaPlayer.IsMuted = false;
+            }
         }
 
         private void SelectedSub_executed(object sender, ExecutedRoutedEventArgs e)
@@ -114,18 +144,26 @@ namespace VideoPlayer.ViewModel
         private void FastForward_executed(object sender, ExecutedRoutedEventArgs e)
         {
             ReWindFastForward();
-            IVideoElement.MediaPlayer.Position += TimeSpan.FromMilliseconds(500);
+            IVideoElement.MediaPlayer.Position += TimeSpan.FromMilliseconds(10000);
+            if (e.OriginalSource is Button)
+            {
+                RestoreMediaState();
+            }
         }
 
         private void Rewind_enabled(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = MediaControllerVM.IsPlaying;
+            e.CanExecute = IVideoElement.MediaPlayer.CanPause;
         }
 
         private void Rewind_executed(object sender, ExecutedRoutedEventArgs e)
         {
             ReWindFastForward();
-            IVideoElement.MediaPlayer.Position -= TimeSpan.FromMilliseconds(500);
+            IVideoElement.MediaPlayer.Position -= TimeSpan.FromMilliseconds(10000);
+            if (e.OriginalSource is Button)
+            {
+                RestoreMediaState();
+            }
             //IVideoPlayer.MediaPlayer.Play();
         }
 
@@ -134,14 +172,19 @@ namespace VideoPlayer.ViewModel
             if (!MediaControllerVM.IsRewindOrFastForward)
             {
                 MediaControllerVM.IsRewindOrFastForward = true;
-                IVideoElement.MediaPlayer.Pause();
+                if (MediaControllerVM.MediaState == MediaState.Playing)
+                    IVideoElement.MediaPlayer.Pause();
+
                 IVideoElement.MediaPlayer.ScrubbingEnabled = true;
-                IVideoElement.MediaPlayer.IsMuted = true;
+                if (MediaControllerVM.VolumeState == VolumeState.Active){
+                    IVideoElement.MediaPlayer.IsMuted = true;
+                }
+
                 ResetVisibilityAnimation();
             }
         }
 
-        internal void Loaded()
+        public void Loaded()
         {
             Isloaded = true;
             IVideoElement.WindowsTab.MouseEnter += WindowsTab_MouseEnter;
@@ -159,13 +202,15 @@ namespace VideoPlayer.ViewModel
             {
                 FullScreenSettings();
                IsFullScreenMode = true;
-                (ISubtitleMediaController as SubtitleMediaController).OnScreenSettingsCanged(new object[] { null });
+                (ISubtitleMediaController as SubtitleMediaController).
+                    OnScreenSettingsCanged(new object[] { null });
             }
             else
             {
                 IsFullScreenMode = false;
                 NormalScreenSettings();
-                (ISubtitleMediaController as SubtitleMediaController).OnScreenSettingsCanged(new object[] { null });
+                (ISubtitleMediaController as SubtitleMediaController).
+                    OnScreenSettingsCanged(new object[] { null });
             }
             
         }
@@ -249,7 +294,10 @@ namespace VideoPlayer.ViewModel
         private void Previous_executed(object sender, ExecutedRoutedEventArgs e)
         {
             ResetVisibilityAnimation();
-            MediaControllerVM.Current.PrevPlayAction();
+            if (MediaControllerVM.Current.DragPositionSlider.Value > 50)
+                IVideoElement.MediaPlayer.Position = TimeSpan.FromMilliseconds(0);
+            else
+                MediaControllerVM.Current.PrevPlayAction();
         }
 
         private void PausePlay_executed(object sender, ExecutedRoutedEventArgs e)
@@ -293,7 +341,5 @@ namespace VideoPlayer.ViewModel
                 return  icommandbindings;
             }
         }
-
-       
     }
 }

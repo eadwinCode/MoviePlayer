@@ -62,23 +62,19 @@ namespace Common.FileHelper
         public static bool SaveLastSeenFile(IFolder ifolder)
         {
             if (ifolder.LastSeenCollection == null) { return false; }
-            else if (ifolder.LastSeenCollection.Count > 0)
-            {
-                try
-                {
-                    string path = FileExistOrCreate(ifolder.Directory.FullName + @"\.movies\LastSeen.json", true);
-                    string json = JsonConvert.SerializeObject(ifolder.LastSeenCollection, Formatting.Indented);
-                    File.WriteAllText(path, json);
-                    return true;
-                }
-                catch (Exception)
-                {
-                    //throw;
-                }
 
+            try
+            {
+                string path = FileExistOrCreate(ifolder.Directory.FullName + @"\.movies\LastSeen.json", true);
+                string json = JsonConvert.SerializeObject(ifolder.LastSeenCollection, Formatting.Indented);
+                File.WriteAllText(path, json);
+                return true;
             }
-            
-            return false;
+            catch (Exception)
+            {
+                return false;
+                //throw;
+            }
         }
 
         public static void CreateFolder()
