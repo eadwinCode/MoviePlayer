@@ -411,7 +411,7 @@ as UserControl).DataContext as PlayListManager;
             MediaPlayerStop();
         }
 
-        public void CloseMediaPlayer()
+        public void Close()
         {
             //(IVideoElement as Window).Dispatcher.Invoke(new Action(() =>
             //{
@@ -601,6 +601,19 @@ as UserControl).DataContext as PlayListManager;
             MediaState = MediaState.Failed;
             CloseMediaPlayer();
             throw new Exception(e.ErrorException.Message);
+        }
+
+        private void CloseMediaPlayer()
+        {
+            MediaPlayStopAction();
+            MediaPositionTimer.Stop();
+            if (CurrentVideoItem != null)
+            {
+                ApplicationService.SaveLastSeenFile(CurrentVideoItem.ParentDirectory);
+            }
+            CurrentVideoItem.IsActive = false;
+            currentvideoitem = null;
+            IVideoElement.MediaPlayer.Source = null;
         }
 
         void MediaPlayer_MediaEnded(object sender, RoutedEventArgs e)

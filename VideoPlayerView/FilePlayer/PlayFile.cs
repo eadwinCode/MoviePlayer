@@ -163,7 +163,7 @@ namespace VideoPlayerView.FilePlayer
         {
             try
             {
-                MediaControllerVM.Current.CloseMediaPlayer();
+                MediaControllerVM.Current.Close();
                 _videoelement = null;
                 (IShell as Window).WindowState = ShellState;
             }
