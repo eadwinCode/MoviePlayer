@@ -81,6 +81,7 @@
     <Compile Include="Util\CommonHelper.cs" />
     <Compile Include="Util\ControlParts.cs" />
     <Compile Include="Util\EnumClass.cs" />
+    <Compile Include="Util\EnumConverter.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

@@ -41,7 +41,7 @@ namespace VideoPlayer
         private void PlNext_MouseEnter(object sender, MouseEventArgs e)
         {
             var vm = this.DataContext as MediaControllerVM;
-            if (vm.IsPlaying)
+            if (vm.IsPlaying && vm.DragPositionSlider.Value < 50)
             {
                 MovieTitle_Tab.MovieText = "Previous:- " + vm.Playlist.WhatsPreviousItem();
                 Button tt = (Button)sender;
@@ -53,7 +53,7 @@ namespace VideoPlayer
         private void Previous_MouseEnter(object sender, MouseEventArgs e)
         {
             var vm = this.DataContext as MediaControllerVM;
-            if (vm.IsPlaying && vm.DragPositionSlider.Value < 50)
+            if (vm.IsPlaying)
             {
                 MediaControllerVM.Current.MovieTitle_Tab.MovieText =
                     "Next:- " + vm.Playlist.WhatsNextItem();

@@ -10,25 +10,32 @@ namespace Common.Util
     {
         Folder,
         File
-    }
+    };
 
     public enum VolumeState
     {
         Muted,
         Active
-    }
+    };
 
     public enum SortType
     {
         Date,
         Name,
         Extension
-    }
+    };
 
     public enum ViewType
     {
         Small,
         Large,
         None
+    };
+
+    public enum RepeatMode
+    {
+        Repeat,
+        RepeatOnce,
+        NoRepeat
     };
 }

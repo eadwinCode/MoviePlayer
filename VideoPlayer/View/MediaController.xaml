@@ -15,7 +15,7 @@
 
             <y:TextConverter x:Key="TextConverter"/>
             <y:ViewConverter x:Key="ViewConverter"/>
-
+            <util:EnumConverter x:Key="EnumConverter"/>
             <Style x:Key="PlayControl" TargetType="{x:Type Label}">
                 <Setter Property="Width" Value="355"/>
                 <Setter Property="y:MouseDownHelper.IsEnabled" Value="True"/>
@@ -849,39 +849,55 @@
                                     </Style>
                                 </Button.Style>
                             </Button>
-                            <!--<Button SnapsToDevicePixels="True" Width="34" x:Name="Stop" Command="{Binding Stop}" Margin="5,0">
+                            <Button SnapsToDevicePixels="True" Width="20" 
+                                    ToolTip="{Binding RepeatMode}"
+                                     Command="{Binding RepeatBtn}" Margin="5,0">
                                     <Button.Style>
                                         <Style TargetType="Button" >
                                             <Setter Property="Template">
                                                 <Setter.Value>
                                                     <ControlTemplate TargetType="Button">
-                                                        <Border CornerRadius="16" SnapsToDevicePixels="True" x:Name="border"  Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                                                        <Border CornerRadius="16" 
+                                                                SnapsToDevicePixels="True" 
+                                                                x:Name="border"  
+                                                                Width="{TemplateBinding Width}"
+                                                                Height="{TemplateBinding Height}">
 
-                                                            <Image Opacity=".7" x:Name="contentPresenter" Margin="1,6,1,0" Source="/VirtualizingListView;component/Resources/Images/stop.png" />
+                                                            <Image Opacity=".4" 
+                                                                   x:Name="contentPresenter" 
+                                                                   Margin="1,6,1,0" 
+                               Source="/VirtualizingListView;component/Resources/Images/repeat.png" />
 
                                                         </Border>
 
                                                         <ControlTemplate.Triggers>
-                                                            <Trigger Property="IsDefaulted" Value="true">
-                                                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                                                            </Trigger>
-                                                            <Trigger Property="IsMouseOver" Value="true">
+                                                        <DataTrigger Binding="{Binding RepeatMode,Converter={StaticResource EnumConverter},
+                                                            ConverterParameter={x:Type util:RepeatMode}}" Value="Repeat">
+                                                            <Setter Property="Opacity" TargetName="contentPresenter" Value=".7"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding RepeatMode,Converter={StaticResource EnumConverter},
+                                                            ConverterParameter={x:Type util:RepeatMode}}" Value="RepeatOnce">
                                                             <Setter Property="Opacity" TargetName="contentPresenter" Value="1"/>
+                                                        </DataTrigger>
+                                                        <Trigger Property="IsDefaulted" Value="true">
+                                                            <Setter Property="BorderBrush" TargetName="border" 
+                                                                    Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
                                                         </Trigger>
-                                                            <Trigger Property="IsPressed" Value="true">
+                                                        <Trigger Property="IsPressed" Value="true">
                                                                 <Setter Property="LayoutTransform" TargetName="contentPresenter">
                                                                     <Setter.Value>
                                                                         <ScaleTransform ScaleX=".8" ScaleY="0.8"/>
                                                                     </Setter.Value>
                                                                 </Setter>
-                                                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                                                                <Setter Property="BorderBrush" TargetName="border" 
+                                                                        Value="{StaticResource Button.Pressed.Border}"/>
                                                             </Trigger>
                                                             <Trigger Property="IsEnabled" Value="false">
                                                                 <Setter Property="Opacity" TargetName="contentPresenter" Value=".3"/>
-                                                                -->
-                            <!--<Setter Property="Background" TargetName="border" Value="#FF18170D"/>
-                                                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>-->
-                            <!--
+                                                                
+                                                                    <Setter Property="Background" TargetName="border" Value="#FF18170D"/>
+                                                                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                            
                                                                 <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
                                                             </Trigger>
                                                         </ControlTemplate.Triggers>
@@ -890,7 +906,7 @@
                                             </Setter>
                                         </Style>
                                     </Button.Style>
-                                </Button>-->
+                                </Button>
                             <Button Visibility="{Binding CanAnimate,
                                 Converter={StaticResource ViewConverter}}"  
                                     Width="24" Margin="5,0,5,0" ToolTip="FullScreen" 

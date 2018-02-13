@@ -1,24 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Collections.ObjectModel;
-using VideoComponent.BaseClass;
-using VideoPlayer;
-using Microsoft.Practices.Prism.ViewModel;
-using VideoPlayer.ViewModel;
-using Microsoft.Practices.Prism.Commands;
-using Common.Util;
-using Common.Interfaces;
-using Common.ApplicationCommands;
-using Microsoft.Practices.ServiceLocation;
-using VirtualizingListView.View;
-using System.Windows;
-using VirtualizingListView.Model;
-using System.IO;
-using System.Threading.Tasks;
-using VirtualizingListView.Util;
+﻿using Common.Interfaces;
 using Common.Model;
+using Common.Util;
+using Microsoft.Practices.Prism.Commands;
+using Microsoft.Practices.Prism.ViewModel;
+using Microsoft.Practices.ServiceLocation;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+using VideoComponent.BaseClass;
+using VideoPlayer.ViewModel;
+using VirtualizingListView.Util;
+using VirtualizingListView.View;
 
 namespace VideoPlayer.PlayList
 {
@@ -130,7 +124,11 @@ namespace VideoPlayer.PlayList
 
             }
             CurrentPlaylist = null;
-            PlayList.Clear();
+            foreach (var item in PlayList)
+            {
+                if (item == MediaControllerVM.Current.CurrentVideoItem) continue;
+                PlayList.Remove(item);
+            }
         }
 
         private DelegateCommand enablesavedialog;
@@ -232,6 +230,11 @@ namespace VideoPlayer.PlayList
         {
             get
             {
+                if (MediaControllerVM.Current.RepeatMode == RepeatMode.Repeat)
+                {
+                    _canNext = true;
+                    return _canNext;
+                }
                 _canNext = _playlist.Count > 1 && NowPlayingIndex + 1 != _playlist.Count ? true: false;
                 
                 return _canNext;
@@ -250,6 +253,11 @@ namespace VideoPlayer.PlayList
         {
             get
             {
+                if (MediaControllerVM.Current.RepeatMode == RepeatMode.Repeat)
+                {
+                    _canPrevious = true;
+                    return _canPrevious;
+                }
                 _canPrevious = (_playlist.Count > 1 && NowPlayingIndex - 1 >= 0) ? true : false;
                 
                 return _canPrevious;
@@ -264,9 +272,21 @@ namespace VideoPlayer.PlayList
         public VideoFolderChild GetNextItem()
         {
             int curreentpos = NowPlayingIndex;
+            if (MediaControllerVM.Current.RepeatMode == RepeatMode.RepeatOnce)
+            {
+                return NowPlaying;
+            }
             if (CanNext)
             {
-                var NowPlaying = (VideoFolderChild)PlayList[curreentpos + 1];
+                int finalpos = curreentpos + 1;
+                if (MediaControllerVM.Current.RepeatMode == RepeatMode.Repeat)
+                {
+                    if (finalpos > PlayList.Count - 1)
+                    {
+                        finalpos = 0;
+                    }
+                }
+                var NowPlaying = (VideoFolderChild)PlayList[finalpos];
                 return NowPlaying;
             }
             return null;
@@ -277,7 +297,15 @@ namespace VideoPlayer.PlayList
             int curreentpos = NowPlayingIndex;
             if (CanPrevious)
             {
-                var NowPlaying = (VideoFolderChild)PlayList[curreentpos - 1];
+                int finalpos = curreentpos - 1;
+                if (MediaControllerVM.Current.RepeatMode == RepeatMode.Repeat)
+                {
+                    if (finalpos < 0)
+                    {
+                        finalpos = PlayList.Count - 1;
+                    }
+                }
+                var NowPlaying = (VideoFolderChild)PlayList[finalpos];
                 return NowPlaying;
             }
             return null;
@@ -287,7 +315,15 @@ namespace VideoPlayer.PlayList
         {
             if (CanPrevious)
             {
-                return PlayList[NowPlayingIndex - 1].Name;
+                int finalpos = NowPlayingIndex - 1;
+                if (MediaControllerVM.Current.RepeatMode == RepeatMode.Repeat)
+                {
+                    if (finalpos < 0)
+                    {
+                        finalpos = PlayList.Count - 1;
+                    }
+                }
+                return PlayList[finalpos].Name;
             }
             return null;
         }
@@ -296,7 +332,15 @@ namespace VideoPlayer.PlayList
         {
             if (CanNext)
             {
-                return PlayList[NowPlayingIndex + 1].Name;
+                int finalpos = NowPlayingIndex + 1;
+                if (MediaControllerVM.Current.RepeatMode == RepeatMode.Repeat)
+                {
+                    if (finalpos > PlayList.Count - 1)
+                    {
+                        finalpos = 0;
+                    }
+                }
+                return PlayList[finalpos].Name;
             }
             return null;
         }

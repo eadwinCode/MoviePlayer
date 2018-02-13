@@ -27,7 +27,7 @@ namespace VideoPlayer.ViewModel
         private VideoFolderChild currentvideoitem; private bool ismousecontrolover;
         private MediaState mediaState = MediaState.Stopped;
         private DelegateCommand playbtn;
-        private DelegateCommand mute;
+        private DelegateCommand repeatbtn;
         //private object mediapositiontracker;
         private string playtext;
         private DelegateCommand _next;
@@ -44,6 +44,15 @@ namespace VideoPlayer.ViewModel
         public bool IsRewindOrFastForward { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
         public VolumeState VolumeState = VolumeState.Active;
+
+        private RepeatMode repeatmode = RepeatMode.NoRepeat;
+
+        public RepeatMode RepeatMode
+        {
+            get { return repeatmode; }
+            set { repeatmode = value; OnPropertyChanged("RepeatMode"); }
+        }
+
         public static MediaControllerVM Current
         {
             get
@@ -201,19 +210,31 @@ as UserControl).DataContext as PlayListManager;
             }
         }
 
-        public DelegateCommand Mute
+        public DelegateCommand RepeatBtn
         {
             get
             {
-                if (mute == null)
+                if (repeatbtn == null)
                 {
-                    mute = new DelegateCommand(MuteAction);
+                    repeatbtn = new DelegateCommand(RepeatBtnAction);
                 }
-                return mute;
+                return repeatbtn;
             }
-            set
+        }
+
+        private void RepeatBtnAction()
+        {
+            if (RepeatMode == RepeatMode.NoRepeat)
             {
-                mute = value;
+                RepeatMode = RepeatMode.Repeat;
+            }else
+            if (RepeatMode == RepeatMode.Repeat)
+            {
+                RepeatMode = RepeatMode.RepeatOnce;
+            }else
+            if (RepeatMode == RepeatMode.RepeatOnce)
+            {
+                RepeatMode = RepeatMode.NoRepeat;
             }
         }
 
@@ -496,6 +517,17 @@ as UserControl).DataContext as PlayListManager;
             }
             if (CurrentVideoItem != null)
             {
+                if (RepeatMode == RepeatMode.RepeatOnce)
+                {
+                    if (this.IsPlaying)
+                    {
+                        this.IVideoElement.MediaPlayer.Position 
+                            = TimeSpan.FromMilliseconds(0);
+                        return;
+                    }
+                    PlayAction();
+                    return;
+                }
                 if (obj.FileName == CurrentVideoItem.FileName)
                 {
                     return;
@@ -509,13 +541,13 @@ as UserControl).DataContext as PlayListManager;
             }
 
             MediaState = MediaState.Stopped;
-            if (obj.SubPath.Count > 0)
-            {
-                IVideoPlayer.Subtitle.LoadSub(obj.SubPath.First());
-            }
-            else
+            if (obj.SubPath == null || !(obj.SubPath.Count > 0))
             {
                 IVideoPlayer.Subtitle.Clear();
+            }
+            else if(obj.SubPath.Count > 0)
+            {
+                IVideoPlayer.Subtitle.LoadSub(obj.SubPath.First());
                 //CSubtitle.ClearSubstitute(); OutlineTextSub.Visibility = 
                 //System.Windows.Visibility.Collapsed;
             }
@@ -528,7 +560,7 @@ as UserControl).DataContext as PlayListManager;
 
 
 
-            RaiseCanPrevNext();
+           // RaiseCanPrevNext();
         }
 
         void MediaPositionTimer_Tick(object sender, EventArgs e)
@@ -563,11 +595,15 @@ as UserControl).DataContext as PlayListManager;
             //Task.Factory.StartNew(() => this.AsynSearchForNextItem()).
             //ContinueWith(t => GetVideoItem(t.Result), 
             //TaskScheduler.FromCurrentSynchronizationContext()).Wait(200);
-            var nextItem = this.AsynSearchForNextItem();
-            if (nextItem != null)
+            if (RepeatMode != RepeatMode.NoRepeat)
             {
-                GetVideoItem(nextItem);
+                var nextItem = this.AsynSearchForNextItem();
+                if (nextItem != null)
+                {
+                    GetVideoItem(nextItem, true);
+                }
             }
+            
 
         }
 
