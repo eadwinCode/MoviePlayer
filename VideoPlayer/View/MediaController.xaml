@@ -4,7 +4,7 @@
              xmlns:y="clr-namespace:VideoPlayer"
               xmlns:cmd="clr-namespace:Common.ApplicationCommands;assembly=Common"
              xmlns:util="clr-namespace:Common.Util;assembly=Common"
-             x:Name="mediaControl" FontFamily="Trebuchet MS" 
+             x:Name="mediaControl" FontFamily="Trebuchet MS" Cursor="Arrow"
              Background="Transparent"
             >
     <UserControl.Resources>

@@ -28,6 +28,7 @@ namespace VideoPlayer.ViewModel
         private MediaState mediaState = MediaState.Stopped;
         private DelegateCommand playbtn;
         private DelegateCommand repeatbtn;
+        private DelegateCommand mute;
         //private object mediapositiontracker;
         private string playtext;
         private DelegateCommand _next;
@@ -209,7 +210,7 @@ as UserControl).DataContext as PlayListManager;
                 return tofullscreenbtn;
             }
         }
-
+        
         public DelegateCommand RepeatBtn
         {
             get
@@ -222,6 +223,22 @@ as UserControl).DataContext as PlayListManager;
             }
         }
 
+        public DelegateCommand Mute
+        {
+            get
+            {
+                if (mute == null)
+                {
+                    mute = new DelegateCommand(MuteAction);
+                }
+                return mute;
+            }
+            set
+            {
+                mute = value;
+            }
+        }
+        
         private void RepeatBtnAction()
         {
             if (RepeatMode == RepeatMode.NoRepeat)

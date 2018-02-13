@@ -31,6 +31,13 @@ bld/
 
 # Visual Studio 2017 auto generated files
 Generated\ Files/
+*/bin/
+*/obj/
+*.suo
+*.user
+*.tmp
+/*.suo
+*.txt
 
 # MSTest test Results
 [Tt]est[Rr]esult*/

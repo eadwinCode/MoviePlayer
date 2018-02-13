@@ -41,6 +41,7 @@
     <Style TargetType="{x:Type local:VolumeControl}">
         <Setter Property="TextBlock.FontSize" Value="12"/>
         <Setter Property="TextBlock.FontWeight" Value="Bold"/>
+        <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:VolumeControl}">
