@@ -37,7 +37,6 @@ Generated\ Files/
 *.user
 *.tmp
 /*.suo
-*.txt
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
