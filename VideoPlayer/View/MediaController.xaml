@@ -706,7 +706,7 @@
                                   Width="53" ToolTip="{Binding PlayText}"
                                   Margin="0,1,0,0" 
                                   Background="Transparent">
-                                <Border BorderThickness="2" >
+                                <Border BorderThickness="2">
                                     <Button  Command="{x:Static cmd:VideoPlayerCommands.PausePlay}" CommandParameter="{Binding}" >
                                         <Button.Style>
                                             <Style TargetType="Button" >
@@ -854,7 +854,8 @@
                                      Command="{Binding RepeatBtn}" Margin="5,0">
                                     <Button.Style>
                                         <Style TargetType="Button" >
-                                            <Setter Property="Template">
+                                        <Setter Property="Focusable" Value="False"/>
+                                        <Setter Property="Template">
                                                 <Setter.Value>
                                                     <ControlTemplate TargetType="Button">
                                                         <Border CornerRadius="16" 

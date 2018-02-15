@@ -150,5 +150,13 @@ namespace VideoPlayerView
             var vm = (VideoPlayerVM)videoplayer.DataContext;
             vm.OnMouseDoubleClick(e);
         }
+        private void _videoContent_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                this.DragMove();
+            }
+            catch (Exception) { }
+        }
     }
 }
