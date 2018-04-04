@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using VideoComponent.BaseClass;
 using VideoPlayer.ViewModel;
 using VirtualizingListView.Util;
@@ -357,10 +358,15 @@ namespace VideoPlayer.PlayList
             {
                 if(CurrentPlaylist != null && HasChanges) { SavePlaylistAction(); }
                 CurrentPlaylist = null;
+
+                var fileexpr = Shell.FileView.FileExplorer;
+                CollectionView view = (CollectionView)CollectionViewSource.
+               GetDefaultView(fileexpr.FileExplorerListView.ItemsSource);
+                var viewlist = view.OfType<VideoFolderChild>();
+
                 this.NowPlaying = (VideoFolderChild)obj;
-                VideoFolder parent = (VideoFolder)NowPlaying.ParentDirectory;
                 PlayList = new ObservableCollection<VideoFolder>();
-                _playlist.AddRange(parent.OtherFiles.Where(x => x.FileType == FileType.File).ToList());
+                _playlist.AddRange(viewlist);
                 
             }
             else

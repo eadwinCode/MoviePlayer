@@ -176,7 +176,7 @@ namespace VirtualizingListView.View
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
         //    base.OnPreviewKeyDown(e);
-            (IShell.FileView as IFileViewer).FileExplorer.Focus();
+            ((IShell.FileView as IFileViewer).FileExplorer as UIElement).Focus();
             e.Handled = true;
         }
 

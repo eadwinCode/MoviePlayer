@@ -21,6 +21,14 @@ namespace VideoPlayer.ViewModel
         private SubtitleMediaController VideoPlayerView;
         private ISubtitleMediaController ISubtitleMediaController;
 
+        private bool allowautoresize = true;
+
+        public bool AllowAutoResize
+        {
+            get { return allowautoresize; }
+            set { allowautoresize = value; }
+        }
+
         private string minimizemediactrltext;
 
         public string MinimizeMediaCtrlText

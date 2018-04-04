@@ -15,12 +15,10 @@ namespace Common.Interfaces
         string CurrentDir { get; set; }
         DirectoryInfo DirectoryPosition { get; set; }
         Object GetCollectionVM { get; }
-        IFileExplorer IFileExplorer { get; }
         bool IsLoading { get; set; }
         double LoadingProgress { get; set; }
         DataTemplateSelector MyTemplateChange { get; set; }
         ViewType ViewType { get; set; }
-
         void TreeViewUpdate(string obj);
     }
 
@@ -37,7 +35,7 @@ namespace Common.Interfaces
 
     public interface IFileViewer
     {
-        UIElement FileExplorer { get; }
+        IFileExplorer FileExplorer { get; }
         UIElement TreeViewer { get; }
     }
     public interface IHasChanges

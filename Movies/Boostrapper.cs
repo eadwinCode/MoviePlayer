@@ -13,6 +13,7 @@ using Common.Interfaces;
 using Common.ApplicationCommands;
 using Common.FileHelper;
 using Movies;
+using VirtualizingListView.ViewModel;
 
 namespace RealMediaControl
 {
@@ -44,6 +45,7 @@ namespace RealMediaControl
             
             this.Container.RegisterInstance<IShell>(shell);
             this.Container.RegisterType<IPlayFile, PlayFile>();
+            this.Container.RegisterInstance<ICollectionViewModel>( CollectionViewModel.Instance);
             shell.Dispatcher.BeginInvoke((Action)delegate
             {
                 shell.Show();

@@ -10,6 +10,7 @@ using Microsoft.Practices.ServiceLocation;
 using VirtualizingListView.Model;
 using System.IO;
 using Common.Model;
+using System.Collections.ObjectModel;
 
 namespace VideoPlayerView.FilePlayer
 {
@@ -129,10 +130,21 @@ namespace VideoPlayerView.FilePlayer
             InitPlayerView();
             MediaControlExtension.SetFileexpVisiblity(VideoElement.PlayListView as UIElement,
                 Visibility.Visible);
+            if (obj.GetType() == typeof(VideoFolderChild))
+            {
+                VideoFolderChild vfc = (VideoFolderChild)obj;
 
-            VideoFolderChild vfc = (VideoFolderChild)obj;
-
-            MediaControllerVM.Current.Playlist.Add(vfc);
+                MediaControllerVM.Current.Playlist.Add(vfc);
+            }
+            else
+            {
+                ObservableCollection<VideoFolderChild> CheckedItems = (ObservableCollection<VideoFolderChild>)obj;
+                foreach (var item in CheckedItems)
+                {
+                    MediaControllerVM.Current.Playlist.Add(item);
+                } 
+            }
+            
         }
 
         public void PlayFileFromPlayList(PlaylistModel plm)

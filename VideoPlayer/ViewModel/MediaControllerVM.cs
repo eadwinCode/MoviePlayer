@@ -600,7 +600,7 @@ as UserControl).DataContext as PlayListManager;
             PlayBackAction("Failed to Play", "Stop");
             MediaState = MediaState.Failed;
             CloseMediaPlayer();
-            throw new Exception(e.ErrorException.Message);
+            throw e.ErrorException;
         }
 
         private void CloseMediaPlayer()

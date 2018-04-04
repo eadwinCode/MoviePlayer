@@ -71,6 +71,8 @@ namespace VideoPlayerView
             if (MediaPlayer.HasVideo)
             {
                 //+ IVideoPlayer.MediaController.ActualHeight
+                var vm = videoplayer.DataContext as VideoPlayerVM;
+                if (!vm.AllowAutoResize) return;
                 this.Height = Math.Min(720, MediaPlayer.NaturalVideoHeight);
                 this.Width = Math.Min(1280, MediaPlayer.NaturalVideoWidth);
                 this.WindowStartupLocation = WindowStartupLocation.CenterScreen;

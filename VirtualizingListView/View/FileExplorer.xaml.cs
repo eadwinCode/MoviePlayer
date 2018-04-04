@@ -49,7 +49,6 @@ namespace VirtualizingListView.View
         {
             InitializeComponent();
             DataContext = CollectionViewModel.Instance;
-            CollectionViewModel.Instance.GetFileExplorerInstance(this);
             this.Loaded += CollectionViewModel.Instance.VideoComponentViewModel_Loaded;
             
             //this.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.Sort, 
@@ -68,8 +67,6 @@ namespace VirtualizingListView.View
                     Border border = (Border)VisualTreeHelper.GetChild(collections, 0);
                     scrollviewer = (ScrollViewer)VisualTreeHelper.GetChild(border, 0);
                 }
-
-
                 return scrollviewer;
             }
         }

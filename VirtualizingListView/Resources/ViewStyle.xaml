@@ -6,7 +6,7 @@
                     xmlns:cmd="clr-namespace:Common.ApplicationCommands;assembly=Common"
                     xmlns:enum ="clr-namespace:Common.Util;assembly=Common"
                     xmlns:local="clr-namespace:VirtualizingListView" 
-                    xmlns:View="clr-namespace:VirtualizingListView.View" >
+                    xmlns:ViewModel="clr-namespace:VirtualizingListView.ViewModel" >
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/VideoComponent;component/Themes/Generic.xaml"/>
@@ -67,6 +67,11 @@
         <MenuItem Header="Remove From LastSeen"
                   Command="{x:Static cmd:VideoPlayerCommands.RemoveFromLastSeen}" 
                   CommandParameter="{Binding}">
+            <MenuItem.Icon>
+                <Image/>
+            </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem Header="Select Item" Command="{x:Static cmd:VideoPlayerCommands.SelectItem}" CommandParameter="{Binding}">
             <MenuItem.Icon>
                 <Image/>
             </MenuItem.Icon>
@@ -349,13 +354,6 @@
                                             VirtualizingStackPanel.IsVirtualizing="True"
                                                      ItemHeight="63"
                                                      />
-
-                    <!--<r:VirtualWrapPanel Orientation="Horizontal" ItemHeight="65" ItemWidth="260" 
-                                        VirtualizingPanel.VirtualizationMode="Recycling" 
-                                            VirtualizingPanel.IsVirtualizing="True" />-->
-                    <!--<WrapPanel Margin="0,2,0,2" Orientation="Horizontal" />-->
-                    <!--ItemHeight="{Binding Path=ItemSize.Height, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"
-                     ItemWidth="{Binding Path=ItemSize.Width, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"/>-->
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
@@ -609,8 +607,13 @@
                     <TextBlock Text="{Binding FileExtension}" TextAlignment="Center" Margin="2,2,3,2"  VerticalAlignment="Center"  />
                 </Border>-->
                 <Grid>
-                    <Image Panel.ZIndex="10"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="8,3,0,0" Visibility="{Binding SubVisible}"  Width="22" Height="22"  
+                    <Image Panel.ZIndex="10"  HorizontalAlignment="Right" VerticalAlignment="Top"  Margin="0,3,8,0" Visibility="{Binding SubVisible}"  Width="22" Height="22"  
                                     ToolTip="Subtitle Found"  Stretch="UniformToFill" Source="Images/1444151826_source_s.png"/>
+                    <CheckBox  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="3,3,0,0" Panel.ZIndex="20"
+                              CommandParameter="{Binding}" Command="{x:Static cmd:VideoPlayerCommands.SelectItem}"
+                          Visibility="{Binding CanSelectAll, ConverterParameter=Visibility, Converter={StaticResource ActiveItemSelector}, 
+                    Source={x:Static ViewModel:CollectionViewModel.Instance}}"
+                           IsChecked="{Binding IsCheckboxChecked}"/>
                     <Image x:Name="img" Grid.Column="0"  Source="{Binding Thumbnail}"  Stretch="UniformToFill" />
                     <Image Source="Images/video-player.png" Width="50" Height="50" HorizontalAlignment="Center"  VerticalAlignment="Center" Visibility="{Binding HasThumbnail, Converter={StaticResource ThumbnailConverter}}"/>
                     <VideoComponent:PreviewClass x:Name="PreviewVideo"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
@@ -759,6 +762,10 @@
                 <!--<DockPanel.Background>
                     <ImageBrush ImageSource="Images/check-1-icon.png" TileMode="Tile"   Stretch="None" ViewportUnits="Absolute" Opacity="0.095"/>
                 </DockPanel.Background>-->
+                <CheckBox VerticalAlignment="Center" CommandParameter="{Binding}" Command="{x:Static cmd:VideoPlayerCommands.SelectItem}"
+                          Visibility="{Binding CanSelectAll, ConverterParameter=Visibility, Converter={StaticResource ActiveItemSelector}, 
+                    Source={x:Static ViewModel:CollectionViewModel.Instance}}"
+                           IsChecked="{Binding IsCheckboxChecked}"/>
                 <Border Grid.Column="0" Width="42"
                       DockPanel.Dock="Left" 
                       Height="30"  

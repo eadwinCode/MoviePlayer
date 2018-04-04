@@ -6,11 +6,13 @@ using Common.Util;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.ServiceLocation;
 using System;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using VideoComponent.BaseClass;
 
 namespace VirtualizingListView.View
 {
@@ -167,7 +169,7 @@ namespace VirtualizingListView.View
 
         }
 
-        public void CreateNewPlayList(string ItemPath)
+        public void CreateNewPlayList(string ItemPath, IEnumerable enumerable)
         {
             RenameDialog renameDialog = new RenameDialog
             {
@@ -177,14 +179,21 @@ namespace VirtualizingListView.View
             renameDialog.ShowDialog();
             if (renameDialog.DialogResult == false) return;
             string PlaylistName = renameDialog.RenameText.Text;
-
             PlaylistModel plm = new PlaylistModel
             {
                 PlaylistName = PlaylistName
             };
-            plm.Add(ItemPath);
+            if(enumerable != null)
+            {
+                foreach (VideoFolderChild item in enumerable)
+                {
+                    plm.Add(item.Directory.FullName);
+                }
+            }else
+                 plm.Add(ItemPath);
 
             AddToPlayList(plm);
+
         }
 
         private void PlayList_ContextMenuOpening(object sender, ContextMenuEventArgs e)

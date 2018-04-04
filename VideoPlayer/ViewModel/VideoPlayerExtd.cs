@@ -57,7 +57,21 @@ namespace VideoPlayer.ViewModel
                 FastForward_executed, Rewind_enabled));
             IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.ShiftFastForward,
                ShiftFastForward_executed, Rewind_enabled));
+            IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.ResizeMediaAlways,
+               ResizeMediaAlways_executed));
             // IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.MinimizeMediaCtrl, MinimizeMediaCtrl_executed));
+        }
+
+        private void ResizeMediaAlways_executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (this.AllowAutoResize)
+            {
+                this.AllowAutoResize = false;
+            }
+            else
+            {
+                this.AllowAutoResize = true;
+            }
         }
 
         private void ShiftFastForward_executed(object sender, ExecutedRoutedEventArgs e)

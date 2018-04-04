@@ -51,6 +51,8 @@ namespace VideoComponent.BaseClass
         {
         }
 
+        public static event RoutedEventHandler CheckBoxItemEvent;
+
         public double Progress
         {
             get
@@ -204,6 +206,12 @@ namespace VideoComponent.BaseClass
             }
             return 1;
         }
+
+        public void SetIsChecked(bool v)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool Equals(VideoFolderChild other)
         {
             return this.Name.Equals(other.Name);
@@ -270,8 +278,6 @@ namespace VideoComponent.BaseClass
             RaisePropertyChangedEvent("ProgressAsString");
             RaisePropertyChangedEvent("PlayedVisible");
             RaisePropertyChangedEvent("HasProgress");
-
-
         }
 
         public string TooltipMessage{
@@ -297,5 +303,54 @@ namespace VideoComponent.BaseClass
         {
             get { return ApplicationService.AppPlaylist.MoviePlayList; }
         }
+
+        private bool ischecked;
+        public bool IsCheckboxChecked
+        {
+            get { return ischecked; }
+            set
+            {
+                ischecked = value;
+                if (CheckBoxItemEvent != null)
+                {
+                    var val = value == true ? 1 : -1;
+                    CheckBoxItemEvent(val, null);
+                }
+                RaisePropertyChangedEvent("IsCheckboxChecked");
+            }
+        }
+
+        //public static readonly DependencyProperty IsCheckboxCheckedProperty = DependencyProperty.RegisterAttached("IsCheckboxChecked",
+        //typeof(bool), typeof(VideoFolderChild), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnPropertyChanged)));
+
+        //private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        //{
+        //    var value = (bool)e.NewValue;
+        //    if (CheckBoxItemEvent != null)
+        //    {
+        //        var val = value == true ? 1 : -1;
+        //        CheckBoxItemEvent(val, null);
+        //    }
+        //}
+
+        //public static void SetIsCheckboxChecked(UIElement element, bool value)
+        //{
+        //    element.SetValue(IsCheckboxCheckedProperty, value);
+        //}
+        //public static bool GetIsCheckboxChecked(UIElement element)
+        //{
+        //    return (bool)element.GetValue(IsCheckboxCheckedProperty);
+        //}
+
+
+        //public bool GetIsChecked()
+        //{
+        //    return true;
+        //}
+
+        //public void SetIsChecked(bool value)
+        //{
+        //    SetIsCheckboxChecked(, value);
+        //}
     }
 }

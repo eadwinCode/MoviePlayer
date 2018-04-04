@@ -165,7 +165,7 @@
                 <Image/>
             </MenuItem.Icon>-->
         </MenuItem>
-            <Separator/>
+        <Separator/>
         <MenuItem Header="Volume">
             <MenuItem Header="Up"  Command="{x:Static cmd:VideoPlayerCommands.VolUp}"/>
             <MenuItem Header="Down"  Command="{x:Static cmd:VideoPlayerCommands.VolDown}"/>
@@ -209,6 +209,14 @@
                 <Image/>
             </MenuItem.Icon>
         </MenuItem>-->
+        <Separator/>
+        <MenuItem Header="Allow AutoResize" IsCheckable="True" IsChecked="True"
+                  Command="{x:Static cmd:VideoPlayerCommands.ResizeMediaAlways}">
+            <!--<MenuItem.Icon>
+                <Image/>
+            </MenuItem.Icon>-->
+        </MenuItem>
+        
     </ContextMenu>
 
    

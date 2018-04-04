@@ -6,7 +6,7 @@
         xmlns:sw="clr-namespace:WpfStyleableWindow.StyleableWindow"
         ShowInTaskbar="True"
         FocusManager.FocusedElement="{Binding ElementName=videoplayer}"
-         FontFamily="Trebuchet MS"    FontSize="12" Topmost="False"
+        FontFamily="Trebuchet MS"    FontSize="12" Topmost="False"
         Style="{DynamicResource CustomWindowStyle2}" AllowDrop="True"
         ContextMenu="{DynamicResource VideoContextMenu}"
         Title="MainWindow" WindowStartupLocation="Manual"
@@ -103,18 +103,10 @@
             </ControlTemplate.Triggers>
         </ControlTemplate>
 
-        <Style x:Key="CustomWindowStyle2" TargetType="{x:Type Window}">
-            <Setter Property="WindowStyle" Value="None"/>
-            <Setter Property="AllowsTransparency" Value="True"/>
-            <Setter Property="MinWidth" Value="200"/>
-            <Setter Property="MinHeight" Value="46"/>
-            <!--CaptionHeight + ResizeBorderThickness * 2-->
-            <Setter Property="Background" Value="Yellow"/>
-            <Setter Property="BorderBrush" Value="Green"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Foreground" Value="DarkRed"/>
-            <Setter Property="Template" Value="{StaticResource CustomWindowTemplate}"/>
+            <Style x:Key="CustomWindowStyle2" TargetType="Window" BasedOn="{StaticResource CustomWindowStyle}">
+                <Setter Property="Template" Value="{StaticResource CustomWindowTemplate}"/>
         </Style>
+            
         <Style TargetType="Button">
             <Setter Property="Focusable" Value="False"/>
         </Style>
@@ -124,6 +116,7 @@
             <sw:WindowCloseCommand x:Key="CloseCommand"></sw:WindowCloseCommand>
         </ResourceDictionary>
     </Window.Resources>
+    
     <Grid Background="Black" x:Name="_videoContent" MouseDown="_videoContent_MouseDown">
           <!-- sw:WindowDragBehavior.LeftMouseButtonDrag="{Binding
         RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}">

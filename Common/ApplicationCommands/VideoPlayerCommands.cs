@@ -25,6 +25,8 @@ namespace Common.ApplicationCommands
             FastForward.InputGestures.Add(new KeyGesture(Key.Right, ModifierKeys.Control));
             ShiftRewind.InputGestures.Add(new KeyGesture(Key.Left, ModifierKeys.Shift));
             ShiftFastForward.InputGestures.Add(new KeyGesture(Key.Right, ModifierKeys.Shift));
+
+            SelectItem.InputGestures.Add(new KeyGesture(Key.A, ModifierKeys.Control));
         }
 
         private static RoutedCommand _playorpause = new RoutedCommand("PausePlay", typeof(VideoPlayerCommands));
@@ -56,10 +58,23 @@ namespace Common.ApplicationCommands
         private static RoutedCommand removefromls = new RoutedCommand("RemoveFromLastSeen", typeof(VideoPlayerCommands));
         private static RoutedCommand selectedsub = new RoutedCommand("SelectedSub", typeof(VideoPlayerCommands));
         private static RoutedCommand refreshfiles = new RoutedCommand("RefreshFiles", typeof(VideoPlayerCommands));
+        private static RoutedCommand resizemediaalways = new RoutedCommand("ResizeMediaAlways", typeof(VideoPlayerCommands));
+        private static RoutedCommand selectitem = new RoutedCommand("SelectItem", typeof(VideoPlayerCommands));
+        
 
         public static RoutedCommand RefreshFiles
         {
             get { return refreshfiles; }
+        }
+
+        public static RoutedCommand SelectItem
+        {
+            get { return selectitem; }
+        }
+
+        public static RoutedCommand ResizeMediaAlways
+        {
+            get { return resizemediaalways; }
         }
 
         public static RoutedCommand PausePlay

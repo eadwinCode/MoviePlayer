@@ -11,7 +11,7 @@ namespace VirtualizingListView
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             bool val = (bool)value;
-            return val == true ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+            return val == true ? System.Windows.Visibility.Visible : System.Windows.Visibility.Hidden;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

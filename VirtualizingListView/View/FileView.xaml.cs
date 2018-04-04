@@ -31,7 +31,7 @@ namespace VirtualizingListView.View
 
         public UIElement TreeViewer { get { return this.treeviewer; } }
 
-        public UIElement FileExplorer { get { return this.fileexpr; } }
+        public IFileExplorer FileExplorer { get { return this.fileexpr; } }
 
         public FileView()
         {

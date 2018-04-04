@@ -11,6 +11,7 @@ using VideoPlayer;
 using Common;
 using Common.ApplicationCommands;
 using Common.Interfaces;
+using VirtualizingListView.ViewModel;
 
 namespace Movies
 {
@@ -76,7 +77,18 @@ namespace Movies
         {
             //var ser = SerializeDeserializeHelper.Serialize<LastSeen>(VideoComponentViewModel.LastSeen);
         }
-        
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+            if (e.Key == Key.Escape)
+            {
+                if (CollectionViewModel.Instance.CanSelectAll)
+                {
+                    CollectionViewModel.Instance.CanSelectAll = false;
+                }
+            }
+        }
     }
 
     public enum SCREENSETTINGS
