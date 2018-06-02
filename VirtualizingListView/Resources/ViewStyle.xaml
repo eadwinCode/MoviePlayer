@@ -6,7 +6,7 @@
                     xmlns:cmd="clr-namespace:Common.ApplicationCommands;assembly=Common"
                     xmlns:enum ="clr-namespace:Common.Util;assembly=Common"
                     xmlns:local="clr-namespace:VirtualizingListView" 
-                    xmlns:ViewModel="clr-namespace:VirtualizingListView.ViewModel" >
+                    xmlns:View="clr-namespace:VirtualizingListView.View" >
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/VideoComponent;component/Themes/Generic.xaml"/>
@@ -67,11 +67,6 @@
         <MenuItem Header="Remove From LastSeen"
                   Command="{x:Static cmd:VideoPlayerCommands.RemoveFromLastSeen}" 
                   CommandParameter="{Binding}">
-            <MenuItem.Icon>
-                <Image/>
-            </MenuItem.Icon>
-        </MenuItem>
-        <MenuItem Header="Select Item" Command="{x:Static cmd:VideoPlayerCommands.SelectItem}" CommandParameter="{Binding}">
             <MenuItem.Icon>
                 <Image/>
             </MenuItem.Icon>
@@ -354,6 +349,13 @@
                                             VirtualizingStackPanel.IsVirtualizing="True"
                                                      ItemHeight="63"
                                                      />
+
+                    <!--<r:VirtualWrapPanel Orientation="Horizontal" ItemHeight="65" ItemWidth="260" 
+                                        VirtualizingPanel.VirtualizationMode="Recycling" 
+                                            VirtualizingPanel.IsVirtualizing="True" />-->
+                    <!--<WrapPanel Margin="0,2,0,2" Orientation="Horizontal" />-->
+                    <!--ItemHeight="{Binding Path=ItemSize.Height, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"
+                     ItemWidth="{Binding Path=ItemSize.Width, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"/>-->
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
@@ -584,7 +586,7 @@
 
     <DataTemplate x:Key="FileLargeTemplate">
         <local:CustomButton ContextMenu="{StaticResource fileexprcntxtmenu}" 
-                        Background="{Binding IsActive, Converter={StaticResource ActiveItemSelector}}"
+                        Background="Transparent"
                         Margin="4" x:Name="main" 
                         Style="{StaticResource ContentContainer}"
                          BorderBrush="Transparent" BorderThickness="0"
@@ -592,7 +594,8 @@
               local:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding DataContext, 
             RelativeSource={RelativeSource Self}}"  
                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  
-                        TextBlock.Foreground="White" TextBlock.FontStyle="Italic"  >
+                         TextBlock.Foreground="{Binding IsActive, Converter={StaticResource ActiveItemSelector} ,ConverterParameter=Foreground}" 
+                            TextBlock.FontStyle="Italic"  >
             <!--<y:VideoData >-->
             <Grid  Width="140" Height="180" HorizontalAlignment="Left" VerticalAlignment="Top"  >
 
@@ -607,13 +610,8 @@
                     <TextBlock Text="{Binding FileExtension}" TextAlignment="Center" Margin="2,2,3,2"  VerticalAlignment="Center"  />
                 </Border>-->
                 <Grid>
-                    <Image Panel.ZIndex="10"  HorizontalAlignment="Right" VerticalAlignment="Top"  Margin="0,3,8,0" Visibility="{Binding SubVisible}"  Width="22" Height="22"  
+                    <Image Panel.ZIndex="10"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="8,3,0,0" Visibility="{Binding SubVisible}"  Width="22" Height="22"  
                                     ToolTip="Subtitle Found"  Stretch="UniformToFill" Source="Images/1444151826_source_s.png"/>
-                    <CheckBox  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="3,3,0,0" Panel.ZIndex="20"
-                              CommandParameter="{Binding}" Command="{x:Static cmd:VideoPlayerCommands.SelectItem}"
-                          Visibility="{Binding CanSelectAll, ConverterParameter=Visibility, Converter={StaticResource ActiveItemSelector}, 
-                    Source={x:Static ViewModel:CollectionViewModel.Instance}}"
-                           IsChecked="{Binding IsCheckboxChecked}"/>
                     <Image x:Name="img" Grid.Column="0"  Source="{Binding Thumbnail}"  Stretch="UniformToFill" />
                     <Image Source="Images/video-player.png" Width="50" Height="50" HorizontalAlignment="Center"  VerticalAlignment="Center" Visibility="{Binding HasThumbnail, Converter={StaticResource ThumbnailConverter}}"/>
                     <VideoComponent:PreviewClass x:Name="PreviewVideo"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
@@ -651,6 +649,7 @@
             <Trigger Property="IsMouseOver" Value="true">
                 <Setter TargetName="PreviewVideo" Property="Background" Value="Black"/>
                 <Setter TargetName="PreviewVideo" Property="Opacity" Value="0.7"/>
+                <Setter Property="TextBlock.Foreground" Value="White"/>
                 <!--<Setter TargetName="main" Property="Background">
                     <Setter.Value>
                         <ImageBrush ImageSource="Images/check-1-icon.png" TileMode="Tile"   Stretch="None" ViewportUnits="Absolute" Opacity="0.2"/>
@@ -683,7 +682,7 @@
               local:VideoItemDoubleClick.DoubleClickCommand="{StaticResource ClickAction}"
               local:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding DataContext, RelativeSource={RelativeSource Self}}" 
                 Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  
-                        TextBlock.Foreground="White" TextBlock.FontStyle="Italic">
+                       TextBlock.Foreground="White" TextBlock.FontStyle="Italic">
             <Grid >
 
                 <!--<Grid.Background>
@@ -720,11 +719,11 @@
         </local:CustomButton>
         <DataTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
-                <Setter TargetName="main" Property="Background">
+                <!--<Setter TargetName="main" Property="Background">
                     <Setter.Value>
                         <ImageBrush ImageSource="Images/check-1-icon.png" TileMode="Tile"   Stretch="None" ViewportUnits="Absolute" Opacity="0.12"/>
                     </Setter.Value>
-                </Setter>
+                </Setter>-->
                 <Trigger.EnterActions>
                     <BeginStoryboard>
                         <Storyboard>
@@ -747,7 +746,7 @@
 
     <DataTemplate x:Key="FileSmallTemplate">
         <local:CustomButton ContextMenu="{StaticResource fileexprcntxtmenu}" 
-                Background="{Binding IsActive, Converter={StaticResource ActiveItemSelector}}" 
+                Background="Transparent" 
                 Margin="4" x:Name="main"
                 Style="{StaticResource ContentContainer}"
                BorderBrush="Transparent" BorderThickness="0"
@@ -755,17 +754,13 @@
               local:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding DataContext, RelativeSource={RelativeSource Self}}"
               HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
             <!--<y:VideoData>-->
-            <DockPanel  TextBlock.Foreground="White" LastChildFill="True"  
+            <DockPanel   TextBlock.Foreground="{Binding IsActive, Converter={StaticResource ActiveItemSelector} ,ConverterParameter=Foreground}" LastChildFill="True"  
                                       Height="55"  
                                      VirtualizingStackPanel.VirtualizationMode="Recycling" 
                                      VirtualizingStackPanel.IsVirtualizing="True" >
                 <!--<DockPanel.Background>
                     <ImageBrush ImageSource="Images/check-1-icon.png" TileMode="Tile"   Stretch="None" ViewportUnits="Absolute" Opacity="0.095"/>
                 </DockPanel.Background>-->
-                <CheckBox VerticalAlignment="Center" CommandParameter="{Binding}" Command="{x:Static cmd:VideoPlayerCommands.SelectItem}"
-                          Visibility="{Binding CanSelectAll, ConverterParameter=Visibility, Converter={StaticResource ActiveItemSelector}, 
-                    Source={x:Static ViewModel:CollectionViewModel.Instance}}"
-                           IsChecked="{Binding IsCheckboxChecked}"/>
                 <Border Grid.Column="0" Width="42"
                       DockPanel.Dock="Left" 
                       Height="30"  
@@ -829,13 +824,14 @@
         </local:CustomButton>
 
         <DataTemplate.Triggers>
-            <Trigger Property="IsMouseOver" Value="true">
+            <!--<Trigger Property="IsMouseOver" Value="true">
                 <Setter TargetName="main" Property="Background">
                     <Setter.Value>
                         <ImageBrush ImageSource="Images/check-1-icon.png" TileMode="Tile"   Stretch="None" ViewportUnits="Absolute" Opacity="0.2"/>
                     </Setter.Value>
                 </Setter>
-            </Trigger>
+                <Setter Property="TextBlock.Foreground" Value="White"/>
+            </Trigger>-->
 
         </DataTemplate.Triggers>
     </DataTemplate>
@@ -851,7 +847,7 @@
                >
             <!--<y:VideoData>  local:VideoItemDoubleClick.DoubleClickCommand="{StaticResource ClickAction}"
               local:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}"-->
-            <DockPanel  TextBlock.Foreground="White" Margin="1"
+            <DockPanel x:Name="pldock"  TextBlock.Foreground="{Binding IsActive, Converter={StaticResource ActiveItemSelector} ,ConverterParameter=Foreground}" Margin="1"
                         LastChildFill="True" HorizontalAlignment="Stretch" 
                         VerticalAlignment="Stretch"
                         VirtualizingStackPanel.VirtualizationMode="Recycling" 
@@ -882,13 +878,14 @@
         </local:CustomButton>
 
         <DataTemplate.Triggers>
-            <Trigger Property="IsMouseOver" Value="true">
+            <!--<Trigger Property="IsMouseOver" Value="true">
                 <Setter TargetName="main" Property="Background">
                     <Setter.Value>
                         <ImageBrush ImageSource="Images/check-1-icon.png" TileMode="Tile"   Stretch="None" ViewportUnits="Absolute" Opacity="0.2"/>
                     </Setter.Value>
                 </Setter>
-            </Trigger>
+                <Setter TargetName="pldock" Property="TextBlock.Foreground" Value="White"/>
+            </Trigger>-->
 
         </DataTemplate.Triggers>
     </DataTemplate>
@@ -902,7 +899,7 @@
                         ="{Binding DataContext, RelativeSource={RelativeSource Self}}"
               >
             <!--<y:VideoData >-->
-            <DockPanel TextBlock.Foreground="White" LastChildFill="True" Height="47">
+            <DockPanel  TextBlock.Foreground="White" LastChildFill="True" Height="47">
                 <!--<DockPanel.Background>
                     <ImageBrush ImageSource="Images/check-1-icon.png" TileMode="Tile"   Stretch="None" ViewportUnits="Absolute" Opacity="0.095"/>
                 </DockPanel.Background>-->
@@ -960,16 +957,37 @@
         </local:CustomButton>
 
         <DataTemplate.Triggers>
-            <Trigger Property="IsMouseOver" Value="true">
+            <!--<Trigger Property="IsMouseOver" Value="true">
                 <Setter TargetName="main" Property="Background">
                     <Setter.Value>
                         <ImageBrush ImageSource="Images/check-1-icon.png" TileMode="Tile"   Stretch="None" ViewportUnits="Absolute" Opacity="0.2"/>
                     </Setter.Value>
                 </Setter>
-            </Trigger>
+            </Trigger>-->
         </DataTemplate.Triggers>
     </DataTemplate>
 
+    <Style x:Key="CustomContainerStyle" TargetType="ListViewItem">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                    <Border x:Name="container" Background="{TemplateBinding Background}" Margin="{TemplateBinding Margin}" >
+                        <ContentPresenter HorizontalAlignment="Stretch" SnapsToDevicePixels="True"
+                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="container" Property="Background" Value="{StaticResource ImageOutline}"/>
+                            <Setter Property="TextBlock.Foreground" Value="White"/>
+                            <Setter  Property="TextBlock.FontWeight" Value="Bold"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>
 <!--<WrapPanel Margin="0,2,0,2" Orientation="Horizontal" />ItemHeight="{Binding Path=ItemSize.Height, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"
                      ItemWidth="{Binding Path=ItemSize.Width, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"/>-->

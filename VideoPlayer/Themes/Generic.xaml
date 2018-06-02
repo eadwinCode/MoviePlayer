@@ -94,7 +94,7 @@
                                 </Button.Style>
                             </Button>
                             <Slider Margin="2" Style="{StaticResource SliderStyle1}" Value="50" 
-                                    x:Name="volslider" Maximum="100" Cursor="Hand"
+                                    x:Name="volslider" Maximum="200" Cursor="Hand"
                                     SmallChange="0.1"/>
                         </DockPanel>
                     </StackPanel>
@@ -137,87 +137,7 @@
         <Setter Property="VerticalAlignment" Value="Top"/>
     </Style>
     
-    <ContextMenu x:Key="VideoContextMenu">
-        <MenuItem Header="Play/Pause" Command="{x:Static cmd:VideoPlayerCommands.PausePlay}" >
-            <MenuItem.Icon>
-                <Image/>
-            </MenuItem.Icon>
-        </MenuItem>
-        <MenuItem Header="Stop" Command="{x:Static cmd:VideoPlayerCommands.Stop}">
-            <MenuItem.Icon>
-                <Image/>
-            </MenuItem.Icon>
-        </MenuItem>
-            <Separator/>
-        <MenuItem Header="Next" Command="{x:Static cmd:VideoPlayerCommands.Next}">
-            <MenuItem.Icon>
-                <Image/>
-            </MenuItem.Icon>
-        </MenuItem>
-        <MenuItem Header="Previous" Command="{x:Static cmd:VideoPlayerCommands.Previous}">
-            <MenuItem.Icon>
-                <Image/>
-            </MenuItem.Icon>
-        </MenuItem>
-        <MenuItem Header="TopMost" IsCheckable="True"
-                  Command="{x:Static cmd:VideoPlayerCommands.TopMost}">
-            <!--<MenuItem.Icon>
-                <Image/>
-            </MenuItem.Icon>-->
-        </MenuItem>
-        <Separator/>
-        <MenuItem Header="Volume">
-            <MenuItem Header="Up"  Command="{x:Static cmd:VideoPlayerCommands.VolUp}"/>
-            <MenuItem Header="Down"  Command="{x:Static cmd:VideoPlayerCommands.VolDown}"/>
-            <MenuItem Header="Mute"  Command="{x:Static cmd:VideoPlayerCommands.Mute}"/>
-        </MenuItem>
-
-        <MenuItem Header="Subtitle">
-            <MenuItem Header="Disable Subtitle" IsCheckable="True"
-                      CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}" 
-                      Command="{x:Static cmd:VideoPlayerCommands.DisableSubtitle}">
-
-            </MenuItem>
-            <Separator/>
-            <MenuItem Header="Subtitle Files" ItemsSource="{Binding SubtitleTitleCollection}" >
-                <MenuItem.ItemContainerStyle>
-                    <Style TargetType="{x:Type MenuItem}">
-                        <Setter Property="Command" Value="{x:Static cmd:VideoPlayerCommands.SelectedSub}" />
-                        <Setter Property="CommandParameter" Value="{Binding}" />
-                        <Setter Property="IsCheckable" Value="True"/>
-                        <Setter Property="IsChecked" Value="{Binding IsSelected}"/>
-                        <Setter Property="HeaderTemplate">
-                            <Setter.Value>
-                                <DataTemplate>
-                                    <TextBlock MaxWidth="200" Text="{Binding}" TextTrimming="WordEllipsis"/>
-                                </DataTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </MenuItem.ItemContainerStyle>
-            </MenuItem>
-        </MenuItem>
-        
-        <MenuItem Header="PlayList" Command="{x:Static cmd:VideoPlayerCommands.PlayList}" >
-            <MenuItem.Icon>
-                <Image/>
-            </MenuItem.Icon>
-        </MenuItem>
-        <!--<MenuItem Header="FullScreen" Command="{x:Static 
-        cmd:VideoPlayerCommands.FullScreen}">
-            <MenuItem.Icon>
-                <Image/>
-            </MenuItem.Icon>
-        </MenuItem>-->
-        <Separator/>
-        <MenuItem Header="Allow AutoResize" IsCheckable="True" IsChecked="True"
-                  Command="{x:Static cmd:VideoPlayerCommands.ResizeMediaAlways}">
-            <!--<MenuItem.Icon>
-                <Image/>
-            </MenuItem.Icon>-->
-        </MenuItem>
-        
-    </ContextMenu>
+   
 
    
    

@@ -111,7 +111,6 @@ namespace VirtualizingListView.OtherFiles
                     SearchSubtitleFile(list[i]);
                     continue;
                 }
-                SearchSubtitleFile(list[i]);
                 Loadthumbnails(list[i]);
                 //Thread.SpinWait(list.Count());
                 if (CollectionVM.VideoDataAccess.Tag != null) Thread.Sleep(10);
@@ -177,7 +176,7 @@ namespace VirtualizingListView.OtherFiles
             }));
         }
 
-        private List<SubtitleFilesModel> GetSubtitlePath(VideoFolder item)
+        private ObservableCollection<SubtitleFilesModel> GetSubtitlePath(VideoFolder item)
         {
             return FileExplorerCommonHelper.MatchSubToMedia(item.Name, files);
         }

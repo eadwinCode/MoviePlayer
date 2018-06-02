@@ -5,6 +5,8 @@ using Common.Util;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.ServiceLocation;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -13,6 +15,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using VirtualizingListView.Util;
 using VirtualizingListView.ViewModel;
 
 namespace VirtualizingListView.View
@@ -20,19 +23,35 @@ namespace VirtualizingListView.View
     /// <summary>
     /// Interaction logic for MyTreeView.xaml
     /// </summary>
-    public partial class MyTreeView : UserControl, ITreeViewer
+    public partial class MyTreeView : UserControl, ITreeViewer,INotifyPropertyChanged
     {
         private object dummyNode = null;
-        private TreeViewItem SelectedTreeViewItem;
-
+        private TreeViewItem selectedtreeviewitem;
+        public TreeViewItem SelectedTreeViewItem
+        {
+            get { return selectedtreeviewitem; }
+            set { selectedtreeviewitem = value; }
+        }
         public UserControl MoviesFolder { get { return this; } }
 
         public UserControl MoviesPLaylist { get { return this.PlaylistView; } }
+
+        private ObservableCollection<TreeViewItem> moviefolders;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public ObservableCollection<TreeViewItem> MovieFolders
+        {
+            get { return moviefolders; }
+            set { moviefolders = value; OnPropertyChanged("MovieFolders"); }
+        }
+
 
         public MyTreeView()
         {
             InitializeComponent();
             this.DataContext = this;
+            MovieFolders = new ObservableCollection<TreeViewItem>();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -42,36 +61,25 @@ namespace VirtualizingListView.View
             //SHGetFolderPath(IntPtr.Zero, 0x0003, IntPtr.Zero, 0x0000, SB);
             //string  DesktopPath = SB.ToString();
 
-            AddToTreeView( Environment.GetFolderPath(Environment.SpecialFolder.Desktop),false);
-            AddToTreeView(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos),false);
+            AddToTreeView( Environment.GetFolderPath(Environment.SpecialFolder.Desktop), MovieFolders, false);
+            AddToTreeView(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos),MovieFolders,false);
 
             foreach (string item in ApplicationService.AppSettings.TreeViewItems)
             {
-                AddToTreeView(item);
+                AddToTreeView(item, MovieFolders);
             }
 
-            
-            //PlaylistChildren.ItemsSource = CreateHelper.AppSettings.MoviePlayList;
+            //MovieFolders = new ObservableCollection<TreeViewItem>(
+            //MovieFolders.OrderByDescending(x => x.Header.ToString() == "Videos" || x.Header.ToString() == "Desktop")
+            //.GroupBy(x => x.Tag.ToString().Length == 3)
+            //.OrderByDescending(g => g.First().Header)
+            //.SelectMany(g => g));
 
-
-            //foreach (IPlaylistModel ipl in CreateHelper.AppSettings.MoviePlayList)
-            //{
-            //    AddToPlayList(ipl,false);
-            //}
-
-            //load saved lists
-
-            //foreach (var s in Environment.GetLogicalDrives())
-            //{
-            //    DirectoryInfo dir = new DirectoryInfo(s);
-            //    TreeViewItem item = new TreeViewItem();
-            //    item.Header = s;
-            //    item.Tag = dir.Name;
-            //    item.FontWeight = FontWeights.Normal;
-            //    item.Items.Add(dummyNode);
-            //    item.Expanded += new RoutedEventHandler(folder_Expanded);
-            //    FolderList.Items.Add(item);
-            //}
+           // MovieFolders = new ObservableCollection<TreeViewItem>(
+         //     MovieFolders.OrderByDescending(x => x.Tag.ToString().Length == 3)
+         //.GroupBy(x => x.Header.ToString() == "Videos" || x.Header.ToString() == "Desktop")
+         //.OrderByDescending(g => g.First().Header)
+         //.SelectMany(g => g));
         }
 
         void Folder_Expanded(object sender, RoutedEventArgs e)
@@ -119,12 +127,17 @@ namespace VirtualizingListView.View
             {
                 string dir = folderDialog.SelectedPath;
 
-                AddToTreeView(dir);
+                AddToTreeView(dir, MovieFolders);
                 AddTreeViewItem(dir);
             }
+           // MovieFolders = new ObservableCollection<TreeViewItem>(
+           //     MovieFolders.OrderByDescending(x => x.Tag.ToString().Length == 3)
+           //.GroupBy(x => x.Header.ToString() == "Videos" || x.Header.ToString() == "Desktop")
+           //.OrderByDescending(g => g.First().Header)
+           //.SelectMany(g => g));
         }
 
-        private void AddToTreeView(string dir,bool applyContextment = true)
+        private void AddToTreeView(string dir,IList collections,bool applyContextment = true)
         {
             DirectoryInfo dirinfo = new DirectoryInfo(dir);
 
@@ -143,7 +156,7 @@ namespace VirtualizingListView.View
             item.Items.Add(dummyNode);
 
             item.Expanded += new RoutedEventHandler(Folder_Expanded);
-            FolderList.Items.Add(item);
+            collections.Add(item);
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -152,7 +165,7 @@ namespace VirtualizingListView.View
 
            if( MessageBox.Show("Are sure you want to remove " + SelectedTreeViewItem.Header,"Movie FolderList",MessageBoxButton.YesNo,MessageBoxImage.Question) == MessageBoxResult.Yes)
            {
-               FolderList.Items.Remove(SelectedTreeViewItem);
+               MovieFolders.Remove(SelectedTreeViewItem);
                 RemoveTreeViewItem(SelectedTreeViewItem.Tag.ToString());
             }
         }
@@ -176,7 +189,7 @@ namespace VirtualizingListView.View
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
         //    base.OnPreviewKeyDown(e);
-            ((IShell.FileView as IFileViewer).FileExplorer as UIElement).Focus();
+            (IShell.FileView as IFileViewer).FileExplorer.Focus();
             e.Handled = true;
         }
 
@@ -205,6 +218,12 @@ namespace VirtualizingListView.View
         private IShell IShell
         {
             get { return ServiceLocator.Current.GetInstance<IShell>(); }
+        }
+
+        private void OnPropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }

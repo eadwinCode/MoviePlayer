@@ -1,10 +1,13 @@
 ﻿using Common.Interfaces;
+using Meta.Vlc.Wpf;
 using Microsoft.Win32;
 using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using VideoPlayer.ViewModel;
 using VideoPlayerView.Util;
 using VideoPlayerView.ViewModel;
@@ -22,14 +25,10 @@ namespace VideoPlayerView
             InitializeComponent();
             this.DataContext = new VideoElementViewModel();
             this.Loaded += VideoElement_Loaded;
-            // videoplayer.MediaPlayer.LoadedBehavior = WPFMediaKit.DirectShow.MediaPlayers.MediaState.Manual;
-            this.Closing += VideoElement_Closing;
 
-            var previousExecutionState = NativeMethods.SetThreadExecutionState(
-                NativeMethods.ES_CONTINUOUS 
-                | NativeMethods.ES_SYSTEM_REQUIRED);
-
-          
+            //var previousExecutionState = NativeMethods.SetThreadExecutionState(
+            //    NativeMethods.ES_CONTINUOUS
+            //    | NativeMethods.ES_SYSTEM_REQUIRED);
         }
         
 
@@ -39,44 +38,26 @@ namespace VideoPlayerView
             var vm = videoplayer.DataContext as VideoPlayerVM;
             vm.OnDrop(e);
         }
-
-        private void VideoElement_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            MediaPlayer.Close();
-        }
+        
 
         private void VideoElement_Loaded(object sender, RoutedEventArgs e)
         {
             var vm = this.DataContext as VideoElementViewModel;
             vm.Loaded();
-            MediaPlayer.MediaOpened += MediaPlayer_MediaOpened;
+            MediaElementPlayer.MediaOpened += MediaControllerInstance_VlcMediaOpened;
            // IVideoPlayer.MediaPlayer.MediaUriPlayer.MediaPositionChanged += MediaUriPlayer_MediaPositionChanged;
         }
 
-        private void MediaUriPlayer_MediaPositionChanged(object sender, EventArgs e)
-        {
-            //Dispatcher.BeginInvoke(new Action(() => {
-            //    if (IVideoPlayer.MediaPlayer.HasVideo)
-            //    {
-            //        this.Height = Math.Min(720, IVideoPlayer.MediaPlayer.NaturalVideoHeight + IVideoPlayer.MediaController.ActualHeight);
-            //        this.Width = Math.Min(1280, IVideoPlayer.MediaPlayer.NaturalVideoWidth);
-            //        IVideoPlayer.MediaPlayer.MediaUriPlayer.MediaPositionChanged -= MediaUriPlayer_MediaPositionChanged;
-            //    }
-            //}), null);
-           
-        }
-
-        private void MediaPlayer_MediaOpened(object sender, RoutedEventArgs e)
-        {
-            if (MediaPlayer.HasVideo)
+        private void MediaControllerInstance_VlcMediaOpened(object sender, EventArgs e)
+        { //+ IVideoPlayer.MediaController.ActualHeight
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
             {
-                //+ IVideoPlayer.MediaController.ActualHeight
                 var vm = videoplayer.DataContext as VideoPlayerVM;
                 if (!vm.AllowAutoResize) return;
-                this.Height = Math.Min(720, MediaPlayer.NaturalVideoHeight);
-                this.Width = Math.Min(1280, MediaPlayer.NaturalVideoWidth);
-                this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            }
+                this.Height = Math.Min(720, MediaPlayer.VlcMediaPlayer.PixelHeight*0.6666666666667);
+                this.Width = Math.Min(1280, MediaPlayer.VlcMediaPlayer.PixelWidth * 0.6666666666667);
+               // this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            }));
         }
 
         public override void OnApplyTemplate()
@@ -111,7 +92,7 @@ namespace VideoPlayerView
             }
         }
 
-        public MediaElement MediaPlayer { get { return this.MediaElementPlayer; } }
+        public VlcPlayer MediaPlayer { get { return this.MediaElementPlayer; } }
 
         public UIElement ParentGrid
         {
@@ -121,14 +102,15 @@ namespace VideoPlayerView
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
             base.OnPreviewKeyDown(e);
-            this.Focus();
+            (this.IVideoPlayer as UserControl).Focus();
+            //this.Focus();
             
         }
         protected override void OnPreviewKeyUp(KeyEventArgs e)
         {
             base.OnPreviewKeyUp(e);
             
-            if (MediaControllerVM.Current.IsRewindOrFastForward)
+            if (MediaControllerVM.MediaControllerInstance.IsRewindOrFastForward)
             {
                 ((IVideoPlayer as UserControl).DataContext as VideoPlayerVM).RestoreMediaState();
             }
@@ -148,17 +130,28 @@ namespace VideoPlayerView
 
         protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
         {
-            if (!(e.OriginalSource is Rectangle || e.OriginalSource is MediaElement)) return;
+            if (!(e.Source is VlcPlayer)) return;
             var vm = (VideoPlayerVM)videoplayer.DataContext;
             vm.OnMouseDoubleClick(e);
         }
-        private void _videoContent_MouseDown(object sender, MouseButtonEventArgs e)
+
+        protected override void OnClosing(CancelEventArgs e)
         {
-            try
+            MediaElementPlayer.Dispose();
+            ApiManager.ReleaseAll();
+            base.OnClosing(e);
+        }
+
+        private void MenuItem_SubmenuOpened(object sender, RoutedEventArgs e)
+        {
+            MenuItem mnItem = sender as MenuItem;
+            
+            if (!mnItem.IsCheckable)
             {
-                this.DragMove();
+                mnItem.GetBindingExpression(MenuItem.ItemsSourceProperty).UpdateSource();
             }
-            catch (Exception) { }
+             else
+                mnItem.GetBindingExpression(MenuItem.IsCheckedProperty).UpdateTarget();
         }
     }
 }

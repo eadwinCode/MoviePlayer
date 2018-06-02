@@ -25,8 +25,6 @@ namespace Common.ApplicationCommands
             FastForward.InputGestures.Add(new KeyGesture(Key.Right, ModifierKeys.Control));
             ShiftRewind.InputGestures.Add(new KeyGesture(Key.Left, ModifierKeys.Shift));
             ShiftFastForward.InputGestures.Add(new KeyGesture(Key.Right, ModifierKeys.Shift));
-
-            SelectItem.InputGestures.Add(new KeyGesture(Key.A, ModifierKeys.Control));
         }
 
         private static RoutedCommand _playorpause = new RoutedCommand("PausePlay", typeof(VideoPlayerCommands));
@@ -52,29 +50,27 @@ namespace Common.ApplicationCommands
         private static RoutedCommand addto = new RoutedCommand("AddTo", typeof(VideoPlayerCommands));
         private static RoutedCommand newplaylist = new RoutedCommand("NewPlaylist", typeof(VideoPlayerCommands)); 
         private static RoutedCommand removefromplaylist = new RoutedCommand("RemovefrmPL", typeof(VideoPlayerCommands));
-
-        private static RoutedCommand disablesubtitle = new RoutedCommand("DisableSubtitle", typeof(VideoPlayerCommands));
+        
         private static RoutedCommand topmost = new RoutedCommand("TopMost", typeof(VideoPlayerCommands));
         private static RoutedCommand removefromls = new RoutedCommand("RemoveFromLastSeen", typeof(VideoPlayerCommands));
-        private static RoutedCommand selectedsub = new RoutedCommand("SelectedSub", typeof(VideoPlayerCommands));
+        private static RoutedCommand selectedsub = new RoutedCommand("SelectedSub", typeof(VideoPlayerCommands)); 
         private static RoutedCommand refreshfiles = new RoutedCommand("RefreshFiles", typeof(VideoPlayerCommands));
+        private static RoutedCommand addsubfile = new RoutedCommand("AddSubFile", typeof(VideoPlayerCommands));
         private static RoutedCommand resizemediaalways = new RoutedCommand("ResizeMediaAlways", typeof(VideoPlayerCommands));
-        private static RoutedCommand selectitem = new RoutedCommand("SelectItem", typeof(VideoPlayerCommands));
-        
 
+
+        public static RoutedCommand ResizeMediaAlways
+        {
+            get { return resizemediaalways; }
+        }
         public static RoutedCommand RefreshFiles
         {
             get { return refreshfiles; }
         }
 
-        public static RoutedCommand SelectItem
+        public static RoutedCommand AddSubFile
         {
-            get { return selectitem; }
-        }
-
-        public static RoutedCommand ResizeMediaAlways
-        {
-            get { return resizemediaalways; }
+            get { return addsubfile; }
         }
 
         public static RoutedCommand PausePlay
@@ -95,11 +91,6 @@ namespace Common.ApplicationCommands
         public static RoutedCommand Play
         {
             get { return play; }
-        }
-
-        public static RoutedCommand DisableSubtitle
-        {
-            get { return disablesubtitle; }
         }
 
         public static RoutedCommand SelectedSub

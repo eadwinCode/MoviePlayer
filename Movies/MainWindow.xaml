@@ -5,12 +5,100 @@
         xmlns:sw="clr-namespace:WpfStyleableWindow.StyleableWindow;assembly=VideoPlayerView"
         Style="{StaticResource CustomWindowStyle}"
         Title="Movies" x:Name="_mainView" 
-        FontFamily="Trebuchet MS" 
+        FontFamily="Segoe UI" 
         FontSize="12" Background="{StaticResource ImageBackground}"
         ResizeMode="CanResizeWithGrip" WindowState="Normal" Closing="MainView_Closing"
         WindowStartupLocation="Manual"  MinWidth="500" 
         MinHeight="300" HorizontalContentAlignment="Stretch" Icon="video.ico" >
    
+
+    <Window.Resources>
+        <!--Scrollbar Thumbs-->
+
+        <!--<Style x:Key="ScrollThumbs" TargetType="{x:Type Thumb}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Grid x:Name="Grid">
+                            <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Fill="Transparent" />
+                            <Border x:Name="Rectangle1" CornerRadius="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto"  Background="{TemplateBinding Background}" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Tag" Value="Horizontal">
+                                <Setter TargetName="Rectangle1" Property="Width" Value="Auto" />
+                                <Setter TargetName="Rectangle1" Property="Height" Value="7" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>-->
+
+        <!--ScrollBars-->
+        <!--<Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
+            <Setter Property="Stylus.IsFlicksEnabled" Value="false" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Width" Value="8" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ScrollBar}">
+                        -->
+        <!--<Border BorderBrush="White" BorderThickness="1.4"  CornerRadius="4" Width="12" Margin="0,5" >--><!--
+                        <Grid x:Name="GridRoot" Width="10" Background="{TemplateBinding Background}" Margin="0,5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.00001*" />
+                            </Grid.RowDefinitions>
+
+                            <Track x:Name="PART_Track" Grid.Row="0" IsDirectionReversed="true" Focusable="false">
+                                <Track.Thumb>
+                                    <Thumb x:Name="Thumb" Background="{TemplateBinding Foreground}" Style="{DynamicResource ScrollThumbs}" />
+                                </Track.Thumb>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton x:Name="PageUp" Command="ScrollBar.PageDownCommand" Opacity="0" Focusable="false" />
+                                </Track.IncreaseRepeatButton>
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton x:Name="PageDown" Command="ScrollBar.PageUpCommand" Opacity="0" Focusable="false" />
+                                </Track.DecreaseRepeatButton>
+                            </Track>
+                        </Grid>
+                        --><!--</Border>--><!--
+
+                        <ControlTemplate.Triggers>
+                            <Trigger SourceName="Thumb" Property="IsMouseOver" Value="true">
+                                <Setter Value="{DynamicResource ButtonSelectBrush}" TargetName="Thumb" Property="Background" />
+                            </Trigger>
+                            <Trigger SourceName="Thumb" Property="IsDragging" Value="true">
+                                <Setter Value="{DynamicResource DarkBrush}" TargetName="Thumb" Property="Background" />
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter TargetName="Thumb" Property="Visibility" Value="Collapsed" />
+                            </Trigger>
+                            <Trigger Property="Orientation" Value="Horizontal">
+                                <Setter TargetName="GridRoot" Property="LayoutTransform">
+                                    <Setter.Value>
+                                        <RotateTransform Angle="-90" />
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter TargetName="PART_Track" Property="LayoutTransform">
+                                    <Setter.Value>
+                                        <RotateTransform Angle="-90" />
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Width" Value="Auto" />
+                                <Setter Property="Height" Value="8" />
+                                <Setter TargetName="Thumb" Property="Tag" Value="Horizontal" />
+                                <Setter TargetName="PageDown" Property="Command" Value="ScrollBar.PageLeftCommand" />
+                                <Setter TargetName="PageUp" Property="Command" Value="ScrollBar.PageRightCommand" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>-->
+    </Window.Resources>
+    <!--<VideoList:VideoComponentList/>-->
     <DockPanel LastChildFill="True" >
 
         <Border DockPanel.Dock="Top" BorderBrush="{StaticResource ImageOutline}"  BorderThickness="0,0,0,1.2"
@@ -68,6 +156,36 @@
             </Grid>
         </Border>
         <VideoList:FileView Grid.Row="2" x:Name="fileView" VerticalAlignment="Stretch" />
+
+            <!--<VirtualizingStackPanel VirtualizingStackPanel.VirtualizationMode="Recycling" 
+                                     VirtualizingStackPanel.IsVirtualizing="True" 
+                            Orientation="Vertical"
+                            >
+        --><!--<Grid.RowDefinitions>
+            <RowDefinition Height="*" MinHeight="200"/>
+            <RowDefinition Height="4"/>
+            <RowDefinition Height="*" MinHeight="100" />
+        </Grid.RowDefinitions>-->
+       
+
+        <!--<Grid.Triggers>
+            <Trigger Property="local:MainView.HideExplorer" Value="True">
+                <Setter Property="Grid.RowSpan" Value="3" TargetName="_videoContent"/>
+                <Setter Property="UIElement.Visibility" Value="Collapsed" TargetName="_gridFileHolder"/>
+                <Setter Property="UIElement.Visibility" Value="Collapsed" TargetName="_separator"/>
+            </Trigger>
+            <Trigger Property="local:MainView.HideExplorer" Value="False">
+                <Setter Property="Grid.RowSpan" Value="1" TargetName="_videoContent"/>
+                <Setter Property="UIElement.Visibility" Value="Visible" TargetName="_gridFileHolder"/>
+                <Setter Property="UIElement.Visibility" Value="Visible" TargetName="_separator"/>
+            </Trigger>
+        </Grid.Triggers>--><!--
+    </VirtualizingStackPanel>-->
     </DockPanel> 
+ 
+   
+ <!--<GridSplitter Background="Gray" HorizontalAlignment="Stretch" Height="4"
+                      x:Name="_separator"  VerticalAlignment="Stretch" Grid.Row="1" 
+                      ShowsPreview="True" Margin="0,0,0,0"/>-->
 
 </Window>

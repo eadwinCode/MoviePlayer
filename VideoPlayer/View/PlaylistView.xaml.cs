@@ -66,7 +66,7 @@ namespace VideoPlayer
             {
                 OnPlaylistClose.Invoke(sender, null);
             }
-            (MediaControllerVM.Current.IVideoElement as Window).Focus();
+            (MediaControllerVM.MediaControllerInstance.IVideoElement as Window).Focus();
             vm.IsSaveDialogEnable = false;
         }
 
@@ -115,10 +115,10 @@ namespace VideoPlayer
             if (Keyboard.IsKeyDown(Key.LeftCtrl) ||
                 Keyboard.IsKeyDown(Key.RightCtrl))
             {
-                (MediaControllerVM.Current.IVideoPlayer as UserControl).Focus();
+                (MediaControllerVM.MediaControllerInstance.IVideoPlayer as UserControl).Focus();
                 return;
             }
-             (MediaControllerVM.Current.IVideoElement as Window).Focus();
+             (MediaControllerVM.MediaControllerInstance.IVideoElement as Window).Focus();
         }
 
         protected override void OnKeyDown(KeyEventArgs e)

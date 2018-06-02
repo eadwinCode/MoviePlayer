@@ -1,4 +1,5 @@
 ﻿using Common.Interfaces;
+using Meta.Vlc;
 using Microsoft.Practices.Prism.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -12,29 +13,52 @@ namespace Common.Model
 
     public class SubtitleFilesModel : NotificationObject, ISubtitleFiles
     {
+        public TrackDescription TrackDescription;
+        public int Id { get; private set; }
+        public string Name { get; private set; }
         public string FileName { get; set; }
         public string Directory { get; set; }
-        private bool isselected;
+        private bool isselected = false;
+        public SubtitleType SubtitleType { get; private set; }
         public bool IsSelected
         {
             get { return isselected; }
             set { isselected = value; RaisePropertyChanged(() => this.IsSelected); }
         }
 
-        public SubtitleFilesModel(string dir)
+        public SubtitleFilesModel(SubtitleType SubtitleType, string dir)
         {
-            this.Directory = dir;
-            this.FileName = Path.GetFileNameWithoutExtension(dir);
+            if (dir != null)
+            {
+                this.Directory = dir;
+                this.FileName = Path.GetFileNameWithoutExtension(dir);
+            }
+            this.SubtitleType = SubtitleType;
+        }
+        public SubtitleFilesModel(TrackDescription trackDescription,int currentid,string path = null)
+        {
+            this.Directory = path;
+            this.TrackDescription = trackDescription;
+            this.Name = trackDescription.Name;
+            this.Id = TrackDescription.Id;
+            this.SubtitleType = SubtitleType.HardCoded;
+            if(trackDescription.Id == currentid)
+                this.IsSelected = true;
+            
         }
 
         public override string ToString()
         {
-            return FileName;
+            if (TrackDescription != null)
+            {
+                return TrackDescription.Name;
+            }
+            return FileName == null ? SubtitleType.ToString(): FileName;
         }
 
-        public static void Add(IList<SubtitleFilesModel> collection, string filename)
+        public static void Add(IList<SubtitleFilesModel> collection, string filename, SubtitleType SubtitleType)
         {
-            SubtitleFilesModel file = new SubtitleFilesModel(filename);
+            SubtitleFilesModel file = new SubtitleFilesModel(SubtitleType,filename);
             if (collection.FirstOrDefault(x => x.FileName == file.FileName) == null)
             {
                 collection.Add(file);
@@ -48,5 +72,11 @@ namespace Common.Model
                 subPath.Remove(subtitleFiles);
             }
         }
+    }
+
+    public enum SubtitleType
+    {
+        SubFile,
+        HardCoded
     }
 }

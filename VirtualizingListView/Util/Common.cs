@@ -8,6 +8,7 @@ using System.Windows.Media;
 using VideoComponent.BaseClass;
 using System.Text.RegularExpressions;
 using Common.Model;
+using System.Collections.ObjectModel;
 
 namespace VirtualizingListView.Util
 {
@@ -77,7 +78,7 @@ namespace VirtualizingListView.Util
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message,ex.TargetSite.Name);
+                //MessageBox.Show(ex.Message,ex.TargetSite.Name);
             }
             return null;
         }
@@ -96,61 +97,46 @@ namespace VirtualizingListView.Util
                 }
 
                 var finalfilesort = subdir.Where(x => extensions.Contains(x.Extension.ToLower())).FirstOrDefault();
-                //if (subdir.Count<DirectoryInfo>() != 0)
-                //{
-                //    foreach (var item in subdir)
-                //    {
-                //        IEnumerable<FileInfo> files = item.GetFiles("*.*", SearchOption.TopDirectoryOnly);
-                //        Listfiles.AddRange(files.Where(f => extensions.Contains(f.Extension.ToLower())));
-                //        files = null;
-                //    }
-                //}
-                //else
-                //{
-                //    IEnumerable<FileInfo> files = dir.GetFiles("*.*", SearchOption.TopDirectoryOnly);
-                //    Listfiles.AddRange(files.Where(f => extensions.Contains(f.Extension.ToLower())));
-                //}
-
-
-                //var finalfilesort = Listfiles.Where(f => !notsupported.Contains(Path.GetFileNameWithoutExtension(f.FullName.ToString().ToLower()))).ToList<FileInfo>();
+               
                 if (finalfilesort != null)
                 {
                     return true;
                 }
             }
             catch (Exception ex) {
-                MessageBox.Show(ex.Message, ex.TargetSite.Name);
+                //MessageBox.Show(ex.Message, ex.TargetSite.Name);
                 return false;
             }
            
             return false;
         }
 
-        internal static List<SubtitleFilesModel> MatchSubToMedia(string p, IEnumerable<FileInfo> subpath)
+        internal static ObservableCollection<SubtitleFilesModel> MatchSubToMedia(string p, IEnumerable<FileInfo> subpath)
         {
             if (subpath == null) return null;
             var posiblepath = subpath.Where(x => Match(Path.GetFileNameWithoutExtension(x.Name)
                          ,(Path.GetFileNameWithoutExtension(p)))).ToArray();
             if (posiblepath.Length != 0)
             {
-                List<SubtitleFilesModel> subfilepath = new List<SubtitleFilesModel>();
+                ObservableCollection<SubtitleFilesModel> subfilepath = new ObservableCollection<SubtitleFilesModel>();
                 for (int i = 0; i < posiblepath.Length; i++)
                 {
-                    subfilepath.Add(new SubtitleFilesModel(posiblepath[i].FullName));
+                    subfilepath.Add(new SubtitleFilesModel(SubtitleType.SubFile,posiblepath[i].FullName));
                    //subfilepath[i] = posiblepath[i].FullName;
                 }
                 return subfilepath;
             }
 
-            return new List<SubtitleFilesModel>();
+            return new ObservableCollection<SubtitleFilesModel>();
         }
 
         internal static IEnumerable<FileInfo> GetSubtitleFiles(DirectoryInfo dir)
         {
             List<FileInfo> subfiles = new List<FileInfo>();
-           
-                IEnumerable<DirectoryInfo> parentchildir = dir.GetDirectories("*.*", SearchOption.TopDirectoryOnly);
-                IEnumerable<FileInfo> subfile = dir.GetFiles("*.srt*", SearchOption.TopDirectoryOnly);
+            IEnumerable<DirectoryInfo> parentchildir = dir.GetDirectories("*.*", SearchOption.TopDirectoryOnly);
+
+            IEnumerable<FileInfo> subfile = dir.GetFiles("*.*", SearchOption.TopDirectoryOnly)
+                .Where(s => FileLoader.subtitleformats.Contains(s.Extension)); ;
 
                 if (subfile != null)
                     subfiles.AddRange(subfile);
@@ -161,7 +147,8 @@ namespace VirtualizingListView.Util
                 {
                     try
                     {
-                        subfile = item.GetFiles("*.srt*", SearchOption.TopDirectoryOnly);
+                        subfile = item.GetFiles("*.*", SearchOption.TopDirectoryOnly)
+                            .Where(s => FileLoader.subtitleformats.Contains(s.Extension));
                         if (subfile != null)
                             subfiles.AddRange(subfile);
                     }

@@ -22,7 +22,7 @@
         </Grid.RowDefinitions>
         <Grid  x:Name="ListPanel" Grid.Row="0" DockPanel.Dock="Top">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200" MinWidth="20" MaxWidth="220"/>
+                <ColumnDefinition Width="200" MinWidth="20" MaxWidth="400"/>
                 <ColumnDefinition Width="5" />
                 <ColumnDefinition Width="1*" MinWidth="150"/>
             </Grid.ColumnDefinitions>

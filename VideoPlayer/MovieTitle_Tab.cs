@@ -111,7 +111,7 @@ namespace VideoPlayer
         {
            // this.MouseDown += MovieTitle_Tab_MouseDown;
             //this.canvas = MediaControllerVM.Current.IVideoPlayer.CanvasEnvironment as DragCanvas;
-            this.mediaControllervm = MediaControllerVM.Current;
+            this.mediaControllervm = MediaControllerVM.MediaControllerInstance;
            // MarqueeTimeInSeconds = 15;
            // RightToLeftMarquee();
 

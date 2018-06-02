@@ -18,20 +18,6 @@ namespace RealMediaControlSubtitle.View
         public SubtitleView()
         {
             InitializeComponent();
-           // OutlineTextSub = new CustomLabel();
-           // this.OutlineTextSub.AutoSize = true;
-           // this.OutlineTextSub.Dock = System.Windows.Forms.DockStyle.Fill;
-           // this.OutlineTextSub.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-           // this.OutlineTextSub.Location = new System.Drawing.Point(0, 0);
-           // this.OutlineTextSub.Name = "customLabel1";
-           // this.OutlineTextSub.OutlineForeColor = System.Drawing.Color.Black;
-           // this.OutlineTextSub.ForeColor = System.Drawing.Color.White;
-           // this.OutlineTextSub.BackColor = System.Drawing.Color.Transparent;
-           // this.OutlineTextSub.OutlineWidth = 2F;
-           // this.OutlineTextSub.Size = new System.Drawing.Size(700,0);
-           //// this.OutlineTextSub.Text = "JDvnisvnisvnsidvnsdnsidNDisnvs\nevwevewvsvsdnmvksnvdvnsjdsnvskvn\nygygyftft";
-           // this.OutlineTextSub.TabIndex = 0;
-           // WFH.Child = OutlineTextSub;
         }
         
 

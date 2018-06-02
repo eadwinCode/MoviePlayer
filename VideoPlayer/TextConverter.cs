@@ -10,6 +10,7 @@ namespace VideoPlayer
     public class TextConverter: IValueConverter{
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
+           
             double input = (double)value;
 
             return TimeSpan.FromSeconds(input).ToString(@"hh\:mm\:ss");

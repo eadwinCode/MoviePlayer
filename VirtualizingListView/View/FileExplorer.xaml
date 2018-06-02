@@ -3,7 +3,7 @@
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:cmd="clr-namespace:Common.ApplicationCommands;assembly=Common"
               xmlns:view="clr-namespace:VirtualizingListView.View"
-                 xmlns:xv ="clr-namespace:VirtualizingListView" Foreground="White"
+                 xmlns:xv ="clr-namespace:VirtualizingListView" 
              >
 
     <UserControl.Resources>
@@ -361,23 +361,14 @@
             </DockPanel>
 
         </Grid>
-        <DockPanel LastChildFill="True">
-            <DockPanel Visibility="{Binding CanSelectAll,Converter={StaticResource NavigationEnabled}}" TextBlock.FontFamily="Trebuchet MS" 
-                       TextBlock.FontStyle="Italic" 
-                       TextBlock.FontSize="15" HorizontalAlignment="Left"
-                       DockPanel.Dock="Top" Margin="5">
-                <CheckBox Command="{Binding ChbxSelectAll}" Padding="2" IsChecked="{Binding IsChecked}" Height="16" />
-                <TextBlock  Padding="1"  Text="Select All" Margin="0,0,5,0" />
-                <TextBlock Text="[ "/>
-                <TextBlock Text="{Binding SelectAllCount}" Margin="0,0,5,0"   />
-                <TextBlock Text=" ]"/>
-            </DockPanel>
-             <ListView  Style="{Binding ListViewStyle}"   x:Name="collections"
+
+        <ListView  Style="{Binding ListViewStyle}"   x:Name="collections"
                     ScrollViewer.VerticalScrollBarVisibility="Auto" 
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                     Background="Transparent"
                     ItemsSource="{Binding Source={StaticResource myVideoData}}"
                     ItemTemplateSelector="{Binding MyTemplateChange}"
+                   ItemContainerStyle="{StaticResource CustomContainerStyle}"
                     Grid.RowSpan="2" >
 
             <!--ContextMenu="{StaticResource ListViewCntxtMenu}" {Binding VideoItem} Loaded="ListView_Loaded" ItemTemplate="{DynamicResource ItemTemplate}" ItemsPanel="{StaticResource VideoItemsPanel}"
@@ -403,25 +394,7 @@
 
         </ListView.GroupStyle>-->
 
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="Focusable" Value="False"/>
-                    <Setter Property="Background" Value="Transparent"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type ListViewItem}">
-                                <Grid Margin="{TemplateBinding Margin}" >
-                                    <ContentPresenter HorizontalAlignment="Stretch" 
-                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                </Grid>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </ListView.ItemContainerStyle>
         </ListView>
-        </DockPanel>
-       
     </DockPanel>
 </UserControl>
       <!--  <ListView.ItemContainerStyle>

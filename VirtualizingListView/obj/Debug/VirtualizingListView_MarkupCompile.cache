@@ -4,7 +4,7 @@
 library
 C#
 .cs
-C:\Users\EadwinToochos\Desktop\Desktop\Movie-Player-WPF.NET-\VirtualizingListView\obj\Debug\
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\
 VirtualizingListView
 none
 false
@@ -12,9 +12,9 @@ DEBUG;TRACE
 
 8975960779
 
-391789725950
-23-269842066
+411036017265
+25436845104
 Resources\Items.xaml;Resources\ViewStyle.xaml;Themes\Generic.xaml;View\FileExplorer.xaml;View\FileView.xaml;View\MyTreeView.xaml;View\PlaylistTree.xaml;View\RenameDialog.xaml;
 
-False
+True
 

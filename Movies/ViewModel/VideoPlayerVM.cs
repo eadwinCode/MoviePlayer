@@ -6,7 +6,6 @@ using Common.Util;
 using Microsoft.Practices.Prism.ViewModel;
 using Microsoft.Practices.ServiceLocation;
 using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,7 +14,6 @@ using System.Windows.Media.Animation;
 using VideoComponent.BaseClass;
 using VideoPlayer;
 using VideoPlayer.ViewModel;
-using VirtualizingListView;
 using VirtualizingListView.View;
 using VirtualizingListView.ViewModel;
 
@@ -124,23 +122,8 @@ namespace RealMediaControl.ViewModel
                 RefreshFiles_executed, RefreshFiles_Enabled));
             commandbings.Add(new CommandBinding(VideoPlayerCommands.RemoveFromLastSeen,
                 RemoveFromLS_executed,RemoveFromLS_enabled));
-            commandbings.Add(new CommandBinding(VideoPlayerCommands.SelectItem,
-              SelectItem_executed));
-            (IShell as Window).Closing += VideoPlayerVM_Closing;
-        }
 
-        private void SelectItem_executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            VideoFolderChild vfc = (VideoFolderChild)e.Parameter;
-            if (CollectionViewModel.Instance.CanSelectAll == false) {
-                CollectionViewModel.Instance.CanSelectAll = true;
-                vfc.IsCheckboxChecked = (true);
-                return;
-            }
-            if (e.OriginalSource is CustomButton)
-            {
-                vfc.IsCheckboxChecked = (true);
-            }
+            (IShell as Window).Closing += VideoPlayerVM_Closing;
         }
 
         private void RefreshFiles_Enabled(object sender, CanExecuteRoutedEventArgs e)
@@ -171,18 +154,8 @@ namespace RealMediaControl.ViewModel
         private void NewPlaylist_executed(object sender, ExecutedRoutedEventArgs e)
         {
             VideoFolderChild vfc = (VideoFolderChild)e.Parameter;
-            ObservableCollection<VideoFolderChild> CheckedItems = null;
-            if (CollectionViewModel.Instance.CanSelectAll && CollectionViewModel.Instance.SelectAllCount > 0)
-            {
-               CheckedItems = new ObservableCollection<VideoFolderChild>(CollectionViewModel.Instance.VideoDataAccess.OtherFiles.
-                    OfType<VideoFolderChild>().Where(x => x.IsCheckboxChecked).ToList());
-            }
             ((IShell.FileView.TreeViewer as ITreeViewer).MoviesPLaylist as PlaylistTree)
-                .CreateNewPlayList(vfc.Directory.FullName,CheckedItems);
-            if (CollectionViewModel.Instance.CanSelectAll)
-            {
-                CollectionViewModel.Instance.CanSelectAll = false;
-            }
+                .CreateNewPlayList(vfc.Directory.FullName);
         }
 
         private void AddTo_executed(object sender, ExecutedRoutedEventArgs e)
@@ -190,35 +163,14 @@ namespace RealMediaControl.ViewModel
             var selectedplaylist = e.Parameter as PlaylistModel;
             VideoFolder vf = ((e.Source as IFileViewer).FileExplorer as IFileExplorer)
                 .ContextMenuObject as VideoFolder;
-
-            ObservableCollection<VideoFolderChild> CheckedItems = null;
-            if (CollectionViewModel.Instance.CanSelectAll && CollectionViewModel.Instance.SelectAllCount > 0)
-            {
-                CheckedItems = new ObservableCollection<VideoFolderChild>(CollectionViewModel.Instance.VideoDataAccess.OtherFiles.
-                     OfType<VideoFolderChild>().Where(x => x.IsCheckboxChecked).ToList());
-            }
             if (selectedplaylist.IsActive)
             {
-                if(CheckedItems != null) IPlayFile.AddFiletoPlayList(CheckedItems);
-                else
                 IPlayFile.AddFiletoPlayList(vf);
             }
             else
             {
-                if (CheckedItems != null)
-                {
-                    foreach (VideoFolderChild item in CheckedItems)
-                    {
-                        selectedplaylist.Add(item.Directory.FullName);
-                    }
-                }else
-                    selectedplaylist.Add(vf.Directory.FullName);
+                selectedplaylist.Add(vf.Directory.FullName);
             }
-            if (CollectionViewModel.Instance.CanSelectAll)
-            {
-                CollectionViewModel.Instance.CanSelectAll = false;
-            }
-
         }
 
         private void VideoPlayerVM_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -229,40 +181,19 @@ namespace RealMediaControl.ViewModel
         private void AddtoPlayList_executed(object sender, ExecutedRoutedEventArgs e)
         {
             VideoFolderChild vfc = (VideoFolderChild)e.Parameter;
-            if (CollectionViewModel.Instance.CanSelectAll && CollectionViewModel.Instance.SelectAllCount > 0)
-            {
-                ObservableCollection<VideoFolderChild> CheckedItems =  new ObservableCollection<VideoFolderChild>( CollectionViewModel.Instance.VideoDataAccess.OtherFiles.
-                    OfType<VideoFolderChild>().Where(x => x.IsCheckboxChecked).ToList());
 
-                IPlayFile.AddFiletoPlayList(CheckedItems);
-            }else if (vfc != null)
+            if (vfc != null)
             {
                 IPlayFile.AddFiletoPlayList(vfc);
-            }
-
-            if (CollectionViewModel.Instance.CanSelectAll)
-            {
-                CollectionViewModel.Instance.CanSelectAll = false;
             }
         }
 
         private void Play_executed(object sender, ExecutedRoutedEventArgs e)
         {
             VideoFolderChild vfc = (VideoFolderChild)e.Parameter;
-            if (CollectionViewModel.Instance.CanSelectAll && CollectionViewModel.Instance.SelectAllCount > 0)
-            {
-                ObservableCollection<VideoFolderChild> CheckedItems = new ObservableCollection<VideoFolderChild>(CollectionViewModel.Instance.VideoDataAccess.OtherFiles.
-                    OfType<VideoFolderChild>().Where(x => x.IsCheckboxChecked).ToList());
-                IPlayFile.AddFiletoPlayList(CheckedItems);
-            }
-            else if (vfc != null)
+            if (vfc != null)
             {
                 IPlayFile.PlayFileInit(vfc);
-            }
-
-            if (CollectionViewModel.Instance.CanSelectAll)
-            {
-                CollectionViewModel.Instance.CanSelectAll = false;
             }
         }
 

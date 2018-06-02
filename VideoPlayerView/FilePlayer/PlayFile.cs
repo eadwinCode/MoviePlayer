@@ -10,7 +10,7 @@ using Microsoft.Practices.ServiceLocation;
 using VirtualizingListView.Model;
 using System.IO;
 using Common.Model;
-using System.Collections.ObjectModel;
+using Meta.Vlc;
 
 namespace VideoPlayerView.FilePlayer
 {
@@ -26,7 +26,13 @@ namespace VideoPlayerView.FilePlayer
             if (WindowsMediaPlayer != null)
             {
                 WindowsMediaPlayer.Close();
-            }
+
+            } 
+            if (Win32Api.SetThreadExecutionState(Win32Api.ES_CONTINUOUS) == null)
+            {
+                // try XP variant as well just to make sure 
+                Win32Api.SetThreadExecutionState(Win32Api.ES_CONTINUOUS);
+            } 
         }
 
         public IVideoElement VideoElement { get { return _videoelement; } }
@@ -80,14 +86,10 @@ namespace VideoPlayerView.FilePlayer
                 {
                     WindowsMediaPlayer.Close();
                 }
-            //if ((_videoelement as Window).Owner != (IShell as Window))
-            //{
-            //    (_videoelement as Window).Owner = IShell as Window;
-            //}
             (_videoelement as Window).Show();
 
                 if (obj != null)
-                    MediaControllerVM.Current.GetVideoItem((VideoFolderChild)obj);
+                    MediaControllerVM.MediaControllerInstance.GetVideoItem((VideoFolderChild)obj);
             }
             catch (Exception)
             {
@@ -130,21 +132,10 @@ namespace VideoPlayerView.FilePlayer
             InitPlayerView();
             MediaControlExtension.SetFileexpVisiblity(VideoElement.PlayListView as UIElement,
                 Visibility.Visible);
-            if (obj.GetType() == typeof(VideoFolderChild))
-            {
-                VideoFolderChild vfc = (VideoFolderChild)obj;
 
-                MediaControllerVM.Current.Playlist.Add(vfc);
-            }
-            else
-            {
-                ObservableCollection<VideoFolderChild> CheckedItems = (ObservableCollection<VideoFolderChild>)obj;
-                foreach (var item in CheckedItems)
-                {
-                    MediaControllerVM.Current.Playlist.Add(item);
-                } 
-            }
-            
+            VideoFolderChild vfc = (VideoFolderChild)obj;
+
+            MediaControllerVM.MediaControllerInstance.Playlist.Add(vfc);
         }
 
         public void PlayFileFromPlayList(PlaylistModel plm)
@@ -153,7 +144,7 @@ namespace VideoPlayerView.FilePlayer
             MediaControlExtension.SetFileexpVisiblity(VideoElement.PlayListView as UIElement,
                 Visibility.Visible);
             
-            MediaControllerVM.Current.Playlist.PlayFromAList(plm);
+            MediaControllerVM.MediaControllerInstance.Playlist.PlayFromAList(plm);
             (IShell as Window).WindowState = WindowState.Minimized;
         }
         
@@ -175,7 +166,7 @@ namespace VideoPlayerView.FilePlayer
         {
             try
             {
-                MediaControllerVM.Current.Close();
+                MediaControllerVM.MediaControllerInstance.CloseMediaPlayer();
                 _videoelement = null;
                 (IShell as Window).WindowState = ShellState;
             }

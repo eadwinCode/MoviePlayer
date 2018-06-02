@@ -4,7 +4,7 @@
 library
 C#
 .cs
-C:\Users\EadwinToochos\Desktop\Desktop\Movie-Player-WPF.NET-\VideoPlayer\obj\Debug\
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayer\obj\Debug\
 VideoPlayer
 none
 false
@@ -12,9 +12,9 @@ DEBUG;TRACE
 
 4358136259
 
-25-2111982812
-22-1287808909
+26832560555
+241837709762
 Themes\Generic.xaml;View\MediaController.xaml;View\PlaylistView.xaml;View\SubtitleMediaController.xaml;
 
-False
+True
 

@@ -21,8 +21,13 @@ namespace VirtualizingListView
                 string input = (value as string) == string.Empty ? null : value as string;
                 return input == null ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible;
             }
+            if ((parameter as string) == "LastSeenText")
+            {
+                TimeSpan ts = (TimeSpan)value;
+                var tstostring = ts.ToString(@"hh\:mm\:ss");
+                return "Continue from [ " + tstostring + " ]";
+            }
             return value;
-            
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

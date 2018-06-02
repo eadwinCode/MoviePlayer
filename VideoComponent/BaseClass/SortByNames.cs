@@ -10,7 +10,7 @@ namespace VideoComponent.BaseClass
     {
         public int Compare(VideoFolder x, VideoFolder y)
         {
-            if (x.FileType == y.FileType)
+             if (x.FileType == y.FileType)
             {
                 return x.FileName.CompareTo(y.FileName);
             }

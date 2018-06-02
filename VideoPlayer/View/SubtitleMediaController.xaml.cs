@@ -11,11 +11,9 @@ namespace VideoPlayer
     /// </summary>
     public partial class SubtitleMediaController : UserControl, ISubtitleMediaController
     {
-        
-
        // public Canvas CanvasEnvironment { get { return this.mycanvas; } }
 
-        public ISubtitle Subtitle { get { return this.SubtitleText; } }
+        //public ISubtitle Subtitle { get { return this.SubtitleText; } }
 
         public UserControl MediaController { get { return this.mediacontrol; } }
 
@@ -26,7 +24,6 @@ namespace VideoPlayer
             InitializeComponent();
             this.DataContext = new VideoPlayerVM(this);
             this.Loaded += VideoPlayerView_Loaded;
-            
             //this.MediaElementPlayer.VideoRenderer =WPFMediaKit.DirectShow.MediaPlayers.VideoRendererType.EnhancedVideoRenderer;
         }
 
@@ -82,7 +79,7 @@ namespace VideoPlayer
         //} 
         #endregion
 
-        internal void OnScreenSettingsCanged(object sender)
+        internal void OnScreenSettingsChanged(object sender)
         {
             if (ScreenSettingsChanged != null)
             {

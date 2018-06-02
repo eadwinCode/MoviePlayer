@@ -9,6 +9,5 @@
 //------------------------------------------------------------------------------
 
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("evrpresenter32.dll")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("fonts/glyphicons-halflings-regular.svg")]
 
 

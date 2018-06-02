@@ -26,6 +26,11 @@ namespace VirtualizingListView.Util
                  ".ogm", ".ogv", ".ogx",".ps", ".rec",".rm", ".rmvb", ".tod", ".ts", ".tts" ,
                  ".vob" ,".vro",".webm"
               };
+        public static string[] subtitleformats = 
+        { 
+          ".aqt ",".vtt",".cvd",".dks" ,".jss",".sub" ,".ttxt" ,".mpl" ,".txt" ,".pjs" ,".psb" 
+          ,".rt",".smi" ,".ssf" ,".srt" ,".ssa" ,".svcd",".usf" ,".idx"
+        };
 
         public static VideoFolder LoadParentFiles(VideoFolder ParentDir, SortType sorttype, ICollectionViewModel collectionVM)
         {
@@ -33,7 +38,6 @@ namespace VirtualizingListView.Util
             ObservableCollection<VideoFolder> children;
             List<DirectoryInfo> ParentSubDir = FileExplorerCommonHelper.GetParentSubDirectory(ParentDir.Directory, formats);
             if (ParentSubDir == null) { collectionVM.IsLoading = false; return new VideoFolder(ParentDir,ParentDir.Directory.Extension); }
-
             children = new ObservableCollection<VideoFolder>();
             collectionVM.IsLoading = true;
             children = LoadChildrenFiles(ParentDir);
@@ -48,14 +52,12 @@ namespace VirtualizingListView.Util
                 VideoFolder child = LoadDirInfo(ParentDir, ParentSubDir[i]);
                 children.Add(child);
             }
-
             if (ParentDir.OtherFiles == null || children.Count > ParentDir.OtherFiles.Count)
             {
                 ParentDir.OtherFiles = new ObservableCollection<VideoFolder>();
                 ParentDir.OtherFiles.AddRange(children);
                 GetRootDetails(sorttype, ParentDir);
             }
-
             //   }));
             collectionVM.IsLoading = false;
             return ParentDir;

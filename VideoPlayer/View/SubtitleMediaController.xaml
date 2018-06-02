@@ -5,9 +5,10 @@
              xmlns:rmc="clr-namespace:VideoPlayer"
              AllowDrop="True"
              xmlns:util="clr-namespace:Common.Util;assembly=Common">
+   
     <UserControl.Resources>
         <ResourceDictionary>
-
+          
             <Style x:Key="ContentControlStyle" TargetType="{x:Type rmc:MediaController}">
                 <Style.Triggers>
                     <MultiTrigger>
@@ -168,21 +169,7 @@
 
         </Grid>-->
     <Grid >
-       
         <StackPanel HorizontalAlignment="Stretch"  DockPanel.Dock="Bottom" VerticalAlignment="Bottom" >
-            <Viewbox x:Name="SubviewBox" IsHitTestVisible="False" 
-                         Focusable="False" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
-                         Margin="3,0,3,8.4" >
-                <sub:SubtitleView IsHitTestVisible="False" Width="600"
-                                  Focusable="False" x:Name="SubtitleText"
-                                  SnapsToDevicePixels="True"
-                                  HorizontalAlignment="Stretch" 
-                                  Background="Transparent" VerticalAlignment="Bottom">
-                    <sub:SubtitleView.Effect>
-                        <DropShadowEffect   Direction="315" ShadowDepth="1.1" Color="Black" BlurRadius="0" Opacity=".5"/>
-                    </sub:SubtitleView.Effect>
-                </sub:SubtitleView>
-            </Viewbox>
             <Grid Grid.Row="1"  x:Name="ControlHolder" >
                 <rmc:MediaController 
                     Style="{StaticResource ContentControlStyle}"  x:Name="mediacontrol"/>

@@ -13,6 +13,7 @@
                 <ResourceDictionary Source="pack://application:,,,/Movies;component/Resources/Styles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/VirtualizingListView;component/Resources/Items.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/VirtualizingListView;component/Resources/ViewStyle.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/VideoPlayerView;component/Themes/Generic.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <LinearGradientBrush x:Key="ProgressBarBackground" EndPoint="1,0" StartPoint="0,0">
@@ -131,17 +132,6 @@
 
 
             <!--Windows Style-->
-
-            <SolidColorBrush x:Key="WindowColor" Color="Red"/>
-            <SolidColorBrush x:Key="WindowBackColor" Color="#FF191919"/>
-            <SolidColorBrush x:Key="WindowForeColor" Color="#FF9C9797"/>
-            <SolidColorBrush x:Key="WindowForeHighlightColor" Color="White"/>
-            <SolidColorBrush x:Key="WindowButtonColor" Color="Blue"/>
-            <SolidColorBrush x:Key="WindowButtonOverColor" Color="LightBlue"/>
-            <SolidColorBrush x:Key="WindowButtonPressedColor" Color="DarkBlue"/>
-
-
-
             <Style x:Key="CloseStyle" TargetType="{x:Type Button}">
                 <Setter Property="Height" Value="25"/>
                 <Setter Property="Width" Value="25"/>
@@ -326,22 +316,10 @@
                 </Setter>
             </Style>
 
-            <!---red window brushes-->
-            <!--<SolidColorBrush x:Key="WindowColor" Color="DarkRed"/>
-        <SolidColorBrush x:Key="WindowBackColor" Color="DarkRed"/>
-        <SolidColorBrush x:Key="WindowForeColor" Color="White"/>
-        <SolidColorBrush x:Key="WindowForeHighlightColor" Color="White"/>
-        <SolidColorBrush x:Key="WindowButtonColor" Color="OrangeRed"/>
-        <SolidColorBrush x:Key="WindowButtonOverColor" Color="Orange"/>
-        <SolidColorBrush x:Key="WindowButtonPressedColor" Color="DarkOrange"/>-->
-
-            <!--The window template and it's components -->
 
             <sw:WindowMinimizeCommand x:Key="MinimizeCommand"></sw:WindowMinimizeCommand>
             <sw:WindowMaximizeCommand x:Key="MaximizeCommand"></sw:WindowMaximizeCommand>
             <sw:WindowCloseCommand x:Key="CloseCommand"></sw:WindowCloseCommand>
-
-
 
             <Style TargetType="{x:Type Button}" x:Key="WindowButton">
                 <Setter Property="Height" Value="25"/>
@@ -377,215 +355,6 @@
                 <Setter Property="Height" Value="25"/>
                 <Setter Property="Width" Value="25"/>
             </Style>
-
-            <!--<ControlTemplate x:Key="WindowTemplate" TargetType="{x:Type Window}">
-                <Grid Background="{StaticResource WindowBackColor}">
-                     <Border Grid.Row="1" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" >
-                    <Grid >
-                        <DockPanel LastChildFill="True">
-                            -->
-            <!--<Grid.RowDefinitions>
-                            <RowDefinition Height="30"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>-->
-            <!--
-                            <Grid Grid.Row="0" Height="35"   
-                                  DockPanel.Dock="Top" Visibility="{Binding WindowsControl,FallbackValue=Visible}" >
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="120"/>
-                                </Grid.ColumnDefinitions>
-
-                                <Label Grid.Column="0"                                          
-                                    sw:ControlDoubleClickBehavior.ExecuteCommand="{StaticResource CloseCommand}"                                               
-                                    sw:ControlDoubleClickBehavior.ExecuteCommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Padding="0">
-                                    <Image DockPanel.Dock="Left" Style="{StaticResource WindowIcon}" Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}},Path=Icon}"                                         
-                                    Width="18"                                           
-                                    sw:ShowSystemMenuBehavior.TargetWindow="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"                                           
-                                    sw:ShowSystemMenuBehavior.LeftButtonShowAt="{Binding ElementName=WindowContent}"/>
-                                </Label>
-
-                                <StackPanel Grid.Column="1" DockPanel.Dock="Left" Orientation="Horizontal">
-                                    <Label  Content="{TemplateBinding Property=Title}" Padding="4,3,0,0"                                                                                  
-                                    HorizontalContentAlignment="Left"
-                                    VerticalContentAlignment="Stretch"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Stretch"
-                                    Foreground="{TemplateBinding Foreground}"                                           
-                                    FontSize="16"
-                                    sw:WindowDragBehavior.LeftMouseButtonDrag="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                                    sw:ControlDoubleClickBehavior.ExecuteCommand="{StaticResource MaximizeCommand}"
-                                    sw:ControlDoubleClickBehavior.ExecuteCommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                                    sw:ShowSystemMenuBehavior.TargetWindow="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                                    sw:ShowSystemMenuBehavior.RightButtonShow="true">
-                                    </Label>
-                                    <Button Margin="3" Width="20" Height="20">
-
-                                    </Button>
-
-                                </StackPanel>
-
-                                <Label  sw:WindowDragBehavior.LeftMouseButtonDrag="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                                    sw:ControlDoubleClickBehavior.ExecuteCommand="{StaticResource MaximizeCommand}"
-                                    sw:ControlDoubleClickBehavior.ExecuteCommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                                    sw:ShowSystemMenuBehavior.TargetWindow="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                                    sw:ShowSystemMenuBehavior.RightButtonShow="true"
-                                HorizontalAlignment="Stretch" Grid.Column="2" VerticalAlignment="Stretch"/>
-
-
-                                <StackPanel Grid.Column="3" Orientation="Horizontal" >
-                                        <Button DockPanel.Dock="Right" Height="32"  Width="40" ToolTip="Minimize" Style="{StaticResource  minbtn}" Background="Transparent" Command="{StaticResource MinimizeCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"></Button>
-                                        <Button DockPanel.Dock="Right" Height="32"  Width="40" ToolTip="{Binding MaxbtnTooltip}" Background="Transparent" Style="{Binding StyleChanger, FallbackValue={StaticResource maxbtn}}" Command="{StaticResource MaximizeCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"></Button>
-                                        <Button DockPanel.Dock="Right" Height="32"  Width="40" ToolTip="Close" Background="Transparent" Style="{StaticResource CloseStyle}" Command="{StaticResource CloseCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"></Button>
-                                </StackPanel>
-
-                            </Grid>
-
-                            <Grid Background="{TemplateBinding Background}">
-                                <AdornerDecorator>
-                                    <ContentPresenter x:Name="WindowContent"/>
-                                </AdornerDecorator>
-                                <ResizeGrip  x:Name="WindowResizeGrip" HorizontalAlignment="Right" IsTabStop="false" Visibility="Collapsed" VerticalAlignment="Bottom"/>
-                            </Grid>
-                        </DockPanel>
-
-                      
-                </Grid>
-                    
-                </Border>  
-                        <Thumb Background="Transparent" x:Name="ThumbTop" Height="4" Margin="14,0" VerticalAlignment="Top" Cursor="SizeNS"  Opacity="0" sw:WindowResizeBehavior.TopResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
-                        <Thumb Background="Transparent" x:Name="ThumbTopLeft" Height="5" Width="5" VerticalAlignment="Top" HorizontalAlignment="Left" Cursor="SizeNWSE"  Opacity="0" sw:WindowResizeBehavior.TopLeftResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
-                        <Thumb Background="Transparent" x:Name="ThumbBottom" Height="4" Margin="14,0" VerticalAlignment="Bottom" Cursor="SizeNS" Opacity="0" sw:WindowResizeBehavior.BottomResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
-                        <Thumb Background="Transparent" x:Name="ThumbTopRight" Height="5" Width="5" VerticalAlignment="Top" HorizontalAlignment="Right" Cursor="SizeNESW"  Opacity="0" sw:WindowResizeBehavior.TopRightResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
-                        <Thumb Background="Transparent" x:Name="ThumbRight" HorizontalAlignment="Right" Margin="0,14" Width="4" Cursor="SizeWE"  Opacity="0" sw:WindowResizeBehavior.RightResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
-                        <Thumb Background="Transparent" x:Name="ThumbBottomRight" Height="5" Width="5" VerticalAlignment="Bottom" HorizontalAlignment="Right" Cursor="SizeNWSE"  Opacity="0" sw:WindowResizeBehavior.BottomRightResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
-                        <Thumb Background="Transparent" x:Name="ThumbLeft" HorizontalAlignment="Left" Margin="0,14" Width="4" Cursor="SizeWE"  Opacity="0" sw:WindowResizeBehavior.LeftResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
-                        <Thumb Background="Transparent" x:Name="ThumbBottomLeft" Height="5" Width="5" VerticalAlignment="Bottom" HorizontalAlignment="Left" Cursor="SizeNESW"  Opacity="0" sw:WindowResizeBehavior.BottomLeftResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
-                    <Grid.Effect>
-                        <DropShadowEffect   Direction="315" ShadowDepth="1.1" Color="Red" BlurRadius="0" Opacity=".8"/>
-                    </Grid.Effect>
-                </Grid>
-               
-                
-
-                <ControlTemplate.Triggers>
-                    <MultiTrigger>
-                        <MultiTrigger.Conditions>
-                            <Condition Property="ResizeMode" Value="CanResizeWithGrip"/>
-                            <Condition Property="WindowState" Value="Normal"/>
-                        </MultiTrigger.Conditions>
-                        <Setter Property="Visibility" TargetName="WindowResizeGrip" Value="Visible"/>
-                    </MultiTrigger>
-                </ControlTemplate.Triggers>
-            </ControlTemplate>-->
-
-            <!--<ControlTemplate x:Key="CustomWindowTemplate" TargetType="{x:Type Window}">
-                <Grid Background="{StaticResource WindowBackColor}">
-                    <Border Grid.Row="1" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" >
-                        <Grid >
-                            <DockPanel LastChildFill="True">
-                                -->
-            <!--<Grid.RowDefinitions>
-                            <RowDefinition Height="30"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>-->
-            <!--<Grid Grid.Row="0"   DockPanel.Dock="Top" Visibility="{Binding WindowsControl,FallbackValue=Visible}" >
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="75"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <Label Grid.Column="0"                                          
-                                    sw:ControlDoubleClickBehavior.ExecuteCommand="{StaticResource CloseCommand}"                                               
-                                    sw:ControlDoubleClickBehavior.ExecuteCommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Padding="0">
-                                        <Image DockPanel.Dock="Left" Style="{StaticResource WindowIcon}" Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}},Path=Icon}"                                         
-                                    Width="18"                                           
-                                    sw:ShowSystemMenuBehavior.TargetWindow="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"                                           
-                                    sw:ShowSystemMenuBehavior.LeftButtonShowAt="{Binding ElementName=WindowContent}"/>
-                                    </Label>
-
-                                    <StackPanel Grid.Column="1" DockPanel.Dock="Left" Orientation="Horizontal">
-                                        <Label  Content="{TemplateBinding Property=Title}" Padding="4,3,0,0"                                                                                  
-                                    HorizontalContentAlignment="Left"
-                                    VerticalContentAlignment="Stretch"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Stretch"
-                                    Foreground="{TemplateBinding Foreground}"                                           
-                                    FontSize="16"
-                                    sw:WindowDragBehavior.LeftMouseButtonDrag="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                                    sw:ControlDoubleClickBehavior.ExecuteCommand="{StaticResource MaximizeCommand}"
-                                    sw:ControlDoubleClickBehavior.ExecuteCommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                                    sw:ShowSystemMenuBehavior.TargetWindow="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                                    sw:ShowSystemMenuBehavior.RightButtonShow="true">
-                                        </Label>
-                                        <Button Margin="3" Width="20" Height="20">
-
-                                        </Button>
-
-                                    </StackPanel>
-
-                                    <Label  sw:WindowDragBehavior.LeftMouseButtonDrag="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                                    sw:ControlDoubleClickBehavior.ExecuteCommand="{StaticResource MaximizeCommand}"
-                                    sw:ControlDoubleClickBehavior.ExecuteCommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                                    sw:ShowSystemMenuBehavior.TargetWindow="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                                    sw:ShowSystemMenuBehavior.RightButtonShow="true"
-                                HorizontalAlignment="Stretch" Grid.Column="2" VerticalAlignment="Stretch"/>
-
-
-                                    <StackPanel Grid.Column="3" Orientation="Horizontal" >
-                                        <Button DockPanel.Dock="Right" ToolTip="Minimize" Style="{StaticResource  minbtn}" Command="{StaticResource MinimizeCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"></Button>
-                                        <Button DockPanel.Dock="Right" ToolTip="{Binding MaxbtnTooltip}" Style="{Binding StyleChanger, FallbackValue={StaticResource maxbtn}}" Command="{StaticResource MaximizeCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"></Button>
-                                        <Button DockPanel.Dock="Right" ToolTip="Close"  Style="{StaticResource CloseStyle}" Command="{StaticResource CloseCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"></Button>
-                                    </StackPanel>
-
-                                </Grid>-->
-            <!--
-
-                                <Grid Background="{TemplateBinding Background}">
-                                    <AdornerDecorator>
-                                        <ContentPresenter x:Name="WindowContent"/>
-                                    </AdornerDecorator>
-                                    <ResizeGrip  x:Name="WindowResizeGrip" HorizontalAlignment="Right" IsTabStop="false" Visibility="Collapsed" VerticalAlignment="Bottom"/>
-                                </Grid>
-                            </DockPanel>
-
-
-                        </Grid>
-
-                    </Border>
-                    <Thumb Background="Transparent" x:Name="ThumbTop" Height="4" Margin="14,0" VerticalAlignment="Top" Cursor="SizeNS"  Opacity="0" sw:WindowResizeBehavior.TopResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
-                    <Thumb Background="Transparent" x:Name="ThumbTopLeft" Height="5" Width="5" VerticalAlignment="Top" HorizontalAlignment="Left" Cursor="SizeNWSE"  Opacity="0" sw:WindowResizeBehavior.TopLeftResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
-                    <Thumb Background="Transparent" x:Name="ThumbBottom" Height="4" Margin="14,0" VerticalAlignment="Bottom" Cursor="SizeNS" Opacity="0" sw:WindowResizeBehavior.BottomResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
-                    <Thumb Background="Transparent" x:Name="ThumbTopRight" Height="5" Width="5" VerticalAlignment="Top" HorizontalAlignment="Right" Cursor="SizeNESW"  Opacity="0" sw:WindowResizeBehavior.TopRightResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
-                    <Thumb Background="Transparent" x:Name="ThumbRight" HorizontalAlignment="Right" Margin="0,14" Width="4" Cursor="SizeWE"  Opacity="0" sw:WindowResizeBehavior.RightResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
-                    <Thumb Background="Transparent" x:Name="ThumbBottomRight" Height="5" Width="5" VerticalAlignment="Bottom" HorizontalAlignment="Right" Cursor="SizeNWSE"  Opacity="0" sw:WindowResizeBehavior.BottomRightResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
-                    <Thumb Background="Transparent" x:Name="ThumbLeft" HorizontalAlignment="Left" Margin="0,14" Width="4" Cursor="SizeWE"  Opacity="0" sw:WindowResizeBehavior.LeftResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
-                    <Thumb Background="Transparent" x:Name="ThumbBottomLeft" Height="5" Width="5" VerticalAlignment="Bottom" HorizontalAlignment="Left" Cursor="SizeNESW"  Opacity="0" sw:WindowResizeBehavior.BottomLeftResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
-                    <Grid.Effect>
-                        <DropShadowEffect   Direction="315" ShadowDepth="1.1" Color="Red" BlurRadius="0" Opacity=".8"/>
-                    </Grid.Effect>
-                </Grid>
-
-
-
-                <ControlTemplate.Triggers>
-                    <MultiTrigger>
-                        <MultiTrigger.Conditions>
-                            <Condition Property="ResizeMode" Value="CanResizeWithGrip"/>
-                            <Condition Property="WindowState" Value="Normal"/>
-                        </MultiTrigger.Conditions>
-                        <Setter Property="Visibility" TargetName="WindowResizeGrip" Value="Visible"/>
-                    </MultiTrigger>
-                </ControlTemplate.Triggers>
-            </ControlTemplate>-->
-
-            <!-- the custom window style and the window template 
-        Here you can customize the look of the window without having to touch the control template 
-        or comment out the brushes and create a new style (see the red style below)-->
 
             <ControlTemplate x:Key="WindowTemplate" TargetType="{x:Type Window}">
                 <Grid Background="{StaticResource WindowBackColor}">
@@ -632,8 +401,11 @@
                 <Setter Property="MinWidth" Value="200"/>
                 <Setter Property="MinHeight" Value="46"/>
                 <!--CaptionHeight + ResizeBorderThickness * 2-->
+                <Setter Property="Cursor" Value="Arrow"/>
+                <!--<Setter Property="Background" >
+                </Setter>-->
                 <Setter Property="Background" Value="Yellow"/>
-                <Setter Property="BorderBrush" Value="YellowGreen"/>
+                <Setter Property="BorderBrush" Value="Green"/>
                 <Setter Property="BorderThickness" Value="1"/>
                 <Setter Property="Foreground" Value="DarkRed"/>
                 <Setter Property="Template" Value="{StaticResource WindowTemplate}"/>
@@ -652,6 +424,151 @@
                 <!--<Setter Property="Template" Value="{StaticResource WindowTemplate}"/>-->
 
             </Style>
+
+            <Style x:Key="MainWindow" 
+
+           TargetType="{x:Type Window}">
+                <Setter Property="Foreground" 
+
+                Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Window}">
+                            <Grid>
+                                <Border x:Name="MainBorder" 
+
+                                BorderBrush="{DynamicResource MainWindowBorderBrush}" 
+
+                                BorderThickness="1" 
+
+                                CornerRadius="2" 
+
+                                Background="{DynamicResource MainWindowBackgroundBrush}">
+                                    <DockPanel LastChildFill="True">
+                                        <Rectangle x:Name="PART_LEFT_BORDER" 
+
+                                           Width="2" 
+
+                                           Cursor="SizeWE">
+                                            <Rectangle.Fill>
+                                                <SolidColorBrush Color="Transparent" />
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+                                        <Rectangle x:Name="PART_RIGHT_BORDER" 
+
+                                           Cursor="SizeWE" 
+
+                                           Width="2" 
+
+                                           DockPanel.Dock="Right">
+                                            <Rectangle.Fill>
+                                                <SolidColorBrush Color="Transparent" />
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+                                        <Rectangle x:Name="PART_TOP_BORDER" 
+
+                                           Cursor="SizeNS" 
+
+                                           DockPanel.Dock="Top" 
+
+                                           Height="2">
+                                            <Rectangle.Fill>
+                                                <SolidColorBrush Color="Transparent" />
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+                                        <Rectangle x:Name="PART_BOTTOM_BORDER" 
+
+                                           Cursor="SizeNS" 
+
+                                           Height="2" 
+
+                                           DockPanel.Dock="Bottom">
+                                            <Rectangle.Fill>
+                                                <SolidColorBrush Color="Transparent" />
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+                                        <Border x:Name="PART_TITLEBAR" 
+
+                                        Margin="2,0,2,2" 
+
+                                        Height="40" 
+
+                                        DockPanel.Dock="Top" 
+
+                                        CornerRadius="2" 
+
+                                        Background="Transparent">
+                                            <DockPanel LastChildFill="False">
+                                                <TextBlock Margin="8,0,0,4" 
+
+                                                   VerticalAlignment="Center" 
+
+                                                   FontStretch="UltraExpanded" 
+
+                                                   Foreground="Black" 
+
+                                                   TextTrimming="CharacterEllipsis" 
+
+                                                   TextWrapping="NoWrap" 
+
+                                                   Text="{TemplateBinding Title}" 
+
+                                                   FontSize="16" />
+                                                <Button x:Name="PART_CLOSE" 
+
+                                                DockPanel.Dock="Right" 
+
+                                                Style="{StaticResource CloseStyle}" 
+
+                                                VerticalAlignment="Center" 
+
+                                                Margin="0,0,4,0">
+                                                </Button>
+                                                <Button x:Name="PART_MAXIMIZE_RESTORE" 
+
+                                                DockPanel.Dock="Right" 
+
+                                                HorizontalAlignment="Center" 
+
+                                                VerticalAlignment="Center" 
+
+                                                Style="{StaticResource normbtn}">
+                                                </Button>
+                                                <Button x:Name="PART_MINIMIZE" 
+
+                                                HorizontalAlignment="Center" 
+
+                                                Style="{StaticResource  minbtn}" 
+
+                                                VerticalAlignment="Center" 
+
+                                                DockPanel.Dock="Right">
+                                                </Button>
+                                            </DockPanel>
+                                        </Border>
+
+                                        <!-- Title bar separator-->
+                                        <Border Height="1" 
+
+                                        DockPanel.Dock="Top" 
+
+                                        Background="{DynamicResource 
+					MainWindowTitleBarSeparator}" />
+
+                                        <!-- Actual Window Content -->
+                                        <AdornerDecorator DockPanel.Dock="Bottom">
+                                            <ContentPresenter />
+                                        </AdornerDecorator>
+                                    </DockPanel>
+                                </Border>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -25,8 +25,13 @@ namespace Common.Util
         }
         public static string SetPlayerTitle(string heading, string p)
         {
-            var filename = Path.GetFileName(p);
-            return (heading + " - " + filename);
+            //var filename = Path.GetFileName(p);
+            return (heading + " - " + p);
+        }
+
+        public static string GetFileName(string filepath)
+        {
+            return Path.GetFileName(filepath);
         }
     }
 }

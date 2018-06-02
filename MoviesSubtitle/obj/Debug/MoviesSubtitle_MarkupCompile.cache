@@ -4,7 +4,7 @@
 library
 C#
 .cs
-C:\Users\EadwinToochos\Desktop\Desktop\Movie-Player-WPF.NET-\MoviesSubtitle\obj\Debug\
+C:\Users\EadwinToochos\Desktop\MoviePlayer\MoviesSubtitle\obj\Debug\
 MoviesSubtitle
 none
 false
@@ -12,9 +12,9 @@ DEBUG;TRACE
 
 2740551154
 
-19243488257
-16170671171
+20-1106935672
+16-1214942470
 Themes\Generic.xaml;View\SubtitleView.xaml;
 
-False
+True
 

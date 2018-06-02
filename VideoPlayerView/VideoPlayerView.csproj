@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -70,6 +71,7 @@
   <ItemGroup>
     <Compile Include="CustomControl1.cs" />
     <Compile Include="FilePlayer\PlayFile.cs" />
+    <Compile Include="Model\AudioStream.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -83,7 +85,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Util\CheckboxGrouping.cs" />
     <Compile Include="Util\NativeMethods.cs" />
+    <Compile Include="Util\TrackListConverter.cs" />
     <Compile Include="VideoElement.xaml.cs">
       <DependentUpon>VideoElement.xaml</DependentUpon>
     </Compile>
@@ -129,6 +133,14 @@
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{291d89e4-5436-4e99-a402-322d10f2ed0c}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Meta.Vlc.Wpf\Meta.Vlc.Wpf - .Net 4.0.csproj">
+      <Project>{ed70ad57-1b05-428a-8a30-2cc533daf389}</Project>
+      <Name>Meta.Vlc.Wpf - .Net 4.0</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Meta.Vlc\Meta.Vlc - .Net 4.0.csproj">
+      <Project>{9368132d-33f8-4149-8733-3bf90715f887}</Project>
+      <Name>Meta.Vlc - .Net 4.0</Name>
     </ProjectReference>
     <ProjectReference Include="..\MoviesSubtitle\MoviesSubtitle.csproj">
       <Project>{a3ee00bb-3c2b-43d1-8780-78c5c678ea2b}</Project>

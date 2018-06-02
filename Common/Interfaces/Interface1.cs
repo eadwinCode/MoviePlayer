@@ -1,5 +1,6 @@
 ﻿using Common.Model;
 using Common.Util;
+using Meta.Vlc.Wpf;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -15,10 +16,12 @@ namespace Common.Interfaces
         string CurrentDir { get; set; }
         DirectoryInfo DirectoryPosition { get; set; }
         Object GetCollectionVM { get; }
+        IFileExplorer IFileExplorer { get; }
         bool IsLoading { get; set; }
         double LoadingProgress { get; set; }
         DataTemplateSelector MyTemplateChange { get; set; }
         ViewType ViewType { get; set; }
+
         void TreeViewUpdate(string obj);
     }
 
@@ -35,7 +38,7 @@ namespace Common.Interfaces
 
     public interface IFileViewer
     {
-        IFileExplorer FileExplorer { get; }
+        UIElement FileExplorer { get; }
         UIElement TreeViewer { get; }
     }
     public interface IHasChanges
@@ -97,9 +100,9 @@ namespace Common.Interfaces
         ISubtitleMediaController IVideoPlayer { get; }
         UIElement WindowsTab { get; }
         UIElement WindowsTabDock { get; }
-        MediaElement MediaPlayer { get; }
+        VlcPlayer MediaPlayer { get; }
         UIElement ParentGrid { get; }
-
+        string Title { get; set; }
         void SetTopMost();
     }
 
@@ -130,7 +133,7 @@ namespace Common.Interfaces
        
        // MediaUriElement MediaPlayer { get; }
         //Canvas CanvasEnvironment { get; }
-        ISubtitle Subtitle { get; }
+        //ISubtitle Subtitle { get; }
         UserControl MediaController { get; }
         event EventHandler ScreenSettingsChanged;
     }

@@ -38,9 +38,16 @@ namespace VirtualizingListView
             }
             else
             {
-                CollectionViewModel.Instance.PlayFile(parameter);
+                Iplayfile.PlayFileInit(parameter);
             }
         }
-     
+
+        private IPlayFile Iplayfile
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<IPlayFile>();
+            }
+        }
     }
 }
