@@ -5,10 +5,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using VideoPlayer.ViewModel;
+using VideoPlayerControl.ViewModel;
 using WPF.JoshSmith.Controls;
 
-namespace VideoPlayer
+namespace VideoPlayerControl
 {
     public class MovieTitle_Tab:Control,INotifyPropertyChanged
     {
@@ -44,7 +44,7 @@ namespace VideoPlayer
         public static readonly DependencyProperty IsCanvasDragProperty =
             DependencyProperty.Register("IsCanvasDrag", typeof(bool), typeof(MovieTitle_Tab), new PropertyMetadata(false));
 
-        public TextBlock MovieTitle
+        public Window WindowMovieTitle
         {
             get
             {
@@ -52,11 +52,29 @@ namespace VideoPlayer
             }
         }
 
-        public string MovieTitleText { get { return movietitle; }
+        public TextBlock TextMovieTitle
+        {
+            get
+            {
+                return MediaControlExtension.TextBlockTitleBoard;
+            }
+        }
 
-            set { movietitle = value;
-                MovieTitle.Text = value;
-                OnProperChanged("MovieTitleText"); } }
+        public string MovieTitleText
+        {
+            get { return movietitle; }
+
+            set
+            {
+                movietitle = value;
+                if (WindowMovieTitle != null)
+                    WindowMovieTitle.Title = value;
+
+                if (TextMovieTitle != null)
+                    TextMovieTitle.Text = value;
+                OnProperChanged("MovieTitleText");
+            }
+        }
 
         public string MovieText
         {

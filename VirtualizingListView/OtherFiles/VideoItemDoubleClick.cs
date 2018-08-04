@@ -17,11 +17,16 @@ namespace VirtualizingListView
         {
             var control = d as Control;
 
-            if (control != null)
+            if (control is Button)
             {
-                control.MouseDoubleClick += control_MouseDoubleClick;
+                (control as Button).Click += VideoItemDoubleClick_Click; ;
             }
+            else
+                control.MouseDoubleClick += control_MouseDoubleClick;
         }
+
+       
+
         public static ICommand GetDoubleClickCommand(DependencyObject obj)
         {
             return (ICommand)obj.GetValue(DoubleClickCommand);
@@ -52,7 +57,12 @@ namespace VirtualizingListView
 
         static void control_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            UIElement control= sender as UIElement;
+            ClickAction(sender, e);
+        }
+
+        private static void ClickAction(object sender, MouseButtonEventArgs e)
+        {
+           UIElement control= sender as UIElement;
             if (control !=null)
             {
                 var command = control.GetValue(DoubleClickCommand) as ICommand;
@@ -66,6 +76,21 @@ namespace VirtualizingListView
             e.Handled = true;
         }
 
+        private static void VideoItemDoubleClick_Click(object sender, RoutedEventArgs e)
+        {
+            UIElement control = sender as UIElement;
+            if (control != null)
+            {
+                var command = control.GetValue(DoubleClickCommand) as ICommand;
+                var commandParameter = control.GetValue(DoubleClickCommandParameter);
+
+                if (command.CanExecute(e))
+                {
+                    command.Execute(commandParameter);
+                }
+            }
+            e.Handled = true;
+        }
 
     }
 }

@@ -150,7 +150,7 @@ namespace VirtualizingListView
                 if (value != _isLoading)
                 {
                     _isLoading = value;
-                    (itemsProvider as CustomItemProvider).CollectionVM.IsLoading = value;
+                    itemsProvider.FilePageViewModel.IsLoading = value;
                 }
                 FirePropertyChanged("IsLoading");
             }

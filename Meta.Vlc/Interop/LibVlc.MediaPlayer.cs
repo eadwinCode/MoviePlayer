@@ -267,6 +267,24 @@ namespace Meta.Vlc.Interop.MediaPlayer
     public delegate int Play(IntPtr mediaPlayer);
 
     /// <summary>
+    ///     
+    /// </summary>
+    /// <param name="mediaPlayer"></param>
+    /// <returns></returns>
+    [LibVlcFunction("libvlc_set_fullscreen")]
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void SetFullScreen(IntPtr mediaPlayer,int fullscreen);
+
+    /// <summary>
+    ///     
+    /// </summary>
+    /// <param name="mediaPlayer"></param>
+    /// <returns></returns>
+    [LibVlcFunction("libvlc_get_fullscreen")]
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate bool GetFullScreen(IntPtr mediaPlayer);
+
+    /// <summary>
     ///     设置媒体播放器播放或者暂停,如果没有设置媒体对象,将会没有作用
     /// </summary>
     /// <param name="mediaPlayer">媒体播放器对象</param>

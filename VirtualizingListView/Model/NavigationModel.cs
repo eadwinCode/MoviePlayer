@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Delimon.Win32.IO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.IO;
 using VideoComponent.BaseClass;
 
 namespace VirtualizingListView.Model

@@ -20,4 +20,19 @@ namespace VirtualizingListView
             throw new NotImplementedException();
         }
     }
+
+    public class BooleanInversion : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            bool input = (bool)value;
+
+            return !input;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

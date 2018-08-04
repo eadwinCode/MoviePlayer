@@ -1,16 +1,54 @@
 ﻿using Common.Model;
 using Common.Util;
+using Delimon.Win32.IO;
 using Meta.Vlc.Wpf;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Navigation;
 
 namespace Common.Interfaces
 {
+    public interface IMainPages
+    {
+        void SetController(IWindowsCommandButton controller);
+        bool HasController { get; }
+    }
 
+    public interface IWindowsCommandButton
+    {
+        void SetActive(bool setactive,bool loadPage);
+    }
+
+    public interface ISearchControl
+    {
+        string CustomPropertyName { get; set; }
+        bool HasText { get; }
+        bool IsSearchButtonEnabled { get; set; }
+        event TextChangedEventHandler TextChangeEvent;
+        string Text { get; set; }
+        void Clear();
+        void QuickSearch(string query);
+        void UseExtendedSearchTextbox(object searchTextBox);
+    }
+
+    public interface IDataSource<T>
+    {
+        IList<T> Data { get; }
+        bool IsLoadingData { get; }
+    }
+
+    public interface INavigatorService
+    {
+        NavigationService NavigationService { get; }
+        Frame Host { get; }
+        ContentControl DockControl { get; }
+
+    }
     public interface ICollectionViewModel
     {
         string CurrentDir { get; set; }
@@ -20,7 +58,7 @@ namespace Common.Interfaces
         bool IsLoading { get; set; }
         double LoadingProgress { get; set; }
         DataTemplateSelector MyTemplateChange { get; set; }
-        ViewType ViewType { get; set; }
+        ViewType ActiveViewType { get; set; }
 
         void TreeViewUpdate(string obj);
     }
@@ -33,13 +71,14 @@ namespace Common.Interfaces
 
     public interface IShell
     {
-        IFileViewer FileView { get; }
+        IPageNavigatorHost PageNavigatorHost { get; }
     }
 
-    public interface IFileViewer
+    public interface IPageNavigatorHost
     {
-        UIElement FileExplorer { get; }
-        UIElement TreeViewer { get; }
+        INavigatorService PageNavigator { get; }
+        ISearchControl GetSearchControl { get; set; }
+        ContentControl DockControl { get; }
     }
     public interface IHasChanges
     {
@@ -59,6 +98,13 @@ namespace Common.Interfaces
             get; set;
         }
 
+        string Percentage { get; set; }
+
+        bool Exist
+        {
+            get;
+        }
+        void RemoveLastSeen();
     }
 
     public interface IFolder
@@ -68,7 +114,6 @@ namespace Common.Interfaces
         string FilePath { get; }
         SortType SortedBy { get; set; }
         FileInfo FileInfo { get; }
-        ObservableCollection<PlayedFiles> LastSeenCollection { get; set; }
         string FolderChildCount { get; }
         DirectoryInfo Directory { get; }
         IFolder ParentDirectory { get; }
@@ -77,6 +122,7 @@ namespace Common.Interfaces
         string FileExtension { get; }
         string FileName { get; }
         string CreationDate { get; }
+        event EventHandler ParentDirectoryChanged;
     }
 
     public interface IFileExplorer
@@ -97,9 +143,9 @@ namespace Common.Interfaces
     {
         CommandBindingCollection CommandBindings { get; }
         IPlayListClose PlayListView { get; }
-        ISubtitleMediaController IVideoPlayer { get; }
-        UIElement WindowsTab { get; }
-        UIElement WindowsTabDock { get; }
+        IMediaController IVideoPlayer { get; }
+        //UIElement WindowsTab { get; }
+        //UIElement WindowsTabDock { get; }
         VlcPlayer MediaPlayer { get; }
         UIElement ParentGrid { get; }
         string Title { get; set; }
@@ -128,7 +174,7 @@ namespace Common.Interfaces
         bool IsDisabled { get; set; }
     }
 
-    public interface ISubtitleMediaController
+    public interface IMediaController
     {
        
        // MediaUriElement MediaPlayer { get; }

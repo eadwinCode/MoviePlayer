@@ -14,10 +14,10 @@ namespace VirtualizingListView
             bool val = (bool)value;
             if ((parameter as string) == "Foreground")
             {
-                return val == true ? Brushes.Black : Brushes.White;
+                return val == true ? Brushes.WhiteSmoke : Brushes.White;
             }
           
-            return val == true ? Brushes.DarkOrange : Brushes.Transparent;
+            return val == true ? new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF364E6F")) : Brushes.Transparent;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

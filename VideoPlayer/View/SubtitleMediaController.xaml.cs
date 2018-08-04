@@ -2,14 +2,14 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using VideoPlayer.ViewModel;
+using VideoPlayerControl.ViewModel;
 
-namespace VideoPlayer
+namespace VideoPlayerControl
 {
     /// <summary>
     /// Interaction logic for VideoPlayerView.xaml
     /// </summary>
-    public partial class SubtitleMediaController : UserControl, ISubtitleMediaController
+    public partial class SubtitleMediaController : UserControl, Common.Interfaces.IMediaController
     {
        // public Canvas CanvasEnvironment { get { return this.mycanvas; } }
 

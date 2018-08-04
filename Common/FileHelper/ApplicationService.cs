@@ -20,6 +20,8 @@ namespace Common.FileHelper
         private const string SettingsFileName = "Settings.json";
         private const string PlaylistFileName = "Playlist.pl";
         private const string PlaylistFolderName = "PlaylistFolder";
+        private const string LastSeenFolderName = "LastSeen";
+        private const string LastSeenFileName = "LastPlayed.sxc";
 
         private static string AppName = Path.GetFileNameWithoutExtension(AppDomain.
             CurrentDomain.FriendlyName);
@@ -29,44 +31,58 @@ namespace Common.FileHelper
         private static string MediaFolderPath;
         public static Settings AppSettings = new Settings();
         public static SavedPlaylistCollection AppPlaylist = new SavedPlaylistCollection();
-
+        public static SavedLastSeenCollection SavedLastSeenCollection = new SavedLastSeenCollection();
         static string[] delimeter = { " " };
+
+        public static IDictionary<string,string> formats = new Dictionary<string, string>()
+        {
+           { ".wmv" ,"wmv"}, {".3gp","3gp" } ,{ ".avi","avi" }, {".divx","divx" }, {".dv","dv" }, {".flv","flv" },{".m4v" ,"m4v"},
+            { ".mkv","mkv" }, {".mov","mov" },{ ".mp4","mp4" }, {".mpeg","mpeg" },
+            { ".mpeg1","mpeg1" }, {".mpeg2", "mpeg2"},{".mpeg4","mpeg4" },{".mpg","mpg" },{".ogg","ogg" },{".rec","rec" },{".rm","rm" }, {".rmvb","rmvb" },
+            { ".vob","vob" },{".webm" ,"webm"}
+              };
+
+        public static string[] subtitleformats =
+        {
+          ".aqt ",".vtt",".cvd",".dks" ,".jss",".sub" ,".ttxt" ,".mpl" ,".txt" ,".pjs" ,".psb"
+          ,".rt",".smi" ,".ssf" ,".srt" ,".ssa" ,".svcd",".usf" ,".idx"
+        };
 
         static ApplicationService() {
             if (AppName.Contains(".vshost"))
             {
                AppName= AppName.Replace(".vshost", "");
             }
-            MediaFolderPath = SystemDocumentPath + @"\" + AppName; }
+            MediaFolderPath = SystemDocumentPath + @"\" + AppName;
+        }
 
         public static void LoadFiles()
         {
             LoadTreeViewFile();
             LoadPlaylistFile();
+            LoadLastSeenFile();
         }
 
-        public static void LoadLastSeenFile(IFolder ifolder)
+        public static void LoadLastSeenFile()
         {
-            string path = FileExistOrCreate(ifolder.Directory.FullName + @"\.movies\LastSeen.json");
+            string path = FileExistOrCreate(@"\" + LastSeenFolderName + @"\" + LastSeenFileName);
             if (path != null)
             {
                 string jsonfile = File.ReadAllText(path);
-                object lastseen = JsonConvert.DeserializeObject<ObservableCollection<PlayedFiles>>(jsonfile);
+                object lastseen = JsonConvert.DeserializeObject<SavedLastSeenCollection>(jsonfile);
                 if (lastseen != null)
                 {
-                    ifolder.LastSeenCollection = (ObservableCollection<PlayedFiles>)lastseen;
+                    SavedLastSeenCollection = (SavedLastSeenCollection)lastseen;
                 }
             }
         }
 
-        public static bool SaveLastSeenFile(IFolder ifolder)
+        public static bool SaveLastSeenFile()
         {
-            if (ifolder.LastSeenCollection == null) { return false; }
-
             try
             {
-                string path = FileExistOrCreate(ifolder.Directory.FullName + @"\.movies\LastSeen.json", true);
-                string json = JsonConvert.SerializeObject(ifolder.LastSeenCollection, Formatting.Indented);
+                string path = FileExistOrCreate(@"\" + LastSeenFolderName + @"\" + LastSeenFileName, true);
+                string json = JsonConvert.SerializeObject(SavedLastSeenCollection, Formatting.Indented);
                 File.WriteAllText(path, json);
                 return true;
             }
@@ -116,11 +132,19 @@ namespace Common.FileHelper
                 DirectoryInfo di = new DirectoryInfo(path1);
                 di.Attributes |= FileAttributes.Hidden;
             }
+            path1 = string.Empty;
+            path1 = path + @"\" + LastSeenFolderName;
+            if (!Directory.Exists(path1))
+            {
+                Directory.CreateDirectory(path1);
+                DirectoryInfo di = new DirectoryInfo(path1);
+                di.Attributes |= FileAttributes.Hidden;
+            }
         }
 
         public static bool LoadTreeViewFile()
         {
-            string path = FileExistOrCreate(SettingsFileName);
+            string path = FileExistOrCreate(@"\" + Settings + @"\" + SettingsFileName);
             if (path != null)
             {
                 string jsonfile = File.ReadAllText(path);
@@ -136,7 +160,7 @@ namespace Common.FileHelper
 
         public static bool LoadPlaylistFile()
         {
-            string path = FileExistOrCreate(PlaylistFileName);
+            string path = FileExistOrCreate(@"\" + PlaylistFolderName + @"\" + PlaylistFileName);
             if (path != null)
             {
                 string jsonfile = File.ReadAllText(path);
@@ -154,20 +178,21 @@ namespace Common.FileHelper
         {
             SaveTreeViewFiles();
             SavePlaylistFiles();
+            SaveLastSeenFile();
         }
 
         public static bool SaveTreeViewFiles()
         {
             try
             {
-                string path = FileExistOrCreate(SettingsFileName, true);
+                string path = FileExistOrCreate(@"\" + Settings + @"\" + SettingsFileName, true);
                 string json = JsonConvert.SerializeObject(AppSettings, Formatting.Indented);
                 File.WriteAllText(path, json);
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                throw;
             }
         }
 
@@ -177,7 +202,7 @@ namespace Common.FileHelper
             {
                 try
                 {
-                    string path = FileExistOrCreate(PlaylistFileName, true);
+                    string path = FileExistOrCreate(@"\" + PlaylistFolderName + @"\" + PlaylistFileName, true);
                     string json = JsonConvert.SerializeObject(AppPlaylist, Formatting.Indented);
                     File.WriteAllText(path, json);
                     return true;
@@ -191,82 +216,24 @@ namespace Common.FileHelper
             return false;
         }
 
-        public static string FileExistOrCreate(string path_to_file,bool returnpath = false)
+        public static string FileExistOrCreate(string path_to_file, bool returnpath = false)
         {
             string path;
-            if (path_to_file == SettingsFileName)
+            path = MediaFolderPath + path_to_file;
+            if (File.Exists(path))
             {
-                path = MediaFolderPath + @"\" + Settings + @"\" + SettingsFileName;
-                if (File.Exists(path))
-                {
-                    return path;
-                }
-                else
-                {
-                    File.Create(path);
-                    if (returnpath)
-                    {
-                        return path;
-                    }
-                    return null;
-                }
-            }
-            else if(path_to_file == PlaylistFileName)
-            {
-                path = MediaFolderPath + @"\" + PlaylistFolderName + @"\" + PlaylistFileName;
-                if (File.Exists(path))
-                {
-                    return path;
-                }
-                else
-                {
-                    File.Create(path);
-                    if (returnpath)
-                    {
-                        return path;
-                    }
-                    return null;
-                }
+                return path;
             }
             else
             {
-                if (File.Exists(path_to_file))
+                File.Create(path);
+                if (returnpath)
                 {
-                    return path_to_file;
-                }
-                else
-                {
-                    File.Create(path_to_file);
-                    if (returnpath)
-                    {
-                        return path_to_file;
-                    }
+                    return path;
                 }
                 return null;
             }
-        }
 
-        public static void CreateLastSeenFolder(IFolder ifolder)
-        {
-            string path = ifolder.Directory.FullName + @"\.movies";
-            if (ifolder.Directory.Parent != null)
-            {
-                if (ifolder.Directory.FullName == ifolder.Directory.Parent.FullName + @"\.movies")
-                {
-                    return;
-                }
-            }
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-                DirectoryInfo di = new DirectoryInfo(path);
-                di.Attributes |= FileAttributes.Hidden;
-            }
-            else
-            {
-                DirectoryInfo di = new DirectoryInfo(path);
-                di.Attributes |= FileAttributes.Hidden;
-            }
         }
         
     }

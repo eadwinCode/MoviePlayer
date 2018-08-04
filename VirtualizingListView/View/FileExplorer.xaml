@@ -368,31 +368,31 @@
                     Background="Transparent"
                     ItemsSource="{Binding Source={StaticResource myVideoData}}"
                     ItemTemplateSelector="{Binding MyTemplateChange}"
-                   ItemContainerStyle="{StaticResource CustomContainerStyle}"
+                    ItemContainerStyle="{StaticResource CustomContainerStyle}"
                     Grid.RowSpan="2" >
 
             <!--ContextMenu="{StaticResource ListViewCntxtMenu}" {Binding VideoItem} Loaded="ListView_Loaded" ItemTemplate="{DynamicResource ItemTemplate}" ItemsPanel="{StaticResource VideoItemsPanel}"
                                   " ItemsSource="{Binding Mode=OneWay, Source={StaticResource myVideoData}}"-->
-            <!--<ListView.GroupStyle>
+            <ListView.GroupStyle>
                 <GroupStyle >
                     <GroupStyle.HeaderTemplate>
                         <DataTemplate>
                             <VirtualizingStackPanel Orientation="Vertical" >
-                                <TextBlock  Margin="10,2,2,2"  FontSize="15" Foreground="#FFC8BFBF" Text="{Binding Path=Name}" FontFamily="Segoe UI" />
-                                <Border  Margin="6"  Background="White" BorderBrush="Gray" BorderThickness=".5"/>
+                                <TextBlock  Margin="10,2,2,2"  FontSize="15" Foreground="White" Text="{Binding Path=Name}"  />
+                                <Border  Margin="6"  Background="White" BorderBrush="Gray" BorderThickness="0,0,0,1"/>
                             </VirtualizingStackPanel>
                         </DataTemplate>
-                        --><!--<DataTemplate>
+                        <!--<DataTemplate>
                             <VirtualizingStackPanel Orientation="Vertical" >
                                 <TextBlock  Margin="10,2,2,2"  FontSize="15" Foreground="White" Text="{Binding Path=Name}" />
                                 <Border  Margin="6"  Background="White" BorderBrush="White" BorderThickness=".5"/>
                             </VirtualizingStackPanel>
-                        </DataTemplate>--><!--
+                        </DataTemplate>-->
                        
                     </GroupStyle.HeaderTemplate>
             </GroupStyle>
 
-        </ListView.GroupStyle>-->
+        </ListView.GroupStyle>
 
         </ListView>
     </DockPanel>

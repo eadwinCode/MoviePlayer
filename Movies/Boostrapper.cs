@@ -7,12 +7,16 @@ using Microsoft.Practices.Prism.UnityExtensions;
 using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.Unity;
-using VideoPlayer;
+using VideoPlayerControl;
 using VideoPlayerView.FilePlayer;
 using Common.Interfaces;
 using Common.ApplicationCommands;
 using Common.FileHelper;
 using Movies;
+using VirtualizingListView.Threading.Interface;
+using VirtualizingListView.Threading;
+using VideoComponent.Interfaces;
+using VirtualizingListView.Util;
 
 namespace RealMediaControl
 {
@@ -37,13 +41,16 @@ namespace RealMediaControl
         {
             SplashScreenWindow splashscreenwindow = new SplashScreenWindow();
             splashscreenwindow.Show();
+            this.Container.RegisterType<IPlayFile, PlayFile>();
+            this.Container.RegisterInstance<IBackgroundService>(new ExecutorImpl());
+            this.Container.RegisterInstance<IFileLoader>(FileLoader.FileLoaderInstance);
+
             ApplicationService.CreateFolder();
             ApplicationService.LoadFiles();
+
             MainView shell = new MainView();
-           
-            
             this.Container.RegisterInstance<IShell>(shell);
-            this.Container.RegisterType<IPlayFile, PlayFile>();
+           
             shell.Dispatcher.BeginInvoke((Action)delegate
             {
                 shell.Show();

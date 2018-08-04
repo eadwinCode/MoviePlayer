@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
-using VideoPlayer;
+using VideoPlayerControl;
 
 namespace WPF.JoshSmith.Controls
 {

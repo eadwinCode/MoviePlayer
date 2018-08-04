@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace VideoPlayer.Util
+namespace VideoPlayerControl.Util
 {
     
 }

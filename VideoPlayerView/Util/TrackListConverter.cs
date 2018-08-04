@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
-using VideoPlayer.ViewModel;
+using VideoPlayerControl.ViewModel;
 
 namespace VideoPlayerView.Util
 {

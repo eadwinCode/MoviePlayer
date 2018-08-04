@@ -85,5 +85,28 @@ C:\Users\EadwinToochos\Desktop\MoviePlayer\Common\obj\Debug\Themes\Generic.baml
 C:\Users\EadwinToochos\Desktop\MoviePlayer\Common\obj\Debug\Common.g.resources
 C:\Users\EadwinToochos\Desktop\MoviePlayer\Common\obj\Debug\Common.Properties.Resources.resources
 C:\Users\EadwinToochos\Desktop\MoviePlayer\Common\obj\Debug\Common.csproj.GenerateResource.Cache
+C:\Users\EadwinToochos\Desktop\MoviePlayer\Common\obj\Debug\Common.csproj.CoreCompileInputs.cache
 C:\Users\EadwinToochos\Desktop\MoviePlayer\Common\obj\Debug\Common.dll
 C:\Users\EadwinToochos\Desktop\MoviePlayer\Common\obj\Debug\Common.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\Common\bin\Debug\Common.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\Common\bin\Debug\Common.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\Common\bin\Debug\Delimon.Win32.IO.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\Common\bin\Debug\Meta.Vlc.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\Common\bin\Debug\Meta.Vlc.Wpf.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\Common\bin\Debug\Microsoft.Practices.Prism.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\Common\bin\Debug\Newtonsoft.Json.Net20.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\Common\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\Common\bin\Debug\Meta.Vlc.Wpf.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\Common\bin\Debug\Meta.Vlc.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\Common\obj\Debug\Common.csprojResolveAssemblyReference.cache
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\Common\obj\Debug\Themes\WhiteSkin.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\Common\obj\Debug\Common_MarkupCompile.cache
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\Common\obj\Debug\Common_MarkupCompile.lref
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\Common\obj\Debug\Themes\BlackSkin.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\Common\obj\Debug\Themes\Hybrid.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\Common\obj\Debug\Common.g.resources
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\Common\obj\Debug\Common.Properties.Resources.resources
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\Common\obj\Debug\Common.csproj.GenerateResource.Cache
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\Common\obj\Debug\Common.csproj.CoreCompileInputs.cache
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\Common\obj\Debug\Common.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\Common\obj\Debug\Common.pdb

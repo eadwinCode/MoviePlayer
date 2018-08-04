@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Microsoft.WindowsAPICodePack.Shell;
+using Common.Model;
 
 namespace VirtualizingListView
 {
@@ -36,13 +37,13 @@ namespace VirtualizingListView
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if ( (value as string).Length == 3 )
+            if ( (value as MovieFolderModel).ToString().Length == 3 )
             {
                 Uri uri = new Uri("pack://application:,,,/VirtualizingListView;component/Resources/Images/diskdrive.png");
                 BitmapImage source = new BitmapImage(uri);
                 return source;
             }
-            else if (value.ToString() == Environment.GetFolderPath(Environment.SpecialFolder.Desktop).ToString() || value.ToString() == Environment.GetFolderPath(Environment.SpecialFolder.MyVideos).ToString())
+            else if ((value as MovieFolderModel).FullName == Environment.GetFolderPath(Environment.SpecialFolder.Desktop).ToString() || (value as MovieFolderModel).FullName == Environment.GetFolderPath(Environment.SpecialFolder.MyVideos).ToString())
             {
                 Image source = new Image();
 

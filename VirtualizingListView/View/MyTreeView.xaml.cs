@@ -1,6 +1,7 @@
 ﻿using Common.ApplicationCommands;
 using Common.FileHelper;
 using Common.Interfaces;
+using Common.Model;
 using Common.Util;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.ServiceLocation;
@@ -61,10 +62,10 @@ namespace VirtualizingListView.View
             //SHGetFolderPath(IntPtr.Zero, 0x0003, IntPtr.Zero, 0x0000, SB);
             //string  DesktopPath = SB.ToString();
 
-            AddToTreeView( Environment.GetFolderPath(Environment.SpecialFolder.Desktop), MovieFolders, false);
-            AddToTreeView(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos),MovieFolders,false);
+            AddToTreeView(new MovieFolderModel( Environment.GetFolderPath(Environment.SpecialFolder.Desktop)), MovieFolders, false);
+            AddToTreeView(new MovieFolderModel( Environment.GetFolderPath(Environment.SpecialFolder.MyVideos)),MovieFolders,false);
 
-            foreach (string item in ApplicationService.AppSettings.TreeViewItems)
+            foreach (MovieFolderModel item in ApplicationService.AppSettings.MovieFolders)
             {
                 AddToTreeView(item, MovieFolders);
             }
@@ -126,9 +127,9 @@ namespace VirtualizingListView.View
             if (result == System.Windows.Forms.DialogResult.OK)
             {
                 string dir = folderDialog.SelectedPath;
-
-                AddToTreeView(dir, MovieFolders);
-                AddTreeViewItem(dir);
+                MovieFolderModel moviePath = new MovieFolderModel(dir);
+                AddToTreeView(moviePath, MovieFolders);
+                AddTreeViewItem(moviePath);
             }
            // MovieFolders = new ObservableCollection<TreeViewItem>(
            //     MovieFolders.OrderByDescending(x => x.Tag.ToString().Length == 3)
@@ -137,9 +138,9 @@ namespace VirtualizingListView.View
            //.SelectMany(g => g));
         }
 
-        private void AddToTreeView(string dir,IList collections,bool applyContextment = true)
+        private void AddToTreeView(MovieFolderModel dir,IList collections,bool applyContextment = true)
         {
-            DirectoryInfo dirinfo = new DirectoryInfo(dir);
+            DirectoryInfo dirinfo = dir.DirectoryInfo;
 
             TreeViewItem item = new TreeViewItem
             {
@@ -166,7 +167,7 @@ namespace VirtualizingListView.View
            if( MessageBox.Show("Are sure you want to remove " + SelectedTreeViewItem.Header,"Movie FolderList",MessageBoxButton.YesNo,MessageBoxImage.Question) == MessageBoxResult.Yes)
            {
                MovieFolders.Remove(SelectedTreeViewItem);
-                RemoveTreeViewItem(SelectedTreeViewItem.Tag.ToString());
+                RemoveTreeViewItem((MovieFolderModel)SelectedTreeViewItem.Tag);
             }
         }
 
@@ -189,7 +190,7 @@ namespace VirtualizingListView.View
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
         //    base.OnPreviewKeyDown(e);
-            (IShell.FileView as IFileViewer).FileExplorer.Focus();
+            (((IPageNavigatorHost)IShell.PageNavigatorHost).PageNavigator as UIElement).Focus();
             e.Handled = true;
         }
 
@@ -199,19 +200,19 @@ namespace VirtualizingListView.View
         }
 
 
-        public void AddTreeViewItem(string dir)
+        public void AddTreeViewItem(MovieFolderModel dir)
         {
-            if (!ApplicationService.AppSettings.TreeViewItems.Contains(dir))
+            if (!ApplicationService.AppSettings.MovieFolders.Contains(dir))
             {
-                ApplicationService.AppSettings.TreeViewItems.Add(dir);
+                ApplicationService.AppSettings.MovieFolders.Add(dir);
             }
         }
 
-        public void RemoveTreeViewItem(string dir)
+        public void RemoveTreeViewItem(MovieFolderModel dir)
         {
-            if (ApplicationService.AppSettings.TreeViewItems.Contains(dir))
+            if (ApplicationService.AppSettings.MovieFolders.Contains(dir))
             {
-                ApplicationService.AppSettings.TreeViewItems.Remove(dir);
+                ApplicationService.AppSettings.MovieFolders.Remove(dir);
             }
         }
 

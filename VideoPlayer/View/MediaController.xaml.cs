@@ -4,14 +4,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
-using VideoPlayer.ViewModel;
+using VideoPlayerControl.ViewModel;
 
-namespace VideoPlayer
+namespace VideoPlayerControl
 {
     /// <summary>
     /// Interaction logic for MediaController.xaml
     /// </summary>
-    public partial class MediaController : UserControl,IMediaController
+    public partial class MediaController : UserControl,IController
     {
         private Slider CurrentSlider;
 

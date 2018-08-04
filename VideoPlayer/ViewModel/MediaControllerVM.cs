@@ -17,12 +17,13 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
 using VideoComponent.BaseClass;
-using VideoPlayer.PlayList;
+using VideoPlayerControl.PlayList;
 using System.Threading.Tasks;
+using Meta.Vlc.Wpf;
 
-namespace VideoPlayer.ViewModel
+namespace VideoPlayerControl.ViewModel
 {
-    public class MediaControllerVM : INotifyPropertyChanged
+    public partial class MediaControllerVM : INotifyPropertyChanged
     {
         private static void InitInstance()
         {
@@ -31,7 +32,8 @@ namespace VideoPlayer.ViewModel
 
         private bool HasSubcribed = false;
         private static MediaControllerVM currentInstance;
-        private VideoFolderChild currentvideoitem; private bool ismousecontrolover;
+        private VideoFolderChild currentvideoitem;
+        private bool ismousecontrolover;
         private MediaState mediaState = MediaState.Stopped;
         private DelegateCommand playbtn;
         private DelegateCommand repeatbtn;
@@ -43,27 +45,123 @@ namespace VideoPlayer.ViewModel
         private DelegateCommand tofullscreenbtn;
         private bool cananimate;
         private bool IsDirectoryChanged;
-
+        private RepeatMode repeatmode = RepeatMode.NoRepeat;
+        private TimeSpan lastseentime;
+        private bool haslastseen;
         public bool IsDragging = false;
         public ExecuteCommand CurrentVideoItemChangedEvent;
         public DispatcherTimer positionSlideTimerTooltip;
-        public bool IsRewindOrFastForward { get; set; }
+        
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler SubtitleChanged;
         public VolumeState VolumeState = VolumeState.Active;
-        private RepeatMode repeatmode = RepeatMode.NoRepeat;
         public DelegateCommand CloseLastSeenCommand { get; private set; }
         public DelegateCommand SetLastSeenCommand { get; private set; }
+        public bool IsRewindOrFastForward { get; set; }
 
-        private bool haslastseen;
+        public IMediaController IVideoPlayer
+        {
+            get
+            {
+                return IVideoElement.IVideoPlayer;
+            }
+        }
 
+        public IVideoElement IVideoElement
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<IPlayFile>().VideoElement;
+            }
+        }
+
+        public MediaState MediaState
+        {
+            get { return mediaState; }
+            set
+            {
+                mediaState = value;
+                IsPlaying = value == MediaState.Playing ? true : false;
+
+                if (value == MediaState.Stopped && IVideoElement.MediaPlayer.VlcMediaPlayer.Length != TimeSpan.Zero)
+                {
+                    MediaPlayerStop();
+                }
+
+                if (value == MediaState.Finished)
+                {
+                    MediaControlReset();
+                    PlayBackAction(value.ToString());
+                }
+
+            }
+        }
+        public VideoFolderChild CurrentVideoItem
+        {
+            get { return currentvideoitem; }
+        }
+
+        public DelegateCommand Next
+        {
+            get
+            {
+                if (_next == null)
+                {
+                    _next = new DelegateCommand(NextPlayAction, CanNext);
+                }
+                return _next;
+            }
+        }
+
+        public DelegateCommand ToFullScreenBtn
+        {
+            get
+            {
+                if (tofullscreenbtn == null)
+                {
+                    tofullscreenbtn = new DelegateCommand(() =>
+                    {
+                        (((SubtitleMediaController)IVideoPlayer).DataContext as VideoPlayerVM)
+                        .FullScreenAction();
+                    });
+                }
+                return tofullscreenbtn;
+            }
+        }
+
+        public DelegateCommand RepeatBtn
+        {
+            get
+            {
+                if (repeatbtn == null)
+                {
+                    repeatbtn = new DelegateCommand(RepeatBtnAction);
+                }
+                return repeatbtn;
+            }
+        }
+
+        public DelegateCommand Mute
+        {
+            get
+            {
+                if (mute == null)
+                {
+                    mute = new DelegateCommand(MuteAction);
+                }
+                return mute;
+            }
+            set
+            {
+                mute = value;
+            }
+        }
+        
         public bool HaslastSeen
         {
             get { return haslastseen; }
             set { haslastseen = value; OnPropertyChanged("HaslastSeen"); }
         }
-        private TimeSpan lastseentime;
-        private bool HasConvertedSub;
 
         public TimeSpan LastSeenTime
         {
@@ -97,19 +195,10 @@ namespace VideoPlayer.ViewModel
                     as UserControl).DataContext as PlayListManager;
             }
         }
-        //private static Slider positionslider;
-
         public MovieTitle_Tab MovieTitle_Tab
         {
-            get { return (IVideoPlayer.MediaController as IMediaController).MovieTitle_Tab; }
+            get { return (IVideoPlayer.MediaController as IController).MovieTitle_Tab; }
         }
-
-        //public Slider PositionSlider
-        //{
-        //    get { return ProgressSliderPart.ProgressSlider; }
-        //   // set { positionslider = value; OnPropertyChanged("PositionSlider"); }
-        //}
-
         public Slider DragPositionSlider
         {
             get { return DragProgressSliderPart.ProgressSlider; }
@@ -159,7 +248,7 @@ namespace VideoPlayer.ViewModel
                 return _prev;
             }
         }
-
+        
         public string PlayText
         {
             get { return playtext; }
@@ -197,90 +286,35 @@ namespace VideoPlayer.ViewModel
                 //PositioSliderInit(HasSubcribed); 
             }
         }
-
-        public VideoFolderChild CurrentVideoItem
-        {
-            get { return currentvideoitem; }
-        }
-
-        public DelegateCommand Next
-        {
-            get
-            {
-                if (_next == null)
-                {
-                    _next = new DelegateCommand(NextPlayAction, CanNext);
-                }
-                return _next;
-            }
-        }
-
-        public DelegateCommand ToFullScreenBtn
-        {
-            get
-            {
-                if (tofullscreenbtn == null)
-                {
-                    tofullscreenbtn = new DelegateCommand(() =>
-                    {
-                        (((SubtitleMediaController)IVideoPlayer).DataContext as VideoPlayerVM)
-                        .FullScreenAction();
-                    });
-                }
-                return tofullscreenbtn;
-            }
-        }
         
-        public DelegateCommand RepeatBtn
-        {
-            get
-            {
-                if (repeatbtn == null)
-                {
-                    repeatbtn = new DelegateCommand(RepeatBtnAction);
-                }
-                return repeatbtn;
-            }
-        }
-
-        public DelegateCommand Mute
-        {
-            get
-            {
-                if (mute == null)
-                {
-                    mute = new DelegateCommand(MuteAction);
-                }
-                return mute;
-            }
-            set
-            {
-                mute = value;
-            }
-        }
-        
-        private void RepeatBtnAction()
-        {
-            if (RepeatMode == RepeatMode.NoRepeat)
-            {
-                RepeatMode = RepeatMode.Repeat;
-            }else
-            if (RepeatMode == RepeatMode.Repeat)
-            {
-                RepeatMode = RepeatMode.RepeatOnce;
-            }else
-            if (RepeatMode == RepeatMode.RepeatOnce)
-            {
-                RepeatMode = RepeatMode.NoRepeat;
-            }
-        }
-
         public MediaControllerVM()
         {
             //  PlayListManager.Current.SetController(this);
             currentInstance = this;
             SetLastSeenCommand = new DelegateCommand(SetLastSeenAction);
             CloseLastSeenCommand = new DelegateCommand(CloseLastSeenAction);
+        }
+        
+    }
+
+    public partial class MediaControllerVM
+    {
+        private void RepeatBtnAction()
+        {
+            if (RepeatMode == RepeatMode.NoRepeat)
+            {
+                RepeatMode = RepeatMode.Repeat;
+            }
+            else
+            if (RepeatMode == RepeatMode.Repeat)
+            {
+                RepeatMode = RepeatMode.RepeatOnce;
+            }
+            else
+            if (RepeatMode == RepeatMode.RepeatOnce)
+            {
+                RepeatMode = RepeatMode.NoRepeat;
+            }
         }
 
         private void CloseLastSeenAction()
@@ -293,6 +327,7 @@ namespace VideoPlayer.ViewModel
             SetLastSeen();
             HaslastSeen = false;
         }
+
         private void Init()
         {
             if (!HasSubcribed)
@@ -307,7 +342,7 @@ namespace VideoPlayer.ViewModel
                 this.Border.MouseEnter += MainControl_MouseEnter;
                 this.Border.MouseLeave += MainControl_MouseLeave;
                 #endregion
-                
+
                 IVideoElement.MediaPlayer.VlcMediaPlayer.EndReached += VlcMediaPlayer_EndReached;
                 IVideoElement.MediaPlayer.MediaOpened += VlcMediaPlayer_MediaOpened;
                 IVideoElement.MediaPlayer.OnSubItemAdded += MediaPlayer_OnSubItemAdded;
@@ -333,7 +368,7 @@ namespace VideoPlayer.ViewModel
 
         void VlcMediaPlayer_Stoped(object sender, Meta.Vlc.ObjectEventArgs<Meta.Vlc.Interop.Media.MediaState> e)
         {
-            
+
         }
 
         private void VlcMediaPlayer_MediaOpened(object sender, EventArgs e)
@@ -343,30 +378,35 @@ namespace VideoPlayer.ViewModel
                 //if (IVideoPlayer == null) return;
                 //if (IVideoElement.MediaPlayer.VlcMediaPlayer.IsPlaying)
                 //{
-                    IVideoElement.MediaPlayer.VlcMediaPlayer.Pause();
-                    if (CurrentVideoItem.SubPath != null && CurrentVideoItem.SubPath.Count > 0)
-                    {
-                        ConvertSubFilesToVLCSubFile();
-                    }
-                    SetControllerDetails();
-                    MediaState = MediaState.Playing;
-                    CurrentVideoItem.IsActive = true;
-                    if (CurrentVideoItem.HasLastSeen)
-                    {
-                        HaslastSeen = true;
-                        LastSeenTime = TimeSpan.
-                          FromSeconds(CurrentVideoItem.LastPlayedPoisition.ProgressLastSeen);
-                    }
+                IVideoElement.MediaPlayer.VlcMediaPlayer.Pause();
+                if (CurrentVideoItem.SubPath != null)
+                {
+                    ConvertSubFilesToVLCSubFile();
+                }
+                SetControllerDetails();
+                MediaState = MediaState.Playing;
+                CurrentVideoItem.IsActive = true;
+                if (CurrentVideoItem.HasLastSeen)
+                {
+                    HaslastSeen = true;
+                    LastSeenTime = TimeSpan.
+                      FromSeconds((double.Parse(IVideoElement.MediaPlayer.VlcMediaPlayer.Length.TotalSeconds.ToString())*CurrentVideoItem.LastPlayedPoisition.ProgressLastSeen)/100);
+                }
+                else
+                {
+                    HaslastSeen = false;
+                    LastSeenTime = TimeSpan.FromMilliseconds(0.0);
+                }
 
-                    CommandManager.InvalidateRequerySuggested();
+                CommandManager.InvalidateRequerySuggested();
 
-                    ((IVideoPlayer as SubtitleMediaController).DataContext as VideoPlayerVM).VisibilityAnimation();
-                    DragPositionSlider.IsEnabled = true;
-                    UpdateHardCodedSubs();
-                    IVideoElement.MediaPlayer.VlcMediaPlayer.Play();
+                ((IVideoPlayer as SubtitleMediaController).DataContext as VideoPlayerVM).VisibilityAnimation();
+                DragPositionSlider.IsEnabled = true;
+                UpdateHardCodedSubs();
+                IVideoElement.MediaPlayer.VlcMediaPlayer.Play();
                 //}
 
-            }),DispatcherPriority.Background, null);
+            }), DispatcherPriority.Background, null);
 
         }
 
@@ -375,7 +415,7 @@ namespace VideoPlayer.ViewModel
             foreach (var item in CurrentVideoItem.SubPath)
             {
                 if (item.Directory == null) continue;
-                IVideoElement.MediaPlayer.VlcMediaPlayer.SetSubtitleFile(item.Directory);
+                this.SetSubtitle(item.Directory);
             }
             if (CurrentVideoItem.SubPath != null && CurrentVideoItem.SubPath.Count > 0)
             {
@@ -392,18 +432,22 @@ namespace VideoPlayer.ViewModel
                 var subtracks = IVideoElement.MediaPlayer.VlcMediaPlayer.SubtitleDescription;
                 var subtitle = IVideoElement.MediaPlayer.VlcMediaPlayer.Subtitle;
                 var newsub = new ObservableCollection<SubtitleFilesModel>();
+                if (CurrentVideoItem.SubPath == null)
+                    CurrentVideoItem.SubPath = new ObservableCollection<SubtitleFilesModel>();
                 //if there are no subtitle files but the movie has one coded inside
                 if (CurrentVideoItem.SubPath != null && CurrentVideoItem.SubPath.Count == 0)
                 {
                     foreach (var item in subtracks)
                     {
-                        //directory is null
                         newsub.Add(new SubtitleFilesModel(item, subtitle));
                     }
                 }
                 else
                 {
-                    if (CurrentVideoItem.SubPath != null && CurrentVideoItem.SubPath.First().TrackDescription != null) { CurrentVideoItem.SubPath.RemoveAt(0); }
+                    if (CurrentVideoItem.SubPath != null && CurrentVideoItem.SubPath.First().TrackDescription != null)
+                    {
+                        CurrentVideoItem.SubPath.RemoveAt(0);
+                    }
                     int i = 0;
                     foreach (var item in subtracks)
                     {
@@ -414,7 +458,6 @@ namespace VideoPlayer.ViewModel
                             i++;
                         }
                         newsub.Add(new SubtitleFilesModel(item, subtitle, dir));
-
                     }
                 }
                 if (newsub.Count > 0)
@@ -423,13 +466,17 @@ namespace VideoPlayer.ViewModel
                     if (SubtitleChanged != null)
                         SubtitleChanged(this, new EventArgs());
                 }
-
-           }),DispatcherPriority.Background, null);
+            }), DispatcherPriority.Background, null);
         }
 
         private void SetLastSeen()
         {
             IVideoElement.MediaPlayer.VlcMediaPlayer.Time = LastSeenTime;
+        }
+
+        public void SetSubtitle(string filepath)
+        {
+            IVideoElement.MediaPlayer.VlcMediaPlayer.SetSubtitleFile(filepath);
         }
 
         public void NextPlayAction()
@@ -475,27 +522,7 @@ namespace VideoPlayer.ViewModel
             return Playlist == null ? false : Playlist.CanPrevious;
         }
 
-        public MediaState MediaState
-        {
-            get { return mediaState; }
-            set
-            {
-                mediaState = value;
-                IsPlaying = value == MediaState.Playing ? true : false;
 
-                if (value == MediaState.Stopped && IVideoElement.MediaPlayer.VlcMediaPlayer.Length != TimeSpan.Zero)
-                {
-                    MediaPlayerStop();
-                }
-
-                if (value == MediaState.Finished)
-                {
-                    MediaControlReset();
-                    PlayBackAction(value.ToString());
-                }
-
-            }
-        }
 
         public void MediaPlayStopAction()
         {
@@ -505,7 +532,7 @@ namespace VideoPlayer.ViewModel
 
         private void Stop()
         {
-            if(IVideoElement.MediaPlayer.HasStopped)
+            if (IVideoElement.MediaPlayer.HasStopped)
                 IVideoElement.MediaPlayer.Stop();
             DragPositionSlider.IsEnabled = false;
             DragPositionSlider.Value = 0;
@@ -515,21 +542,21 @@ namespace VideoPlayer.ViewModel
         {
             //(IVideoElement as Window).Dispatcher.Invoke(new Action(() =>
             //{
-                IVideoElement.CommandBindings.Clear();
-                MediaPlayStopAction();
-                Unsubscribe();
-                HasSubcribed = false;
-                if (CurrentVideoItem != null)
-                {
-                    ApplicationService.SaveLastSeenFile(CurrentVideoItem.ParentDirectory);
-                }
-               
-                if (Playlist.CurrentPlaylist != null)
-                {
-                    Playlist.CurrentPlaylist.SetIsActive(false);
-                }
-                currentvideoitem = null;
-                currentInstance = null;
+            IVideoElement.CommandBindings.Clear();
+            MediaPlayStopAction();
+            Unsubscribe();
+            HasSubcribed = false;
+            if (CurrentVideoItem != null)
+            {
+                ApplicationService.SaveLastSeenFile();
+            }
+
+            if (Playlist.CurrentPlaylist != null)
+            {
+                Playlist.CurrentPlaylist.SetIsActive(false);
+            }
+            currentvideoitem = null;
+            currentInstance = null;
             //  }), null);
         }
 
@@ -566,12 +593,8 @@ namespace VideoPlayer.ViewModel
                     this.PlayText = playbtn;
                 }
                 else { this.PlayText = "Play"; }
-
-                if (IVideoElement.MediaPlayer.VlcMediaPlayer.Media.Mrl != null)
-                {
-                    MovieTitle_Tab.MovieTitleText = CommonHelper.
-                                   SetPlayerTitle(action, IVideoElement.Title);
-                }
+                MovieTitle_Tab.MovieTitleText = CommonHelper.
+                                                   SetPlayerTitle(action, CurrentVideoItem.FileName);
             }), null);
         }
 
@@ -591,7 +614,7 @@ namespace VideoPlayer.ViewModel
             CurrentVideoItem.LastPlayedPoisition.ProgressLastSeen = (double)CurrentVideoItem.Progress;
             if (!CurrentVideoItem.HasLastSeen && CurrentVideoItem.Progress > 0)
             {
-                LastSeenHelper.AddLastSeen(CurrentVideoItem.ParentDirectory, CurrentVideoItem.LastPlayedPoisition);
+                ApplicationService.SavedLastSeenCollection.Add((PlayedFiles)CurrentVideoItem.LastPlayedPoisition);
             }
 
             if (mediaState == MediaState.Stopped)
@@ -603,7 +626,7 @@ namespace VideoPlayer.ViewModel
             if (IsDirectoryChanged)
             {
                 IsDirectoryChanged = false;
-                ApplicationService.SaveLastSeenFile(CurrentVideoItem.ParentDirectory);
+                ApplicationService.SaveLastSeenFile();
             }
         }
 
@@ -623,52 +646,53 @@ namespace VideoPlayer.ViewModel
         private void NewVideoAction(VideoFolderChild obj, bool frompl = false)
         {
             (IVideoElement.MediaPlayer).Dispatcher.Invoke(new Action(() =>
-                   {
-                       if (obj == null)
-                       {
-                           return;
-                       }
-                       if (CurrentVideoItem != null)
-                       {
-                           if (this.RepeatMode == RepeatMode.RepeatOnce)
-                           {
-                               if (this.IsPlaying)
-                               {
-                                   this.IVideoElement.MediaPlayer.Time
-                                       = TimeSpan.FromMilliseconds(0);
-                                   return;
-                               }
-                               PlayAction();
-                               return;
-                           }
-                           if (obj.FileName == CurrentVideoItem.FileName)
-                           {
-                               return;
-                           }
+            {
+                if (obj == null)
+                {
+                    return;
+                }
+                if (CurrentVideoItem != null)
+                {
+                    if (this.RepeatMode == RepeatMode.RepeatOnce)
+                    {
+                        if (this.IsPlaying)
+                        {
+                            this.IVideoElement.MediaPlayer.Time
+                                = TimeSpan.FromMilliseconds(0);
+                            return;
+                        }
+                        PlayAction();
+                        return;
+                    }
+                    if (obj.FileName == CurrentVideoItem.FileName)
+                    {
+                        return;
+                    }
 
-                           if (!obj.ParentDirectory.Directory.FullName.Equals(CurrentVideoItem.
-                               ParentDirectory.Directory.FullName))
-                           {
-                               IsDirectoryChanged = true;
-                           }
-                       }
+                    if (!obj.ParentDirectory.Directory.FullName.Equals(CurrentVideoItem.
+                        ParentDirectory.Directory.FullName))
+                    {
+                        IsDirectoryChanged = true;
+                    }
+                }
 
-                       this.MediaState = MediaState.Stopped;
+                this.MediaState = MediaState.Stopped;
 
-                       this.currentvideoitem = obj;
-                       CurrentVideoItemChangedEvent(currentvideoitem, frompl);
-                       IVideoElement.Title = (obj.FileName);
-                       IVideoElement.MediaPlayer.LoadMedia(obj.FilePath);
-                       PlayAction();
-                   }), DispatcherPriority.ContextIdle, null);
+                this.currentvideoitem = obj;
+                CurrentVideoItemChangedEvent(currentvideoitem, frompl);
+                IVideoElement.Title = (obj.FileName);
+                IVideoElement.MediaPlayer.LoadMediaWithOptions(obj.FilePath, IVideoElement.MediaPlayer.VlcOption);
+                PlayAction();
+            }), DispatcherPriority.ContextIdle, null);
         }
 
         private void MediaPlayer_TimeChanged(object sender, EventArgs e)
         {
             if (!IsDragging)
             {
-                CurrentVideoItem.Progress = DragPositionSlider.Value =
-                    IVideoElement.MediaPlayer.Time.TotalSeconds;
+                DragPositionSlider.Value = IVideoElement.MediaPlayer.Time.TotalSeconds;
+                CurrentVideoItem.Progress= Math.Round((double.Parse(DragPositionSlider.Value.ToString()) / double.Parse(IVideoElement.MediaPlayer.VlcMediaPlayer.Length.TotalSeconds.ToString()) * 100),2);
+                //(sender as VlcPlayer).VlcMediaPlayer.SetFullScreen();
             }
         }
 
@@ -686,16 +710,16 @@ namespace VideoPlayer.ViewModel
             //Stop();
             (IVideoElement as Window).Dispatcher.Invoke(new Action(() =>
             {
-                    DragPositionSlider.IsEnabled = false;
-                    DragPositionSlider.Value = 0;
-                  this.MediaState = MediaState.Finished;
-                  CurrentVideoItem.IsActive = false;
-                  if (this.RepeatMode != RepeatMode.NoRepeat)
-                  {
-                      Task.Factory.StartNew(() => GetItem_for_Repeat())
-                          .ContinueWith( t=>StartRepeatAction(t.Result), TaskScheduler.FromCurrentSynchronizationContext());
-                  }
-              }), null);
+                DragPositionSlider.IsEnabled = false;
+                DragPositionSlider.Value = 0;
+                this.MediaState = MediaState.Finished;
+                CurrentVideoItem.IsActive = false;
+                if (this.RepeatMode != RepeatMode.NoRepeat)
+                {
+                    Task.Factory.StartNew(() => GetItem_for_Repeat())
+                        .ContinueWith(t => StartRepeatAction(t.Result), TaskScheduler.FromCurrentSynchronizationContext());
+                }
+            }), null);
         }
 
         private VideoFolderChild GetItem_for_Repeat()
@@ -704,7 +728,7 @@ namespace VideoPlayer.ViewModel
             VideoFolderChild item = null;
             (IVideoElement as Window).Dispatcher.Invoke(new Action(() => {
                 item = this.AsynSearchForNextItem();
-            }),null);
+            }), null);
             return item;
         }
 
@@ -772,7 +796,7 @@ namespace VideoPlayer.ViewModel
         #region BorderAnimation
         private void MainControl_MouseEnter(object sender, MouseEventArgs e)
         {
-            if (!MovieTitle_Tab.IsCanvasDrag && IsPlaying)
+            if (IsPlaying)
             {
                 MovieTitle_Tab.SetIsMouseDown(Border, true);
                 IsMouseControlOver = true;
@@ -781,7 +805,7 @@ namespace VideoPlayer.ViewModel
 
         public void MainControl_MouseLeave(object sender, MouseEventArgs e)
         {
-            if (!MovieTitle_Tab.IsCanvasDrag && IsPlaying)
+            if (IsPlaying)
             {
                 IsMouseControlOver = false;
                 MovieTitle_Tab.SetIsMouseDown(Border, false);
@@ -819,7 +843,7 @@ namespace VideoPlayer.ViewModel
                 this.MediaState = MediaState.Paused;
                 PlayText = "Play";
                 MovieTitle_Tab.MovieTitleText = CommonHelper.SetPlayerTitle("Paused",
-                    IVideoElement.Title);
+                    CurrentVideoItem.MediaTitle);
                 //MediaPositionTimer.Stop();
             }
             else
@@ -832,8 +856,8 @@ namespace VideoPlayer.ViewModel
                 this.MediaState = MediaState.Playing;
                 PlayText = "Pause";
                 MovieTitle_Tab.MovieTitleText = CommonHelper.SetPlayerTitle("Playing",
-                    IVideoElement.Title);
-               // MediaPositionTimer.Start();
+                   CurrentVideoItem.MediaTitle);
+                // MediaPositionTimer.Start();
             }
         }
 
@@ -861,7 +885,7 @@ namespace VideoPlayer.ViewModel
         private void MediaControllerVM_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (IVideoElement == null || !(IVideoElement as Window).IsLoaded) return;
-            Panel panel = (IVideoPlayer.MediaController as IMediaController).GroupedControls;
+            Panel panel = (IVideoPlayer.MediaController as IController).GroupedControls;
             if ((IVideoElement as Window).ActualWidth < 600 ||
                 (IVideoPlayer as UserControl).ActualWidth < 600)
             {
@@ -893,22 +917,6 @@ namespace VideoPlayer.ViewModel
         private void _prevbtn_ToolTipClosing(object sender, ToolTipEventArgs e)
         {
             //MovieTitle_Tab.MovieText = null;
-        }
-
-        public ISubtitleMediaController IVideoPlayer
-        {
-            get
-            {
-                return IVideoElement.IVideoPlayer;
-            }
-        }
-
-        public IVideoElement IVideoElement
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<IPlayFile>().VideoElement;
-            }
         }
     }
 }

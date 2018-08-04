@@ -15,7 +15,8 @@ namespace Meta.Vlc
         {
             if (HandleDic.ContainsKey(pointer))
             {
-                return HandleDic[pointer];
+                var value = HandleDic[pointer];
+                return value;
             }
             return null;
         }

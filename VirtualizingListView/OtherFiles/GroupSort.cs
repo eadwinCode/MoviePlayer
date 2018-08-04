@@ -17,9 +17,7 @@ namespace VirtualizingListView
             {
                 return value;
             }
-            if (obj.Directory == null) 
-            { return string.Empty; }
-            if (obj.Exists)
+            if (obj.FileType == Common.Util.FileType.Folder)
             {
                 return "Folders";
             }

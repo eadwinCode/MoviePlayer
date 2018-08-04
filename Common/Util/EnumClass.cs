@@ -28,8 +28,7 @@ namespace Common.Util
     public enum ViewType
     {
         Small,
-        Large,
-        None
+        Large
     };
 
     public enum RepeatMode

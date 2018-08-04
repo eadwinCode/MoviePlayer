@@ -12,8 +12,8 @@ namespace VideoComponent.BaseClass
         {
             if (x.FileType == y.FileType)
             {
-                var vv = x.CreationDate.CompareTo(y.CreationDate);
-                return vv;
+                var vv = x.FileInfo.CreationTime.CompareTo(y.FileInfo.CreationTime);
+                return vv * -1;
             }
             else if (x.FileType == FileType.Folder)
             {

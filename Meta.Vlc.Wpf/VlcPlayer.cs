@@ -480,12 +480,9 @@ namespace Meta.Vlc.Wpf
             VlcMediaPlayer.Media = VlcMediaPlayer.VlcInstance.CreateMediaFromPath(path);
             VlcMediaPlayer.Media.ParseAsync();
 
-            _isDVD = VlcMediaPlayer.Media.Mrl.IsDriveRootDirectory(); 
-            if (Win32Api.SetThreadExecutionState(Win32Api.ES_DISPLAY_REQUIRED | Win32Api.ES_CONTINUOUS | Win32Api.ES_SYSTEM_REQUIRED) == null)
-            {
-                // try XP variant as well just to make sure 
-                Win32Api.SetThreadExecutionState(Win32Api.ES_CONTINUOUS | Win32Api.ES_SYSTEM_REQUIRED);
-            } 
+            _isDVD = VlcMediaPlayer.Media.Mrl.IsDriveRootDirectory();
+            SetSystemTimeout();
+
         }
 
         /// <summary>
@@ -497,17 +494,23 @@ namespace Meta.Vlc.Wpf
             ThrowIfNotInitialize();
 
             if (VlcMediaPlayer.Media != null) VlcMediaPlayer.Media.Dispose();
-            
+
             VlcMediaPlayer.Media = VlcMediaPlayer.VlcInstance.CreateMediaFromLocation(uri.ToString());
             VlcMediaPlayer.Media.ParseAsync();
 
             _isDVD = VlcMediaPlayer.Media.Mrl.IsDriveRootDirectory();
+            SetSystemTimeout(); 
+        }
 
-            if (Win32Api.SetThreadExecutionState(Win32Api.ES_DISPLAY_REQUIRED | Win32Api.ES_CONTINUOUS | Win32Api.ES_SYSTEM_REQUIRED) == null)
+        private void SetSystemTimeout()
+        {
+
+            if (Win32Api.SetThreadExecutionState(Win32Api.ES_DISPLAY_REQUIRED
+                | Win32Api.ES_CONTINUOUS | Win32Api.ES_SYSTEM_REQUIRED) == null)
             {
                 // try XP variant as well just to make sure 
                 Win32Api.SetThreadExecutionState(Win32Api.ES_CONTINUOUS | Win32Api.ES_SYSTEM_REQUIRED);
-            } 
+            }
         }
 
         /// <summary>
@@ -524,17 +527,13 @@ namespace Meta.Vlc.Wpf
 
             if (VlcMediaPlayer.Media != null)
                 VlcMediaPlayer.Media.Dispose();
-            
+
             VlcMediaPlayer.Media = VlcMediaPlayer.VlcInstance.CreateMediaFromPath(path);
             VlcMediaPlayer.Media.AddOption(options);
             VlcMediaPlayer.Media.ParseAsync();
 
             _isDVD = VlcMediaPlayer.Media.Mrl.IsDriveRootDirectory();
-            if (Win32Api.SetThreadExecutionState(Win32Api.ES_DISPLAY_REQUIRED | Win32Api.ES_CONTINUOUS | Win32Api.ES_SYSTEM_REQUIRED) == null)
-            {
-                // try XP variant as well just to make sure 
-                Win32Api.SetThreadExecutionState(Win32Api.ES_CONTINUOUS | Win32Api.ES_SYSTEM_REQUIRED);
-            } 
+            SetSystemTimeout();
         }
 
         /// <summary>
@@ -548,17 +547,13 @@ namespace Meta.Vlc.Wpf
 
             if (VlcMediaPlayer.Media != null)
                 VlcMediaPlayer.Media.Dispose();
-            
+
             VlcMediaPlayer.Media = VlcMediaPlayer.VlcInstance.CreateMediaFromLocation(uri.ToString());
             VlcMediaPlayer.Media.AddOption(options);
             VlcMediaPlayer.Media.ParseAsync();
 
             _isDVD = VlcMediaPlayer.Media.Mrl.IsDriveRootDirectory();
-            if (Win32Api.SetThreadExecutionState(Win32Api.ES_DISPLAY_REQUIRED | Win32Api.ES_CONTINUOUS | Win32Api.ES_SYSTEM_REQUIRED) == null)
-            {
-                // try XP variant as well just to make sure 
-                Win32Api.SetThreadExecutionState(Win32Api.ES_CONTINUOUS | Win32Api.ES_SYSTEM_REQUIRED);
-            } 
+            SetSystemTimeout();
         }
 
         #endregion LoadMedia

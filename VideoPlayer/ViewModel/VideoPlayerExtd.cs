@@ -10,7 +10,7 @@ using System.Windows.Input;
 using VideoComponent.BaseClass;
 using VirtualizingListView.ViewModel;
 
-namespace VideoPlayer.ViewModel
+namespace VideoPlayerControl.ViewModel
 {
     public partial class VideoPlayerVM
     {
@@ -61,8 +61,7 @@ namespace VideoPlayer.ViewModel
               ResizeMediaAlways_executed));
             // IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.MinimizeMediaCtrl, MinimizeMediaCtrl_executed));
         }
-
-
+        
         private void ResizeMediaAlways_executed(object sender, ExecutedRoutedEventArgs e)
         {
             if (this.AllowAutoResize)
@@ -84,6 +83,7 @@ namespace VideoPlayer.ViewModel
                 AddSubtitleFileAction(new string[] { openfiles.FileName });
             }
         }
+
         private void ShiftFastForward_executed(object sender, ExecutedRoutedEventArgs e)
         {
             ReWindFastForward();
@@ -122,27 +122,19 @@ namespace VideoPlayer.ViewModel
                 CurrentSubtitle.IsSelected = true;
                 return;
             }
-
-            var currentvideoItem = MediaControllerVM.CurrentVideoItem;
             CurrentSubtitle = e.Parameter as SubtitleFilesModel;
-            var subtitlecollection = currentvideoItem.SubPath;
-            CurrentSubtitle.IsSelected = true;
+            var subtitlecollection = MediaControllerVM.CurrentVideoItem.SubPath;
+            int vlcsubitemId = IVideoElement.MediaPlayer.VlcMediaPlayer.Subtitle;
             foreach (var item in subtitlecollection)
             {
-                if (item == CurrentSubtitle)
-                {
-                    continue;
-                }
-                item.IsSelected = false;
+                item.IsSelected =  false;
             }
-            if(CurrentSubtitle.SubtitleType == SubtitleType.HardCoded)
+            if(CurrentSubtitle.SubtitleType == SubtitleType.HardCoded &&
+                IVideoElement.MediaPlayer.VlcMediaPlayer.SubtitleDescription.Count > 0)
             {
                 IVideoElement.MediaPlayer.VlcMediaPlayer.Subtitle = CurrentSubtitle.Id;
-                return;
+                CurrentSubtitle.IsSelected = true;
             }
-            IVideoElement.MediaPlayer.VlcMediaPlayer.SetSubtitleFile(CurrentSubtitle.Directory);
-            MediaControllerVM.UpdateHardCodedSubs();
-            // ISubtitleMediaController.Subtitle.LoadSub(SelectedSubtitle);
         }
         
         private void TopMost_executed(object sender, ExecutedRoutedEventArgs e)
@@ -162,11 +154,11 @@ namespace VideoPlayer.ViewModel
 
         private void Rewind_enabled(object sender, CanExecuteRoutedEventArgs e)
         {
-            if (IVideoElement.MediaPlayer.VlcMediaPlayer.Media != null || !IVideoElement.MediaPlayer.VlcMediaPlayer.HasVideo)
-            {
-                e.CanExecute = false;
-                return;
-            }
+            //if (IVideoElement.MediaPlayer.VlcMediaPlayer.Media != null || !IVideoElement.MediaPlayer.VlcMediaPlayer.HasVideo)
+            //{
+            //    e.CanExecute = false;
+            //    return;
+            //}
             e.CanExecute =  IVideoElement.MediaPlayer.VlcMediaPlayer.IsSeekable;
         }
 
@@ -200,8 +192,8 @@ namespace VideoPlayer.ViewModel
         public void Loaded()
         {
             Isloaded = true;
-            IVideoElement.WindowsTab.MouseEnter += WindowsTab_MouseEnter;
-            IVideoElement.WindowsTab.MouseLeave += WindowsTab_MouseLeave;
+            //IVideoElement.WindowsTab.MouseEnter += WindowsTab_MouseEnter;
+            //IVideoElement.WindowsTab.MouseLeave += WindowsTab_MouseLeave;
         }
 
         private void FullScreen_enabled(object sender, CanExecuteRoutedEventArgs e)
@@ -215,14 +207,14 @@ namespace VideoPlayer.ViewModel
             {
                 FullScreenSettings();
                IsFullScreenMode = true;
-                (ISubtitleMediaController as SubtitleMediaController).
+                (IMediaController as SubtitleMediaController).
                     OnScreenSettingsChanged(new object[] { null });
             }
             else
             {
                 IsFullScreenMode = false;
                 NormalScreenSettings();
-                (ISubtitleMediaController as SubtitleMediaController).
+                (IMediaController as SubtitleMediaController).
                     OnScreenSettingsChanged(new object[] { null });
             }
             
@@ -232,10 +224,10 @@ namespace VideoPlayer.ViewModel
         {
             if (!IsFullScreenMode)
             {
-                ((SubtitleMediaController)ISubtitleMediaController).OnScreenSettingsChanged(
+                ((SubtitleMediaController)IMediaController).OnScreenSettingsChanged(
                                 new object[] { SCREENSETTINGS.Fullscreen, SCREENSETTINGS.Fullscreen });
                 IsFullScreenMode = true;
-                (((SubtitleMediaController)ISubtitleMediaController).DataContext as VideoPlayerVM).FullScreenSettings();
+                (((SubtitleMediaController)IMediaController).DataContext as VideoPlayerVM).FullScreenSettings();
             }
             else
                 RestoreScreen();
@@ -343,18 +335,6 @@ namespace VideoPlayer.ViewModel
         {
             CollectionViewModel.Instance.CloseFileExplorerAction(this);
         }
-
-        private IVideoElement icommandbindings;
-        private IVideoElement IVideoElement
-        {
-            get
-            {
-                if (icommandbindings == null )
-                {
-                    icommandbindings = ServiceLocator.Current.GetInstance<IPlayFile>().VideoElement;
-                }
-                return  icommandbindings;
-            }
-        }
+        
     }
 }

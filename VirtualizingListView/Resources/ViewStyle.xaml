@@ -5,11 +5,14 @@
                     xmlns:VirtualPanel="clr-namespace:VirtualizingListView.VirtualPanel"
                     xmlns:cmd="clr-namespace:Common.ApplicationCommands;assembly=Common"
                     xmlns:enum ="clr-namespace:Common.Util;assembly=Common"
-                    xmlns:local="clr-namespace:VirtualizingListView" 
+                    xmlns:local="clr-namespace:VirtualizingListView"
+                    xmlns:loadingvisual="clr-namespace:VirtualizingListView.LoadingAnimation"
                     xmlns:View="clr-namespace:VirtualizingListView.View" >
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/VideoComponent;component/Themes/Generic.xaml"/>
+
+        <ResourceDictionary Source="pack://application:,,,/VirtualizingListView;component/LoadingAnimation/LoadingAnimationResource.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <local:DoubleClick x:Key="ClickAction" />
@@ -18,14 +21,18 @@
     <local:ItemListSelector x:Key="VDataTemplateSelector"/>
     <local:ActiveItemConverter x:Key="ActiveItemSelector"/>
     <local:TextContexter x:Key="TextContexter"/>
-
-    <ImageBrush x:Key="ImageBackground" ImageSource="/VirtualizingListView;component/Resources/Images/Movies - Copy.png" 
+    <local:BooleanInversion x:Key="BooleanInversion"/>
+    
+    <ImageBrush x:Key="ImageBackground" 
+                ImageSource="/VirtualizingListView;component/Resources/Images/Movies - Copy.png" 
                                     TileMode="Tile"   
                                     Stretch="UniformToFill" 
                                     ViewportUnits="Absolute" 
                                     Opacity="0.1"/>
     <ImageBrush x:Key="ImageOutline" ImageSource="Images/check-1-icon.png" TileMode="Tile"   
                 Stretch="None" ViewportUnits="Absolute" Opacity="0.3"/>
+
+    
 
     <ObjectDataProvider x:Key="SortByEnum" MethodName="GetValues"
                         ObjectType="{x:Type sys:Enum}">
@@ -222,7 +229,7 @@
         <Setter Property="Template" >
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" Padding="{TemplateBinding Padding}" BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
                             <!--<Thumb HorizontalAlignment="Stretch" Padding="1" 
                                    Background="Transparent" 
@@ -344,16 +351,16 @@
                 <!--
                 </ItemsPanelTemplate>-->
                 <ItemsPanelTemplate>
-                    <VirtualPanel:VirtualWrapPanel  IsItemsHost="True" Orientation="Vertical"
+                    <!--<VirtualPanel:VirtualWrapPanel  IsItemsHost="True" Orientation="Vertical"
                                             VirtualizingStackPanel.VirtualizationMode="Standard" 
                                             VirtualizingStackPanel.IsVirtualizing="True"
                                                      ItemHeight="63"
-                                                     />
+                                                     />-->
 
                     <!--<r:VirtualWrapPanel Orientation="Horizontal" ItemHeight="65" ItemWidth="260" 
                                         VirtualizingPanel.VirtualizationMode="Recycling" 
                                             VirtualizingPanel.IsVirtualizing="True" />-->
-                    <!--<WrapPanel Margin="0,2,0,2" Orientation="Horizontal" />-->
+                    <VirtualizingStackPanel VirtualizingStackPanel.VirtualizationMode="Standard" VirtualizingStackPanel.IsVirtualizing="True" Margin="0,2,0,2" Orientation="Vertical"  />
                     <!--ItemHeight="{Binding Path=ItemSize.Height, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"
                      ItemWidth="{Binding Path=ItemSize.Width, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"/>-->
                 </ItemsPanelTemplate>
@@ -404,16 +411,16 @@
                 <!--
                 </ItemsPanelTemplate>-->
                 <ItemsPanelTemplate>
-                    <VirtualPanel:VirtualWrapPanel  IsItemsHost="True" Orientation="Vertical"
+                    <!--<VirtualPanel:VirtualWrapPanel  IsItemsHost="True" Orientation="Vertical"
                                             VirtualizingStackPanel.VirtualizationMode="Standard" 
                                             VirtualizingStackPanel.IsVirtualizing="True"
                                                      ItemHeight="40"
-                                                     />
+                                                     />-->
 
                     <!--<r:VirtualWrapPanel Orientation="Horizontal" ItemHeight="65" ItemWidth="260" 
                                         VirtualizingPanel.VirtualizationMode="Recycling" 
                                             VirtualizingPanel.IsVirtualizing="True" />-->
-                    <!--<WrapPanel Margin="0,2,0,2" Orientation="Horizontal" />-->
+                    <VirtualizingStackPanel  Margin="0,2,0,2" Orientation="Vertical" />
                     <!--ItemHeight="{Binding Path=ItemSize.Height, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"
                      ItemWidth="{Binding Path=ItemSize.Width, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"/>-->
                 </ItemsPanelTemplate>
@@ -543,19 +550,10 @@
     </Style>
 
     <ItemsPanelTemplate x:Key="VideoItemsPanel">
-        <VirtualPanel:VirtualWrapPanel Orientation="Horizontal" ItemHeight="190" ItemWidth="150" VirtualizingStackPanel.VirtualizationMode="Recycling" 
-                                            VirtualizingStackPanel.IsVirtualizing="True" />
-        <!--<WrapPanel Margin="0,2,0,2" Orientation="Horizontal" />
-        ItemHeight="{Binding Path=ItemSize.Height, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"
-                     ItemWidth="{Binding Path=ItemSize.Width, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"/>-->
-    </ItemsPanelTemplate>
 
-    <!--<ItemsPanelTemplate x:Key="FileSmallTemplate_panel">
-        <WrapPanel Margin="0,2,0,2" Orientation="Horizontal" />
-        --><!-- <VirtualizingStackPanel IsItemsHost="True" Orientation="Vertical"
-                                            VirtualizingStackPanel.VirtualizationMode="Recycling" 
-                                            VirtualizingStackPanel.IsVirtualizing="True"/>--><!--
-    </ItemsPanelTemplate>-->
+        <WrapPanel Margin="0,2,0,2" Orientation="Horizontal" IsItemsHost="True">
+        </WrapPanel>
+    </ItemsPanelTemplate>
 
     <Style x:Key="lvStyle1" TargetType="{x:Type ListView}">
         <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True"/>
@@ -568,10 +566,10 @@
             <Setter.Value>
                 <ItemsPanelTemplate>
 
-                    <VirtualPanel:VirtualWrapPanel Orientation="Horizontal" ItemHeight="190" ItemWidth="150" 
+                    <!--<VirtualPanel:VirtualWrapPanel Orientation="Horizontal" ItemHeight="190" ItemWidth="150" 
                                         VirtualizingStackPanel.VirtualizationMode="Recycling" 
-                                            VirtualizingStackPanel.IsVirtualizing="True" />
-                    <!--<WrapPanel Margin="0,2,0,2" Orientation="Horizontal" />-->
+                                            VirtualizingStackPanel.IsVirtualizing="True" />-->
+                    <WrapPanel Margin="0,2,0,2" Orientation="Horizontal" />
                     <!--ItemHeight="{Binding Path=ItemSize.Height, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"
                      ItemWidth="{Binding Path=ItemSize.Width, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"/>-->
                 </ItemsPanelTemplate>
@@ -586,41 +584,68 @@
 
     <DataTemplate x:Key="FileLargeTemplate">
         <local:CustomButton ContextMenu="{StaticResource fileexprcntxtmenu}" 
-                        Background="Transparent"
-                        Margin="4" x:Name="main" 
-                        Style="{StaticResource ContentContainer}"
-                         BorderBrush="Transparent" BorderThickness="0"
-              local:VideoItemDoubleClick.DoubleClickCommand="{StaticResource ClickAction}"
-              local:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding DataContext, 
+                            Background="Transparent"
+                            Margin="4" x:Name="main" 
+                            Style="{StaticResource ContentContainer}"
+                            BorderBrush="Transparent" 
+                            BorderThickness="0"
+                            IsEnabled="{Binding IsLoading,Converter={StaticResource BooleanInversion}}"
+                            local:VideoItemDoubleClick.DoubleClickCommand="{Binding 
+            DataContext.OpenFolderCommand,RelativeSource={RelativeSource AncestorType=Page,Mode=FindAncestor}}"
+                            local:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding DataContext, 
             RelativeSource={RelativeSource Self}}"  
-                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  
-                         TextBlock.Foreground="{Binding IsActive, Converter={StaticResource ActiveItemSelector} ,ConverterParameter=Foreground}" 
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  
+                            TextBlock.Foreground="White" 
                             TextBlock.FontStyle="Italic"  >
             <!--<y:VideoData >-->
-            <Grid  Width="140" Height="180" HorizontalAlignment="Left" VerticalAlignment="Top"  >
+            <Grid  Width="160" Background="#7F000000" Height="200" HorizontalAlignment="Left" VerticalAlignment="Top"  >
 
-                <!--<Grid.RowDefinitions>
-                    <RowDefinition Height="125"/>
-                    <RowDefinition Height="10*"/>
-                </Grid.RowDefinitions>-->
-                <Grid.Background>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <!--<Grid.Background>
                     <ImageBrush ImageSource="Images/check-1-icon.png" TileMode="Tile"   Stretch="None" ViewportUnits="Absolute" Opacity="0.095"/>
-                </Grid.Background>
+                </Grid.Background>-->
                 <!--<Border Panel.ZIndex="10" HorizontalAlignment="Right" x:Name="ext" VerticalAlignment="Top" Background="{Binding ElementName=footer, Path=Background}" Width="34"   Height="20"  Margin="0,3,-4,0" >
                     <TextBlock Text="{Binding FileExtension}" TextAlignment="Center" Margin="2,2,3,2"  VerticalAlignment="Center"  />
                 </Border>-->
-                <Grid>
-                    <Image Panel.ZIndex="10"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="8,3,0,0" Visibility="{Binding SubVisible}"  Width="22" Height="22"  
-                                    ToolTip="Subtitle Found"  Stretch="UniformToFill" Source="Images/1444151826_source_s.png"/>
-                    <Image x:Name="img" Grid.Column="0"  Source="{Binding Thumbnail}"  Stretch="UniformToFill" />
-                    <Image Source="Images/video-player.png" Width="50" Height="50" HorizontalAlignment="Center"  VerticalAlignment="Center" Visibility="{Binding HasThumbnail, Converter={StaticResource ThumbnailConverter}}"/>
+                <Grid Grid.Row="0">
+                    <Image Panel.ZIndex="10"  HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="8,3,0,0" 
+                           Visibility="{Binding SubVisible}"  Width="22" Height="22"  
+                                    ToolTip="Subtitle Found"  Stretch="Uniform" Source="Images/1444151826_source_s.png"/>
+                    
+                     <TextBlock  Panel.ZIndex="10" HorizontalAlignment="Right" VerticalAlignment="Top"
+                            Background="{DynamicResource Theme.HighlightColor}" Padding="3"
+                                       Text="{Binding FileSize}"
+                                       TextWrapping="Wrap" FontSize="13"/>
+                        <Grid>
+                        <Image x:Name="img" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                               Source="{Binding Thumbnail}"   Stretch="Fill" StretchDirection="UpOnly">
+                        </Image>
+                    </Grid>
+                    <Path  Fill="{DynamicResource Theme.MovieFile}"
+                           StrokeThickness=".5" 
+                           Stroke="Black" Width="80"
+                           Visibility="{Binding HasThumbnail, Converter={StaticResource ThumbnailConverter}}"
+                           Data="M18,4L20,8H17L15,4H13L15,8H12L10,4H8L10,8H7L5,4H4C2.9,4 2,4.9 2,
+                           6V18C2,19.1 2.9,20 4,20H20C21.1,20 22,19.1 22,18V4H18Z"  
+                         HorizontalAlignment="Center"  VerticalAlignment="Center" 
+                           >
+                        <Path.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="3" ScaleY="3"/>
+                                <RotateTransform />
+                            </TransformGroup>
+                        </Path.RenderTransform>
+                    </Path>
                     <VideoComponent:PreviewClass x:Name="PreviewVideo"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                     <!--Background="#FF1F1F1F"-->
                 </Grid>
                 
                 <Border Grid.Row="1"  x:Name="footer" Margin="0,0,0,1"
                         Background="Transparent" 
-                        VerticalAlignment="Bottom" Opacity="0.6">
+                        VerticalAlignment="Bottom" Opacity="1">
                     <!--<Border.Background>
                         <RadialGradientBrush>
                             <GradientStop Color="Black"/>
@@ -630,15 +655,20 @@
 
                     <Grid  Margin="5,0">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="45"/>
                             <RowDefinition Height="14"/>
-                            <RowDefinition Height="3"/>
+                            <RowDefinition Height="5"/>
                         </Grid.RowDefinitions>
                         <TextBlock  ToolTip="{Binding TooltipMessage}" 
-                       Text="{Binding FileName}" VerticalAlignment="Center" TextWrapping="Wrap"  TextTrimming="WordEllipsis" Grid.Row="0"  Margin="2,0"  />
-                        <TextBlock  Grid.Row="1" Text="{Binding Duration}" HorizontalAlignment="Left" FontSize="10" Margin="3,3,0,0"/>
-                        <TextBlock  Grid.Row="1" Text="{Binding CreationDate}" HorizontalAlignment="Right" FontSize="10" Margin="0,3,3,0" Padding="0,0,0,0" />
-                        <ProgressBar Grid.Row="3" Value="{Binding Progress}" Maximum="{Binding MaxiProgress}" Visibility="{Binding PlayedVisible}" Height="1" Foreground="#FFFF7600" Margin="0,2,0,0" />
+                                    Text="{Binding MediaTitle}" FontSize="15"  VerticalAlignment="Center" 
+                                    TextWrapping="Wrap"  TextTrimming="WordEllipsis" Grid.Row="0"  Margin="2,0"  />
+                        <TextBlock  Grid.Row="1" Text="{Binding Duration}" 
+                                    HorizontalAlignment="Left" FontSize="10" Margin="3,3,0,0"/>
+                        <TextBlock  Grid.Row="1" Text="{Binding CreationDate}" HorizontalAlignment="Right" 
+                                    FontSize="10" Margin="0,3,3,0" Padding="0,0,0,0" />
+                        <ProgressBar Grid.Row="3" Value="{Binding Progress}" Maximum="100" 
+                                     Visibility="{Binding PlayedVisible}" 
+                                     Height="3" Foreground="#FFFF7600" Margin="0,2,0,0" />
                     </Grid>
                 </Border>
             </Grid>
@@ -646,16 +676,16 @@
         </local:CustomButton>
 
         <DataTemplate.Triggers>
-            <Trigger Property="IsMouseOver" Value="true">
+            <Trigger  Property="IsMouseOver" Value="true">
                 <Setter TargetName="PreviewVideo" Property="Background" Value="Black"/>
                 <Setter TargetName="PreviewVideo" Property="Opacity" Value="0.7"/>
-                <Setter Property="TextBlock.Foreground" Value="White"/>
+                <!--<Setter Property="TextBlock.Foreground" Value="White"/>-->
                 <!--<Setter TargetName="main" Property="Background">
                     <Setter.Value>
                         <ImageBrush ImageSource="Images/check-1-icon.png" TileMode="Tile"   Stretch="None" ViewportUnits="Absolute" Opacity="0.2"/>
                     </Setter.Value>
                 </Setter>-->
-                <Trigger.EnterActions>
+                <!--<Trigger.EnterActions>
                     <BeginStoryboard>
                         <Storyboard>
                             <DoubleAnimation Duration="0:0:.2" Storyboard.TargetName="footer"
@@ -670,60 +700,88 @@
                                              Storyboard.TargetProperty="Opacity" To="0.6"/>
                         </Storyboard>
                     </BeginStoryboard>
-                </Trigger.ExitActions>
+                </Trigger.ExitActions>-->
             </Trigger>
         </DataTemplate.Triggers>
     </DataTemplate>
 
-    <DataTemplate x:Key="FolderLargeTemplate" >
-
-        <local:CustomButton Background="Transparent" Margin="4" x:Name="main" Style="{StaticResource ContentContainer}"
-                        BorderBrush="Transparent" BorderThickness="0"
-              local:VideoItemDoubleClick.DoubleClickCommand="{StaticResource ClickAction}"
-              local:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding DataContext, RelativeSource={RelativeSource Self}}" 
-                Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  
-                       TextBlock.Foreground="White" TextBlock.FontStyle="Italic">
+    <DataTemplate x:Key="FolderLargeTemplate">
+        <local:CustomButton Background="Transparent" Margin="4" x:Name="main" 
+                            Style="{StaticResource ContentContainer}" 
+                            IsEnabled="{Binding IsLoading,Converter={StaticResource BooleanInversion}}"
+                            BorderBrush="Transparent" BorderThickness="0"
+                            local:VideoItemDoubleClick.DoubleClickCommand="{Binding 
+            DataContext.OpenFolderCommand,RelativeSource={RelativeSource 
+            AncestorType=Page,Mode=FindAncestor}}"
+                            local:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding 
+            DataContext, RelativeSource={RelativeSource Self}}" 
+                            Grid.Column="0" HorizontalAlignment="Stretch" 
+                            VerticalAlignment="Stretch"  
+                            TextBlock.Foreground="{DynamicResource Theme.Foreground}" 
+                            TextBlock.FontStyle="Italic">
             <Grid >
-
-                <!--<Grid.Background>
-                    <ImageBrush ImageSource="Images/check-1-icon.png" TileMode="Tile"   Stretch="None" ViewportUnits="Absolute" Opacity="0.095"/>
-                </Grid.Background>-->
-                <Grid Width="140" Height="180"  HorizontalAlignment="Left" VerticalAlignment="Top"  >
+                <Grid Width="140" Height="180"  
+                      HorizontalAlignment="Left" 
+                      VerticalAlignment="Top"  >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
-                        <RowDefinition Height="47"/>
+                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
-
-                    <Border Panel.ZIndex="10" HorizontalAlignment="Right" VerticalAlignment="Top"  CornerRadius="5"  Height="15"  Margin="2,3,2,0" >
-                        <Border.Background>
-                            <ImageBrush ImageSource="Images/check-1-icon.png" TileMode="Tile"   Stretch="None" ViewportUnits="Absolute" Opacity="0.3"/>
-                        </Border.Background>
-                        <TextBlock Text="{Binding FolderChildCount, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center" Margin="2,2,3,2"  VerticalAlignment="Center" />
-                    </Border>
-                    <Image Source="Images/Movies - Copy.png" Grid.Row="0" Stretch="Uniform" />
-
-                    <Grid VerticalAlignment="Bottom" Opacity=".8" Height="52" x:Name="footer" Grid.Row="1" Panel.ZIndex="-8" >
+                    <Grid Grid.Row="0">
+                        <Border Panel.ZIndex="10" HorizontalAlignment="Right" 
+                            VerticalAlignment="Top"  CornerRadius="5"  
+                            Height="15"  Margin="2,3,2,0" >
+                            <Border.Background>
+                                <ImageBrush ImageSource="Images/check-1-icon.png" 
+                                        TileMode="Tile"  
+                                        Stretch="None" 
+                                        ViewportUnits="Absolute" Opacity="0.3"/>
+                            </Border.Background>
+                            <TextBlock Text="{Binding FolderChildCount, UpdateSourceTrigger=PropertyChanged}" 
+                                       TextAlignment="Center" Margin="2,2,3,2"  VerticalAlignment="Center" />
+                        </Border>
+                        <loadingvisual:LoadingIndicator 
+                            HorizontalAlignment="Center" Style="{DynamicResource LoadingIndicatorWaveStyleKey}"
+                            VerticalAlignment="Bottom"  Margin="0,0,0,40" Height="20"
+                            SpeedRatio="1" Foreground="{DynamicResource Theme.HighlightColor}" 
+                            IsActive="{Binding IsLoading}"/>
+                        <Path  Fill="{DynamicResource Theme.HighlightColor}" x:Name="path" 
+                               StrokeThickness=".5" Stroke="Black" 
+                               Data="M10,4H4C2.89,4 2,4.89 2,6V18C2,19.1 2.9,20 4,
+                               20H20C21.1,20 22,19.1 22,18V8C22,6.89 
+                               21.1,6 20,6H12L10,4Z" ToolTip="{Binding FileName}" >
+                            <Path.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="6" ScaleY="5.5"/>
+                                    <RotateTransform />
+                                </TransformGroup>
+                            </Path.RenderTransform>
+                        </Path>
+                    </Grid>
+                    <Grid Height="60" VerticalAlignment="Bottom" Opacity=".8"  
+                          x:Name="footer" Grid.Row="1" Panel.ZIndex="-8" >
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="37"/>
+                            <RowDefinition Height="45"/>
                             <RowDefinition Height="15"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Margin="4,3,3,0"   TextAlignment="Center"
-                                   Text="{Binding FileName}" VerticalAlignment="Center"
-                                   TextWrapping="Wrap"  TextTrimming="WordEllipsis" Grid.Row="0"    />
+                        <TextBlock Margin="4,3,3,0" FontSize="15"    
+                                   TextAlignment="Center"
+                                   Text="{Binding FileName,UpdateSourceTrigger=PropertyChanged}" 
+                                   VerticalAlignment="Center"
+                                   TextWrapping="Wrap"  TextTrimming="WordEllipsis" Grid.Row="0" ToolTipService.InitialShowDelay="1500"
+                               ToolTip="{Binding FullName,UpdateSourceTrigger=PropertyChanged}"    />
 
-                        <TextBlock  Grid.Row="1" Text="{Binding CreationDate}" HorizontalAlignment="Right" FontSize="10" Margin="0,0,3,2" Padding="0,0,0,0" />
+                        <TextBlock  Grid.Row="1" Text="{Binding CreationDate}" 
+                                    HorizontalAlignment="Right" 
+                                    FontSize="10" Margin="0,0,3,2" 
+                                    Padding="0,0,0,0" />
                     </Grid>
                 </Grid>
             </Grid>
         </local:CustomButton>
         <DataTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
-                <!--<Setter TargetName="main" Property="Background">
-                    <Setter.Value>
-                        <ImageBrush ImageSource="Images/check-1-icon.png" TileMode="Tile"   Stretch="None" ViewportUnits="Absolute" Opacity="0.12"/>
-                    </Setter.Value>
-                </Setter>-->
                 <Trigger.EnterActions>
                     <BeginStoryboard>
                         <Storyboard>
@@ -741,26 +799,33 @@
                     </BeginStoryboard>
                 </Trigger.ExitActions>
             </Trigger>
+
+            <DataTrigger Binding="{Binding IsLoading}" Value="true">
+                <Setter  Property="Cursor" Value="Wait"/>
+                <Setter TargetName="path" Property="Opacity" Value=".8"/>
+            </DataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>
 
     <DataTemplate x:Key="FileSmallTemplate">
         <local:CustomButton ContextMenu="{StaticResource fileexprcntxtmenu}" 
-                Background="Transparent" 
-                Margin="4" x:Name="main"
-                Style="{StaticResource ContentContainer}"
-               BorderBrush="Transparent" BorderThickness="0"
-              local:VideoItemDoubleClick.DoubleClickCommand="{StaticResource ClickAction}"
-              local:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding DataContext, RelativeSource={RelativeSource Self}}"
-              HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                            Background="Transparent" 
+                            IsEnabled="{Binding IsLoading,Converter={StaticResource BooleanInversion}}"
+                            Margin="4" x:Name="main"
+                            Style="{StaticResource ContentContainer}"
+                            BorderBrush="Transparent" BorderThickness="0"
+                            local:VideoItemDoubleClick.DoubleClickCommand="{Binding 
+            DataContext.OpenFolderCommand,RelativeSource={RelativeSource AncestorType=Page,Mode=FindAncestor}}"
+                            local:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding 
+            DataContext, RelativeSource={RelativeSource Self}}"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
             <!--<y:VideoData>-->
-            <DockPanel   TextBlock.Foreground="{Binding IsActive, Converter={StaticResource ActiveItemSelector} ,ConverterParameter=Foreground}" LastChildFill="True"  
-                                      Height="55"  
-                                     VirtualizingStackPanel.VirtualizationMode="Recycling" 
-                                     VirtualizingStackPanel.IsVirtualizing="True" >
-                <!--<DockPanel.Background>
-                    <ImageBrush ImageSource="Images/check-1-icon.png" TileMode="Tile"   Stretch="None" ViewportUnits="Absolute" Opacity="0.095"/>
-                </DockPanel.Background>-->
+            <DockPanel   TextBlock.Foreground="{DynamicResource Theme.Foreground}" 
+                         LastChildFill="True"  
+                         TextBlock.FontStyle="Italic"
+                         Height="55"     
+                         VirtualizingStackPanel.VirtualizationMode="Recycling" 
+                         VirtualizingStackPanel.IsVirtualizing="True">
                 <Border Grid.Column="0" Width="42"
                       DockPanel.Dock="Left" 
                       Height="30"  
@@ -776,41 +841,54 @@
                                Width="12" Height="12"   
                                 ToolTip="Subtitle Found"  
                                Stretch="UniformToFill" Source="Images/1444151826_source_s.png"/>
-                        <Image  Source="Images/video-player.png"/>
-                        <VideoComponent:PreviewClass Background="Transparent" Panel.ZIndex="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+
+                        <Path  Fill="{DynamicResource Theme.MovieFile}" x:Name="path" VerticalAlignment="Center" Height="40"
+                               StrokeThickness=".5" Stroke="Black" 
+                               Data="M18,4L20,8H17L15,4H13L15,8H12L10,4H8L10,8H7L5,4H4C2.9,4 2,4.9 2,6V18C2,19.1 2.9,20 4,20H20C21.1,20 22,19.1 22,18V4H18Z"  >
+                            <Path.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                                    <RotateTransform />
+                                </TransformGroup>
+                            </Path.RenderTransform>
+                        </Path>
+                        <!--<Image  Source="Images/video-player.png"/> -->
+                        <VideoComponent:PreviewClass Background="Transparent" 
+                                                     Panel.ZIndex="5" HorizontalAlignment="Stretch" 
+                                                     VerticalAlignment="Stretch" />
                     </Grid>
 
                 </Border>
-
-                <!--<TextBlock FontStyle="Italic" x:Name="hh" MaxWidth="206" VerticalAlignment="Center" Grid.Column="1" Margin="0,5" ToolTip="{Binding TooltipMessage}" 
-                               Text="{Binding FileName}" TextWrapping="Wrap" TextTrimming="WordEllipsis"  />-->
                 <Border Grid.Row="1"  x:Name="footer">
-                    <!--<Border.Background>
-                        <RadialGradientBrush>
-                            <GradientStop Color="Black"/>
-                            <GradientStop Color="#38FFBCBC"/>
-                        </RadialGradientBrush>
-                    </Border.Background>-->
 
                     <Grid  Margin="2,0">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="35"/>
-                            <RowDefinition Height="14"/>
+                            <RowDefinition Height="34"/>
+                            <RowDefinition Height="16"/>
                         </Grid.RowDefinitions>
-                        <TextBlock  ToolTip="{Binding TooltipMessage}" ToolTipService.InitialShowDelay="1500"
-                       Text="{Binding FileName}" VerticalAlignment="Center"  FontStyle="Italic"
-                                    TextWrapping="Wrap"  
-                                    TextTrimming="CharacterEllipsis" Grid.Row="0"  
-                                    Margin="2,0"  />
+                        <DockPanel  Grid.Row="0"  Margin="2,0" >
+                            <TextBlock VerticalAlignment="Center" 
+                                       DockPanel.Dock="Right"
+                                       Text="{Binding FileSize}"
+                                       TextWrapping="Wrap" FontSize="13"/>
+                            <TextBlock ToolTip="{Binding TooltipMessage}" 
+                                       ToolTipService.InitialShowDelay="1500"
+                                       Text="{Binding MediaTitle}"  
+                                       VerticalAlignment="Center" 
+                                       TextWrapping="Wrap" FontSize="15"   
+                                       TextTrimming="CharacterEllipsis"/>
+                        </DockPanel>
+                       
                         <StackPanel Grid.Row="1" Orientation="Horizontal"
                                     HorizontalAlignment="Left" >
-                            <TextBlock   Text="{Binding ProgressAsString,
+                            <TextBlock Text="{Binding ProgressAsString}" 
+                                       FontSize="13"  />
+                            <!--<TextBlock   Text="{Binding ProgressAsString,
                                 Converter={StaticResource TextContexter}, ConverterParameter=Text}" 
-                                         Visibility="{Binding ProgressAsString,
-                                Converter={StaticResource TextContexter}, ConverterParameter=Visibility}"
-                                        FontSize="10" Margin="3,3,0,0"/>
-                            <TextBlock   Text="{Binding Duration}"
-                                        FontSize="10" Margin="3,3,0,0"/>
+                                         Visibility="{Binding PlayedVisible}"
+                                        FontSize="10" Margin="3,3,0,0"/>-->
+                            <!--<TextBlock  Text="{Binding Duration}"
+                                        FontSize="10" Margin="3,3,0,0"/>-->
                         </StackPanel>
 
                         <TextBlock  Grid.Row="1" Text="{Binding CreationDate}" 
@@ -832,7 +910,6 @@
                 </Setter>
                 <Setter Property="TextBlock.Foreground" Value="White"/>
             </Trigger>-->
-
         </DataTemplate.Triggers>
     </DataTemplate>
 
@@ -865,10 +942,10 @@
                     <TextBlock   Text="{Binding Duration}"
                                         FontSize="10" Padding="2"/>
                 </StackPanel>
-                <TextBlock FontStyle="Italic" Padding="2" TextWrapping="Wrap"
+                <TextBlock  Padding="2" TextWrapping="Wrap"
                            x:Name="hh"  FontWeight="Bold"
                            ToolTip="{Binding TooltipMessage}"
-                           Text="{Binding FileName}"
+                           Text="{Binding MediaTitle}"
                            TextTrimming="CharacterEllipsis"  />
 
                
@@ -892,78 +969,72 @@
 
     <DataTemplate x:Key="FolderSmallTemplate">
         <local:CustomButton Background="Transparent" Margin="4" x:Name="main" 
-                        Style="{StaticResource ContentContainer}"
-                         BorderBrush="Transparent" BorderThickness="0"
-              local:VideoItemDoubleClick.DoubleClickCommand="{StaticResource ClickAction}"
-              local:VideoItemDoubleClick.DoubleClickCommandParameter
-                        ="{Binding DataContext, RelativeSource={RelativeSource Self}}"
-              >
+                            Style="{StaticResource ContentContainer}" 
+                            BorderBrush="Transparent" BorderThickness="0"
+                            local:VideoItemDoubleClick.DoubleClickCommand="{Binding DataContext.OpenFolderCommand,
+            RelativeSource={RelativeSource AncestorType=Page,Mode=FindAncestor}}"
+                            local:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding DataContext, 
+            RelativeSource={RelativeSource Self}}" >
             <!--<y:VideoData >-->
-            <DockPanel  TextBlock.Foreground="White" LastChildFill="True" Height="47">
-                <!--<DockPanel.Background>
-                    <ImageBrush ImageSource="Images/check-1-icon.png" TileMode="Tile"   Stretch="None" ViewportUnits="Absolute" Opacity="0.095"/>
-                </DockPanel.Background>-->
-                <!--<VirtualizingStackPanel Orientation="Horizontal"   
-                                        Margin="0,5,0,0" Width="250"
-                                        Height="47" VirtualizingPanel.VirtualizationMode="Recycling" 
-                                        VirtualizingPanel.IsVirtualizing="True" >
-                    --><!--<Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="40"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>Background="#FF4CAF50"--><!--
-
-                   
-                    
-                </VirtualizingStackPanel>-->
-                <Grid Grid.Column="0" DockPanel.Dock="Left" 
-                          Width="40" Height="30" 
-                           Margin="2,2,0,0">
-                    <Image  Source="Images/Movies - Copy.png"/>
+            <DockPanel  TextBlock.Foreground="{DynamicResource Theme.Foreground}" TextBlock.FontStyle="Italic" LastChildFill="True" Height="47">
+                <Grid Grid.Column="0"  DockPanel.Dock="Left" 
+                          Width="35" Height="35"
+                           Margin="2,0,0,0">
+                    <Path  Fill="{DynamicResource Theme.HighlightColor}" 
+                           x:Name="onloading" Stroke="Black" 
+                           Data="M10,4H4C2.89,4 2,4.89 2,6V18C2,19.1 2.9,20 4,20H20C21.1,20 22,19.1 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z">
+                        <Path.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="1.4" ScaleY="1.4"/>
+                                <RotateTransform />
+                            </TransformGroup>
+                        </Path.RenderTransform>
+                    </Path>
+                    <!--<Image  Source="Images/Movies - Copy.png"/>-->
                 </Grid>
                 <Grid DockPanel.Dock="Right"
-                      HorizontalAlignment="Right" 
-                     >
-                <Border Panel.ZIndex="10" DockPanel.Dock="Right" 
+                      HorizontalAlignment="Right">
+                    <Border Panel.ZIndex="10" DockPanel.Dock="Right" 
                         Grid.Column="1" Grid.ColumnSpan="2" 
                         CornerRadius="5" MinWidth="15" 
                         Height="13" 
                         HorizontalAlignment="Right" 
                         VerticalAlignment="Top" 
                         Margin="0,3,3,0" >
-                    <Border.Background>
-                        <ImageBrush ImageSource="Images/check-1-icon.png" TileMode="Tile"   Stretch="None" ViewportUnits="Absolute" Opacity="0.3"/>
-                    </Border.Background>
-                    <TextBlock Text="{Binding ChildrenSize}" FontStyle="Italic" TextAlignment="Center" Margin="2,2,3,2" FontSize="10" VerticalAlignment="Center" />
+                        <Border.Background>
+                            <ImageBrush ImageSource="Images/check-1-icon.png" TileMode="Tile"   Stretch="None" ViewportUnits="Absolute" Opacity="0.3"/>
+                        </Border.Background>
+                        <TextBlock Text="{Binding ChildrenSize}" 
+                               TextAlignment="Center" Margin="2,2,3,2" 
+                               FontSize="10" 
+                               VerticalAlignment="Center" />
                     </Border>
-                  <TextBlock  Grid.Row="1" Text="{Binding CreationDate}"  FontSize="10" 
+                    <TextBlock  Grid.Row="1" Text="{Binding CreationDate}"  FontSize="10" 
                                     Margin="0,3,3,0" Padding="0,0,0,0"
                                VerticalAlignment="Bottom"/>
+
+                    <loadingvisual:LoadingIndicator 
+                            HorizontalAlignment="Center" Style="{DynamicResource LoadingIndicatorWaveStyleKey}"
+                            VerticalAlignment="Center"  Margin="0,0,0,0" Height="10"
+                            SpeedRatio="1" Foreground="{DynamicResource Theme.HighlightColor}" 
+                            IsActive="{Binding IsLoading}"/>
                 </Grid>
-                <TextBlock FontStyle="Italic" ToolTipService.InitialShowDelay="1500"
-                               x:Name="hh"  VerticalAlignment="Center"
+                <TextBlock ToolTipService.InitialShowDelay="1500"
+                               ToolTip="{Binding FileName,UpdateSourceTrigger=PropertyChanged}" 
+                               x:Name="hh" FontSize="15"  VerticalAlignment="Center"
                                Grid.Column="0" Padding="5"
-                               ToolTip="{Binding FileName}" 
-                               Text="{Binding FileName}" 
+                               Text="{Binding FileName,UpdateSourceTrigger=PropertyChanged}" 
                                TextWrapping="Wrap" 
-                               TextTrimming="WordEllipsis"  />
-
-                
+                               TextTrimming="CharacterEllipsis"  />
             </DockPanel>
-
-
             <!--</y:VideoData>-->
-
         </local:CustomButton>
 
         <DataTemplate.Triggers>
-            <!--<Trigger Property="IsMouseOver" Value="true">
-                <Setter TargetName="main" Property="Background">
-                    <Setter.Value>
-                        <ImageBrush ImageSource="Images/check-1-icon.png" TileMode="Tile"   Stretch="None" ViewportUnits="Absolute" Opacity="0.2"/>
-                    </Setter.Value>
-                </Setter>
-            </Trigger>-->
+            <DataTrigger Binding="{Binding IsLoading}" Value="true">
+                <Setter TargetName="onloading" Property="Opacity" Value=".7"/>
+                <Setter  Property="Cursor" Value="Wait"/>
+            </DataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>
 
@@ -988,6 +1059,107 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="NormalListVistStyle" TargetType="ListView">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListView}">
+                    <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                        <ScrollViewer Focusable="False" Padding="{TemplateBinding Padding}">
+                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </ScrollViewer>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" TargetName="Bd" Value="White"/>
+                            <Setter Property="BorderBrush" TargetName="Bd" Value="#FFD9D9D9"/>
+                        </Trigger>
+                        
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="zerobtnstyle">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border  Background="{TemplateBinding Background}"  BorderThickness="{TemplateBinding BorderThickness}"  BorderBrush="{TemplateBinding BorderBrush}" >
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Foreground" Value="Yellow" />
+    </Style>
+
+    <Style x:Key="HomePageListViewContainerStyle" TargetType="ListViewItem">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                    <Border x:Name="container" Background="{TemplateBinding Background}" Margin="{TemplateBinding Margin}" >
+                        <ContentPresenter HorizontalAlignment="Stretch" SnapsToDevicePixels="True"
+                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding DataContext.IsLoading,
+                              RelativeSource={RelativeSource Self}}"  
+                                     Value="true">
+                            <Setter  Property="TextBlock.FontWeight" Value="UltraBold"/>
+                        </DataTrigger>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="TextBlock.Foreground" 
+                                    Value="{DynamicResource Theme.Foreground}"/>
+                            <Setter  Property="TextBlock.FontWeight" Value="Bold"/>
+                            <Setter Property="Background" Value="#99514949" TargetName="container"/>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="dialogbtn" TargetType="{x:Type Button}" >
+        <Setter Property="Background" Value="#FF3E3E42"/>
+        <Setter Property="BorderThickness" Value="3"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="ToolTip" Value="{x:Null}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border BorderThickness="{TemplateBinding BorderThickness}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    x:Name="wrapper" 
+                                                    Background="{TemplateBinding Background}" Width="{TemplateBinding Width}" 
+                                                    Height="{TemplateBinding Height}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" 
+                                              Content="{TemplateBinding Content}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="true"/>
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="wrapper" 
+                                    Property="BorderBrush" 
+                                    Value="DarkGray"/>
+                            <Setter
+                                Property="TextBlock.Foreground" 
+                                Value="{DynamicResource Theme.HighlightColor}"/>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>
 <!--<WrapPanel Margin="0,2,0,2" Orientation="Horizontal" />ItemHeight="{Binding Path=ItemSize.Height, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"
                      ItemWidth="{Binding Path=ItemSize.Width, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"/>-->

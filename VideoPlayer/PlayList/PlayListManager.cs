@@ -1,20 +1,22 @@
 ﻿using Common.Interfaces;
 using Common.Model;
 using Common.Util;
+using Delimon.Win32.IO;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.ViewModel;
 using Microsoft.Practices.ServiceLocation;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using VideoComponent.BaseClass;
-using VideoPlayer.ViewModel;
+using VideoPlayerControl.ViewModel;
 using VirtualizingListView.Util;
 using VirtualizingListView.View;
 
-namespace VideoPlayer.PlayList
+namespace VideoPlayerControl.PlayList
 {
     public class PlayListManager:NotificationObject,IHasChanges
     {
@@ -124,11 +126,12 @@ namespace VideoPlayer.PlayList
 
             }
             CurrentPlaylist = null;
-            foreach (var item in PlayList)
-            {
-                if (item == MediaControllerVM.MediaControllerInstance.CurrentVideoItem) continue;
-                PlayList.Remove(item);
-            }
+            PlayList.Clear();
+            //foreach (var item in PlayList)
+            //{
+            //    if (item == MediaControllerVM.MediaControllerInstance.CurrentVideoItem) continue;
+            //    PlayList.Remove(item);
+            //}
         }
 
         private DelegateCommand enablesavedialog;
@@ -182,6 +185,7 @@ namespace VideoPlayer.PlayList
             Clear();
             CurrentPlaylist = plm;
             currentplaylist.SetIsActive(true);
+
             Task.Factory.StartNew(() => GetObservableCollection(plm))
                            .ContinueWith(t => this.PlayList = t.Result, 
                            TaskScheduler.FromCurrentSynchronizationContext());
@@ -190,15 +194,20 @@ namespace VideoPlayer.PlayList
         private ObservableCollection<VideoFolder> GetObservableCollection(PlaylistModel plm)
         {
             ObservableCollection<VideoFolder> list = new ObservableCollection<VideoFolder>();
+            List<Task> Tasks = new List<Task>();
             foreach (var item in plm.ItemsPaths)
             {
-                //Dispatcher.Invoke(new Action(delegate
-                //{
                 DirectoryInfo directoryInfo = new DirectoryInfo(item);
-                VideoFolder vfc = FileLoader.LoadChildrenFiles(directoryInfo);
-                list.Add(vfc);
-                //}));
+                var task = Task.Factory.StartNew(() =>
+                   FileLoader.FileLoaderInstance.LoadChildrenFiles(directoryInfo)
+                ).ContinueWith(t => {
+                    if(t.Result!= null)
+                        list.Add(t.Result);
+                }, TaskScheduler.Current);
+                Tasks.Add(task);
             }
+
+            Task.WaitAll(Tasks.ToArray());
             return list;
         }
 
@@ -219,6 +228,11 @@ namespace VideoPlayer.PlayList
         //}
 
         public PlayListManager()
+        {
+            
+        }
+
+        public void PlaylistViewLoaded()
         {
             if (MediaControllerVM.MediaControllerInstance != null)
             {
@@ -323,7 +337,7 @@ namespace VideoPlayer.PlayList
                         finalpos = PlayList.Count - 1;
                     }
                 }
-                return PlayList[finalpos].Name;
+                return (PlayList[finalpos]as VideoFolderChild).MediaTitle;
             }
             return null;
         }
@@ -340,7 +354,7 @@ namespace VideoPlayer.PlayList
                         finalpos = 0;
                     }
                 }
-                return PlayList[finalpos].Name;
+                return (PlayList[finalpos] as VideoFolderChild).MediaTitle;
             }
             return null;
         }
@@ -438,8 +452,8 @@ namespace VideoPlayer.PlayList
             if (CurrentPlaylist == null)
             {
                 CurrentPlaylist = NewCreatePlaylist();
-                ((Shell.FileView.TreeViewer as ITreeViewer).
-                    MoviesPLaylist as PlaylistTree).AddToPlayList(CurrentPlaylist);
+                //((Shell.PageNavigatorHost.TreeViewer as ITreeViewer).
+                //    MoviesPLaylist as PlaylistTree).AddToPlayList(CurrentPlaylist);
             }
             else
             {

@@ -10,11 +10,6 @@ namespace Common.Util
     {
         public static string SetDuration(double p)
         {
-            //if (p == null)
-            //{
-            //    return "00:00:00";
-            //}
-
             int hour;
             int minute;
             int seconds;
@@ -23,6 +18,7 @@ namespace Common.Util
             seconds = (int)((p % 3600) % 60);
             return string.Format("{0:00}:{1:00}:{2:00}", hour, minute, seconds);
         }
+
         public static string SetPlayerTitle(string heading, string p)
         {
             //var filename = Path.GetFileName(p);

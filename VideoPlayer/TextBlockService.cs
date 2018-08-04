@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace VideoPlayer
+namespace VideoPlayerControl
 {
     //public  class TextBlock
     //{

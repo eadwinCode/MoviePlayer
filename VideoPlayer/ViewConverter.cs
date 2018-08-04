@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Data;
 
-namespace VideoPlayer
+namespace VideoPlayerControl
 {
     public class ViewConverter : IValueConverter
     {

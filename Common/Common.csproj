@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Delimon.Win32.IO">
+      <HintPath>..\Libraries\Delimon.Win32.IO.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\Libraries\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
@@ -41,6 +44,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -57,11 +61,15 @@
     <Compile Include="AnimationHelper.cs" />
     <Compile Include="ApplicationCommands\VideoPlayerCommands.cs" />
     <Compile Include="CustomControl1.cs" />
+    <Compile Include="Events\CommonEvents.cs" />
     <Compile Include="FileHelper\ApplicationService.cs" />
+    <Compile Include="FileHelper\Common.cs" />
+    <Compile Include="FileHelper\SavedLastSeenCollection.cs" />
     <Compile Include="FileHelper\SavedPlaylist.cs" />
     <Compile Include="FileHelper\Settings.cs" />
     <Compile Include="IItemProvider.cs" />
     <Compile Include="Interfaces\Interface1.cs" />
+    <Compile Include="Model\MoviePathModel.cs" />
     <Compile Include="Model\PlayedFiles.cs" />
     <Compile Include="Model\PlaylistModel.cs" />
     <Compile Include="Model\SubtitleFilesModel.cs" />
@@ -78,6 +86,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Themes\Skin\ReferencedAssemblySkin.cs" />
+    <Compile Include="Themes\Skin\Skin.cs" />
     <Compile Include="Util\CommonHelper.cs" />
     <Compile Include="Util\ControlParts.cs" />
     <Compile Include="Util\EnumClass.cs" />
@@ -93,14 +103,20 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Themes\Generic.xaml">
+    <Page Include="Themes\BlackSkin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\Hybrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\WhiteSkin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Events\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Meta.Vlc.Wpf\Meta.Vlc.Wpf - .Net 4.0.csproj">
       <Project>{ed70ad57-1b05-428a-8a30-2cc533daf389}</Project>

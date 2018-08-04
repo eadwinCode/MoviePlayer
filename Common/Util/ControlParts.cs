@@ -231,7 +231,8 @@ namespace Common.Util
             var element = d as UIElement;
             Window = (Window)element;
         }
-        public static TextBlock WindowsTitleBoard;
+        public static Window WindowsTitleBoard;
+
         public static readonly DependencyProperty WindowsTitleBoardProperty = DependencyProperty.RegisterAttached("WindowsTitleBoard",
              typeof(bool), typeof(VolumeSliderPart), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnWindowsTitleBoardPropertyChanged)));
 
@@ -246,7 +247,25 @@ namespace Common.Util
 
         private static void OnWindowsTitleBoardPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            WindowsTitleBoard = d as TextBlock;
+            WindowsTitleBoard = d as Window;
+        }
+
+        public static TextBlock TextBlockTitleBoard;
+        public static readonly DependencyProperty TextBlockTitleBoardProperty = DependencyProperty.RegisterAttached("TextBlockTitleBoard",
+             typeof(bool), typeof(VolumeSliderPart), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnTextBlockTitleBoardPropertyChanged)));
+
+        public static void SetTextBlockTitleBoard(UIElement element, bool value)
+        {
+            element.SetValue(TextBlockTitleBoardProperty, value);
+        }
+        public static bool GetTextBlockTitleBoard(UIElement element)
+        {
+            return (bool)element.GetValue(TextBlockTitleBoardProperty);
+        }
+
+        private static void OnTextBlockTitleBoardPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            TextBlockTitleBoard = d as TextBlock;
         }
     }
 }

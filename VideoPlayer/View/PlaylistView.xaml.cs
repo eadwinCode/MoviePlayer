@@ -14,11 +14,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using VideoComponent.BaseClass;
-using VideoPlayer.PlayList;
-using VideoPlayer.ViewModel;
+using VideoPlayerControl.PlayList;
+using VideoPlayerControl.ViewModel;
 using VirtualizingListView.ViewModel;
 
-namespace VideoPlayer
+namespace VideoPlayerControl
 {
     /// <summary>
     /// Interaction logic for PlaylistView.xaml
@@ -36,6 +36,14 @@ namespace VideoPlayer
                 OkCommand_Execute, OkCommand_Enabled));
             this.CommandBindings.Add(new CommandBinding(CancelCommand,
                 CancelCommand_Execute));
+
+            this.Loaded += new RoutedEventHandler(PlaylistView_Loaded);
+        }
+
+        void PlaylistView_Loaded(object sender, RoutedEventArgs e)
+        {
+            var datacontext = this.DataContext as PlayListManager;
+            datacontext.PlaylistViewLoaded();
         }
 
         private void CancelCommand_Execute(object sender, ExecutedRoutedEventArgs e)

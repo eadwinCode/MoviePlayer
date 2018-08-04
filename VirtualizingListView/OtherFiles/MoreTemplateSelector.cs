@@ -21,7 +21,8 @@ namespace VirtualizingListView
            }
            else
            {
-               return ((FrameworkElement)container).FindResource("FileLargeTemplate") as DataTemplate;
+                var template = ((FrameworkElement)container).FindResource("FileLargeTemplate") as DataTemplate;
+                return template;
            }
        }
     }

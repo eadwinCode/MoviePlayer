@@ -208,9 +208,17 @@ C:\Users\EadwinToochos\Downloads\Movie-Player-WPF.NET-\VideoPlayerView\obj\Debug
 C:\Users\EadwinToochos\Downloads\Movie-Player-WPF.NET-\VideoPlayerView\obj\Debug\VideoPlayerView.csproj.GenerateResource.Cache
 C:\Users\EadwinToochos\Downloads\Movie-Player-WPF.NET-\VideoPlayerView\obj\Debug\VideoPlayerView.dll
 C:\Users\EadwinToochos\Downloads\Movie-Player-WPF.NET-\VideoPlayerView\obj\Debug\VideoPlayerView.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\obj\Debug\Interop.WMPLib.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\obj\Debug\AxInterop.WMPLib.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\obj\Debug\VideoPlayerView.csproj.ResolveComReference.cache
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\obj\Debug\VideoPlayerView_MarkupCompile.cache
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\obj\Debug\VideoPlayerView.csprojResolveAssemblyReference.cache
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\VideoPlayerView.dll
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\VideoPlayerView.pdb
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\Common.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\ControlzEx.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\MahApps.Metro.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\MahApps.Metro.SimpleChildWindow.dll
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\Meta.Vlc.dll
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\Meta.Vlc.Wpf.dll
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\Microsoft.ComponentModel.Composition.Initialization.Desktop.dll
@@ -220,12 +228,12 @@ C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\Microsoft.P
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\Microsoft.Practices.ServiceLocation.dll
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\Microsoft.Practices.Unity.dll
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\MoviesSubtitle.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\System.Windows.Interactivity.dll
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\VideoComponent.dll
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\VideoPlayer.dll
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\VirtualizingListView.dll
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\Newtonsoft.Json.Net20.dll
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
-C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\System.Windows.Interactivity.dll
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\Microsoft.WindowsAPICodePack.dll
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\Common.pdb
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\Meta.Vlc.Wpf.pdb
@@ -234,25 +242,15 @@ C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\MoviesSubti
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\VideoComponent.pdb
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\VideoPlayer.pdb
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\VirtualizingListView.pdb
-C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\System.Windows.Interactivity.xml
-C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\de\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\en\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\es\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\fr\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\it\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\ja\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\ko\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\zh-Hans\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\zh-Hant\System.Windows.Interactivity.resources.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\ControlzEx.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\MahApps.Metro.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\MahApps.Metro.xml
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\MahApps.Metro.SimpleChildWindow.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\MahApps.Metro.SimpleChildWindow.xml
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\Interop.WMPLib.dll
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\bin\Debug\AxInterop.WMPLib.dll
-C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\obj\Debug\VideoPlayerView.csprojResolveAssemblyReference.cache
-C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\obj\Debug\Interop.WMPLib.dll
-C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\obj\Debug\AxInterop.WMPLib.dll
-C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\obj\Debug\VideoPlayerView.csproj.ResolveComReference.cache
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\obj\Debug\VideoElement.g.cs
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\obj\Debug\GeneratedInternalTypeHelper.g.cs
-C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\obj\Debug\VideoPlayerView_MarkupCompile.cache
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\obj\Debug\VideoPlayerView_MarkupCompile.lref
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\obj\Debug\Themes\Generic.baml
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\obj\Debug\VideoElement.baml
@@ -260,5 +258,73 @@ C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\obj\Debug\VideoPlayer
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\obj\Debug\VideoPlayerView.Properties.Resources.resources
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\obj\Debug\MediaControl.WindowsMediaPlayControl.resources
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\obj\Debug\VideoPlayerView.csproj.GenerateResource.Cache
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\obj\Debug\VideoPlayerView.csproj.CoreCompileInputs.cache
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\obj\Debug\VideoPlayerView.dll
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoPlayerView\obj\Debug\VideoPlayerView.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\obj\Debug\VideoPlayerView.csprojResolveAssemblyReference.cache
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\obj\Debug\Interop.WMPLib.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\obj\Debug\AxInterop.WMPLib.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\obj\Debug\VideoPlayerView.csproj.ResolveComReference.cache
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\obj\Debug\VideoPlayerView_MarkupCompile.cache
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\x86\libcrypto-1_1.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\x86\libcurl.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\x86\libssh2.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\x86\libssl-1_1.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\x86\MediaInfo.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\x64\libcrypto-1_1-x64.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\x64\libcurl.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\x64\libssh2.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\x64\libssl-1_1-x64.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\x64\MediaInfo.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\VideoPlayerView.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\VideoPlayerView.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\Common.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\ControlzEx.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\Delimon.Win32.IO.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\MahApps.Metro.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\MahApps.Metro.SimpleChildWindow.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\Meta.Vlc.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\Meta.Vlc.Wpf.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\Microsoft.ComponentModel.Composition.Initialization.Desktop.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\Microsoft.Practices.Prism.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\Microsoft.Practices.Prism.Interactivity.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\Microsoft.Practices.Prism.UnityExtensions.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\Microsoft.Practices.Unity.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\MoviesSubtitle.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\System.Windows.Interactivity.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\VideoComponent.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\VideoPlayerControl.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\VirtualizingListView.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\Newtonsoft.Json.Net20.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\SearchComponent.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\MahApps.Metro.IconPacks.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\Microsoft.WindowsAPICodePack.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\Common.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\Meta.Vlc.Wpf.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\Meta.Vlc.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\MoviesSubtitle.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\VideoComponent.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\VideoPlayerControl.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\VirtualizingListView.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\ControlzEx.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\MahApps.Metro.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\MahApps.Metro.xml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\MahApps.Metro.SimpleChildWindow.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\MahApps.Metro.SimpleChildWindow.xml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\SearchComponent.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\Interop.WMPLib.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\bin\Debug\AxInterop.WMPLib.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\obj\Debug\VideoElement.g.cs
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\obj\Debug\VideoPlayerView_MarkupCompile.lref
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\obj\Debug\Themes\Generic.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\obj\Debug\VideoElement.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\obj\Debug\VideoPlayerView.g.resources
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\obj\Debug\VideoPlayerView.Properties.Resources.resources
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\obj\Debug\MediaControl.WindowsMediaPlayControl.resources
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\obj\Debug\VideoPlayerView.csproj.GenerateResource.Cache
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\obj\Debug\VideoPlayerView.csproj.CoreCompileInputs.cache
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\obj\Debug\VideoPlayerView.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoPlayerView\obj\Debug\VideoPlayerView.pdb

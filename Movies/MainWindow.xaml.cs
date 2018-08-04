@@ -1,82 +1,64 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Threading;
+﻿using Common.Interfaces;
+using Common.Themes.Skin;
 using RealMediaControl.ViewModel;
-using System.ComponentModel;
-using VirtualizingListView.View;
-using Microsoft.Practices.Prism.Events;
-using VideoPlayer;
-using Common;
-using Common.ApplicationCommands;
-using Common.Interfaces;
+using System;
+using System.Windows;
 
 namespace Movies
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainView : Window, IShell
+    public partial class MainView : IShell
     {
+        public Skin CurrentSkin { get; set; }
+        public IPageNavigatorHost PageNavigatorHost
+        {
+            get { return this.pagenavigatorhost; }
+        }
+
         public MainView()
         {
             InitializeComponent();
             VideoPlayerVM VM = new VideoPlayerVM();
             this.DataContext = VM;
             this.Loaded += VM.Window_Loaded;
+            CurrentSkin = new ReferencedAssemblySkin("Black Skin", 
+                new Uri("/Common;component/Themes/Hybrid.xaml", UriKind.Relative));
+
+            this.Loaded += MainView_Loaded;
         }
 
-        private void MediaElementPlayer_MouseEnter(object sender, MouseEventArgs e)
+        private void MainView_Loaded(object sender, RoutedEventArgs e)
         {
-            //if (mediacontrol.CanAnimate && mediacontrol.IsPlaying)
-            //{
-            //    this.MousemoveTimer.Start();
-            //}
+            CurrentSkin.Load();
         }
 
-        private void MediaElementPlayer_MouseLeave(object sender, MouseEventArgs e)
+        private void Red_Click(object sender, RoutedEventArgs e)
         {
-            //if (!mediacontrol.MovieTitle_Tab.IsCanvasDrag)
-            //{
-            //    if (mediacontrol.IsMouseControlOver)
-            //    {
-            //        return;
-            //    }
-            //   this.MousemoveTimer.Start();
-            //}
-            
+            CurrentSkin.Unload();
+            CurrentSkin = 
+                new ReferencedAssemblySkin("Black Skin", 
+                new Uri("/Common;component/Themes/BlackSkin.xaml", UriKind.Relative));
+            CurrentSkin.Load();
         }
-        
 
-        private void ParentGrid_MouseMove(object sender, MouseEventArgs e)
+        private void White_Click(object sender, RoutedEventArgs e)
         {
-            //if (ScreenSetting == SCREENSETTINGS.Normal)
-            //{
-            //    return;
-            //}
-
-            //if (!mediacontrol.MovieTitle_Tab.IsCanvasDrag && !mediacontrol.IsMouseControlOver)
-            //{
-
-            //    this.MousemoveTimer.Stop();
-            //    Cursor = Cursors.Arrow;
-            //    SetIsMouseOverMediaElement(mediacontrol as UIElement, true);
-            //    this.MousemoveTimer.Start();
-            //}
-
+            CurrentSkin.Unload();
+            CurrentSkin = 
+                new ReferencedAssemblySkin("Black Skin", 
+                new Uri("/Common;component/Themes/WhiteSkin.xaml", UriKind.Relative));
+            CurrentSkin.Load();
         }
 
-        
-
-        public IFileViewer FileView { get { return this.fileView; } }
-        
-
-        private void MainView_Closing(object sender, CancelEventArgs e)
+        private void Hybrid_Click(object sender, RoutedEventArgs e)
         {
-            //var ser = SerializeDeserializeHelper.Serialize<LastSeen>(VideoComponentViewModel.LastSeen);
+            CurrentSkin.Unload();
+            CurrentSkin = new ReferencedAssemblySkin("Black Skin", 
+                new Uri("/Common;component/Themes/hybrid.xaml", UriKind.Relative));
+            CurrentSkin.Load();
         }
-        
     }
 
     public enum SCREENSETTINGS

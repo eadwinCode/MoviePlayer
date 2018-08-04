@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace VideoPlayer
+namespace VideoPlayerControl
 {
     public class MarqueeTextBlock : TextBlock
     {

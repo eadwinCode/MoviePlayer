@@ -1,10 +1,11 @@
 ﻿using Common.FileHelper;
+using Common.Model;
 using Common.Util;
 using System;
 using System.Windows.Forms;
 using System.Windows.Threading;
 using VideoComponent.BaseClass;
-using VideoPlayer.PlayList;
+using VideoPlayerControl.PlayList;
 
 namespace MediaControl
 {
@@ -73,7 +74,7 @@ namespace MediaControl
                 CurrentVideoItem.LastPlayedPoisition.ProgressLastSeen = (double)CurrentVideoItem.Progress;
                 if (!CurrentVideoItem.HasLastSeen && CurrentVideoItem.Progress > 0)
                 {
-                    LastSeenHelper.AddLastSeen(CurrentVideoItem.ParentDirectory, CurrentVideoItem.LastPlayedPoisition);
+                    ApplicationService.SavedLastSeenCollection.Add((PlayedFiles)CurrentVideoItem.LastPlayedPoisition);
                 }
                 MediaPositionTimer.Stop();
                 resumeposition = CurrentVideoItem.Progress;
@@ -146,9 +147,9 @@ namespace MediaControl
             CurrentVideoItem.LastPlayedPoisition.ProgressLastSeen = (double)axWindowsMediaPlayer1.Ctlcontrols.currentPosition;
             if (!CurrentVideoItem.HasLastSeen && CurrentVideoItem.Progress > 0)
             {
-                LastSeenHelper.AddLastSeen(CurrentVideoItem.ParentDirectory, CurrentVideoItem.LastPlayedPoisition);
+                ApplicationService.SavedLastSeenCollection.Add((PlayedFiles)CurrentVideoItem.LastPlayedPoisition);
             }
-            ApplicationService.SaveLastSeenFile(CurrentVideoItem.ParentDirectory);
+            ApplicationService.SaveLastSeenFile();
         }
         
 

@@ -220,17 +220,8 @@ C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\bin\Debug\Common
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\bin\Debug\Meta.Vlc.Wpf.pdb
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\bin\Debug\Meta.Vlc.pdb
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\bin\Debug\VideoComponent.pdb
-C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\bin\Debug\System.Windows.Interactivity.xml
-C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\bin\Debug\de\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\bin\Debug\en\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\bin\Debug\es\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\bin\Debug\fr\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\bin\Debug\it\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\bin\Debug\ja\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\bin\Debug\ko\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\bin\Debug\zh-Hans\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\bin\Debug\zh-Hant\System.Windows.Interactivity.resources.dll
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\VirtualizingListView.csprojResolveAssemblyReference.cache
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\View\AddFolderDialog.g.cs
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\View\FileExplorer.g.cs
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\View\FileView.g.cs
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\View\MyTreeView.g.cs
@@ -242,6 +233,7 @@ C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\Virtua
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\Resources\Items.baml
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\Resources\ViewStyle.baml
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\Themes\Generic.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\View\AddFolderDialog.baml
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\View\FileExplorer.baml
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\View\FileView.baml
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\View\MyTreeView.baml
@@ -250,5 +242,121 @@ C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\View\R
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\VirtualizingListView.g.resources
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\VirtualizingListView.Properties.Resources.resources
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\VirtualizingListView.csproj.GenerateResource.Cache
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\VirtualizingListView.csproj.CoreCompileInputs.cache
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\VirtualizingListView.dll
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\VirtualizingListView.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\Pages\Views\FilePageView.g.cs
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\Pages\Views\HomePageLocal.g.cs
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\Pages\Views\HomePageLocalNoFolder.g.cs
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\Pages\Views\SearchResultPage.g.cs
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\Pages\Views\VideoPlayerPage.g.cs
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\View\PageNavigator.g.cs
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\bin\Debug\ControlzEx.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\bin\Debug\MahApps.Metro.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\bin\Debug\MahApps.Metro.SimpleChildWindow.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\bin\Debug\ControlzEx.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\bin\Debug\MahApps.Metro.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\bin\Debug\MahApps.Metro.xml
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\bin\Debug\MahApps.Metro.SimpleChildWindow.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\bin\Debug\MahApps.Metro.SimpleChildWindow.xml
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\Pages\Views\FilePageView.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\Pages\Views\HomePageLocal.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\Pages\Views\HomePageLocalNoFolder.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\Pages\Views\SearchResultPage.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\Pages\Views\VideoPlayerPage.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\View\PageNavigator.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\VirtualizingListView.csprojResolveAssemblyReference.cache
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\Interop.Shell32.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\VirtualizingListView.csproj.ResolveComReference.cache
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\Pages\Views\FilePageView.g.cs
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\Pages\Views\HomePageLocal.g.cs
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\Pages\Views\HomePageLocalNoFolder.g.cs
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\Pages\Views\MediaServerPage.g.cs
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\Pages\Views\SearchPage.g.cs
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\Pages\Views\SearchResultPage.g.cs
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\Pages\Views\UsbDrivePage.g.cs
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\Pages\Views\VideoPlayerPage.g.cs
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\Util\AddFolderDialogWindow\AddFolderDialog.g.cs
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\Util\AddFolderDialogWindow\RemoveItemDialog.g.cs
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\Util\RenameDialog\RenameDialogControl.g.cs
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\View\FileExplorer.g.cs
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\View\FileView.g.cs
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\View\MyTreeView.g.cs
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\View\PageNavigator.g.cs
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\View\PlaylistTree.g.cs
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\VirtualizingListView_MarkupCompile.cache
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\VirtualizingListView_MarkupCompile.lref
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\x86\libcrypto-1_1.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\x86\libcurl.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\x86\libssh2.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\x86\libssl-1_1.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\x86\MediaInfo.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\x64\libcrypto-1_1-x64.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\x64\libcurl.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\x64\libssh2.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\x64\libssl-1_1-x64.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\x64\MediaInfo.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\VirtualizingListView.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\VirtualizingListView.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\Common.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\ControlzEx.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\Delimon.Win32.IO.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\JetBrains.Annotations.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\MahApps.Metro.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\MahApps.Metro.IconPacks.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\MahApps.Metro.SimpleChildWindow.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\MediaInfo.Wrapper.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\Meta.Vlc.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\Meta.Vlc.Wpf.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\Microsoft.ComponentModel.Composition.Initialization.Desktop.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\Microsoft.Practices.Prism.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\Microsoft.Practices.Prism.Interactivity.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\Microsoft.Practices.Prism.UnityExtensions.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\Microsoft.Practices.Unity.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\Microsoft.WindowsAPICodePack.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\SearchComponent.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\System.Windows.Interactivity.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\VideoComponent.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\Newtonsoft.Json.Net20.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\Common.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\Meta.Vlc.Wpf.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\Meta.Vlc.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\SearchComponent.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\VideoComponent.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\ControlzEx.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\JetBrains.Annotations.xml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\MahApps.Metro.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\MahApps.Metro.xml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\MahApps.Metro.SimpleChildWindow.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\MahApps.Metro.SimpleChildWindow.xml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\MediaInfo.Wrapper.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\bin\Debug\MediaInfo.Wrapper.xml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\LoadingAnimation\LoadingAnimationResource.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\Pages\Views\FilePageView.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\Pages\Views\HomePageLocal.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\Pages\Views\HomePageLocalNoFolder.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\Pages\Views\MediaServerPage.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\Pages\Views\SearchPage.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\Pages\Views\SearchResultPage.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\Pages\Views\UsbDrivePage.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\Pages\Views\VideoPlayerPage.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\Resources\Items.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\Resources\ViewStyle.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\Themes\Generic.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\Util\AddFolderDialogWindow\AddFolderDialog.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\Util\AddFolderDialogWindow\RemoveItemDialog.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\Util\RenameDialog\RenameDialogControl.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\View\FileExplorer.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\View\FileView.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\View\MyTreeView.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\View\PageNavigator.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\View\PlaylistTree.baml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\VirtualizingListView.g.resources
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\VirtualizingListView.Properties.Resources.resources
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\VirtualizingListView.csproj.GenerateResource.Cache
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\VirtualizingListView.csproj.CoreCompileInputs.cache
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\VirtualizingListView.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\VirtualizingListView.pdb

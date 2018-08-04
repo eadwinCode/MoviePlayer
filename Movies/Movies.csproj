@@ -29,6 +29,8 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -50,6 +52,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ControlzEx">
+      <HintPath>..\Libraries\ControlzEx.3.0.2.4\lib\net40\ControlzEx.dll</HintPath>
+    </Reference>
+    <Reference Include="Delimon.Win32.IO">
+      <HintPath>..\Libraries\Delimon.Win32.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro">
+      <HintPath>..\Libraries\MahApps.Metro.1.6.0\lib\net40\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks, Version=2.0.0.31, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\MahApps.Metro.IconPacks.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.SimpleChildWindow">
+      <HintPath>..\Libraries\MahApps.Metro.SimpleChildWindow.1.5.0\lib\net40\MahApps.Metro.SimpleChildWindow.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.ComponentModel.Composition.Initialization.Desktop">
       <HintPath>..\Libraries\Microsoft.ComponentModel.Composition.Initialization.Desktop.dll</HintPath>
     </Reference>
@@ -70,6 +88,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\ControlzEx.3.0.2.4\lib\net40\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -122,6 +144,7 @@
     <Resource Include="Fonts\comicbd.ttf" />
     <None Include="app.config" />
     <Resource Include="Fonts\unicode.clearfag.ttf" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -167,6 +190,10 @@
       <Project>{a3ee00bb-3c2b-43d1-8780-78c5c678ea2b}</Project>
       <Name>MoviesSubtitle</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SearchComponent\SearchComponent.csproj">
+      <Project>{ade006bd-579d-4706-80e7-9d833fd5c07c}</Project>
+      <Name>SearchComponent</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VideoComponent\VideoComponent.csproj">
       <Project>{5e66548f-63d0-4690-aa1c-d09b203e573e}</Project>
       <Name>VideoComponent</Name>
@@ -175,9 +202,9 @@
       <Project>{964f2df9-2bab-4b2a-a7bb-5a5404c6c24c}</Project>
       <Name>VideoPlayerView</Name>
     </ProjectReference>
-    <ProjectReference Include="..\VideoPlayer\VideoPlayer.csproj">
+    <ProjectReference Include="..\VideoPlayer\VideoPlayerControl.csproj">
       <Project>{e657ac6b-5b19-4b9f-bf5e-96822234dfdd}</Project>
-      <Name>VideoPlayer</Name>
+      <Name>VideoPlayerControl</Name>
     </ProjectReference>
     <ProjectReference Include="..\VirtualizingListView\VirtualizingListView.csproj">
       <Project>{3f23b0dc-e93f-45c4-98fe-9e1e4d9de1e7}</Project>
@@ -192,6 +219,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\MediaInfo.Native.17.12\build\MediaInfo.Native.targets" Condition="Exists('..\packages\MediaInfo.Native.17.12\build\MediaInfo.Native.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\MediaInfo.Native.17.12\build\MediaInfo.Native.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MediaInfo.Native.17.12\build\MediaInfo.Native.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

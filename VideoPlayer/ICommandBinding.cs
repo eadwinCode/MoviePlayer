@@ -1,6 +1,6 @@
 ﻿using Common.Interfaces;
 
-namespace VideoPlayer
+namespace VideoPlayerControl
 {
 
 

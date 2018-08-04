@@ -8,18 +8,19 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using VideoPlayer.ViewModel;
+using VideoPlayerControl.ViewModel;
 using VideoPlayerView.Util;
 using VideoPlayerView.ViewModel;
+using MahApps.Metro.Controls;
 
 namespace VideoPlayerView
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class VideoElement : Window, IVideoElement
+    public partial class VideoElement : MetroWindow, IVideoElement
     {
-        IPlayListClose playlistview;
+        //IPlayListClose playlistview;
         public VideoElement()
         {
             InitializeComponent();
@@ -54,21 +55,21 @@ namespace VideoPlayerView
             {
                 var vm = videoplayer.DataContext as VideoPlayerVM;
                 if (!vm.AllowAutoResize) return;
-                this.Height = Math.Min(720, MediaPlayer.VlcMediaPlayer.PixelHeight*0.6666666666667);
+                this.Height = Math.Min(720, MediaPlayer.VlcMediaPlayer.PixelHeight* 0.6666666666667);
                 this.Width = Math.Min(1280, MediaPlayer.VlcMediaPlayer.PixelWidth * 0.6666666666667);
-               // this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+               //this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             }));
         }
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            playlistview = (IPlayListClose)this.Template.FindName("playlistview", this);
+            //playlistview = (IPlayListClose)this.Template.FindName("playlistview", this);
         }
 
         public IPlayListClose PlayListView { get { return this.playlistview; } }
 
-        public ISubtitleMediaController IVideoPlayer
+        public IMediaController IVideoPlayer
         {
             get
             {
@@ -76,21 +77,21 @@ namespace VideoPlayerView
             }
         }
 
-        UIElement IVideoElement.WindowsTab
-        {
-            get
-            {
-                return this.WindowsTab;
-            }
-        }
+        //UIElement IVideoElement.WindowsTab
+        //{
+        //    get
+        //    {
+        //        return this.WindowsTab;
+        //    }
+        //}
 
-        UIElement IVideoElement.WindowsTabDock
-        {
-            get
-            {
-                return this.WindowsTabDock;
-            }
-        }
+        //UIElement IVideoElement.WindowsTabDock
+        //{
+        //    get
+        //    {
+        //        return this.WindowsTabDock;
+        //    }
+        //}
 
         public VlcPlayer MediaPlayer { get { return this.MediaElementPlayer; } }
 

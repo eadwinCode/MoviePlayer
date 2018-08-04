@@ -4,17 +4,17 @@
 library
 C#
 .cs
-C:\Users\EadwinToochos\Desktop\MoviePlayer\VirtualizingListView\obj\Debug\
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VirtualizingListView\obj\Debug\
 VirtualizingListView
 none
 false
 DEBUG;TRACE
 
-8975960779
+202051230201
 
-411036017265
-25436845104
-Resources\Items.xaml;Resources\ViewStyle.xaml;Themes\Generic.xaml;View\FileExplorer.xaml;View\FileView.xaml;View\MyTreeView.xaml;View\PlaylistTree.xaml;View\RenameDialog.xaml;
+67-208187226
+36-396076364
+LoadingAnimation\LoadingAnimationResource.xaml;Pages\Views\FilePageView.xaml;Pages\Views\HomePageLocal.xaml;Pages\Views\HomePageLocalNoFolder.xaml;Pages\Views\MediaServerPage.xaml;Pages\Views\SearchPage.xaml;Pages\Views\SearchResultPage.xaml;Pages\Views\UsbDrivePage.xaml;Pages\Views\VideoPlayerPage.xaml;Resources\Items.xaml;Resources\ViewStyle.xaml;Themes\Generic.xaml;Util\AddFolderDialogWindow\AddFolderDialog.xaml;Util\AddFolderDialogWindow\RemoveItemDialog.xaml;Util\RenameDialog\RenameDialogControl.xaml;View\FileExplorer.xaml;View\FileView.xaml;View\MyTreeView.xaml;View\PageNavigator.xaml;View\PlaylistTree.xaml;
 
-True
+False
 

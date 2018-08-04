@@ -9,7 +9,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,10 +22,12 @@ using VirtualizingListView.OtherFiles;
 using VirtualizingListView.Util;
 using Common.FileHelper;
 using VirtualizingListView.View;
+using VirtualizingListView.Pages.ViewModel;
+using Delimon.Win32.IO;
 
 namespace VirtualizingListView.ViewModel
 {
-    public class CollectionViewModel : NotificationObject, ICollectionViewModel
+    public class CollectionViewModel : NotificationObject, ICollectionViewModel, IFilePageViewModel
     {
         #region Fields
 
@@ -47,7 +48,6 @@ namespace VirtualizingListView.ViewModel
        // private bool previous;
         private bool _isloading;
         private Style listviewstyle;
-        public static LastSeenHelper LastSeen;
         public CustomItemProvider ItemProvider;
         public event EventHandler CloseFileExporerEvent;
         private DelegateCommand fileaccess;
@@ -117,7 +117,7 @@ namespace VirtualizingListView.ViewModel
             set { listviewstyle = value; RaisePropertyChanged(() => this.ListViewStyle); }
         }
 
-        public VideoFolder VideoDataAccess
+        public VideoFolder CurrentVideoFolder
         {
             get { return videodataaccess; }
             set
@@ -181,7 +181,7 @@ namespace VirtualizingListView.ViewModel
             set { currentdir = value; RaisePropertyChanged(() => this.CurrentDir); }
         }
 
-        public ViewType ViewType
+        public ViewType ActiveViewType
         {
             get
             {
@@ -244,14 +244,13 @@ namespace VirtualizingListView.ViewModel
             // _aggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
             // _aggregator.GetEvent<LoadViewExecuteCommandEvent>().Subscribe(LoadViewUpdate); 
             // _aggregator.GetEvent<LoadExecuteCommandEvent>().Subscribe(OnVideoItemSelected);
-            LastSeen = new LastSeenHelper();
             InitCombox();
             //IsLoaded = false;
             PlayMovie = new RelayCommand(PlayMovieAction);
             TemplateToggle = new RelayCommand(() => TemplateToggleAction());
             Next = new DelegateCommand(() => Next_Action(), CanNextExecute);
             Previous = new DelegateCommand(() => Previous_Action(), CanPreviousExecute);
-            UpdateView(this.ViewType);
+            UpdateView(this.ActiveViewType);
             //  VideoItemPanel
             //  var sds = Application.Current;
         }
@@ -276,7 +275,7 @@ namespace VirtualizingListView.ViewModel
             CloseSearch = true;
             ResetSource();
             IsSearchInit = false;
-            if (VideoDataAccess != null)
+            if (CurrentVideoFolder != null)
             {
                 InitSearchItems();
             }
@@ -286,26 +285,14 @@ namespace VirtualizingListView.ViewModel
         
         public bool CanRefresh()
         {
-            if (VideoDataAccess == null || 
-                VideoDataAccess.OtherFiles == null) return false;
+            if (CurrentVideoFolder == null || 
+                CurrentVideoFolder.OtherFiles == null) return false;
 
-            return this.CurrentDir != null && VideoDataAccess.OtherFiles.Count > 0;
+            return this.CurrentDir != null && CurrentVideoFolder.OtherFiles.Count > 0;
         }
 
         public void Refresh_Action()
         {
-            if (Search != null)
-            {
-                CancelSearchAction();
-            }
-            this.VideoDataAccess = new VideoFolder(DirectoryPosition.FullName);
-            this.VideoDataAccess = FileLoader.LoadParentFiles(VideoDataAccess, SortType, this);
-            var Navigate = Navigation.First(x => x.Dir == DirectoryPosition);
-            if (Navigate != null)
-            {
-                Navigate.VideoData = VideoDataAccess;
-            }
-            //Navigation.Add(new NavigationModel { Dir = DirectoryPosition, VideoData = s });
         }
 
         public void CloseFileExplorerAction(object sender = null)
@@ -332,7 +319,8 @@ namespace VirtualizingListView.ViewModel
             {
 
             }
-            ItemProvider.CompleteLoad(s);
+            if (ItemProvider != null)
+                ItemProvider.CompleteLoad(s);
         }
         
         public void TreeViewUpdate(string obj)
@@ -340,14 +328,14 @@ namespace VirtualizingListView.ViewModel
             DirectoryInfo directoryInfo = new DirectoryInfo(obj);
             if (!directoryInfo.Exists)
             {
-                throw new FileNotFoundException("Can not find "+obj+" directory");
+                throw new System.IO.FileNotFoundException("Can not find "+obj+" directory");
             }
             if (Search != null)
             {
                 CancelSearchAction();
             }
             Task.Factory.StartNew(() => GetVideoFolder(obj))
-                .ContinueWith(t => this.VideoDataAccess = t.Result,
+                .ContinueWith(t => this.CurrentVideoFolder = t.Result,
                 TaskScheduler.FromCurrentSynchronizationContext()).Wait(200);
             //StartLoadingProcedure(obj);
         }
@@ -360,9 +348,9 @@ namespace VirtualizingListView.ViewModel
         
         private void CheckSort()
         {
-            if (VideoDataAccess == null || VideoDataAccess.SortedBy == SortType) return;
+            if (CurrentVideoFolder == null || CurrentVideoFolder.SortedBy == SortType) return;
 
-            VideoDataAccess = FileLoader.SortList(SortType, VideoDataAccess);
+            CurrentVideoFolder = FileLoader.FileLoaderInstance.SortList(SortType,  CurrentVideoFolder);
             RaisePropertyChanged(() => this.VideoItemViewCollection);
         }
         
@@ -388,11 +376,11 @@ namespace VirtualizingListView.ViewModel
                 DataTemplateSelector sed = MyTemplateChange;
                 if (sed.GetType() == new ItemListSelector().GetType())
                 {
-                    ViewType = ViewType.Large;
+                    ActiveViewType = ViewType.Large;
                 }
                 else
                 {
-                    ViewType = ViewType.Small;
+                    ActiveViewType = ViewType.Small;
                 }
 
                 this.UpdateViewCollection();
@@ -433,7 +421,8 @@ namespace VirtualizingListView.ViewModel
             //{
             Reset();
             DirectoryPosition = new DirectoryInfo(path);
-            VideoFolder s = FileLoader.LoadParentFiles(new VideoFolder(DirectoryPosition.FullName), SortType, this);
+            VideoFolder s = FileLoader.FileLoaderInstance.
+                LoadParentFiles(new VideoFolder(DirectoryPosition.FullName), SortType);
             Navigation.Add(new NavigationModel { Dir = DirectoryPosition, VideoData = s });
             CheckCanExecut();
 
@@ -477,11 +466,10 @@ namespace VirtualizingListView.ViewModel
             }
             int prev = activeindex - 1;
             DirectoryPosition = Navigation[prev].Dir;
-            VideoDataAccess = Navigation[prev].VideoData;
+            CurrentVideoFolder = Navigation[prev].VideoData;
             // this.VideoDataAccess = VideoDataAccessor.LoadParent(DirectoryPosition, SortType);
             activeindex--;
             CheckCanExecut();
-            RefreshLink();
             CheckSort();
         }
 
@@ -493,11 +481,10 @@ namespace VirtualizingListView.ViewModel
             }
             int next = activeindex + 1;
             DirectoryPosition = Navigation[next].Dir;
-            VideoDataAccess = Navigation[next].VideoData;
+            CurrentVideoFolder = Navigation[next].VideoData;
             // this.VideoDataAccess = VideoDataAccessor.LoadParent(DirectoryPosition, SortType);
             activeindex++;
             CheckCanExecut();
-            RefreshLink();
             CheckSort();
         }
 
@@ -539,39 +526,16 @@ namespace VirtualizingListView.ViewModel
             TrimNav();
             activeindex++;
             this.DirectoryPosition = obj.Directory;
-            this.VideoDataAccess = obj;
-            Navigation.Add(new NavigationModel { Dir = DirectoryPosition, VideoData = VideoDataAccess });
+            this.CurrentVideoFolder = obj;
+            Navigation.Add(new NavigationModel { Dir = DirectoryPosition, VideoData = CurrentVideoFolder });
             CheckCanExecut();
             CheckSort();
-            if (IFileExplorer != null && ViewType == ViewType.Small)
-            {
-                (IFileExplorer as FileExplorer).ResetScrollBar();
-            }
-        }
-
-        private void RefreshLink()
-        {
-            //Dispatcher.Invoke(new Action(delegate
+            //if (IFileExplorer != null && ViewType == ViewType.Small)
             //{
-            //   VideoDataAccessor.RefreshPath(VideoDataAccess);
-            //}));
-
+            //    (IFileExplorer as FileExplorer).ResetScrollBar();
+            //}
         }
 
-        //public void RefreshAction(VideoData obj)
-        //{
-        //  if (obj.intChildCount < VideoDataAccess.ChildFiles.Count)
-        //  {
-        //      VideoDataAccess = obj;
-        //      VideoDataAccess.ChildFiles = VideoDataAccessor.SortList(SortType, VideoDataAccess);
-        //      return;
-        //  }
-
-        //  VideoDataAccess.ChildFiles.AddRange(obj.ChildFiles);
-        ////  VideoDataAccess.ChildCount = obj.ChildCount;
-        //  VideoDataAccess.ChildFiles = VideoDataAccessor.SortList(SortType, VideoDataAccess);
-        //  RaisePropertyChangedEvent("VideoItem");
-        // }
         private void TrimNav()
         {
             if (activeindex == Navigation.Count - 1) return;
@@ -673,20 +637,20 @@ namespace VirtualizingListView.ViewModel
             if (IsSearch)
             {
                 this.IsLoading = true;
-                VideoDataAccess.Tag = VideoDataAccess.OtherFiles;
-                VideoDataAccess.OtherFiles = GetAllFiles(VideoDataAccess.OtherFiles);
+                CurrentVideoFolder.Tag = CurrentVideoFolder.OtherFiles;
+                CurrentVideoFolder.OtherFiles = GetAllFiles(CurrentVideoFolder.OtherFiles);
                 this.IsLoading = false;
                 UpdateViewCollection();
-                this.ItemProvider.CompleteLoad(VideoDataAccess.OtherFiles);
+                this.ItemProvider.CompleteLoad(CurrentVideoFolder.OtherFiles);
             }
             else
             {
-                if (VideoDataAccess.Tag == null)
+                if (CurrentVideoFolder.Tag == null)
                 {
                     return;
                 }
-                this.VideoDataAccess.OtherFiles = VideoDataAccess.Tag as ObservableCollection<VideoFolder>;
-                VideoDataAccess.Tag = null;
+                this.CurrentVideoFolder.OtherFiles = CurrentVideoFolder.Tag as ObservableCollection<VideoFolder>;
+                CurrentVideoFolder.Tag = null;
                 //var dir = VideoDataAccess.Tag as DirectoryInfo;
                 //Task.Factory.StartNew(() => VideoDataAccessor.LoadParent(VideoDataAccess, SortType, this))
                 //    .ContinueWith(t => VideoDataAccess = t.Result,
@@ -694,7 +658,7 @@ namespace VirtualizingListView.ViewModel
                 UpdateViewCollection();
             }
 
-            Thread.SpinWait(VideoDataAccess.OtherFiles.Count);
+            Thread.SpinWait(CurrentVideoFolder.OtherFiles.Count);
         }
 
         private ObservableCollection<VideoFolder> GetAllFiles(IEnumerable itemsSource)
@@ -759,13 +723,11 @@ namespace VirtualizingListView.ViewModel
                 return ifileExplorer;
             }
         }
+        
 
         private void CollectionViewModel_Loaded(object sender, RoutedEventArgs e)
         {
             //myVideoDataFilter.Filter = new Predicate<object>(myVideofilter);
         }
-
-       
-
     }
 }

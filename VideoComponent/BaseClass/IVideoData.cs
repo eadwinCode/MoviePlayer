@@ -1,12 +1,13 @@
 ﻿using Common.Interfaces;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace VideoComponent.BaseClass
 {
     public interface IVideoData 
     {
-        BitmapSource Thumbnail { get; set; }
+        ImageSource Thumbnail { get; set; }
         Visibility PlayedVisible { get; }
         string FileExtension { get;}
         uint FrameWidth { get; set; }
@@ -19,7 +20,7 @@ namespace VideoComponent.BaseClass
         bool HasLastSeen { get; }
         string FilePath { get; }
         bool IsActive { get; set; }
-        double? MaxiProgress { get; set; }
+        int? MaxiProgress { get; set; }
         ILastSeen LastPlayedPoisition { get; set; }
         // PlayedBefore Checked(VideoData file);
     }

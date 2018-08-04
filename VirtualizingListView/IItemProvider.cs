@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using VideoComponent.BaseClass;
+using VirtualizingListView.Pages.ViewModel;
 
 namespace VirtualizingListView
 {
@@ -24,5 +25,7 @@ namespace VirtualizingListView
         IList<T> FetchRange(int startIndex, int count);
 
         int GetItemsCount();
+
+        IFilePageViewModel FilePageViewModel { get; }
     }
 }

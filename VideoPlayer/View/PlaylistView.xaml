@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="VideoPlayer.PlaylistView"
+﻿<UserControl x:Class="VideoPlayerControl.PlaylistView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:VideoPlayer"
+             xmlns:local="clr-namespace:VideoPlayerControl"
              xmlns:fileexp="clr-namespace:VirtualizingListView.View;assembly=VirtualizingListView"
              mc:Ignorable="d" AllowDrop="True"
              d:DesignHeight="300" d:DesignWidth="300">
@@ -20,7 +20,7 @@
             
         </ResourceDictionary>
     </UserControl.Resources>
-    <Border Background="Transparent"  BorderBrush="White" BorderThickness="1,0,0,0">
+    <Border Background="Transparent"  BorderBrush="#FF364E6F" BorderThickness="1,0,0,0">
         <DockPanel LastChildFill="True" >
             <!--<Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -28,8 +28,8 @@
                 <RowDefinition Height="*"/>
                 
             </Grid.RowDefinitions>-->
-            <DockPanel Margin="2" Background="Transparent"  DockPanel.Dock="Top" Grid.Row="0" LastChildFill="True">
-                <Button DockPanel.Dock="Right"  Width="30" ToolTip="Close Playlist" Click="Button_Click" >
+            <DockPanel Margin="2" Background="Transparent"  DockPanel.Dock="Bottom" Grid.Row="0" LastChildFill="True">
+                <Button DockPanel.Dock="Right"  Width="30" ToolTip="Close Playlist" Click="Button_Click">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}" BasedOn="{StaticResource CloseStyle}">
                             <Setter Property="Background" Value="Transparent"/>

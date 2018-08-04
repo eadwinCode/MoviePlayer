@@ -28,6 +28,8 @@ namespace Meta.Vlc
         private static LibVlcFunction<GetEventManager> _getEventManagerFunction;
         private static LibVlcFunction<IsPlaying> _isPlayingFunction;
         private static LibVlcFunction<Play> _playFunction;
+        private static LibVlcFunction<SetFullScreen> _setfullscreen;
+        private static LibVlcFunction<GetFullScreen> _getfullscreen;
         private static LibVlcFunction<SetPause> _setPauseFunction;
         private static LibVlcFunction<SetPosition> _setPositionFunction;
         private static LibVlcFunction<Stop> _stopFunction;
@@ -270,6 +272,9 @@ namespace Meta.Vlc
                 _getMediaFunction = new LibVlcFunction<GetMedia>();
                 _getEventManagerFunction = new LibVlcFunction<GetEventManager>();
                 _isPlayingFunction = new LibVlcFunction<IsPlaying>();
+                _playFunction = new LibVlcFunction<Play>();
+                _setfullscreen = new LibVlcFunction<SetFullScreen>();
+                _getfullscreen = new LibVlcFunction<GetFullScreen>();
                 _playFunction = new LibVlcFunction<Play>();
                 _setPauseFunction = new LibVlcFunction<SetPause>();
                 _setPositionFunction = new LibVlcFunction<SetPosition>();
@@ -580,7 +585,7 @@ namespace Meta.Vlc
             }
             set
             {
-                _setMediaFunction.Delegate(InstancePointer, IntPtr.Zero);
+                //_setMediaFunction.Delegate(InstancePointer, IntPtr.Zero);
                 if (value != null)
                 {
                     _setMediaFunction.Delegate(InstancePointer, value.InstancePointer);
@@ -906,6 +911,22 @@ namespace Meta.Vlc
         public void Play()
         {
             _playFunction.Delegate(InstancePointer);
+        }
+
+        public void SetFullScreen()
+        {
+            if(!GetFullScreen)
+                _setfullscreen.Delegate(InstancePointer, 1);
+            else
+                _setfullscreen.Delegate(InstancePointer, 0);
+        }
+
+        public bool GetFullScreen
+        {
+            get
+            {
+                return _getfullscreen.Delegate(InstancePointer);
+            }
         }
 
         public void SetVideoDecodeCallback(VideoLockCallback lockCallback, VideoUnlockCallback unlockCallback,

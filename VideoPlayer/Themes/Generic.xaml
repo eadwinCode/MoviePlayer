@@ -3,12 +3,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:util="clr-namespace:Common.Util;assembly=Common"
     xmlns:cmd="clr-namespace:Common.ApplicationCommands;assembly=Common"
-    xmlns:local="clr-namespace:VideoPlayer">
+    xmlns:local="clr-namespace:VideoPlayerControl">
 
     <local:VolumeTextConverter x:Key="VolumeTextConverter"/>
    
     <Style TargetType="{x:Type local:MovieTitle_Tab}">
-        <Setter Property="TextBlock.FontSize" Value="12"/>
+        <Setter Property="TextBlock.FontSize" Value="14"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:MovieTitle_Tab}">
@@ -21,17 +21,11 @@
                                    Text="{Binding MovieText,FallbackValue='---'}"  
                                    TextTrimming="CharacterEllipsis"
                                     Padding="{TemplateBinding Padding}" />
-                        <!--<TextBlock x:Name="tbmarqueecheck" Visibility="{Binding IstbmarqueeVisible}" Text="{Binding MovieTitleText,FallbackValue=''}"  
-                                   FontStyle="Italic" TextTrimming="CharacterEllipsis"  Padding="3" />-->
                         <local:MarqueeTextBlock x:Name="tbmarquee" TextTrimming="CharacterEllipsis" 
                                                 Width="{TemplateBinding Width}" 
                                        Text="{Binding MovieTitleText,FallbackValue='-Movie Title-'}"  
                                      Padding="{TemplateBinding Padding}"/>
-                        <!--<Canvas  ClipToBounds="True" x:Name="tbmarqueeCanvas" Width="{TemplateBinding Width}"  Height="23"
-                                 >
-                            
-                        </Canvas>-->
-                        
+
                     </StackPanel>
                 </ControlTemplate>
             </Setter.Value>

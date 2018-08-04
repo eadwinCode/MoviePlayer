@@ -3,6 +3,9 @@ using Common.FileHelper;
 using Common.Interfaces;
 using Common.Model;
 using Common.Util;
+using MahApps.Metro.Controls;
+using MahApps.Metro.IconPacks;
+using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.ViewModel;
 using Microsoft.Practices.ServiceLocation;
 using System;
@@ -12,8 +15,11 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using VideoComponent.BaseClass;
-using VideoPlayer;
-using VideoPlayer.ViewModel;
+using VideoPlayerControl;
+using VideoPlayerControl.ViewModel;
+using VirtualizingListView;
+using VirtualizingListView.Pages;
+using VirtualizingListView.Pages.Views;
 using VirtualizingListView.View;
 using VirtualizingListView.ViewModel;
 
@@ -30,7 +36,7 @@ namespace RealMediaControl.ViewModel
             get { return windowscontrol; }
             set { windowscontrol = value; RaisePropertyChanged(() => this.WindowsControl); }
         }
-        
+     
         public double WindowsHeight
         {
             get { return windowsheight; }
@@ -59,59 +65,13 @@ namespace RealMediaControl.ViewModel
         public VideoPlayerVM()
         {
             WindowsControl = Visibility.Visible;
-            CollectionViewModel.Instance.CloseFileExporerEvent += new EventHandler(Instance_CloseFileExporerEvent);
-        }
-       
-        private void Instance_CloseFileExporerEvent(object sender, EventArgs e)
-        {
-            //MainView mv = IShell as MainView;
-            //var videoholder = mv._videoContent;
-            //if (sender == null)
-            //{
-            //    MediaControlExtension.SetFileViewVisiblity(IShell.FileView, System.Windows.Visibility.Collapsed);
-            //    // IShell.FileView.Visibility= System.Windows.Visibility.Collapsed;
-            //    // mv._separator.Visibility = System.Windows.Visibility.Collapsed;
-            //    //Grid.SetRowSpan(videoholder, 3);
-            //    EndAnimation();
-            //}
-            //else
-            //{
-            //    MediaControlExtension.SetFileViewVisiblity(IShell.FileView, System.Windows.Visibility.Visible);
-            //    //IShell.FileView.Visibility = System.Windows.Visibility.Visible;
-            //    // mv._separator.Visibility = System.Windows.Visibility.Visible;
-            //    //Grid.SetRowSpan(videoholder, 1);
-            //    StartAnimation();
-            //}
+            
         }
 
-        private void EndAnimation()
-        {
-            //IShell.FileView.BeginAnimation(MediaControlExtension.FileViewVisiblityPropertyProperty, null);
-            //DoubleAnimation doubleAnimation = new DoubleAnimation
-            //{
-            //    //From = ((FrameworkElement)MediaControlExtension.Window.Content).ActualHeight,
-            //    To = 0,
-            //    Duration = new Duration(TimeSpan.FromMilliseconds(500))
-            //};
-            //IShell.FileView.BeginAnimation(Grid.HeightProperty, doubleAnimation);
-        }
-
-        private void StartAnimation()
-        {
-            //DoubleAnimation doubleAnimation = new DoubleAnimation
-            //{
-            //    From = 0,
-            //    To = ((FrameworkElement)MediaControlExtension.Window.Content).ActualHeight,
-            //    Duration = new Duration(TimeSpan.FromMilliseconds(900))
-            //};
-            //IShell.FileView.BeginAnimation(Grid.HeightProperty, doubleAnimation);
-        }
         
+
         public void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            //IShell.PlayListView.OnPlaylistClose += plv_OnPlaylistClose;
-            
-            Instance_CloseFileExporerEvent(this, new EventArgs());
             var commandbings = (IShell as Window).CommandBindings;
             commandbings.Add(new CommandBinding(VideoPlayerCommands.Play, Play_executed));
             commandbings.Add(new CommandBinding(VideoPlayerCommands.AddtoPlayList, AddtoPlayList_executed));
@@ -147,21 +107,20 @@ namespace RealMediaControl.ViewModel
             VideoFolderChild vfc = (VideoFolderChild)e.Parameter;
             IFolder folder = vfc.ParentDirectory;
             vfc.Progress = 0;
-            LastSeenHelper.RemoveLastSeen(folder, vfc.LastPlayedPoisition);
+            ApplicationService.SavedLastSeenCollection.Remove((PlayedFiles)vfc.LastPlayedPoisition);
             vfc.LastPlayedPoisition = new PlayedFiles(vfc.FileName);
         }
 
         private void NewPlaylist_executed(object sender, ExecutedRoutedEventArgs e)
         {
             VideoFolderChild vfc = (VideoFolderChild)e.Parameter;
-            ((IShell.FileView.TreeViewer as ITreeViewer).MoviesPLaylist as PlaylistTree)
-                .CreateNewPlayList(vfc.Directory.FullName);
+            HomePageLocal.PlaylistControl.CreateNewPlayList(vfc.FullName);
         }
 
         private void AddTo_executed(object sender, ExecutedRoutedEventArgs e)
         {
             var selectedplaylist = e.Parameter as PlaylistModel;
-            VideoFolder vf = ((e.Source as IFileViewer).FileExplorer as IFileExplorer)
+            VideoFolder vf = ((e.Source as IPageNavigatorHost).PageNavigator as IFileExplorer)
                 .ContextMenuObject as VideoFolder;
             if (selectedplaylist.IsActive)
             {
@@ -169,7 +128,7 @@ namespace RealMediaControl.ViewModel
             }
             else
             {
-                selectedplaylist.Add(vf.Directory.FullName);
+                selectedplaylist.Add(vf.FullName);
             }
         }
 

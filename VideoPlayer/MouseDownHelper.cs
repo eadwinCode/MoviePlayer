@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace VideoPlayer
+namespace VideoPlayerControl
 {
     public static class MouseDownHelper
     {

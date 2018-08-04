@@ -1,101 +1,326 @@
-﻿using Common.ApplicationCommands;
-using Common.FileHelper;
+﻿using Common.FileHelper;
 using Common.Interfaces;
 using Common.Model;
 using Common.Util;
+using Delimon.Win32.IO;
 using Microsoft.WindowsAPICodePack.Shell;
 using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Threading;
 using VideoComponent.BaseClass;
+using VideoComponent.Interfaces;
+using VirtualizingListView.Pages.ViewModel;
 
 namespace VirtualizingListView.Util
 {
-    public class FileLoader : Control
+    public class FileLoader :Control,  IFileLoader
     {
-        public static double progresslevel;
-        
-        public static string[] formats = { ".wmv", ".3g2", ".3gp" ,".3gp2", ".3gpp", ".amv", ".asf",  
-                 ".avi", ".cue", ".divx", ".dv", ".flv",".gxf",".m1v",
-                 ".m2v",".m2t" ,".m2ts",".m4v" ,
-                 ".mkv", ".mov", ".mp2", ".mp2v", ".mp4", ".mp4v", ".mpa", ".mpe", ".mpeg",
-                 ".mpeg1", ".mpeg2",".mpeg4",".mpg", ".mpv2" ,".mts",".nsv", ".nuv", ".ogg", 
-                 ".ogm", ".ogv", ".ogx",".ps", ".rec",".rm", ".rmvb", ".tod", ".ts", ".tts" ,
-                 ".vob" ,".vro",".webm"
-              };
-        public static string[] subtitleformats = 
-        { 
-          ".aqt ",".vtt",".cvd",".dks" ,".jss",".sub" ,".ttxt" ,".mpl" ,".txt" ,".pjs" ,".psb" 
-          ,".rt",".smi" ,".ssf" ,".srt" ,".ssa" ,".svcd",".usf" ,".idx"
-        };
-
-        public static VideoFolder LoadParentFiles(VideoFolder ParentDir, SortType sorttype, ICollectionViewModel collectionVM)
+        static Dispatcher FileLoaderDispatcher
         {
-            // Dispatcher.Invoke(new Action(delegate {
-            ObservableCollection<VideoFolder> children;
-            List<DirectoryInfo> ParentSubDir = FileExplorerCommonHelper.GetParentSubDirectory(ParentDir.Directory, formats);
-            if (ParentSubDir == null) { collectionVM.IsLoading = false; return new VideoFolder(ParentDir,ParentDir.Directory.Extension); }
-            children = new ObservableCollection<VideoFolder>();
-            collectionVM.IsLoading = true;
-            children = LoadChildrenFiles(ParentDir);
-            for (int i = 0; i < ParentSubDir.Count; i++)
+            get
             {
-                if (ParentSubDir[i].Name == ".movies")
-                {
-                    ParentSubDir.Remove(ParentSubDir[i]);
-                    i -= 1;
-                    continue;
-                }
-                VideoFolder child = LoadDirInfo(ParentDir, ParentSubDir[i]);
-                children.Add(child);
+                return FileLoaderInstance.Dispatcher;
             }
+        }
+
+        Threading.Executor Executor = new Threading.ExecutorImpl();
+        private static object padlock = new object();
+        private static FileLoader fileloaderinstance;
+        private List<Task> ChildrenTasks = new List<Task>();
+        public static FileLoader FileLoaderInstance
+        {
+            get
+            {
+                if (fileloaderinstance == null)
+                {
+                    lock (padlock)
+                    {
+                        fileloaderinstance = new FileLoader();
+                    }
+                }
+                return fileloaderinstance;
+            }
+        }
+
+        private  IDictionary<string, VideoFolder> data;
+        public  IDictionary<string, VideoFolder> DataSource
+        {
+            get {
+                return data;
+            }
+            set { data = value; }
+        }
+
+        public  bool HasDataSource
+        {
+            get { return data != null && data.Count > 0; }
+        }
+       
+        internal  VideoFolder GetExistingVideoFolderIfAny(VideoFolder videoFolder)
+        {
+            VideoFolder folder = null;
+            if(data != null)
+                data.TryGetValue(videoFolder.FullName,out folder);
+            return folder;
+        }
+
+        public VideoFolder GetFolderItems(VideoFolder item)
+        {
+            item.IsLoading = true;
+            List<Task> Tasks = new List<Task>();
+            object padlock = new object();
+            lock (item)
+            {
+                int taskcount = 0;
+                if (item.OtherFiles == null)
+                {
+                    var s = LoadParentFiles(item, item.SortedBy);
+                    if (s.OtherFiles == null)
+                        return s;
+                }
+                try
+                {
+                    Parallel.ForEach(item.OtherFiles, (s) =>
+                    {
+
+                        var temp = s;
+                        if (temp.FileType == FileType.Folder)
+                        {
+                            var task = Task.Factory.StartNew(() =>
+                            {
+                                temp.IsLoading = true;
+                                GetFolderItemsExtended(temp);
+                                temp.IsLoading = false;
+                            });
+                            taskcount++;
+                            AddTask(Tasks, task, padlock);
+                        }
+                        else
+                        {
+                            var task = Task.Factory.StartNew(() =>
+                            {
+                                RunShellFunction(temp as VideoFolderChild);
+                            });
+                            taskcount++;
+                            AddTask(Tasks, task, padlock);
+                        }
+                        if (taskcount % 5 == 0 && taskcount != 0)
+                        {
+                            Task.WaitAll(Tasks.ToArray());
+                            taskcount = 0;
+                            Tasks.Clear();
+                        }
+                    });
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+            item.IsLoading = false;
+            return item;
+        }
+
+        private void AddTask(List<Task> tasks, Task task, object padlock)
+        {
+            lock (padlock)
+            {
+                tasks.Add(task);
+            }
+        }
+
+        internal  VideoFolder DeepCopy(VideoFolder existing,VideoFolder videoFoldercopy)
+        {
+            var newcopy = new VideoFolder(videoFoldercopy, videoFoldercopy.FullName)
+            {
+                OtherFiles = videoFoldercopy.OtherFiles,
+                HasCompleteLoad = videoFoldercopy.HasCompleteLoad,
+                SortedBy = videoFoldercopy.SortedBy
+            };
+            return newcopy;
+        }
+
+        private  VideoFolder GetFolderItemsExtended(VideoFolder vfile)
+        {
+            List<Task> Tasks = new List<Task>();
+            var s = LoadParentFiles(vfile, vfile.SortedBy);
+            if (s.OtherFiles == null )
+                return s;
+            int taskcount = 0;
+            for (int i = 0; i < s.OtherFiles.Count; i++)
+            {
+                try
+                {
+                    var temp = s.OtherFiles[i];
+                    if (temp.FileType == FileType.Folder)
+                    {
+                        temp.IsLoading = true;
+                        GetSubFolderItems(temp);
+                        temp.IsLoading = false;
+                    }
+                    //else
+                    //{
+                    //    taskcount++;
+                    //    var task = Task.Factory.StartNew(() =>
+                    //    {
+                    //        RunShellFunction(temp as VideoFolderChild);
+                    //    });
+                    //    Tasks.Add(task);
+                    //}
+                    //if (taskcount % 3 == 0)
+                    //{
+                    //    Task.WaitAll(Tasks.ToArray());
+                    //    taskcount = 0;
+                    //    Tasks.Clear();
+                    //}
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+            return s;
+        }
+
+        private VideoFolder GetSubFolderItems(VideoFolder videoFolder)
+        {
+            List<Task> Tasks = new List<Task>();
+            Console.WriteLine("------Starting to Load {0} item-----",videoFolder);
+
+            var s = LoadParentFiles(videoFolder, videoFolder.SortedBy);
+            if (s.OtherFiles == null)
+                return s;
+            int taskcount = 0;
+
+            Parallel.ForEach(s.OtherFiles, (k) =>
+            {
+                try
+                {
+                    var temp = k;
+                    if (temp.FileType == FileType.Folder)
+                    {
+                        temp.IsLoading = true;
+                        GetSubFolderItems(temp);
+                        temp.IsLoading = false;
+                    }
+                    //else
+                    //{
+                    //    taskcount++;
+                    //    var task = Task.Factory.StartNew(() =>
+                    //    {
+                    //        RunShellFunction(temp as VideoFolderChild);
+                    //    }).ContinueWith(t => { }, TaskScheduler.Default);
+                    //    Tasks.Add(task);
+                    //}
+                    //if (taskcount % 3 == 0)
+                    //{
+                    //    Task.WaitAll(Tasks.ToArray());
+                    //    taskcount = 0;
+                    //    Tasks.Clear();
+                    //}
+                }
+                catch (Exception ex)
+                {
+                }
+               
+            });
+            Console.WriteLine("------Finished loading {0} item-----", videoFolder);
+
+            return s;
+        }
+
+        private  void LoadParentSubDirectories(IList<DirectoryInfo> parentSubDir, 
+             ObservableCollection<VideoFolder> existingchildren, VideoFolder parentdir)
+        {
+            for (int i = 0; i < parentSubDir.Count; i++)
+            {
+                if (parentSubDir[i] == null) continue;
+                VideoFolder child = LoadDirInfo(parentdir, parentSubDir[i]);
+                var originalcopy = HomePageLocalViewModel.GetExistingCopy(child);
+                if (originalcopy != null)
+                {
+                    child = originalcopy;
+                    child.SetParentDirectory(parentdir);
+                }
+
+                existingchildren.Add(child);
+            }
+            if (parentSubDir.Count > 0)
+                parentdir.HasSubFolders = true;
+        }
+        
+        public VideoFolder LoadParentFiles(VideoFolder ParentDir, SortType sorttype)
+        {
+            if (ParentDir.HasCompleteLoad == true) return ParentDir;
+
+            ObservableCollection<VideoFolder> children;
+            List<DirectoryInfo> ParentSubDir = 
+                FileExplorerCommonHelper.GetParentSubDirectory(ParentDir.Directory, ApplicationService.formats);
+
+            if (ParentSubDir == null)
+            {
+                return new VideoFolder(ParentDir, "");
+            }
+
+            children = new ObservableCollection<VideoFolder>();
+            children = LoadChildrenFiles(ParentDir);
+
+            LoadParentSubDirectories(ParentSubDir,  children, ParentDir);
+            
             if (ParentDir.OtherFiles == null || children.Count > ParentDir.OtherFiles.Count)
             {
                 ParentDir.OtherFiles = new ObservableCollection<VideoFolder>();
                 ParentDir.OtherFiles.AddRange(children);
-                GetRootDetails(sorttype, ParentDir);
+                GetRootDetails(sorttype, ref ParentDir);
             }
-            //   }));
-            collectionVM.IsLoading = false;
+            
+            ParentDir.OnFileNameChangedChanged += ParentDir_OnFileNameChangedChanged;
+            ParentDir.HasCompleteLoad = true;
             return ParentDir;
 
         }
 
+        private void ParentDir_OnFileNameChangedChanged(string oldname, VideoFolder videoItem)
+        {
+            if(data != null && data.ContainsKey(oldname))
+            {
+                data.Remove(oldname);
+                data.Add(videoItem.FullName, videoItem);
+            }
+        }
+
         private static VideoFolder LoadDirInfo(IFolder parent, DirectoryInfo directoryInfo)
         {
-            VideoFolder vd = new VideoFolder(parent, directoryInfo.FullName)
+            VideoFolder vd = new VideoFolder(parent,directoryInfo.FullName)
             {
                 FileType = FileType.Folder
             };
             return vd;
         }
 
-        public static VideoFolder SortList(SortType sorttype, VideoFolder parent)
+        public VideoFolder SortList(SortType sorttype, VideoFolder parent)
         {
             if (parent.OtherFiles == null) return parent;
 
             ObservableCollection<VideoFolder> asd = new ObservableCollection<VideoFolder>();
             if (sorttype == SortType.Date)
             {
-                var de = (parent.OtherFiles).OrderBy(x => x, new SortByDate()).ToList();
+                IEnumerable<VideoFolder> de = (parent.OtherFiles).OrderBy(x => x, new SortByDate());
                 asd.AddRange(de);
-               // parent.OtherFiles.Sort(new SortByDate());
             }
             else if (sorttype == SortType.Extension)
             {
-                var de = parent.OtherFiles.OrderBy(x => x, new SortByExtension()).ToList();
-                //ParentDir.ChildFiles.Sort();
-
+                IEnumerable<VideoFolder> de = parent.OtherFiles.OrderBy(x => x, new SortByExtension());
                 asd.AddRange(de);
             }
             else
             {
-                var de = parent.OtherFiles.OrderBy(x => x, new SortByNames()).ToList();
-                //ParentDir.ChildFiles.Sort();
-
+                IEnumerable<VideoFolder> de = parent.OtherFiles.OrderBy(x => x, new SortByNames());
                asd.AddRange(de);
             }
             parent.OtherFiles.Clear();
@@ -104,27 +329,22 @@ namespace VirtualizingListView.Util
             return parent;
         }
 
-        public static ObservableCollection<VideoFolder> LoadChildrenFiles(IFolder Parentdir, bool newpath = false)
+        public ObservableCollection<VideoFolder> LoadChildrenFiles(IFolder Parentdir, bool newpath = false)
         {
-
             ObservableCollection<VideoFolder> Toparent = new ObservableCollection<VideoFolder>();
-
-            List<FileInfo> files = FileExplorerCommonHelper.GetFilesByExtensions(Parentdir.Directory, formats);
-            if (files.Count > 0)
-            {
-                ApplicationService.CreateLastSeenFolder(Parentdir);
-                ApplicationService.LoadLastSeenFile(Parentdir);
-            }
+            List<Task> Tasks = new List<Task>();
+            List<FileInfo> files = 
+                FileExplorerCommonHelper.GetFilesByExtensions(Parentdir.Directory,ApplicationService.formats);
 
             for (int i = 0; i < files.Count; i++)
             {
+                if (files[i] == null) continue;
                 VideoFolderChild vd;
-                PlayedFiles pdf = (PlayedFiles)LastSeenHelper.GetProgress(Parentdir,files[i].Name);
+                PlayedFiles pdf = ApplicationService.SavedLastSeenCollection.GetLastSeen(files[i].Name);
                 vd = new VideoFolderChild(Parentdir, files[i])
                 {
                     FileSize = FileExplorerCommonHelper.FileSizeConverter(files[i].Length),
                     FileType = FileType.File
-                   
                 };
                 if (pdf != null)
                 {
@@ -134,87 +354,287 @@ namespace VirtualizingListView.Util
                 {
                     vd.LastPlayedPoisition = new PlayedFiles(files[i].Name);
                 }
-                using (ShellObject shell = ShellObject.FromParsingName(vd.FilePath))
-                {
-                    IShellProperty prop = shell.Properties.System.Media.Duration;
-                    vd.Duration = prop.FormatForDisplay(PropertyDescriptionFormat.ShortTime);
-                    var duration = shell.Properties.System.Media.Duration;
-                    if (duration.Value != null)
-                        vd.MaxiProgress = double.Parse(duration.Value.ToString());
-                }
+                vd.OnFileNameChangedChanged += ParentDir_OnFileNameChangedChanged;
+                if (vd != null)
+                    Toparent.Add(vd);
+            }
+            return Toparent;
+        }
+        
 
-                Toparent.Add(vd);
+        private void RunShellFunction( VideoFolderChild vd)
+        {
+            string prop = null;
+                prop = GetMediaTitle(vd);
+                if (!string.IsNullOrEmpty(prop) && !prop.Contains("\""))
+                    vd.MediaTitle = prop;
+        }
+
+        private string GetMediaTitle(VideoFolderChild vd)
+        {
+            ShellObject shell = ShellObject.FromParsingName(vd.FilePath);
+            try
+            {
+                var duration = shell.Properties.System.Media.Duration;
+                vd.Duration = duration.FormatForDisplay(PropertyDescriptionFormat.ShortTime);
+                //if (duration.Value != null)
+                //    vd.MaxiProgress = (int)(duration.Value / Math.Pow(10, 7));
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            //MediaInfo.MediaInfoWrapper mediaInfoWrapper = new MediaInfo.MediaInfoWrapper(vd.FullName);
+            //string result = null;
+            //if (mediaInfoWrapper.HasVideo)
+            //{
+            //    //Dispatcher.Invoke(new Action(() => {
+            //    // mediaInfoWrapper.Open(vd.FullName);
+            //    //result = mediaInfoWrapper.Get(MediaInfo.StreamKind.General, 0, 167);
+            //    result = (mediaInfoWrapper.Tags as AudioTags).Title;
+            //    vd.MaxiProgress = mediaInfoWrapper.Duration;
+            //    vd.Duration = mediaInfoWrapper.BestVideoStream.Duration.ToString();
+            //}
+            //mediaInfoWrapper.Close();
+            //}),DispatcherPriority.Background);
+
+            return shell.Properties.System.Title.Value;
+        }
+
+        public static void GetShellInfo(VideoFolderChild vd)
+        {
+            GetMediaInfo(vd);
+            //GetMediaInfo(vd);
+        }
+
+        private static void GetMediaInfo(VideoFolderChild vd)
+        {
+            ShellObject shell = ShellObject.FromParsingName(vd.FilePath);
+            try
+            {
+                vd.Thumbnail = shell.Thumbnail.LargeBitmapSource;
+                if (string.IsNullOrEmpty(vd.Duration)){
+                    var duration = shell.Properties.System.Media.Duration;
+                    vd.Duration = duration.FormatForDisplay(PropertyDescriptionFormat.ShortTime);
+                }
+                //if (duration.Value != null)
+                //    vd.MaxiProgress = (int)(duration.Value / Math.Pow(10, 7));
+            }
+            catch (Exception ex)
+            {
+            }
+            var prop = shell.Properties.System.Title.Value;
+            if (!string.IsNullOrEmpty(prop) && !prop.Contains("\""))
+                vd.MediaTitle = prop;
+        }
+        public ObservableCollection<VideoFolder> LoadChildrenFiles(IFolder Parentdir, IList<FileInfo> files, 
+            bool newpath = false)
+        {
+            ObservableCollection<VideoFolder> Toparent = new ObservableCollection<VideoFolder>();
+            for (int i = 0; i < files.Count; i++)
+            {
+                VideoFolderChild vd;
+                PlayedFiles pdf = ApplicationService.SavedLastSeenCollection.GetLastSeen(files[i].Name);
+                vd = new VideoFolderChild(Parentdir, files[i])
+                {
+                    FileSize = FileExplorerCommonHelper.FileSizeConverter(files[i].Length),
+                    FileType = FileType.File
+
+                };
+                if (pdf != null)
+                {
+                    vd.LastPlayedPoisition = pdf;
+                }
+                else
+                {
+                    vd.LastPlayedPoisition = new PlayedFiles(files[i].Name);
+                }
+                vd.OnFileNameChangedChanged += ParentDir_OnFileNameChangedChanged;
+                if(vd != null)
+                    Toparent.Add(vd);
             }
             return Toparent;
         }
 
-        public static VideoFolder LoadChildrenFiles(DirectoryInfo directoryInfo, bool newpath = false)
+        public VideoFolder LoadChildrenFiles(DirectoryInfo directoryInfo, bool newpath = false)
         {
-            IFolder Parentdir = new VideoFolder(directoryInfo.Parent.FullName);
-
-            ApplicationService.CreateLastSeenFolder(Parentdir);
-            ApplicationService.LoadLastSeenFile(Parentdir);
-            FileInfo fileInfo = new FileInfo(directoryInfo.FullName);
-            VideoFolderChild vd;
-            PlayedFiles pdf = (PlayedFiles)LastSeenHelper.GetProgress(Parentdir, fileInfo.Name);
-            vd = new VideoFolderChild(Parentdir, fileInfo)
+            VideoFolder vf = null;
+            data.TryGetValue(directoryInfo.FullName, out vf);
+            if (vf == null)
             {
-                FileSize = FileExplorerCommonHelper.FileSizeConverter(fileInfo.Length),
-                FileType = FileType.File
-            };
-            if (pdf != null)
-            {
-                vd.LastPlayedPoisition = pdf;
-            }
-            else
-            {
-                vd.LastPlayedPoisition = new PlayedFiles(fileInfo.Name);
-            }
-            IEnumerable<FileInfo> files = null;
-            using (ShellObject shell = ShellObject.FromParsingName(vd.FilePath))
-            {
-                IShellProperty prop = shell.Properties.System.Media.Duration;
-                vd.Duration = prop.FormatForDisplay(PropertyDescriptionFormat.ShortTime);
-                var duration = shell.Properties.System.Media.Duration;
-                if (duration.Value != null)
-                    vd.MaxiProgress = double.Parse(duration.Value.ToString());
-
+                IFolder Parentdir = new VideoFolder(directoryInfo.Parent.FullName);
+                FileInfo fileInfo = new FileInfo(directoryInfo.FullName);
+                PlayedFiles pdf = ApplicationService.SavedLastSeenCollection.GetLastSeen(fileInfo.Name);
+                VideoFolderChild vfc = new VideoFolderChild(Parentdir, fileInfo)
+                {
+                    FileSize = FileExplorerCommonHelper.FileSizeConverter(fileInfo.Length),
+                    FileType = FileType.File
+                };
+                if (pdf != null)
+                {
+                    vfc.LastPlayedPoisition = pdf;
+                }
+                else
+                {
+                    vfc.LastPlayedPoisition = new PlayedFiles(fileInfo.Name);
+                }
+                IEnumerable<FileInfo> files = null;
                 files = FileExplorerCommonHelper.GetSubtitleFiles(directoryInfo.Parent);
+                vfc.SubPath = FileExplorerCommonHelper.MatchSubToMedia(vfc.Name, files);
+
+                RunShellFunction(vfc);
+                return vfc;
             }
-            vd.SubPath = FileExplorerCommonHelper.MatchSubToMedia(vd.Name, files);
-            return vd;
+           
+            return vf;
         }
 
-        public static void GetRootDetails(SortType sorttype, VideoFolder ParentDir)
+        public void GetRootDetails(SortType sorttype, ref VideoFolder ParentDir)
         {
             ParentDir.FileType = FileType.Folder;
             ParentDir = SortList(sorttype, ParentDir);
-           // return ParentDir;
         }
 
-        public static VideoFolder LoadParent2(DirectoryInfo DirectoryPosition, SortType sorttype)
+        public VideoFolder LoadParentFiles(IFolder Parentdir,IList<DirectoryInfo> SubDirectory, SortType sorttype)
         {
-            VideoFolder ParentDir = null;
-            List<VideoFolder> children = new List<VideoFolder>();
-            List<DirectoryInfo> ParentSubDir = FileExplorerCommonHelper.GetParentSubDirectory(DirectoryPosition, FileLoader.formats);
-
-           // Dispatcher.Invoke(new Action(delegate
-            //{
-            ParentDir = new VideoFolder(DirectoryPosition.FullName);
-            foreach (var item in ParentSubDir)
-            {
-                VideoFolder child = LoadParent2(item, sorttype);
-                children.Add(child);
-            }
-            GetRootDetails(sorttype, ParentDir);
-           // }));
-
-            return ParentDir;
+            VideoFolder videoFolder = new VideoFolder(Parentdir, SubDirectory[0].Parent.FullName);
+            var children = new ObservableCollection<VideoFolder>();
+            LoadParentSubDirectories(SubDirectory, children, videoFolder);
+            videoFolder.OtherFiles = children;
+            GetFolderItems(videoFolder);
+            HomePageLocalViewModel.FileLoaderDelegate.Invoke();
+            return videoFolder;
         }
 
-        //internal static void RefreshPath(VideoData VideoDataAccess)
-        //{
-           
-        //}
+        public VideoFolder LoadParentFiles(IFolder Parentdir,IList<DirectoryInfo> SubDirectory, IList<FileInfo> SubFiles, SortType sorttype)
+        {
+            VideoFolder videoFolder = new VideoFolder(Parentdir, SubDirectory[0].Parent.FullName);
+            var children = new ObservableCollection<VideoFolder>();
+            children = LoadChildrenFiles(videoFolder,SubFiles);
+            LoadParentSubDirectories(SubDirectory,  children, videoFolder);
+            videoFolder.OtherFiles = children;
+            GetFolderItems(videoFolder);
+            HomePageLocalViewModel.FileLoaderDelegate.Invoke();
+            return videoFolder;
+        }
+
+        public VideoFolder LoadParentFiles(IFolder Parentdir,IList<FileInfo> SubFiles, SortType sorttype)
+        {
+            VideoFolder videoFolder = new VideoFolder(Parentdir, SubFiles[0].Directory.FullName);
+
+            var children = new ObservableCollection<VideoFolder>();
+            children = LoadChildrenFiles(videoFolder, SubFiles);
+            videoFolder.OtherFiles= children;
+            videoFolder.HasSubFolders = false;
+            GetFolderItems(videoFolder);
+            HomePageLocalViewModel.FileLoaderDelegate.Invoke();
+            return videoFolder;
+        }
+
+        public IDictionary<string, VideoFolder> GetAllFiles(ObservableCollection<VideoFolder> itemsSource)
+        {
+            IDictionary<string, VideoFolder> allfile = new Dictionary<string, VideoFolder>();
+            object padlock = new object();
+            List<Task> Tasks = new List<Task>();
+            if (itemsSource != null)
+            {
+                for (int i = 0; i < itemsSource.Count; i++)
+                {
+                    VideoFolder item = itemsSource[i];
+                    if (item.FileType == FileType.Folder && item.ParentDirectory != null)
+                        continue;
+
+                    if (item.FileType == FileType.Folder)
+                    {
+                        var task = Task.Factory.StartNew(() =>
+                        {
+                            Stopwatch stopwatch = new Stopwatch();
+                            Console.WriteLine(item.Name + " started Loading");
+                            stopwatch.Start();
+                            foreach (var subitem in GetAllFiles(item.OtherFiles, item))
+                            {
+                                lock (padlock)
+                                {
+                                    if (allfile.ContainsKey(subitem.Key)) continue;
+                                    allfile.Add(subitem);
+                                }
+                            }
+                            if (!allfile.ContainsKey(item.FullName))
+                                allfile.Add(item.FullName, item);
+                            stopwatch.Stop();
+                            Console.WriteLine(item.Name + " Loaded in {0} secs", stopwatch.ElapsedMilliseconds * 1.0 / 1000);
+                        }).ContinueWith(t => { }, TaskScheduler.Current);
+                        Tasks.Add(task);
+                    }
+                    else
+                        allfile.Add(item.FullName, item);
+
+                    if (Tasks.Count % 2 == 0 && Tasks.Count != 0)
+                    {
+                        Task.WaitAll(Tasks.ToArray());
+                        Tasks.Clear();
+                    }
+                }
+            }
+            Task.WaitAll(Tasks.ToArray());
+            return allfile;
+        }
+
+        private IDictionary<string, VideoFolder> GetAllFiles(IList<VideoFolder> itemsSource,VideoFolder videoFolder = null)
+        {
+            IDictionary<string, VideoFolder> allfile = new Dictionary<string, VideoFolder>();
+            if (itemsSource == null)
+            {
+                videoFolder = GetFolderItems(videoFolder);
+                itemsSource = videoFolder.OtherFiles;
+            }
+
+            if (itemsSource != null)
+            {
+                for (int i = 0; i < itemsSource.Count; i++)
+                {
+                    VideoFolder item = itemsSource[i];
+                    if (item.FileType == FileType.Folder)
+                    {
+                        IDictionary<string, VideoFolder> items = GetAllFiles(item.OtherFiles, item);
+                        foreach (var subitem in items)
+                        {
+                            allfile.Add(subitem);
+                        }
+                        allfile.Add(item.FullName, item);
+                    }
+                    else
+                        allfile.Add(item.FullName, item);
+                }
+            }
+            return allfile;
+        }
+
+        public void InitGetAllFiles(ObservableCollection<VideoFolder> itemsSource)
+        {
+            lock (this)
+            {
+                this.DataSource = GetAllFiles(itemsSource);
+            }
+        }
+
+        public void RemoveFromDataSource(VideoFolder existingVideoFolder)
+        {
+            if (existingVideoFolder == null) return;
+            switch (existingVideoFolder.FileType)
+            {
+                case FileType.Folder:
+                    HomePageLocalViewModel.FileLoaderDelegate.Invoke();
+                    break;
+                case FileType.File:
+                    if (data.ContainsKey(existingVideoFolder.FullName))
+                        data.Remove(existingVideoFolder.FullName);
+                    break;
+                default:
+                    break;
+            }
+            
+        }
     }
 }

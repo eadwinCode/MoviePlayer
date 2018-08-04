@@ -6,8 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using VirtualizingListView;
 
-namespace VideoPlayer
+namespace VideoPlayerControl
 {
     public class VolumeControl : Control
     {
@@ -17,7 +18,7 @@ namespace VideoPlayer
                 new FrameworkPropertyMetadata(typeof(VolumeControl)));
             
         }
-
+        private ContextButton ContextButton;
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();

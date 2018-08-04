@@ -3,19 +3,24 @@ using Common.FileHelper;
 using Common.Interfaces;
 using Common.Model;
 using Common.Util;
+using Delimon.Win32.IO;
+using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace VideoComponent.BaseClass
 {
+    public delegate void OnFileNameChangedHandler(string oldname, VideoFolder videoItem);
+
     public class VideoFolderChild : VideoFolder, IVideoData, IComparable<VideoFolderChild>, IEquatable<VideoFolderChild>
     {
         private string duration;
@@ -24,12 +29,8 @@ namespace VideoComponent.BaseClass
         private uint framewidth; 
         private string resolution;
         private string size;
-        private double? maxprogress;
-        public VideoFolderChild(SerializationInfo info, StreamingContext context)
-            :base(info,context)
-        {
-
-        }
+        private int? maxprogress;
+        public override event OnFileNameChangedHandler OnFileNameChangedChanged;
 
         public VideoFolderChild(string filepath):base(filepath)
         {
@@ -44,10 +45,21 @@ namespace VideoComponent.BaseClass
         public VideoFolderChild(IFolder ParentDir, string filepath)
             : base(ParentDir, filepath)
         {
+            ParentDir.ParentDirectoryChanged += ParentDir_ParentDirectoryChanged;
+        }
+
+        private void ParentDir_ParentDirectoryChanged(object sender, EventArgs e)
+        {
+            var oldname = this.FullName;
+            var newname = ParentDirectory.FileInfo.FullName + "\\" + this.Name;
+            base.RenameFile(newname);
+            UpdateProperties();
+            if (OnFileNameChangedChanged != null)
+                OnFileNameChangedChanged.Invoke(oldname, this);
         }
 
         public VideoFolderChild(IFolder ParentDir, FileInfo fileinfo)
-            : base(ParentDir, fileinfo.FullName)
+            : this(ParentDir, fileinfo.FullName)
         {
         }
 
@@ -63,14 +75,20 @@ namespace VideoComponent.BaseClass
                 ProgressAsString = value.ToString();
                 RaisePropertyChangedEvent("Progress");
                 RaisePropertyChangedEvent("PlayedVisible");
-                
             }
         }
         private string progressasstring;
         public string ProgressAsString
         {
-            get { return progressasstring; }
-            set { progressasstring = CommonHelper.SetDuration(progress);
+            get {
+                if (!HasProgress)
+                    return this.Duration;
+                return progressasstring;
+            }
+            set {
+                // progressasstring = CommonHelper.SetDuration(progress);
+                progressasstring = progress + "% Complete";
+                RaisePropertyChangedEvent("PlayedVisible");
                 RaisePropertyChangedEvent("ProgressAsString");
             }
         }
@@ -79,7 +97,7 @@ namespace VideoComponent.BaseClass
         {
             get
             {
-                return (LastPlayedPoisition as PlayedFiles).InCollection;
+                return LastPlayedPoisition.Exist;
             }
         }
         public override string FilePath
@@ -119,7 +137,7 @@ namespace VideoComponent.BaseClass
                 RaisePropertyChangedEvent("SubPath"); }
         }
 
-        public BitmapSource Thumbnail
+        public ImageSource Thumbnail
         {
             get
             {
@@ -132,11 +150,11 @@ namespace VideoComponent.BaseClass
                 RaisePropertyChangedEvent("HasThumbnail");
             }
         }
-        private BitmapSource thumbnail;
+        private ImageSource thumbnail;
 
         public override string ToString()
         {
-            return base.ToString();
+            return this.MediaTitle;
         }
 
         public uint FrameWidth
@@ -152,7 +170,11 @@ namespace VideoComponent.BaseClass
             }
         }
         private bool isactive;
-        public bool IsActive { get { return isactive; } set { isactive = value; RaisePropertyChangedEvent("IsActive"); } }
+        public bool IsActive
+        {
+            get { return isactive; }
+            set { isactive = value; RaisePropertyChangedEvent("IsActive"); }
+        }
         public uint FrameHeight
         {
             get
@@ -175,17 +197,20 @@ namespace VideoComponent.BaseClass
         public string Duration
         {
             get { return duration; }
-            set { duration = value; RaisePropertyChangedEvent("Duration"); RaisePropertyChangedEvent("CreationDate"); }
+            set { duration = value;
+                RaisePropertyChangedEvent("Duration"); 
+                RaisePropertyChangedEvent("CreationDate"); 
+                RaisePropertyChangedEvent("TooltipMessage"); }
         }
 
-        public double? MaxiProgress
+        public int? MaxiProgress
         {
             get { return maxprogress; }
             set
             {
                 if (value != null)
                 {
-                    maxprogress = (ulong)(value / Math.Pow(10, 7));
+                    maxprogress = value;
                 }
 
                 RaisePropertyChangedEvent("MaxiProgress");
@@ -206,7 +231,7 @@ namespace VideoComponent.BaseClass
         }
         public bool Equals(VideoFolderChild other)
         {
-            return this.Name.Equals(other.Name);
+            return this.MediaTitle.Equals(other.MediaTitle);
         }
         public Visibility SubVisible
         {
@@ -220,7 +245,7 @@ namespace VideoComponent.BaseClass
                     return SubPath.Count > 0 ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
             }
         }
-        public string FileSize
+        public override string FileSize
         {
             get
             {
@@ -237,11 +262,18 @@ namespace VideoComponent.BaseClass
         {
             get
             {
+                //if(!HasThumbnail)
+                //{
+                //    return false;
+                //}
+                //return true;
+
                 if (!HasThumbnail && ApplicationService.AppSettings.ViewType == ViewType.Large)
                 {
                     return false;
                 }
-                if (ApplicationService.AppSettings.ViewType == ViewType.Small && MaxiProgress == null)
+                if (ApplicationService.AppSettings.ViewType == ViewType.Small &&
+                    MaxiProgress == null || !HasSearchSubtitleFile)
                 {
                     return false;
                 }
@@ -250,7 +282,7 @@ namespace VideoComponent.BaseClass
         }
 
         public void PlayCompletely(){
-            LastSeenHelper.RemoveLastSeen(base.ParentDirectory, lastplayedpoisition);
+            LastPlayedPoisition.RemoveLastSeen();
             LastPlayedPoisition = new PlayedFiles(this.FileName);
         }
 
@@ -259,7 +291,7 @@ namespace VideoComponent.BaseClass
             get { return Progress > 0; }
         }
 
-        private void UpdateProperties()
+        public void UpdateProperties()
         {
             RaisePropertyChangedEvent("CreationDate");
             RaisePropertyChangedEvent("FolderChildCount");
@@ -270,32 +302,39 @@ namespace VideoComponent.BaseClass
             RaisePropertyChangedEvent("ProgressAsString");
             RaisePropertyChangedEvent("PlayedVisible");
             RaisePropertyChangedEvent("HasProgress");
-
-
+            RaisePropertyChangedEvent("Duration");
         }
 
         public string TooltipMessage{
-            get{
-                return string.Format("FileName:- {0}\nPath:- {1}\nDuration:- {2}", FileName, FilePath,Duration);
+            get
+            {
+                return string.Format("FileName:- {0} \nDuration:- {1}", Name, Duration);
             }
         }
 
+        private string mediatitle;
+        public string MediaTitle
+        {
+            get {
+                if (mediatitle == null) return this.Name;
+                return mediatitle;
+            }
+            set { mediatitle = value; RaisePropertyChangedEvent("MediaTitle"); }
+        }
+        
         private ILastSeen lastplayedpoisition;
         private double progress;
 
         public ILastSeen LastPlayedPoisition
         {
-            get { return lastplayedpoisition; } set
+            get { return lastplayedpoisition; }
+            set
             {
                 lastplayedpoisition = value;
                 Progress = value != null ? value.ProgressLastSeen : 0.0;
                 UpdateProperties();
             }
         }
-        
-        public ObservableCollection<PlaylistModel> PlayListItems
-        {
-            get { return ApplicationService.AppPlaylist.MoviePlayList; }
-        }
+       
     }
 }

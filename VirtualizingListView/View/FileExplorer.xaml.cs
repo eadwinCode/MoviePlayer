@@ -1,25 +1,11 @@
-﻿using Common.ApplicationCommands;
-using Common.Interfaces;
+﻿using Common.Interfaces;
 using Common.Util;
-using Microsoft.Practices.Prism.Commands;
-using Microsoft.Practices.Prism.Events;
-using Microsoft.Practices.Prism.ViewModel;
-using Microsoft.Practices.ServiceLocation;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using VideoComponent.BaseClass;
-using VideoComponent.Command;
-using VideoComponent.Events;
-using VirtualizingListView.Events;
-using VirtualizingListView.Model;
-using VirtualizingListView.OtherFiles;
-using VirtualizingListView.Util;
 using VirtualizingListView.ViewModel;
 
 namespace VirtualizingListView.View
@@ -90,9 +76,8 @@ namespace VirtualizingListView.View
 
         private void View_executed(object sender, ExecutedRoutedEventArgs e)
         {
-            var viewType = (ViewType)e.Parameter ;
-            if (viewType == ViewType.None) return;
-            CollectionViewModel.Instance.ViewType = viewType;
+            var viewType = (ViewType)e.Parameter;
+            CollectionViewModel.Instance.ActiveViewType = viewType;
         }
 
         private void Sort_executed(object sender, ExecutedRoutedEventArgs e)

@@ -8,13 +8,13 @@
     <xv:ISfolder x:Key="IsFolder"/>
 
     <CollectionViewSource x:Key="myVideoData" Source="{Binding VideoItemViewCollection}">
-        <!--<CollectionViewSource.GroupDescriptions>
+        <CollectionViewSource.GroupDescriptions>
             <PropertyGroupDescription  Converter="{StaticResource GroupSort}" />
-        </CollectionViewSource.GroupDescriptions>-->
+        </CollectionViewSource.GroupDescriptions>
 
 
         <!--<CollectionViewSource.SortDescriptions>
-            <scm:SortDescription PropertyName="CreationDate"  Direction="Ascending"/>
+            <scm:SortDescription PropertyName="Day"  Direction="Descending"/>
         </CollectionViewSource.SortDescriptions>-->
 
     </CollectionViewSource>

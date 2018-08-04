@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using VideoPlayer.ViewModel;
+using VideoPlayerControl.ViewModel;
 
 namespace VideoPlayerView.Util
 {
