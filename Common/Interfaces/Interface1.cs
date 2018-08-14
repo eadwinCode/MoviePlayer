@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Navigation;
 
 namespace Common.Interfaces
@@ -17,6 +18,8 @@ namespace Common.Interfaces
     {
         void SetController(IWindowsCommandButton controller);
         bool HasController { get; }
+        NavigationService NavigationService { get; }
+        ContentControl Docker { get; }
     }
 
     public interface IWindowsCommandButton
@@ -87,7 +90,7 @@ namespace Common.Interfaces
     public interface IPlaylistModel
     {
         string PlaylistName { get; set; }
-        ObservableCollection<string> ItemsPaths { get; }
+        List<string> ItemsPaths { get; }
         void SetIsActive(bool value);
     }
     public interface ILastSeen
@@ -125,6 +128,26 @@ namespace Common.Interfaces
         event EventHandler ParentDirectoryChanged;
     }
 
+    public interface IVideoData
+    {
+        ImageSource Thumbnail { get; set; }
+        Visibility PlayedVisible { get; }
+        string FileExtension { get; }
+        uint FrameWidth { get; set; }
+        uint FrameHeight { get; set; }
+        string Duration { get; set; }
+        Visibility SubVisible { get; }
+        bool HasProgress { get; }
+        string FileSize { get; set; }
+        double Progress { get; }
+        bool HasLastSeen { get; }
+        string FilePath { get; }
+        bool IsActive { get; set; }
+        int? MaxiProgress { get; set; }
+        ILastSeen LastPlayedPoisition { get; set; }
+        // PlayedBefore Checked(VideoData file);
+    }
+
     public interface IFileExplorer
     {
         ListView FileExplorerListView { get; }
@@ -133,9 +156,12 @@ namespace Common.Interfaces
     public interface IPlayFile
     {
         IVideoElement VideoElement { get; }
-        void PlayFileInit(object obj);
-        void AddFiletoPlayList(object obj);
-        void WMPPlayFileInit(object vfc);
+        void PlayFileInit(IVideoData obj);
+        void AddFiletoPlayList(IVideoData obj);
+        void WMPPlayFileInit(IVideoData vfc);
+        void PlayFileInit(IFolder obj);
+        void AddFiletoPlayList(IFolder obj);
+        void WMPPlayFileInit(IFolder vfc);
         void PlayFileFromPlayList(PlaylistModel playlistModel);
     }
 

@@ -7,16 +7,28 @@
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
       Title="UsbDrivePage">
+    <Grid>
+        <DockPanel>
+            <DockPanel DockPanel.Dock="Top">
+                <Button Command="{Binding ReloadCommand}" VerticalAlignment="Center" DockPanel.Dock="Right" Margin="3" Content="Refresh"/>
+                <TextBlock Text="Removeable Storage" 
+                       Foreground="{DynamicResource Theme.Foreground}" 
+                       FontSize="20" Padding="10" 
+                       FontWeight="Medium" />
+            </DockPanel>
+            <ListView Style="{Binding ListViewStyle}" BorderBrush="Transparent" 
+                      BorderThickness="0"  x:Name="collections"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                      Background="Transparent"
+                      ItemsSource="{Binding UsbDrives}"
+                      ItemTemplate="{StaticResource FolderLargeTemplate}"
+                      ItemsPanel="{StaticResource VideoItemsPanel}"
+                      ItemContainerStyle="{StaticResource CustomContainerStyle}"
+                      Grid.RowSpan="2" >
 
-    <ListView Style="{Binding ListViewStyle}"   x:Name="collections"
-                    ScrollViewer.VerticalScrollBarVisibility="Auto" 
-                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                    Background="Transparent"
-                    ItemsSource="{Binding UsbDrives}"
-                    ItemTemplate="{StaticResource FolderLargeTemplate}"
-                    ItemsPanel="{StaticResource VideoItemsPanel}"
-                    ItemContainerStyle="{StaticResource CustomContainerStyle}"
-                    Grid.RowSpan="2" >
-
-    </ListView>
+            </ListView>
+        </DockPanel>
+            <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="HomePageDock"/>
+    </Grid>
 </Page>

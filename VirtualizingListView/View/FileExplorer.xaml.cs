@@ -54,8 +54,7 @@ namespace VirtualizingListView.View
                     Border border = (Border)VisualTreeHelper.GetChild(collections, 0);
                     scrollviewer = (ScrollViewer)VisualTreeHelper.GetChild(border, 0);
                 }
-
-
+                
                 return scrollviewer;
             }
         }
@@ -97,9 +96,7 @@ namespace VirtualizingListView.View
             FrameworkElement uIElement = e.OriginalSource as FrameworkElement;
             this.VideoFolder = uIElement.DataContext as VideoFolder;
         }
-
-
+        
     }
-
-   
+    
 }

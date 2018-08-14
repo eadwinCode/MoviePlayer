@@ -24,7 +24,7 @@ namespace VideoPlayerControl.ViewModel
             IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.Next, 
                 Next_executed,Next_enabled));
             IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.PausePlay,
-                PausePlay_executed));//,PausePlay_enabled));
+                PausePlay_executed,PausePlay_enabled));
             IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.Previous,
                 Previous_executed, Previous_enabled));
             IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.Stop, 
@@ -240,7 +240,7 @@ namespace VideoPlayerControl.ViewModel
 
         private void PausePlay_enabled(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = IVideoElement.MediaPlayer.Length != TimeSpan.Zero;
+            e.CanExecute = MediaControllerVM.MediaControllerInstance.CurrentVideoItem != null;
         }
 
         private void RemovefromPlayList_executed(object sender, ExecutedRoutedEventArgs e)

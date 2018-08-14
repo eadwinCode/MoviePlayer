@@ -13,7 +13,5 @@ namespace Common.FileHelper
     {
         public ObservableCollection<PlaylistModel> MoviePlayList =
             new ObservableCollection<PlaylistModel>();
-
-       
     }
 }

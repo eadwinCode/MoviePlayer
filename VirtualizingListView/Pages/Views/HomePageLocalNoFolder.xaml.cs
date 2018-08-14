@@ -61,10 +61,6 @@ namespace VirtualizingListView.Pages
         {
             ParentControl.Content = this;
         }
-
-        public void ShowDialog()
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

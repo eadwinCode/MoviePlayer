@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meta.Vlc - .Net 4.0", "Meta
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchComponent", "SearchComponent\SearchComponent.csproj", "{ADE006BD-579D-4706-80E7-9D833FD5C07C}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MoviePlayerSetUp", "Setup1\Setup1.vdproj", "{CFCDC230-0E7C-45D0-AE37-8E144EDAF6F7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -149,6 +151,18 @@ Global
 		{ADE006BD-579D-4706-80E7-9D833FD5C07C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{ADE006BD-579D-4706-80E7-9D833FD5C07C}.Release|x64.ActiveCfg = Release|Any CPU
 		{ADE006BD-579D-4706-80E7-9D833FD5C07C}.Release|x86.ActiveCfg = Release|Any CPU
+		{CFCDC230-0E7C-45D0-AE37-8E144EDAF6F7}.Debug|Any CPU.ActiveCfg = Debug
+		{CFCDC230-0E7C-45D0-AE37-8E144EDAF6F7}.Debug|Any CPU.Build.0 = Debug
+		{CFCDC230-0E7C-45D0-AE37-8E144EDAF6F7}.Debug|x64.ActiveCfg = Debug
+		{CFCDC230-0E7C-45D0-AE37-8E144EDAF6F7}.Debug|x64.Build.0 = Debug
+		{CFCDC230-0E7C-45D0-AE37-8E144EDAF6F7}.Debug|x86.ActiveCfg = Debug
+		{CFCDC230-0E7C-45D0-AE37-8E144EDAF6F7}.Debug|x86.Build.0 = Debug
+		{CFCDC230-0E7C-45D0-AE37-8E144EDAF6F7}.Release|Any CPU.ActiveCfg = Release
+		{CFCDC230-0E7C-45D0-AE37-8E144EDAF6F7}.Release|Any CPU.Build.0 = Release
+		{CFCDC230-0E7C-45D0-AE37-8E144EDAF6F7}.Release|x64.ActiveCfg = Release
+		{CFCDC230-0E7C-45D0-AE37-8E144EDAF6F7}.Release|x64.Build.0 = Release
+		{CFCDC230-0E7C-45D0-AE37-8E144EDAF6F7}.Release|x86.ActiveCfg = Release
+		{CFCDC230-0E7C-45D0-AE37-8E144EDAF6F7}.Release|x86.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

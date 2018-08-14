@@ -29,9 +29,10 @@ namespace VirtualizingListView.Util.RenameDialog
         private bool iscancel = false;
         public bool IsCancel { get { return iscancel; } }
         public string ItemPath;
+
         private void RenameDialog_Loaded(object sender, RoutedEventArgs e)
         {
-            if (PlaylistModel != null)
+            if (PlaylistModel != null && PlaylistModel.PlaylistName != null)
             {
                 this.RenameText.Text = PlaylistModel.PlaylistName;
                 this.RenameText.Select(0, PlaylistModel.PlaylistName.Length);
@@ -41,13 +42,12 @@ namespace VirtualizingListView.Util.RenameDialog
 
         private void OkCommand_Enabled(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = this.RenameText.Text != string.Empty;
+            e.CanExecute = this.RenameText.Text != string.Empty && this.RenameText.Text.Length > 4;
         }
 
         private void OkCommand_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             IPageNavigatorHost.DockControl.Content = null;
-            ((IPageNavigatorHost as Page).DataContext as FileViewViewModel).HasAction = false;
             if (OnFinished != null)
                 OnFinished.Invoke(this, new RoutedEventArgs());
         }
@@ -72,8 +72,7 @@ namespace VirtualizingListView.Util.RenameDialog
 
         public void ShowDialog()
         {
-            IPageNavigatorHost.PageNavigator.DockControl.Content = this;
-            ((IPageNavigatorHost as Page).DataContext as FileViewViewModel).HasAction = true;
+            IPageNavigatorHost.DockControl.Content = this;
         }
 
         private IPageNavigatorHost IPageNavigatorHost

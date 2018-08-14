@@ -9,12 +9,12 @@ Movies
 none
 false
 DEBUG;TRACE
-C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\Movies\App.xaml
-4-1281262251
+
+5-913200135
 1-838911048
 9-689529007
 3377255677
-MainWindow.xaml;Resources\Styles.xaml;Resources\WindowsStyle.xaml;SplashScreen.xaml;
+App.xaml;MainWindow.xaml;Resources\Styles.xaml;Resources\WindowsStyle.xaml;SplashScreen.xaml;
 
-False
+True
 

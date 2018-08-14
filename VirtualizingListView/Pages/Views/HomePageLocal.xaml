@@ -33,7 +33,7 @@
                     ScrollViewer.VerticalScrollBarVisibility="Auto" 
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                     Background="Transparent" BorderThickness="0"
-                    ItemTemplate="{StaticResource FolderLargeTemplate}"
+                    ItemTemplate="{StaticResource HomeFolderTemplate}"
                     ItemsPanel="{StaticResource VideoItemsPanel}"
                     ItemsSource="{Binding AllFoldersList}"
                     ItemContainerStyle="{StaticResource CustomContainerStyle}"
@@ -79,7 +79,7 @@
                         </Button.Style>
                     </Button>
                 </WrapPanel>
-                <VirtualizingView:PlaylistView x:Name="playlistcontrol" 
+                <VirtualizingView:HomePlaylistView x:Name="playlistcontrol" 
                                                IsEnabled="{Binding IsAllDataLoaded,
                     Converter={StaticResource BooleanInversion}}"/>
             </DockPanel>

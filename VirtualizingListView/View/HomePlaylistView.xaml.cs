@@ -17,15 +17,16 @@ using VirtualizingListView.Util.RenameDialog;
 namespace VirtualizingListView.View
 {
     /// <summary>
-    /// Interaction logic for PlaylistTree.xaml
+    /// Interaction logic for HomePlaylistView.xaml
     /// </summary>
-    public partial class PlaylistView : UserControl, INotifyPropertyChanged
+    public partial class HomePlaylistView : UserControl, INotifyPropertyChanged
     {
         private Point DialogLocation;
         public event PropertyChangedEventHandler PropertyChanged;
         public static RoutedCommand OpenPlaylist= new RoutedCommand();
         public static RoutedCommand RenamePlaylist = new RoutedCommand();
         public static RoutedCommand RemovePlaylist = new RoutedCommand();
+        public static AddPlaylistCollectionHandler AddToPlaylistCollection;
 
         public ObservableCollection<PlaylistModel> PlayListCollection
         {
@@ -33,7 +34,7 @@ namespace VirtualizingListView.View
         }
         
 
-        public PlaylistView()
+        public HomePlaylistView()
         {
             InitializeComponent();
             this.DataContext = this;
@@ -48,6 +49,8 @@ namespace VirtualizingListView.View
             this.CommandBindings.Add(new CommandBinding(RemovePlaylist,
                 RemovePlaylist_executed,
                 RemovePlaylist_enabled));
+
+            AddToPlaylistCollection += AddToPlayList;
         }
 
         private void RemovePlaylist_enabled(object sender, CanExecuteRoutedEventArgs e)
@@ -84,8 +87,6 @@ namespace VirtualizingListView.View
             };
             renameDialog.OnFinished += RenameDialog_OnFinished;
             renameDialog.ShowDialog();
-
-          
         }
 
         private void RenameDialog_OnFinished(object sender, EventArgs e)
@@ -146,6 +147,16 @@ namespace VirtualizingListView.View
            
         }
 
+        public void CreateNewPlayList(PlaylistModel playlistModel)
+        {
+            RenameDialogControl renameDialog = new RenameDialogControl()
+            {
+                PlaylistModel = playlistModel
+            };
+            renameDialog.OnFinished += RenameDia_OnFinished;
+            renameDialog.ShowDialog();
+        }
+
         private void RenameDia_OnFinished(object sender, EventArgs e)
         {
             RenameDialogControl renameDialog = (RenameDialogControl)sender;
@@ -153,14 +164,18 @@ namespace VirtualizingListView.View
             if (renameDialog.IsCancel) return;
 
             string PlaylistName = renameDialog.RenameText.Text;
-
-            PlaylistModel plm = new PlaylistModel
+            if (playlistModel == null)
             {
-                PlaylistName = PlaylistName
-            };
-            plm.Add(renameDialog.ItemPath);
-
-            AddToPlayList(plm);
+                PlaylistModel plm = new PlaylistModel
+                {
+                    PlaylistName = PlaylistName
+                };
+                plm.Add(renameDialog.ItemPath);
+                AddToPlayList(plm);
+                return;
+            }
+            playlistModel.PlaylistName = PlaylistName;
+            AddToPlayList(playlistModel);
         }
 
         private void PlayList_ContextMenuOpening(object sender, ContextMenuEventArgs e)
@@ -208,5 +223,8 @@ namespace VirtualizingListView.View
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+        
     }
+
+    public delegate void AddPlaylistCollectionHandler(IPlaylistModel ipl, bool addtomovieplaylist = true);
 }

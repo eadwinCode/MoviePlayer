@@ -112,7 +112,7 @@ namespace VirtualizingListView.Pages.ViewModel
                 this.navigationService.Navigate(new FilePageView(this.navigationService), obj);
             }
             else
-                FileOpenCall.Open(videoFolder);
+                OpenFileCall.Open(videoFolder as IVideoData);
         }
 
     }

@@ -8,9 +8,9 @@ using VideoComponent.BaseClass;
 
 namespace VirtualizingListView.Util
 {
-    public static class FileOpenCall
+    public static class OpenFileCall
     {
-        public static void Open(VideoFolder videoFolder)
+        public static void Open(IVideoData videoFolder)
         {
             Iplayfile.PlayFileInit(videoFolder);
         }

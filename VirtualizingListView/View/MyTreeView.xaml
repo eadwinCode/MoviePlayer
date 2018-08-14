@@ -26,7 +26,7 @@
         </CollectionViewSource>
     </UserControl.Resources>
     <DockPanel LastChildFill="True">
-        <local1:PlaylistView DockPanel.Dock="Top" x:Name="PlaylistView"/>
+        <local1:HomePlaylistView DockPanel.Dock="Top" x:Name="PlaylistView"/>
         <Expander TextBlock.Foreground="White" IsExpanded="True">
             <Expander.HeaderTemplate>
                 <DataTemplate>

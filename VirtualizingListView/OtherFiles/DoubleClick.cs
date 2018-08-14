@@ -30,7 +30,6 @@ namespace VirtualizingListView
 
         public void Execute(object parameter)
         {
-            
             var videofolder = parameter as VideoFolder;
             if (videofolder.Directory.Exists)
             {
@@ -38,7 +37,7 @@ namespace VirtualizingListView
             }
             else
             {
-                Iplayfile.PlayFileInit(parameter);
+                Iplayfile.PlayFileInit(parameter as IVideoData);
             }
         }
 

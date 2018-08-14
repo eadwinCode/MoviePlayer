@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using VideoComponent.BaseClass;
 using VideoPlayerControl.PlayList;
 using VideoPlayerControl.ViewModel;
+using VirtualizingListView.Util;
 using VirtualizingListView.ViewModel;
 
 namespace VideoPlayerControl
@@ -28,6 +29,10 @@ namespace VideoPlayerControl
         public static RoutedCommand OkCommand = new RoutedCommand();
         public static RoutedCommand CancelCommand = new RoutedCommand();
 
+        public static RoutedCommand NameSort = new RoutedCommand();
+        public static RoutedCommand DateSort = new RoutedCommand();
+        public static RoutedCommand ExtensionSort = new RoutedCommand();
+
         public PlaylistView()
         {
             InitializeComponent();
@@ -36,8 +41,40 @@ namespace VideoPlayerControl
                 OkCommand_Execute, OkCommand_Enabled));
             this.CommandBindings.Add(new CommandBinding(CancelCommand,
                 CancelCommand_Execute));
+            this.CommandBindings.Add(new CommandBinding(NameSort,
+               NameSort_Execute));
+            this.CommandBindings.Add(new CommandBinding(DateSort,
+              DateSort_Execute));
+            this.CommandBindings.Add(new CommandBinding(ExtensionSort,
+              ExtensionSort_Execute));
 
             this.Loaded += new RoutedEventHandler(PlaylistView_Loaded);
+        }
+
+        private void NameSort_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            SortFunction(SortType.Name,e);
+        }
+
+        private void SortFunction(SortType sortType, ExecutedRoutedEventArgs e)
+        {
+            if (e.OriginalSource is Button)
+            {
+                Button button = e.OriginalSource as Button;
+                button.Content = sortType.ToString();
+            }
+            var datacontext = this.DataContext as PlayListManager;
+            datacontext.PlayListCollection = FileLoader.FileLoaderInstance.SortList(sortType, datacontext.PlayListCollection);
+        }
+
+        private void DateSort_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            SortFunction(SortType.Date,e);
+        }
+
+        private void ExtensionSort_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            SortFunction(SortType.Extension,e);
         }
 
         void PlaylistView_Loaded(object sender, RoutedEventArgs e)
@@ -149,6 +186,14 @@ namespace VideoPlayerControl
                 OnPlaylistClose.Invoke(sender, null);
             }
         }
-        
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            Button btn = sender as Button;
+            ContextMenu contextMenu = btn.ContextMenu;
+            contextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+            contextMenu.PlacementTarget = btn;
+            contextMenu.IsOpen = true;
+        }
     }
 }

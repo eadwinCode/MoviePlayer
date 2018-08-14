@@ -1,4 +1,5 @@
 ﻿using Common.FileHelper;
+using Common.Interfaces;
 using Common.Util;
 using MahApps.Metro.Controls;
 using MahApps.Metro.IconPacks;
@@ -21,7 +22,6 @@ namespace VirtualizingListView.Pages.ViewModel
         private NavigationService navigationService;
         private VideoFolder currentvideofolder;
         private MovieItemProvider ItemProvider;
-        private ObservableCollection<VideoFolder> videoitemviewcollection;
         private bool isloading;
         private DataTemplateSelector mytemplatechange;
         private Style listviewstyle;
@@ -173,7 +173,7 @@ namespace VirtualizingListView.Pages.ViewModel
         private void OnDataLoaded(VideoFolder result)
         {
             this.CurrentVideoFolder = result;
-            ActiveSortType = CurrentVideoFolder.SortedBy;
+            ActiveSortType = result.ParentDirectory != null ? result.ParentDirectory.SortedBy : CurrentVideoFolder.SortedBy;
         }
 
         private VideoFolder GetVideoFolder(VideoFolder obj)
@@ -222,12 +222,23 @@ namespace VirtualizingListView.Pages.ViewModel
         private void OpenFolderCommandAction(object obj)
         {
             VideoFolder videoFolder = (VideoFolder)obj;
-            if (videoFolder.FileType == FileType.Folder)
+            if (videoFolder.Exists)
             {
-                this.navigationService.Navigate(new FilePageView(this.navigationService), obj);
+                if (videoFolder.FileType == FileType.Folder)
+                {
+                    this.navigationService.Navigate(new FilePageView(this.navigationService), obj);
+                }
+                else
+                    OpenFileCall.Open(videoFolder as IVideoData);
             }
             else
-                FileOpenCall.Open(videoFolder);
+            {
+                while (this.navigationService.CanGoBack)
+                {
+                    if (navigationService.Content is IMainPages) break;
+                    this.navigationService.GoBack();
+                }
+            }
         }
     }
 }

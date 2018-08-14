@@ -11,7 +11,9 @@ namespace Common.Model
 {
     public class PlaylistModel :NotificationObject, IPlaylistModel
     {
-        private ObservableCollection<string> itemsPath;
+        private List<string> itemsPath;
+        public List<string> ItemsPaths { get { return itemsPath; } }
+
         private string playlistName;
         public string PlaylistName
         {
@@ -19,7 +21,6 @@ namespace Common.Model
             set { playlistName = value; RaisePropertyChanged(() => this.PlaylistName); }
         }
 
-        public ObservableCollection<string> ItemsPaths { get { return itemsPath; } }
         private bool isactive;
         public bool IsActive
         {
@@ -28,7 +29,7 @@ namespace Common.Model
 
         public PlaylistModel()
         {
-            itemsPath = new ObservableCollection<string>();
+            itemsPath = new List<string>();
             SetIsActive(false);
         }
 

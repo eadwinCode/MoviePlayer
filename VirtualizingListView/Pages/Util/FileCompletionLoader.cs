@@ -122,7 +122,8 @@ namespace VirtualizingListView.Pages.Util
                 if (item.HasCompleteLoad) return;
                 var task = Task.Factory.StartNew(() => GetItems(item))
                     .ContinueWith(t => item = t.Result,
-                    TaskScheduler.Current).Wait(200);
+                    TaskScheduler.Current);
+                task.Wait();
             }
             else
             {
@@ -131,15 +132,17 @@ namespace VirtualizingListView.Pages.Util
                 //var task = Task.Factory.StartNew(() => GetThumbnail(itemchild))
                 //    .ContinueWith(t =>{}, TaskScheduler.Current).Wait(200);
 
-                var task = Task.Factory.StartNew(() => {
+                Task task = Task.Factory.StartNew(() => {
                     Dispatcher.Invoke(new Action(delegate
                     {
                         itemchild.IsLoading = true;
                         FileLoader.GetShellInfo(itemchild);
                         itemchild.UpdateProperties();
-                        itemchild.IsLoading = false;
                     }), DispatcherPriority.Background, null);})
-                    .ContinueWith(t => {  }, TaskScheduler.Current).Wait(200);
+                    .ContinueWith(t => {  }, TaskScheduler.Current);
+
+                task.Wait();
+                itemchild.IsLoading = false;
             }
         }
 

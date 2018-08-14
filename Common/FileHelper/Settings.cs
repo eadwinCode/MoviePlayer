@@ -18,7 +18,5 @@ namespace Common.FileHelper
         public ViewType ViewType { get { return viewType; } set { viewType = value; } }
 
         public DirectoryInfo LastDirectory { get; set; }
-        
-
     }
 }

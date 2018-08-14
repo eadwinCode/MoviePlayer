@@ -154,6 +154,9 @@
     <Compile Include="Pages\Views\UsbDrivePage.xaml.cs">
       <DependentUpon>UsbDrivePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Views\UsbNoFolder.xaml.cs">
+      <DependentUpon>UsbNoFolder.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Views\VideoPlayerPage.xaml.cs">
       <DependentUpon>VideoPlayerPage.xaml</DependentUpon>
     </Compile>
@@ -205,8 +208,8 @@
       <DependentUpon>PageNavigator.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\PageNavigatorViewModel.cs" />
-    <Compile Include="View\PlaylistTree.xaml.cs">
-      <DependentUpon>PlaylistTree.xaml</DependentUpon>
+    <Compile Include="View\HomePlaylistView.xaml.cs">
+      <DependentUpon>HomePlaylistView.xaml</DependentUpon>
     </Compile>
     <Compile Include="VirtualizingCollection.cs" />
     <Compile Include="VirtualPanel\VirtualStackPanel.cs" />
@@ -335,6 +338,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\Views\UsbNoFolder.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\Views\VideoPlayerPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -379,7 +386,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\PlaylistTree.xaml">
+    <Page Include="View\HomePlaylistView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

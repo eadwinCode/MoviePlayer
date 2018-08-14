@@ -115,7 +115,7 @@
                                                 <Path  Margin="3,0,0,0" 
                                                     Fill="{DynamicResource Theme.HighlightColor}"
                                                     x:Name="contentPresenter" Opacity="1"
-                                                    StrokeThickness=".5" Stroke="Black"    Data="M21,11H6.83L10.41,7.41L9,6L3,12L9,18L10.41,16.58L6.83,13H21V11Z">
+                                                    StrokeThickness=".5" Stroke="Black"    Data="M20,9V15H12V19.84L4.16,12L12,4.16V9H20Z">
                                                     <Path.RenderTransform>
                                                         <TransformGroup>
                                                             <ScaleTransform ScaleX="1.4" ScaleY="1.4"/>

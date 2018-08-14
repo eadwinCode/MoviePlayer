@@ -14,7 +14,7 @@ namespace VideoPlayerControl
     {
         #region TobOrganisedLater
         //private DragCanvas canvas;
-        private static string movietitle = "- Movie Title -";
+        private string movietitle = "- Movie Title -";
 
         public static readonly DependencyProperty IsMouseDownProperty = DependencyProperty.RegisterAttached("IsMouseDown",
        typeof(bool), typeof(MovieTitle_Tab), new FrameworkPropertyMetadata(false));

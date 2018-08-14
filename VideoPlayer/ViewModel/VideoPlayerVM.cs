@@ -372,16 +372,16 @@ namespace VideoPlayerControl.ViewModel
         {
             (IVideoElement as Window).Dispatcher.Invoke(new Action(() =>
             {
-            if (!MediaControllerVM.IsPlaying) return;
-            this.MousemoveTimer.Stop();
-            MediaControlExtension.SetIsMouseOverMediaElement(IMediaController.MediaController as UIElement, null);
-            (IVideoElement as Window).Cursor = Cursors.Arrow;
-            if (Isloaded && ScreenSetting == SCREENSETTINGS.Normal && !IsFullScreenMode)
-            {
-                // IVideoElement.WindowsTab.Visibility = Visibility.Visible;
-                //MediaControlExtension.SetAnimateWindowsTab(IVideoElement.WindowsTab as UIElement, true);
-            }
-            //else { MediaControlExtension.SetAnimateWindowsTab(IVideoElement.WindowsTab as UIElement, false); }
+                if (!MediaControllerVM.IsPlaying) return;
+                this.MousemoveTimer.Stop();
+                MediaControlExtension.SetIsMouseOverMediaElement(IMediaController.MediaController as UIElement, null);
+                (IVideoElement as Window).Cursor = Cursors.Arrow;
+                if (Isloaded && ScreenSetting == SCREENSETTINGS.Normal && !IsFullScreenMode)
+                {
+                    // IVideoElement.WindowsTab.Visibility = Visibility.Visible;
+                    //MediaControlExtension.SetAnimateWindowsTab(IVideoElement.WindowsTab as UIElement, true);
+                }
+                //else { MediaControlExtension.SetAnimateWindowsTab(IVideoElement.WindowsTab as UIElement, false); }
 
 
             }), null);

@@ -24,13 +24,15 @@ namespace VirtualizingListView.Pages
     /// </summary>
     public partial class HomePageLocal : Page,IMainPages
     {
-        private static PlaylistView stplaylistcontrol;
-        public static PlaylistView PlaylistControl
+        private static HomePlaylistView stplaylistcontrol;
+        public static HomePlaylistView PlaylistControl
         {
             get { return stplaylistcontrol; }
         }
 
         public bool HasController { get { return WindowCommandButton != null; } }
+
+        public ContentControl Docker { get { return HomePageDock; } }
 
         private IWindowsCommandButton WindowCommandButton;
 
@@ -45,7 +47,7 @@ namespace VirtualizingListView.Pages
         private void HomePageLocal_Loaded(object sender, RoutedEventArgs e)
         {
             var datacontext = (HomePageLocalViewModel)this.DataContext;
-            datacontext.SetNavigationService(this.NavigationService);
+            datacontext.InitDataSource();
             if (WindowCommandButton != null)
                 WindowCommandButton.SetActive(true, false);
         }

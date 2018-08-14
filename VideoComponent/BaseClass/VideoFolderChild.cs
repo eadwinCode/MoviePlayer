@@ -262,12 +262,6 @@ namespace VideoComponent.BaseClass
         {
             get
             {
-                //if(!HasThumbnail)
-                //{
-                //    return false;
-                //}
-                //return true;
-
                 if (!HasThumbnail && ApplicationService.AppSettings.ViewType == ViewType.Large)
                 {
                     return false;
@@ -334,6 +328,11 @@ namespace VideoComponent.BaseClass
                 Progress = value != null ? value.ProgressLastSeen : 0.0;
                 UpdateProperties();
             }
+        }
+
+        public ObservableCollection<PlaylistModel> PlayListItems
+        {
+            get { return ApplicationService.AppPlaylist.MoviePlayList; }
         }
        
     }

@@ -13,19 +13,14 @@ using System.Threading.Tasks;
 using System.Windows;
 using VideoComponent.BaseClass;
 using VideoPlayerControl.ViewModel;
+using VirtualizingListView.Pages.Util;
 using VirtualizingListView.Util;
 using VirtualizingListView.View;
 
 namespace VideoPlayerControl.PlayList
 {
-    public class PlayListManager:NotificationObject,IHasChanges
+    public class PlayListManager: NotificationObject,IHasChanges
     {
-        //private static PlayListManager instance = new PlayListManager();
-
-        //public static PlayListManager Current
-        //{
-        //    get { return instance; }
-        //}
         private bool hasSubcribed = false;
         private PlaylistModel currentplaylist;
         public PlaylistModel CurrentPlaylist
@@ -56,11 +51,6 @@ namespace VideoPlayerControl.PlayList
             }
         }
 
-        //private void Currentplaylist_PropertyChanged(object sender, EventArgs e)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
         private void Currentplaylist_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             RaisePropertyChanged(() => this.PlaylistName);
@@ -76,7 +66,7 @@ namespace VideoPlayerControl.PlayList
         
         ObservableCollection<VideoFolder> _playlist
             = new ObservableCollection<VideoFolder>();
-        public ObservableCollection<VideoFolder> PlayList
+        public ObservableCollection<VideoFolder> PlayListCollection
         {
             get { return _playlist; }
             set {
@@ -86,7 +76,7 @@ namespace VideoPlayerControl.PlayList
                     MediaControllerVM.MediaControllerInstance.
                         GetVideoItem((VideoFolderChild)value.First(), true);
                 }
-                this.RaisePropertyChanged(() => this.PlayList);
+                this.RaisePropertyChanged(() => this.PlayListCollection);
             }
         }
 
@@ -126,7 +116,7 @@ namespace VideoPlayerControl.PlayList
 
             }
             CurrentPlaylist = null;
-            PlayList.Clear();
+            PlayListCollection.Clear();
             //foreach (var item in PlayList)
             //{
             //    if (item == MediaControllerVM.MediaControllerInstance.CurrentVideoItem) continue;
@@ -147,7 +137,7 @@ namespace VideoPlayerControl.PlayList
                         {
                             this.UpdateList();
                         }
-                        else if (CurrentPlaylist == null && PlayList.Count > 0)
+                        else if (CurrentPlaylist == null && PlayListCollection.Count > 0)
                         {
                             IsSaveDialogEnable = true;
                         }
@@ -167,7 +157,7 @@ namespace VideoPlayerControl.PlayList
         //            saveplaylist = new DelegateCommand(() =>
         //            {
         //                SavePlaylistAction();
-                        
+
         //                IsSaveDialogEnable = false;
         //            },CanSavelist);
         //        }
@@ -185,29 +175,39 @@ namespace VideoPlayerControl.PlayList
             Clear();
             CurrentPlaylist = plm;
             currentplaylist.SetIsActive(true);
-
-            Task.Factory.StartNew(() => GetObservableCollection(plm))
-                           .ContinueWith(t => this.PlayList = t.Result, 
-                           TaskScheduler.FromCurrentSynchronizationContext());
+            FileLoaderCompletion fileLoaderCompletion = new FileLoaderCompletion();
+            Task.Factory.StartNew(() =>
+            {
+                var list = GetObservableCollection(plm);
+                fileLoaderCompletion.FinishCollectionLoadProcess(list);
+                //list = FileLoader.FileLoaderInstance.SortList(SortType.Name, list);
+                return list;
+            }).ContinueWith(t =>this.PlayListCollection = t.Result,TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         private ObservableCollection<VideoFolder> GetObservableCollection(PlaylistModel plm)
         {
+            var padlock = new object();
             ObservableCollection<VideoFolder> list = new ObservableCollection<VideoFolder>();
             List<Task> Tasks = new List<Task>();
-            foreach (var item in plm.ItemsPaths)
+            foreach (var s in plm.ItemsPaths)
             {
-                DirectoryInfo directoryInfo = new DirectoryInfo(item);
+                DirectoryInfo directoryInfo = new DirectoryInfo(s);
                 var task = Task.Factory.StartNew(() =>
                    FileLoader.FileLoaderInstance.LoadChildrenFiles(directoryInfo)
-                ).ContinueWith(t => {
-                    if(t.Result!= null)
-                        list.Add(t.Result);
+                ).ContinueWith(t =>
+                {
+                    lock (padlock)
+                    {
+                        if (t.Result != null)
+                            list.Add(t.Result);
+                    }
+                  
                 }, TaskScheduler.Current);
                 Tasks.Add(task);
             }
-
             Task.WaitAll(Tasks.ToArray());
+           
             return list;
         }
 
@@ -295,12 +295,12 @@ namespace VideoPlayerControl.PlayList
                 int finalpos = curreentpos + 1;
                 if (MediaControllerVM.MediaControllerInstance.RepeatMode == RepeatMode.Repeat)
                 {
-                    if (finalpos > PlayList.Count - 1)
+                    if (finalpos > PlayListCollection.Count - 1)
                     {
                         finalpos = 0;
                     }
                 }
-                var NowPlaying = (VideoFolderChild)PlayList[finalpos];
+                var NowPlaying = (VideoFolderChild)PlayListCollection[finalpos];
                 return NowPlaying;
             }
             return null;
@@ -316,10 +316,10 @@ namespace VideoPlayerControl.PlayList
                 {
                     if (finalpos < 0)
                     {
-                        finalpos = PlayList.Count - 1;
+                        finalpos = PlayListCollection.Count - 1;
                     }
                 }
-                var NowPlaying = (VideoFolderChild)PlayList[finalpos];
+                var NowPlaying = (VideoFolderChild)PlayListCollection[finalpos];
                 return NowPlaying;
             }
             return null;
@@ -334,10 +334,10 @@ namespace VideoPlayerControl.PlayList
                 {
                     if (finalpos < 0)
                     {
-                        finalpos = PlayList.Count - 1;
+                        finalpos = PlayListCollection.Count - 1;
                     }
                 }
-                return (PlayList[finalpos]as VideoFolderChild).MediaTitle;
+                return (PlayListCollection[finalpos]as VideoFolderChild).MediaTitle;
             }
             return null;
         }
@@ -349,12 +349,12 @@ namespace VideoPlayerControl.PlayList
                 int finalpos = NowPlayingIndex + 1;
                 if (MediaControllerVM.MediaControllerInstance.RepeatMode == RepeatMode.Repeat)
                 {
-                    if (finalpos > PlayList.Count - 1)
+                    if (finalpos > PlayListCollection.Count - 1)
                     {
                         finalpos = 0;
                     }
                 }
-                return (PlayList[finalpos] as VideoFolderChild).MediaTitle;
+                return (PlayListCollection[finalpos] as VideoFolderChild).MediaTitle;
             }
             return null;
         }
@@ -367,13 +367,13 @@ namespace VideoPlayerControl.PlayList
 
         public void UpdateNowPlaying(object obj,bool frompl)
         {
-            if (NowPlaying == null && !frompl || !this.PlayList.Contains(obj))
+            if (NowPlaying == null && !frompl || !this.PlayListCollection.Contains(obj))
             {
                 if(CurrentPlaylist != null && HasChanges) { SavePlaylistAction(); }
                 CurrentPlaylist = null;
                 this.NowPlaying = (VideoFolderChild)obj;
                 VideoFolder parent = (VideoFolder)NowPlaying.ParentDirectory;
-                PlayList = new ObservableCollection<VideoFolder>();
+                PlayListCollection = new ObservableCollection<VideoFolder>();
                 _playlist.AddRange(parent.OtherFiles.Where(x => x.FileType == FileType.File).ToList());
                 
             }
@@ -385,18 +385,18 @@ namespace VideoPlayerControl.PlayList
 
         public void Add(VideoFolder vfc)
         {
-            if (!this.PlayList.Contains(vfc))
+            if (!this.PlayListCollection.Contains(vfc))
             {
-                this.PlayList.Add(vfc);
+                this.PlayListCollection.Add(vfc);
                 HasChanges = true;
             }
         }
 
         public void Remove(VideoFolder vfc)
         {
-            if (this.PlayList.Contains(vfc))
+            if (this.PlayListCollection.Contains(vfc))
             {
-                this.PlayList.Remove(vfc);
+                this.PlayListCollection.Remove(vfc);
                 HasChanges = true;
             }
             
@@ -411,6 +411,7 @@ namespace VideoPlayerControl.PlayList
                 }
                 return CurrentPlaylist.PlaylistName; }
         }
+
         private string tempplaylistname;
         public string TempPlaylistName
         {
@@ -428,7 +429,7 @@ namespace VideoPlayerControl.PlayList
             {
                 PlaylistName = this.TempPlaylistName
             };
-            foreach (var item in PlayList)
+            foreach (var item in PlayListCollection)
             {
                 ipl.ItemsPaths.Add(item.Directory.FullName);
             }
@@ -440,7 +441,7 @@ namespace VideoPlayerControl.PlayList
         {
             if(currentplaylist == null) return;
             currentplaylist.ItemsPaths.Clear();
-            foreach (var item in PlayList)
+            foreach (var item in PlayListCollection)
             {
                 currentplaylist.ItemsPaths.Add(item.Directory.FullName);
             }
@@ -452,8 +453,7 @@ namespace VideoPlayerControl.PlayList
             if (CurrentPlaylist == null)
             {
                 CurrentPlaylist = NewCreatePlaylist();
-                //((Shell.PageNavigatorHost.TreeViewer as ITreeViewer).
-                //    MoviesPLaylist as PlaylistTree).AddToPlayList(CurrentPlaylist);
+                HomePlaylistView.AddToPlaylistCollection.Invoke(CurrentPlaylist as IPlaylistModel);
             }
             else
             {

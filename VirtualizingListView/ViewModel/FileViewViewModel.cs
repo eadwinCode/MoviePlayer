@@ -126,9 +126,11 @@ namespace VirtualizingListView.ViewModel
 
         private void InitSearchControl()
         {
-            pageNavigator.GetSearchControl = new SearchControl<VideoFolder>();
-            pageNavigator.GetSearchControl.IsSearchButtonEnabled = true;
-            (pageNavigator.GetSearchControl as ISearchControl<VideoFolder>).SearchPattern = SearchMode.Object;
+            pageNavigator.GetSearchControl = new SearchControl<VideoFolder>()
+            {
+                IsSearchButtonEnabled = true,
+                SearchPattern = SearchMode.Object,
+            };
             (pageNavigator.GetSearchControl as ISearchControl<VideoFolder>).OnSearchStarted += SearchControl_OnSearchStarted;
         }
 

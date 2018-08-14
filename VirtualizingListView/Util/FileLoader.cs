@@ -636,5 +636,28 @@ namespace VirtualizingListView.Util
             }
             
         }
+
+        public ObservableCollection<VideoFolder> SortList(SortType sorttype, ObservableCollection<VideoFolder> list)
+        {
+            if (list == null) return list;
+
+            ObservableCollection<VideoFolder> asd = new ObservableCollection<VideoFolder>();
+            if (sorttype == SortType.Date)
+            {
+                IEnumerable<VideoFolder> de = (list).OrderBy(x => x, new SortByDate());
+                asd.AddRange(de);
+            }
+            else if (sorttype == SortType.Extension)
+            {
+                IEnumerable<VideoFolder> de = list.OrderBy(x => x, new SortByExtension());
+                asd.AddRange(de);
+            }
+            else
+            {
+                IEnumerable<VideoFolder> de = list.OrderBy(x => x, new SortByNames());
+                asd.AddRange(de);
+            }
+            return asd;
+        }
     }
 }

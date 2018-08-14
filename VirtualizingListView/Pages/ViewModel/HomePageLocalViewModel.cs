@@ -24,9 +24,8 @@ namespace VirtualizingListView.Pages.ViewModel
 
     internal class HomePageLocalViewModel:NotificationObject,IDataSource<VideoFolder>
     {
-        private NavigationService navigationService;
         private static ObservableCollection<VideoFolder> allfolders;
-        private HomePageLocal pageOwner;
+        private IMainPages PageOwner;
         private static bool isLoadingData;
         //private static VideoFolder HomePageFolderHost;
         public static FileLoaderHandler FileLoaderDelegate;
@@ -78,9 +77,9 @@ namespace VirtualizingListView.Pages.ViewModel
         public DelegateCommand AddFolderCommand { get; private set; }
         public DelegateCommand<object> OpenFolderCommand { get; private set; }
 
-        public HomePageLocalViewModel(HomePageLocal owner)
+        public HomePageLocalViewModel(IMainPages owner)
         {
-            pageOwner = owner;
+            PageOwner = owner;
             AddFolderCommand = new DelegateCommand(AddFolderCommandAction);
             OpenFolderCommand = new DelegateCommand<object>(OpenFolderCommandAction);
             FileLoaderDelegate += StartFileLoading;
@@ -91,15 +90,14 @@ namespace VirtualizingListView.Pages.ViewModel
                 this.LoadAllFolders();
         }
 
-        internal void SetNavigationService(NavigationService navigationService)
+        internal void InitDataSource()
         {
-            this.navigationService = navigationService;
             (IShell.PageNavigatorHost.GetSearchControl as ISearchControl<VideoFolder>).DataSource = this;
         }
         
         private void OpenFolderCommandAction(object obj)
         {
-            this.navigationService.Navigate(new FilePageView(this.navigationService), obj);
+            this.PageOwner.NavigationService.Navigate(new FilePageView(this.PageOwner.NavigationService), obj);
         }
 
         private void AddFolderCommandAction()
@@ -124,7 +122,7 @@ namespace VirtualizingListView.Pages.ViewModel
             var moviefolderlist = ApplicationService.AppSettings.MovieFolders;
             if (moviefolderlist != null && moviefolderlist.Count == 0)
             {
-                HomePageLocalNoFolder homePageLocalNoFolder = new HomePageLocalNoFolder(new NewFolderModel(), pageOwner.HomePageDock);
+                HomePageLocalNoFolder homePageLocalNoFolder = new HomePageLocalNoFolder(new NewFolderModel(), PageOwner.Docker);
                 homePageLocalNoFolder.OnFinished += HomePageLocalNoFolder_OnFinished;
                 homePageLocalNoFolder.Show();
             }

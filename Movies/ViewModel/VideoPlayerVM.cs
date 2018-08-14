@@ -9,7 +9,9 @@ using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.ViewModel;
 using Microsoft.Practices.ServiceLocation;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -67,9 +69,7 @@ namespace RealMediaControl.ViewModel
             WindowsControl = Visibility.Visible;
             
         }
-
         
-
         public void Window_Loaded(object sender, RoutedEventArgs e)
         {
             var commandbings = (IShell as Window).CommandBindings;
@@ -85,7 +85,7 @@ namespace RealMediaControl.ViewModel
 
             (IShell as Window).Closing += VideoPlayerVM_Closing;
         }
-
+        
         private void RefreshFiles_Enabled(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = CollectionViewModel.Instance.CanRefresh();
@@ -113,16 +113,41 @@ namespace RealMediaControl.ViewModel
 
         private void NewPlaylist_executed(object sender, ExecutedRoutedEventArgs e)
         {
-            VideoFolderChild vfc = (VideoFolderChild)e.Parameter;
-            HomePageLocal.PlaylistControl.CreateNewPlayList(vfc.FullName);
+            VideoFolder vfc = (VideoFolder)e.Parameter;
+            if (e.Parameter is VideoFolderChild){
+                HomePageLocal.PlaylistControl.CreateNewPlayList(vfc.FullName);
+            }
+            else
+            {
+                if (vfc.OtherFiles.FirstOrDefault(x => x is VideoFolderChild) != null) {
+                    List<string> listpath = GetListPath(vfc);
+                    PlaylistModel playlistModel = new PlaylistModel();
+                    playlistModel.ItemsPaths.AddRange(listpath);
+                    HomePageLocal.PlaylistControl.CreateNewPlayList(playlistModel);
+                }
+            }
+        }
+
+        private List<string> GetListPath(VideoFolder vfc)
+        {
+            var listpath = new List<string>();
+            var padlock = new object();
+            Parallel.ForEach(vfc.OtherFiles.Where(s=>s is VideoFolderChild), (s) => {
+                lock (padlock)
+                {
+                    listpath.Add(s.FullName);
+                }
+            });
+
+            return listpath;
         }
 
         private void AddTo_executed(object sender, ExecutedRoutedEventArgs e)
         {
             var selectedplaylist = e.Parameter as PlaylistModel;
-            VideoFolder vf = ((e.Source as IPageNavigatorHost).PageNavigator as IFileExplorer)
-                .ContextMenuObject as VideoFolder;
-            if (selectedplaylist.IsActive)
+            VideoFolder vf = ((e.OriginalSource as Button).DataContext as VideoFolder);
+            
+            if (selectedplaylist.IsActive && vf != null)
             {
                 IPlayFile.AddFiletoPlayList(vf);
             }
@@ -139,26 +164,33 @@ namespace RealMediaControl.ViewModel
 
         private void AddtoPlayList_executed(object sender, ExecutedRoutedEventArgs e)
         {
-            VideoFolderChild vfc = (VideoFolderChild)e.Parameter;
-
-            if (vfc != null)
+            if (e.Parameter is VideoFolderChild)
             {
+                IVideoData vfc = (VideoFolderChild)e.Parameter;
                 IPlayFile.AddFiletoPlayList(vfc);
+                return;
             }
+
+            IFolder videofolder = e.Parameter as VideoFolder;
+            IPlayFile.AddFiletoPlayList(videofolder);
         }
 
         private void Play_executed(object sender, ExecutedRoutedEventArgs e)
         {
-            VideoFolderChild vfc = (VideoFolderChild)e.Parameter;
-            if (vfc != null)
+            if (e.Parameter is VideoFolderChild)
             {
+                IVideoData vfc = (VideoFolderChild)e.Parameter;
                 IPlayFile.PlayFileInit(vfc);
+                return;
             }
+
+            IFolder videofolder = e.Parameter as VideoFolder;
+            IPlayFile.PlayFileInit(videofolder);
         }
 
         private void WMPPlay_executed(object sender, ExecutedRoutedEventArgs e)
         {
-            VideoFolderChild vfc = (VideoFolderChild)e.Parameter;
+            IVideoData vfc = (VideoFolderChild)e.Parameter;
             if (vfc != null)
             {
                 IPlayFile.WMPPlayFileInit(vfc);

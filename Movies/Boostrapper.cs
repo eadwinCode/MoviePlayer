@@ -53,7 +53,7 @@ namespace RealMediaControl
            
             shell.Dispatcher.BeginInvoke((Action)delegate
             {
-                shell.Show();
+                //shell.Show();
                 splashscreenwindow.Close();
             });
             return shell;

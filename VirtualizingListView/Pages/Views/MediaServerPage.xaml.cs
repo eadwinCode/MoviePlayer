@@ -22,6 +22,8 @@ namespace VirtualizingListView.Pages.Views
     {
         private IWindowsCommandButton WindowCommandButton;
         public bool HasController { get { return WindowCommandButton != null; } }
+        public ContentControl Docker { get { return null; } }
+
 
         public MediaServerPage()
         {

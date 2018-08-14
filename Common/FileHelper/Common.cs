@@ -20,7 +20,8 @@ namespace Common.FileHelper
                 element = VisualTreeHelper.GetParent(element);
             return (T)Convert.ChangeType(element, typeof(T));
         }
-        public static object padlock = new object();
+
+        private static object padlock = new object();
         public static List<FileInfo> GetFilesByExtensions(DirectoryInfo dir, IDictionary<string,string> extensions)
         {
             string[] notsupported = { "etrg", "sample", "rarbg.com" };

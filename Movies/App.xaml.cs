@@ -8,6 +8,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using VideoPlayerControl;
+using System.Threading;
+using System.Diagnostics;
 
 namespace Movies
 {
@@ -16,6 +18,14 @@ namespace Movies
     /// </summary>
     public partial class App : Application
     {
+        [STAThread]
+        public static void Main()
+        {
+            var application = new App();
+            application.InitializeComponent();
+            application.Run();
+        }
+
         public App()
         {
             this.DispatcherUnhandledException += App_DispatcherUnhandledException;
@@ -32,7 +42,6 @@ namespace Movies
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-           
             var bootstrapper = new Bootstrapper();
             bootstrapper.Run();
         }

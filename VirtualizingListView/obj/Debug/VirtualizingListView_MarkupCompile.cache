@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 
-202051230201
+21-984631638
 
-67-208187226
+68-231586502
 36-396076364
-LoadingAnimation\LoadingAnimationResource.xaml;Pages\Views\FilePageView.xaml;Pages\Views\HomePageLocal.xaml;Pages\Views\HomePageLocalNoFolder.xaml;Pages\Views\MediaServerPage.xaml;Pages\Views\SearchPage.xaml;Pages\Views\SearchResultPage.xaml;Pages\Views\UsbDrivePage.xaml;Pages\Views\VideoPlayerPage.xaml;Resources\Items.xaml;Resources\ViewStyle.xaml;Themes\Generic.xaml;Util\AddFolderDialogWindow\AddFolderDialog.xaml;Util\AddFolderDialogWindow\RemoveItemDialog.xaml;Util\RenameDialog\RenameDialogControl.xaml;View\FileExplorer.xaml;View\FileView.xaml;View\MyTreeView.xaml;View\PageNavigator.xaml;View\PlaylistTree.xaml;
+LoadingAnimation\LoadingAnimationResource.xaml;Pages\Views\FilePageView.xaml;Pages\Views\HomePageLocal.xaml;Pages\Views\HomePageLocalNoFolder.xaml;Pages\Views\MediaServerPage.xaml;Pages\Views\SearchPage.xaml;Pages\Views\SearchResultPage.xaml;Pages\Views\UsbDrivePage.xaml;Pages\Views\UsbNoFolder.xaml;Pages\Views\VideoPlayerPage.xaml;Resources\Items.xaml;Resources\ViewStyle.xaml;Themes\Generic.xaml;Util\AddFolderDialogWindow\AddFolderDialog.xaml;Util\AddFolderDialogWindow\RemoveItemDialog.xaml;Util\RenameDialog\RenameDialogControl.xaml;View\FileExplorer.xaml;View\FileView.xaml;View\MyTreeView.xaml;View\PageNavigator.xaml;View\HomePlaylistView.xaml;
 
 False
 

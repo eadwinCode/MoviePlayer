@@ -195,10 +195,12 @@ namespace VideoPlayerControl.ViewModel
                     as UserControl).DataContext as PlayListManager;
             }
         }
+
         public MovieTitle_Tab MovieTitle_Tab
         {
             get { return (IVideoPlayer.MediaController as IController).MovieTitle_Tab; }
         }
+
         public Slider DragPositionSlider
         {
             get { return DragProgressSliderPart.ProgressSlider; }
@@ -538,7 +540,7 @@ namespace VideoPlayerControl.ViewModel
             DragPositionSlider.Value = 0;
         }
 
-        public void CloseMediaPlayer()
+        public void CloseMediaPlayer(bool wndClose = false)
         {
             //(IVideoElement as Window).Dispatcher.Invoke(new Action(() =>
             //{
@@ -557,6 +559,9 @@ namespace VideoPlayerControl.ViewModel
             }
             currentvideoitem = null;
             currentInstance = null;
+
+            if (wndClose)
+                currentInstance = null;
             //  }), null);
         }
 
