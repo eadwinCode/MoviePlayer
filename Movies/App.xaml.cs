@@ -1,5 +1,4 @@
-﻿using Common.FileHelper;
-using RealMediaControl;
+﻿using RealMediaControl;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -7,7 +6,6 @@ using System.Data;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using VideoPlayerControl;
 using System.Threading;
 using System.Diagnostics;
 

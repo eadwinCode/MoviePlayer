@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Data;
 
-namespace VirtualizingListView
+namespace PresentationExtension.Converters
 {
     public class NavigationConverter : IValueConverter
     {

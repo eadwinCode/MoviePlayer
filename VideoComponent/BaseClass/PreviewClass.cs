@@ -8,6 +8,8 @@ using System.Windows.Input;
 using VideoComponent.Command;
 using System.IO;
 using Common.Util;
+using Movies.Models.Model;
+using Movies.Enums;
 
 namespace VideoComponent.BaseClass
 {

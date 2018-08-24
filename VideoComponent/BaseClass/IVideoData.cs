@@ -1,4 +1,4 @@
-﻿using Common.Interfaces;
+﻿using Movies.Models.Model;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;

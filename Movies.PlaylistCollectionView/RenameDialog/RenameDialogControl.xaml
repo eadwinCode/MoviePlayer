@@ -1,0 +1,58 @@
+﻿<UserControl x:Class="Movies.PlaylistCollectionView.RenameDialog.RenameDialogControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Movies.PlaylistCollectionView.RenameDialog"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/VirtualizingListView;component/Resources/ViewStyle.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/VirtualizingListView;component/Resources/Items.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
+    </UserControl.Resources>
+    <Border Background="{DynamicResource Theme.Background}" 
+            BorderBrush="{DynamicResource Theme.HighlightColor}" 
+            BorderThickness="1" Height="150" Width="300" CornerRadius="2">
+    <StackPanel   DockPanel.Dock="Top"  Margin="5">
+            <TextBlock Text="PlayList" FontSize="30" Foreground="{DynamicResource Theme.Foreground}" FontWeight="Bold"/>
+        <TextBox x:Name="RenameText" Style="{StaticResource txtbxstyle}" Foreground="White" AcceptsTab="False" TextChanged="TextBox_TextChanged" Padding="3" DockPanel.Dock="Top" Height="25"
+                            Margin="0,5,0,5" Background="{Binding Background, ElementName=window}"
+                           />
+        <DockPanel DockPanel.Dock="Bottom" Height="30" HorizontalAlignment="Center" LastChildFill="True" >
+                <Button  Style="{StaticResource dialogbtn}" 
+                         Margin="0,0,1,0" Click="Button_Click" Width="80" Height="30"
+                         DockPanel.Dock="Right">
+                    <TextBlock Text="Cancel" 
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center" FontWeight="DemiBold"
+                                   FontSize="15" Foreground="OldLace"/>
+                </Button>
+                <Button  Style="{StaticResource dialogbtn}"  
+                         Command="{x:Static local:RenameDialogControl.OkCommand}"   
+                         Height="30" Width="80" DockPanel.Dock="Right">
+                    <TextBlock Text="Ok" 
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center" FontWeight="DemiBold"
+                                   FontSize="15" Foreground="OldLace"/>
+                </Button>
+            </DockPanel>
+        <TextBlock DockPanel.Dock="Bottom" Height="25"
+                   Visibility="Collapsed"
+                   Foreground="White" 
+                   Text="{Binding ErrorMessage}"
+                   Padding="3"  />
+        </StackPanel>
+
+    </Border>
+    <UserControl.Background>
+        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+            <GradientStop Color="Transparent"/>
+            <GradientStop Color="#7F000000"/>
+        </LinearGradientBrush>
+    </UserControl.Background>
+</UserControl>

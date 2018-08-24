@@ -1,29 +1,82 @@
-﻿using Common.Interfaces;
-using Common.Util;
-using MediaControl;
+﻿using MediaControl;
 using System;
 using System.Windows;
-using VideoComponent.BaseClass;
 using Microsoft.Practices.ServiceLocation;
 using System.IO;
-using Common.Model;
-using Meta.Vlc;
-using VideoPlayerControl.ViewModel;
 using System.Linq;
-using VirtualizingListView.Pages.Util;
 using System.Threading.Tasks;
+using Movies.MoviesInterfaces;
+using Meta.Vlc;
+using Movies.Models.Model;
+using Movies.Models.Interfaces;
+using Common.Util;
+using Movies.MoviePlaylistManager.ViewModel;
+using VideoPlayerControl.ViewModel;
+using System.Windows.Controls;
+using Movies.MediaService.Interfaces;
+using Movies.MediaService.Service;
+using System.Collections.Generic;
 
 namespace VideoPlayerView.FilePlayer
 {
-    public class PlayFile : IPlayFile
+    public partial class PlayFile : IPlayFile
     {
-        public IVideoElement VideoElement { get { return _videoelement; } }
         private static IVideoElement _videoelement;
         private WindowsMediaPlayControl WindowsMediaPlayer;
         private bool HasScubscribed;
         private WindowState ShellState = WindowState.Normal;
         private object padlock = new object();
 
+        IMediaControllerViewModel mediaControllerViewModel;
+        public IMediaControllerViewModel MediaControllerViewModel
+        {
+            get
+            {
+                if (mediaControllerViewModel == null)
+                    mediaControllerViewModel = new MediaControllerViewModel();
+                return mediaControllerViewModel;
+            }
+        }
+        IFileLoaderCompletion LoaderCompletion
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<IFileLoaderCompletion>();
+            }
+        }
+
+        IPlaylistManagerViewModel iplaylistmanagerviewmodel;
+        public IPlaylistManagerViewModel PlaylistManagerViewModel
+        {
+            get
+            {
+                if (iplaylistmanagerviewmodel == null)
+                    iplaylistmanagerviewmodel = new PlaylistManagerViewModel();
+                return iplaylistmanagerviewmodel;
+            }
+        }
+
+        IMediaPlayerService imediaservice;
+        public IMediaPlayerService MediaPlayerService
+        {
+            get
+            {
+                if (imediaservice == null)
+                    imediaservice = new MediaPlayerService();
+                return imediaservice;
+            }
+        }
+
+        public IVideoElement VideoElement { get { return _videoelement; } }
+        
+        private IShell IShell
+        {
+            get { return ServiceLocator.Current.GetInstance<IShell>(); }
+        }
+    }
+
+    public partial class PlayFile
+    {
         private void PlayFile_Closing1(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (_videoelement != null)
@@ -35,21 +88,21 @@ namespace VideoPlayerView.FilePlayer
             {
                 WindowsMediaPlayer.Close();
 
-            } 
+            }
             if (Win32Api.SetThreadExecutionState(Win32Api.ES_CONTINUOUS) == null)
             {
                 // try XP variant as well just to make sure 
                 Win32Api.SetThreadExecutionState(Win32Api.ES_CONTINUOUS);
-            } 
+            }
         }
-        
+
         private void Subscribe()
         {
             (IShell as Window).Closing += PlayFile_Closing1;
             HasScubscribed = true;
             ShellState = (IShell as Window).WindowState;
         }
-        
+
         private void InitPlayerView(object obj = null)
         {
             try
@@ -66,16 +119,15 @@ namespace VideoPlayerView.FilePlayer
                     WindowsMediaPlayer.Close();
                 }
             (_videoelement as Window).Show();
-
                 if (obj != null)
-                    MediaControllerVM.MediaControllerInstance.GetVideoItem((VideoFolderChild)obj);
+                    mediaControllerViewModel.GetVideoItem((VideoFolderChild)obj);
             }
             catch (Exception)
             {
                 Window_Closing();
                 throw;
             }
-           
+
         }
 
         private void InitWMPView(object obj)
@@ -98,24 +150,23 @@ namespace VideoPlayerView.FilePlayer
             }
             catch (Exception) { throw; }
             #endregion
-
         }
 
         private void WindowsMediaPlayer_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
         {
             (IShell as Window).WindowState = ShellState;
         }
-        
+
         public void PlayFileFromPlayList(PlaylistModel plm)
         {
             InitPlayerView();
             MediaControlExtension.SetFileexpVisiblity(VideoElement.PlayListView as UIElement,
                 Visibility.Visible);
-            
-            MediaControllerVM.MediaControllerInstance.Playlist.PlayFromAList(plm);
+
+            PlaylistManagerViewModel.PlayFromAList(plm);
             (IShell as Window).WindowState = WindowState.Minimized;
         }
-        
+
         private void PlayFile_Closed(object sender, EventArgs e)
         {
             if (_videoelement != null)
@@ -133,8 +184,11 @@ namespace VideoPlayerView.FilePlayer
         {
             try
             {
-                MediaControllerVM.MediaControllerInstance.CloseMediaPlayer(true);
+                mediaControllerViewModel.CloseMediaPlayer(true);
                 _videoelement = null;
+                iplaylistmanagerviewmodel = null;
+                mediaControllerViewModel = null;
+                imediaservice = null;
                 (IShell as Window).WindowState = ShellState;
             }
             catch (Exception) { }
@@ -151,6 +205,16 @@ namespace VideoPlayerView.FilePlayer
             (IShell as Window).WindowState = WindowState.Minimized;
         }
 
+        public void PlayFileInit(IVideoData obj,IEnumerable<VideoFolderChild> enumerable)
+        {
+            InitPlayerView();
+            MediaControlExtension.SetFileexpVisiblity(VideoElement.PlayListView as UIElement,
+                Visibility.Visible);
+
+            PlaylistManagerViewModel.PlayFromTemperalList(obj,enumerable);
+            (IShell as Window).WindowState = WindowState.Minimized;
+        }
+
         public void AddFiletoPlayList(IVideoData obj)
         {
             InitPlayerView();
@@ -159,7 +223,7 @@ namespace VideoPlayerView.FilePlayer
 
             VideoFolderChild vfc = (VideoFolderChild)obj;
 
-            MediaControllerVM.MediaControllerInstance.Playlist.Add(vfc);
+            PlaylistManagerViewModel.Add(vfc);
         }
 
         public void WMPPlayFileInit(IVideoData vfc)
@@ -183,14 +247,13 @@ namespace VideoPlayerView.FilePlayer
                 var item = videoFolder.OtherFiles.FirstOrDefault(x => x is VideoFolderChild);
                 if (item != null)
                 {
-                    FileLoaderCompletion fileLoaderCompletion = new FileLoaderCompletion();
                     var task = Task.Factory.StartNew(() =>
                     {
-                        fileLoaderCompletion.FinishCollectionLoadProcess(videoFolder.OtherFiles);
+                        LoaderCompletion.FinishCollectionLoadProcess(videoFolder.OtherFiles);
                     }).ContinueWith(t => { }, TaskScheduler.FromCurrentSynchronizationContext());
 
                     InitPlayerView(item);
-                    MediaControllerVM.MediaControllerInstance.Playlist.PlayListCollection = new System.Collections.ObjectModel.ObservableCollection<VideoFolder>(videoFolder.OtherFiles.Where(x => x is VideoFolderChild));
+                    PlaylistManagerViewModel.PlayListCollection = new System.Collections.ObjectModel.ObservableCollection<VideoFolder>(videoFolder.OtherFiles.Where(x => x is VideoFolderChild));
                     if (!HasScubscribed)
                     {
                         Subscribe();
@@ -209,10 +272,9 @@ namespace VideoPlayerView.FilePlayer
                 var item = videoFolder.OtherFiles.FirstOrDefault(x => x is VideoFolderChild);
                 if (item != null)
                 {
-                    FileLoaderCompletion fileLoaderCompletion = new FileLoaderCompletion();
                     var task = Task.Factory.StartNew(() =>
                     {
-                        fileLoaderCompletion.FinishCollectionLoadProcess(videoFolder.OtherFiles);
+                        LoaderCompletion.FinishCollectionLoadProcess(videoFolder.OtherFiles);
                     }).ContinueWith(t => { }, TaskScheduler.FromCurrentSynchronizationContext());
 
                     InitPlayerView();
@@ -223,7 +285,7 @@ namespace VideoPlayerView.FilePlayer
                     var vfc = vf.OtherFiles.Where(x => x is VideoFolderChild);
                     foreach (var folderchild in vfc)
                     {
-                        MediaControllerVM.MediaControllerInstance.Playlist.Add(folderchild);
+                        PlaylistManagerViewModel.Add(folderchild);
                     }
                 }
 
@@ -232,12 +294,7 @@ namespace VideoPlayerView.FilePlayer
 
         public void WMPPlayFileInit(IFolder vfc)
         {
-            
-        }
 
-        private IShell IShell
-        {
-            get { return ServiceLocator.Current.GetInstance<IShell>(); }
         }
     }
 }

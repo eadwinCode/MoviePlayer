@@ -1,23 +1,15 @@
-﻿using System;
+﻿using Movies.MoviesInterfaces;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Common.Interfaces;
 
 namespace SearchComponent
 {
@@ -78,8 +70,6 @@ namespace SearchComponent
 
         private void StartSearch(string text, string customPropertyName)
         {
-            
-
             if (ArrayToSort == null || SortedArray == null)
                 return;
 
@@ -305,9 +295,11 @@ namespace SearchComponent
         public event UpdateHandler UpdateEvent;
         public event OnSearchAsynStart OnSearchStarted;
 
-        public SearchControl()
+        public SearchControl(IDataSource<T> dataSource)
         {
-            this.Template = (ControlTemplate)Application.Current.FindResource("SearchContentControl");
+            this.DataSource = dataSource;
+            this.Resources = (ResourceDictionary)Application.LoadComponent(new Uri("/SearchComponent;component/Themes/Generic.xaml", UriKind.Relative));
+            this.Template = (ControlTemplate)this.FindResource("SearchContentControl");
             InitializeComponent();
             this.DataContext = this;
         }

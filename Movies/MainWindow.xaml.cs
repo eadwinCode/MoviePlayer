@@ -1,5 +1,4 @@
-﻿using Common.Interfaces;
-using Common.Themes.Skin;
+﻿using Movies.MoviesInterfaces;
 using RealMediaControl.ViewModel;
 using System;
 using System.Windows;
@@ -11,53 +10,17 @@ namespace Movies
     /// </summary>
     public partial class MainView : IShell
     {
-        public Skin CurrentSkin { get; set; }
-        public IPageNavigatorHost PageNavigatorHost
-        {
-            get { return this.pagenavigatorhost; }
-        }
-
-        public MainView()
+        public MainView(VideoPlayerVM videoPlayerVM)
         {
             InitializeComponent();
-            VideoPlayerVM VM = new VideoPlayerVM();
-            this.DataContext = VM;
-            this.Loaded += VM.Window_Loaded;
-            CurrentSkin = new ReferencedAssemblySkin("Black Skin", 
-                new Uri("/Common;component/Themes/Hybrid.xaml", UriKind.Relative));
-
+            this.DataContext = videoPlayerVM;
+            this.Loaded += videoPlayerVM.Window_Loaded;
             this.Loaded += MainView_Loaded;
         }
 
         private void MainView_Loaded(object sender, RoutedEventArgs e)
         {
-            CurrentSkin.Load();
-        }
 
-        private void Red_Click(object sender, RoutedEventArgs e)
-        {
-            CurrentSkin.Unload();
-            CurrentSkin = 
-                new ReferencedAssemblySkin("Black Skin", 
-                new Uri("/Common;component/Themes/BlackSkin.xaml", UriKind.Relative));
-            CurrentSkin.Load();
-        }
-
-        private void White_Click(object sender, RoutedEventArgs e)
-        {
-            CurrentSkin.Unload();
-            CurrentSkin = 
-                new ReferencedAssemblySkin("Black Skin", 
-                new Uri("/Common;component/Themes/WhiteSkin.xaml", UriKind.Relative));
-            CurrentSkin.Load();
-        }
-
-        private void Hybrid_Click(object sender, RoutedEventArgs e)
-        {
-            CurrentSkin.Unload();
-            CurrentSkin = new ReferencedAssemblySkin("Black Skin", 
-                new Uri("/Common;component/Themes/hybrid.xaml", UriKind.Relative));
-            CurrentSkin.Load();
         }
     }
 

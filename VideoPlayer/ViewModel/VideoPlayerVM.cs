@@ -1,51 +1,87 @@
-﻿using Common.ApplicationCommands;
-using Common.Interfaces;
-using Common.Model;
-using Common.Util;
+﻿using Common.Util;
 using MahApps.Metro.Controls;
-using Meta.Vlc;
-using Meta.Vlc.Interop.Media;
-using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.ViewModel;
 using Microsoft.Practices.ServiceLocation;
+using Movies.Enums;
+using Movies.MediaService.Interfaces;
+using Movies.Models.Model;
+using Movies.MoviesInterfaces;
 using System;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
-using VideoComponent.BaseClass;
-using VirtualizingListView.ViewModel;
-using WPF.JoshSmith.Controls;
 
 namespace VideoPlayerControl.ViewModel
 {
-    public partial class VideoPlayerVM:NotificationObject
+    public partial class VideoPlayerVM : NotificationObject
     {
-        private     DispatcherTimer MousemoveTimer;
-        private     DelegateCommand _showFilexp;
-        private     SubtitleMediaController VideoPlayerView;
-        private     IMediaController IMediaController;
-        public      SubtitleFilesModel CurrentSubtitle;
-        private     string minimizemediactrltext;
-        private     bool allowautoresize = true;
-        private     SCREENSETTINGS screensetting;
-        internal    bool Isloaded;
-        private     bool isfullscreenmode;
-        private     IVideoElement icommandbindings;
+        private DispatcherTimer MousemoveTimer;
+        private SubtitleMediaController VideoPlayerView;
+        private IMediaController IMediaController;
+        public  SubtitleFilesModel CurrentSubtitle;
+        private string minimizemediactrltext;
+        private bool allowautoresize = true;
+        private SCREENSETTINGS screensetting;
+        internal bool Isloaded;
+        private bool isfullscreenmode;
+        private IVideoElement icommandbindings;
 
-        public  bool AllowAutoResize
+        IMediaControllerViewModel MediaControllerViewModel
+        {
+            get { return FilePlayerManager.MediaControllerViewModel; }
+        }
+
+        IDispatcherService IDispatcherService
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<IDispatcherService>();
+            }
+        }
+
+        private IVideoElement IVideoElement
+        {
+            get
+            {
+                if (icommandbindings == null)
+                {
+                    icommandbindings = FilePlayerManager.VideoElement;
+                }
+                return icommandbindings;
+            }
+        }
+
+        IMediaPlayerService MediaPlayerService
+        {
+            get
+            {
+                return FilePlayerManager.MediaPlayerService;
+            }
+        }
+
+        IPlayFile FilePlayerManager
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<IPlayFile>();
+            }
+        }
+
+        public bool AllowAutoResize
         {
             get { return allowautoresize; }
             set { allowautoresize = value; }
         }
+
         public string MinimizeMediaCtrlText
         {
             get { return minimizemediactrltext; }
             set { minimizemediactrltext = value;
                 RaisePropertyChanged(() => this.MinimizeMediaCtrlText); }
         }
+
         public SCREENSETTINGS ScreenSetting
         {
             get
@@ -81,40 +117,14 @@ namespace VideoPlayerControl.ViewModel
                 screensetting = value;
                 this.RaisePropertyChanged(() => this.ScreenSetting);
             }
-
         }
-        public DelegateCommand ShowFileExp
-        {
-            get
-            {
-                if (_showFilexp == null)
-                {
-                    _showFilexp = new DelegateCommand(() =>
-                    {
-                        CollectionViewModel.Instance.CloseFileExplorerAction(this);
-                    });
-
-                }
-                return _showFilexp;
-            }
-        }
+        
         public bool IsFullScreenMode
         {
             get { return isfullscreenmode; }
             set { isfullscreenmode = value; RaisePropertyChanged(() => this.IsFullScreenMode); }
         }
-        private IVideoElement IVideoElement
-        {
-            get
-            {
-                if (icommandbindings == null)
-                {
-                    icommandbindings = ServiceLocator.Current.GetInstance<IPlayFile>().VideoElement;
-                }
-                return icommandbindings;
-            }
-        }
-
+        
         public VideoPlayerVM(IMediaController ivideoplayer)
         {
             this.IMediaController = ivideoplayer;
@@ -122,18 +132,16 @@ namespace VideoPlayerControl.ViewModel
             MousemoveTimer = new DispatcherTimer(DispatcherPriority.Background);
             ScreenSetting = SCREENSETTINGS.Normal;
             VideoPlayerView.Loaded += VideoPlayerView_Loaded;
-            
         }
         
         private void Init()
         {
-            IMediaController.MediaController.MouseLeave += mediacontrol_MouseLeave;
-            IMediaController.MediaController.MouseEnter += Mediacontrol_MouseEnter;
+            (IMediaController.MediaController as UserControl).MouseLeave += Mediacontrol_MouseLeave;
+            (IMediaController.MediaController as UserControl).MouseEnter += Mediacontrol_MouseEnter;
             (IVideoElement as Window).MouseMove += ParentGrid_MouseMove;
-            IVideoElement.MediaPlayer.VlcMediaPlayer.EndReached += VlcMediaPlayer_EndReached;
-            IVideoElement.MediaPlayer.VlcMediaPlayer.EncounteredError += VlcMediaPlayer_EncounteredError;
-            IVideoElement.MediaPlayer.MouseMove += ParentGrid_MouseMove;
-            
+            MediaPlayerService.EndReached += VlcMediaPlayer_EndReached;
+            MediaPlayerService.EncounteredError += VlcMediaPlayer_EncounteredError;
+            MediaPlayerService.MouseMove += ParentGrid_MouseMove;
         }
 
         private void VlcMediaPlayer_EncounteredError(object sender, EventArgs e)
@@ -141,7 +149,7 @@ namespace VideoPlayerControl.ViewModel
             ResetVisibilityAnimation();
         }
 
-        private void VlcMediaPlayer_EndReached(object sender, ObjectEventArgs<Meta.Vlc.Interop.Media.MediaState> e)
+        private void VlcMediaPlayer_EndReached(object sender, EventArgs e)
         {
             ResetVisibilityAnimation();
         }
@@ -176,56 +184,23 @@ namespace VideoPlayerControl.ViewModel
 
             RegisterCommands();
         }
-        
-        private MediaControllerVM MediaControllerVM
-        {
-            get { return MediaControllerVM.MediaControllerInstance; }
-        }
-
-        public void FullScreenSettings()
-        {
-            if (screensetting == SCREENSETTINGS.Fullscreen) return;
-            MediaControllerVM.CanAnimate = true;
-            MediaControlExtension.SetCanAnimateControl(IMediaController.MediaController, true);
-            screensetting = SCREENSETTINGS.Fullscreen;
-            MinimizeMediaCtrlText = "Restore MediaControl";
-            if (IVideoElement != null)
-            {
-                (IVideoElement as MetroWindow).UseNoneWindowStyle = true;
-                (IVideoElement as MetroWindow).IgnoreTaskbarOnMaximize = true;
-            }
-        }
-
-        public void NormalScreenSettings()
-        {
-            MediaControlExtension.SetCanAnimateControl(IMediaController.MediaController, false);
-            MediaControllerVM.CanAnimate = false;
-            screensetting = SCREENSETTINGS.Normal;
-            MinimizeMediaCtrlText = "Minimize MediaControl";
-            if (IVideoElement != null)
-            {
-                (IVideoElement as MetroWindow).UseNoneWindowStyle = false;
-                (IVideoElement as MetroWindow).ShowTitleBar = true;
-                (IVideoElement as MetroWindow).IgnoreTaskbarOnMaximize = false;
-            }
-        }
 
         void MousemoveTimer_Tick(object sender, EventArgs e)
         {
-            if(MediaControllerVM == null) { MousemoveTimer.Stop();return; }
-            if (!MediaControllerVM.IsPlaying)
+            if (MediaControllerViewModel == null) { MousemoveTimer.Stop(); return; }
+            if (!MediaControllerViewModel.IsPlaying)
             {
                 this.MousemoveTimer.Stop();
                 return;
             }
-            if (!MediaControllerVM.IsMouseControlOver )
+            if (!MediaControllerViewModel.IsMouseControlOver)
             {
                 (IVideoElement as Window).Cursor = Cursors.None;
-               // MediaControlExtension.SetAnimateWindowsTab(IVideoElement.WindowsTab as UIElement, false);
+                // MediaControlExtension.SetAnimateWindowsTab(IVideoElement.WindowsTab as UIElement, false);
                 MediaControlExtension.SetIsMouseOverMediaElement(IMediaController.MediaController as UIElement, false);
                 this.MousemoveTimer.Stop();
             }
-            else if (MediaControllerVM.IsMouseControlOver)
+            else if (MediaControllerViewModel.IsMouseControlOver)
             {
                 this.MousemoveTimer.Stop();
             }
@@ -235,7 +210,7 @@ namespace VideoPlayerControl.ViewModel
 
                 if (!IsFullScreenMode)
                 {
-                   // MediaControlExtension.SetAnimateWindowsTab(IVideoElement.WindowsTab as UIElement, false);
+                    // MediaControlExtension.SetAnimateWindowsTab(IVideoElement.WindowsTab as UIElement, false);
                 }
                 else
                 {
@@ -250,24 +225,15 @@ namespace VideoPlayerControl.ViewModel
             this.MousemoveTimer.Stop();
             MediaControlExtension.SetIsMouseOverMediaElement(IMediaController.MediaController as UIElement, null);
         }
-
-        public void OnMouseDoubleClick(MouseButtonEventArgs e)
-        {
-            if (e.Handled)
-            {
-                return;
-            }
-            RestoreScreen();
-        }
-
+        
         private void RestoreScreen()
         {
-            switch (MediaControllerVM.MediaState)
+            switch (MediaControllerViewModel.MediaState)
             {
-                case MediaState.Playing:
-                case MediaState.Paused:
-                case MediaState.Stopped:
-                
+                case MovieMediaState.Playing:
+                case MovieMediaState.Paused:
+                case MovieMediaState.Stopped:
+
                     if (ScreenSetting != SCREENSETTINGS.Fullscreen)
                     {
                         ScreenSetting = SCREENSETTINGS.Fullscreen;
@@ -277,7 +243,7 @@ namespace VideoPlayerControl.ViewModel
                         ScreenSetting = SCREENSETTINGS.Normal;
                     }
                     break;
-                case MediaState.Finished:
+                case MovieMediaState.Ended:
                     if (ScreenSetting != SCREENSETTINGS.Normal)
                     {
                         ScreenSetting = SCREENSETTINGS.Normal;
@@ -287,7 +253,103 @@ namespace VideoPlayerControl.ViewModel
                     break;
             }
         }
+
+        private void AddSubtitleFileAction(string[] filePathInfo)
+        {
+            bool issubfile = false;
+            for (int i = 0; i < filePathInfo.Length; i++)
+            {
+                FileInfo file = new FileInfo(filePathInfo[i]);
+                if (file.Extension == ".srt")
+                {
+                    issubfile = true;
+                    MediaControllerViewModel.SetSubtitle(file.FullName);
+                }
+            }
+            //    if (issubfile)
+            //    {
+            //        MediaControllerVM.UpdateHardCodedSubs();
+            //    }
+        }
+
+        private void ParentGrid_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!MediaControllerViewModel.IsMouseControlOver && MediaControllerViewModel.IsPlaying)
+            {
+                ResetVisibilityAnimation();
+                this.MousemoveTimer.Start();
+            }
+        }
+
+        private void Mediacontrol_MouseLeave(object sender, MouseEventArgs e)
+        {
+            MediaControlExtension.SetIsMouseOverMediaElement(IMediaController.MediaController as UIElement, true);
+            if (!IsFullScreenMode)
+            {
+                //MediaControlExtension.SetAnimateWindowsTab( IVideoElement.WindowsTab as UIElement,true);
+            }
+            else
+            {
+                //MediaControlExtension.SetAnimateWindowsTab(IVideoElement.WindowsTab as UIElement, false);
+            }
+            this.MousemoveTimer.Start();
+        }
+
+        private void ResetVisibilityAnimation()
+        {
+            //if((IVideoElement as Window).Dispatcher.)
+            IDispatcherService.InvokeDispatchAction(() =>
+            {
+                //if () return;
+                this.MousemoveTimer.Stop();
+                MediaControlExtension.SetIsMouseOverMediaElement(IMediaController.MediaController as UIElement, null);
+                (IVideoElement as Window).Cursor = Cursors.Arrow;
+                if (Isloaded && ScreenSetting == SCREENSETTINGS.Normal && !IsFullScreenMode)
+                {
+                    // IVideoElement.WindowsTab.Visibility = Visibility.Visible;
+                    //MediaControlExtension.SetAnimateWindowsTab(IVideoElement.WindowsTab as UIElement, true);
+                }
+                //else { MediaControlExtension.SetAnimateWindowsTab(IVideoElement.WindowsTab as UIElement, false); }
+            });
+        }
+
+        public void FullScreenSettings()
+        {
+            if (screensetting == SCREENSETTINGS.Fullscreen) return;
+            MediaControllerViewModel.CanAnimate = true;
+            MediaControlExtension.SetCanAnimateControl((IMediaController.MediaController as UserControl), true);
+            screensetting = SCREENSETTINGS.Fullscreen;
+            MinimizeMediaCtrlText = "Restore MediaControl";
+            if (IVideoElement != null)
+            {
+                (IVideoElement as MetroWindow).UseNoneWindowStyle = true;
+                (IVideoElement as MetroWindow).IgnoreTaskbarOnMaximize = true;
+            }
+        }
+
+        public void NormalScreenSettings()
+        {
+            MediaControlExtension.SetCanAnimateControl((IMediaController.MediaController as UserControl), false);
+            MediaControllerViewModel.CanAnimate = false;
+            screensetting = SCREENSETTINGS.Normal;
+            MinimizeMediaCtrlText = "Minimize MediaControl";
+            if (IVideoElement != null)
+            {
+                (IVideoElement as MetroWindow).UseNoneWindowStyle = false;
+                (IVideoElement as MetroWindow).ShowTitleBar = true;
+                (IVideoElement as MetroWindow).IgnoreTaskbarOnMaximize = false;
+            }
+        }
         
+        public void OnMouseDoubleClick(MouseButtonEventArgs e)
+        {
+            if (e.Handled)
+            {
+                return;
+            }
+            RestoreScreen();
+        }
+                
         public void OnDrop(DragEventArgs e)
         {
             VideoFolder vf = (VideoFolder)e.Data.GetData(typeof(VideoFolder));
@@ -298,7 +360,7 @@ namespace VideoPlayerControl.ViewModel
             if (vf == null)
             {
                
-                if (MediaControllerVM.CurrentVideoItem != null)
+                if (MediaControllerViewModel.CurrentVideoItem != null)
                 {
                     String[] filePathInfo = (String[])e.Data.GetData("FileName", false);
                     AddSubtitleFileAction(filePathInfo);
@@ -320,71 +382,11 @@ namespace VideoPlayerControl.ViewModel
                 {
                     return;
                 }
-                MediaControllerVM.GetVideoItem(vfc as VideoFolderChild);
+                MediaControllerViewModel.GetVideoItem(vfc as VideoFolderChild);
                 return;
             }
-            MediaControllerVM.GetVideoItem(vf as VideoFolderChild);
+            MediaControllerViewModel.GetVideoItem(vf as VideoFolderChild);
             CommandManager.InvalidateRequerySuggested();
-        }
-
-        private void AddSubtitleFileAction(string[] filePathInfo)
-        {
-            bool issubfile = false;
-            for (int i = 0; i < filePathInfo.Length; i++)
-            {
-                FileInfo file = new FileInfo(filePathInfo[i]);
-                if (file.Extension == ".srt")
-                {
-                    issubfile = true;
-                    MediaControllerVM.SetSubtitle(file.FullName);
-                }
-            }
-            if (issubfile)
-            {
-                MediaControllerVM.UpdateHardCodedSubs();
-            }
-        }
-        
-        private void ParentGrid_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (!MediaControllerVM.IsMouseControlOver)
-            {
-                ResetVisibilityAnimation();
-                this.MousemoveTimer.Start();
-            }
-        }
-
-        private void mediacontrol_MouseLeave(object sender, MouseEventArgs e)
-        {
-            MediaControlExtension.SetIsMouseOverMediaElement(IMediaController.MediaController as UIElement, true);
-            if (!IsFullScreenMode)
-            {
-                //MediaControlExtension.SetAnimateWindowsTab( IVideoElement.WindowsTab as UIElement,true);
-            }
-            else
-            {
-                //MediaControlExtension.SetAnimateWindowsTab(IVideoElement.WindowsTab as UIElement, false);
-            }
-            this.MousemoveTimer.Start();
-        }
-        
-        private void ResetVisibilityAnimation()
-        {
-            (IVideoElement as Window).Dispatcher.Invoke(new Action(() =>
-            {
-                if (!MediaControllerVM.IsPlaying) return;
-                this.MousemoveTimer.Stop();
-                MediaControlExtension.SetIsMouseOverMediaElement(IMediaController.MediaController as UIElement, null);
-                (IVideoElement as Window).Cursor = Cursors.Arrow;
-                if (Isloaded && ScreenSetting == SCREENSETTINGS.Normal && !IsFullScreenMode)
-                {
-                    // IVideoElement.WindowsTab.Visibility = Visibility.Visible;
-                    //MediaControlExtension.SetAnimateWindowsTab(IVideoElement.WindowsTab as UIElement, true);
-                }
-                //else { MediaControlExtension.SetAnimateWindowsTab(IVideoElement.WindowsTab as UIElement, false); }
-
-
-            }), null);
         }
 
         public void VisibilityAnimation()

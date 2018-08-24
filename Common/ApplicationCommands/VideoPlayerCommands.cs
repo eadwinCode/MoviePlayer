@@ -27,156 +27,156 @@ namespace Common.ApplicationCommands
             ShiftFastForward.InputGestures.Add(new KeyGesture(Key.Right, ModifierKeys.Shift));
         }
 
-        private static RoutedCommand _playorpause = new RoutedCommand("PausePlay", typeof(VideoPlayerCommands));
-        private static RoutedCommand next = new RoutedCommand("Next", typeof(VideoPlayerCommands));
-        private static RoutedCommand previous = new RoutedCommand("Previous", typeof(VideoPlayerCommands));
-        private static RoutedCommand playlist = new RoutedCommand("PlayList", typeof(VideoPlayerCommands));
-        private static RoutedCommand filexplorer = new RoutedCommand("FileExplorer", typeof(VideoPlayerCommands));
-        private static RoutedCommand stop = new RoutedCommand("Stop", typeof(VideoPlayerCommands));
-        private static RoutedCommand volup = new RoutedCommand("VolUp", typeof(VideoPlayerCommands));
-        private static RoutedCommand voldown = new RoutedCommand("VolDown", typeof(VideoPlayerCommands));
-        private static RoutedCommand mute = new RoutedCommand("Mute", typeof(VideoPlayerCommands));
-        private static RoutedCommand fullscreen = new RoutedCommand("FullScreen", typeof(VideoPlayerCommands));
-        private static RoutedCommand minimizemediactrl = new RoutedCommand("MinimizeMC", typeof(VideoPlayerCommands));
-        private static RoutedCommand wmpplay = new RoutedCommand("WMPPlay", typeof(VideoPlayerCommands));
+        private static RoutedUICommand _playorpause = new RoutedUICommand();
+        private static RoutedUICommand next = new RoutedUICommand();
+        private static RoutedUICommand previous = new RoutedUICommand();
+        private static RoutedUICommand playlist = new RoutedUICommand();
+        private static RoutedUICommand filexplorer = new RoutedUICommand();
+        private static RoutedUICommand stop = new RoutedUICommand();
+        private static RoutedUICommand volup = new RoutedUICommand();
+        private static RoutedUICommand voldown = new RoutedUICommand();
+        private static RoutedUICommand mute = new RoutedUICommand();
+        private static RoutedUICommand fullscreen = new RoutedUICommand();
+        private static RoutedUICommand minimizemediactrl = new RoutedUICommand();
+        private static RoutedUICommand wmpplay = new RoutedUICommand();
 
-        private static RoutedCommand fforward = new RoutedCommand("FastForward", typeof(VideoPlayerCommands));
-        private static RoutedCommand rewind = new RoutedCommand("Rewind", typeof(VideoPlayerCommands));
-        private static RoutedCommand shiftforward = new RoutedCommand("ShitFastForward", typeof(VideoPlayerCommands));
-        private static RoutedCommand shiftrewind = new RoutedCommand("ShitRewind", typeof(VideoPlayerCommands));
+        private static RoutedUICommand fforward = new RoutedUICommand();
+        private static RoutedUICommand rewind = new RoutedUICommand();
+        private static RoutedUICommand shiftforward = new RoutedUICommand();
+        private static RoutedUICommand shiftrewind = new RoutedUICommand();
 
-        private static RoutedCommand play = new RoutedCommand("Play", typeof(VideoPlayerCommands));
-        private static RoutedCommand addtoplaylist = new RoutedCommand("AddtoPL", typeof(VideoPlayerCommands));
-        private static RoutedCommand addto = new RoutedCommand("AddTo", typeof(VideoPlayerCommands));
-        private static RoutedCommand newplaylist = new RoutedCommand("NewPlaylist", typeof(VideoPlayerCommands)); 
-        private static RoutedCommand removefromplaylist = new RoutedCommand("RemovefrmPL", typeof(VideoPlayerCommands));
+        private static RoutedUICommand play = new RoutedUICommand();
+        private static RoutedUICommand addtoplaylist = new RoutedUICommand();
+        private static RoutedUICommand addto = new RoutedUICommand();
+        private static RoutedUICommand newplaylist = new RoutedUICommand(); 
+        private static RoutedUICommand removefromplaylist = new RoutedUICommand();
         
-        private static RoutedCommand topmost = new RoutedCommand("TopMost", typeof(VideoPlayerCommands));
-        private static RoutedCommand removefromls = new RoutedCommand("RemoveFromLastSeen", typeof(VideoPlayerCommands));
-        private static RoutedCommand selectedsub = new RoutedCommand("SelectedSub", typeof(VideoPlayerCommands)); 
-        private static RoutedCommand refreshfiles = new RoutedCommand("RefreshFiles", typeof(VideoPlayerCommands));
-        private static RoutedCommand addsubfile = new RoutedCommand("AddSubFile", typeof(VideoPlayerCommands));
-        private static RoutedCommand resizemediaalways = new RoutedCommand("ResizeMediaAlways", typeof(VideoPlayerCommands));
+        private static RoutedUICommand topmost = new RoutedUICommand();
+        private static RoutedUICommand removefromls = new RoutedUICommand();
+        //private static RoutedUICommand selectedsub = new RoutedUICommand(); 
+        private static RoutedUICommand refreshfiles = new RoutedUICommand();
+        private static RoutedUICommand addsubfile = new RoutedUICommand();
+        private static RoutedUICommand resizemediaalways = new RoutedUICommand();
 
 
-        public static RoutedCommand ResizeMediaAlways
+        public static RoutedUICommand ResizeMediaAlways
         {
             get { return resizemediaalways; }
         }
-        public static RoutedCommand RefreshFiles
+        public static RoutedUICommand RefreshFiles
         {
             get { return refreshfiles; }
         }
 
-        public static RoutedCommand AddSubFile
+        public static RoutedUICommand AddSubFile
         {
             get { return addsubfile; }
         }
 
-        public static RoutedCommand PausePlay
+        public static RoutedUICommand PausePlay
         {
             get { return _playorpause; }
         }
 
-        public static RoutedCommand RemoveFromLastSeen
+        public static RoutedUICommand RemoveFromLastSeen
         {
             get { return removefromls; }
         }
 
-        public static RoutedCommand TopMost
+        public static RoutedUICommand TopMost
         {
             get { return topmost; }
         }
 
-        public static RoutedCommand Play
+        public static RoutedUICommand Play
         {
             get { return play; }
         }
 
-        public static RoutedCommand SelectedSub
-        {
-            get { return selectedsub; }
-        }
+        //public static RoutedUICommand SelectedSub
+        //{
+        //    get { return selectedsub; }
+        //}
 
-        public static RoutedCommand Rewind
+        public static RoutedUICommand Rewind
         {
             get { return rewind; }
         }
-        public static RoutedCommand ShiftRewind
+        public static RoutedUICommand ShiftRewind
         {
             get { return shiftrewind; }
         }
-        public static RoutedCommand WMPPlay
+        public static RoutedUICommand WMPPlay
         {
             get { return wmpplay; }
         }
 
-        public static RoutedCommand FastForward
+        public static RoutedUICommand FastForward
         {
             get { return fforward; }
         }
-        public static RoutedCommand ShiftFastForward
+        public static RoutedUICommand ShiftFastForward
         {
             get { return shiftforward; }
         }
-        public static RoutedCommand MinimizeMediaCtrl
+        public static RoutedUICommand MinimizeMediaCtrl
         {
             get { return minimizemediactrl; }
         }
 
-        public static RoutedCommand FullScreen
+        public static RoutedUICommand FullScreen
         {
             get { return fullscreen; }
         }
         
-        public static RoutedCommand AddtoPlayList
+        public static RoutedUICommand AddtoPlayList
         {
             get { return addtoplaylist; }
         }
 
-        public static RoutedCommand NewPlaylist
+        public static RoutedUICommand NewPlaylist
         {
             get { return newplaylist; }
         }
 
-        public static RoutedCommand AddTo
+        public static RoutedUICommand AddTo
         {
             get { return addto; }
         }
-        public static RoutedCommand RemovefromPlayList
+        public static RoutedUICommand RemovefromPlayList
         {
             get { return removefromplaylist; }
         }
 
-        public static RoutedCommand Stop
+        public static RoutedUICommand Stop
         {
             get { return stop; }
         }
-        public static RoutedCommand Next
+        public static RoutedUICommand Next
         {
             get { return next; }
         }
-        public static RoutedCommand Previous
+        public static RoutedUICommand Previous
         {
             get { return previous; }
         }
-        public static RoutedCommand PlayList
+        public static RoutedUICommand PlayList
         {
             get { return playlist; }
         }
-        public static RoutedCommand FileExplorer
+        public static RoutedUICommand FileExplorer
         {
             get { return filexplorer; }
         }
-        public static RoutedCommand VolUp
+        public static RoutedUICommand VolUp
         {
             get { return volup; }
         }
-        public static RoutedCommand VolDown
+        public static RoutedUICommand VolDown
         {
             get { return voldown; }
         }
-        public static RoutedCommand Mute
+        public static RoutedUICommand Mute
         {
             get { return mute; }
         }

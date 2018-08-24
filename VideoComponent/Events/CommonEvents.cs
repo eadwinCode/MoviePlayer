@@ -1,4 +1,5 @@
 ﻿using Microsoft.Practices.Prism.Events;
+using Movies.Models.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;

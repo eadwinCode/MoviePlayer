@@ -1,17 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{ADE006BD-579D-4706-80E7-9D833FD5C07C}</ProjectGuid>
+    <ProjectGuid>{3A6FD22C-D7B7-4713-80C6-8742186F8674}</ProjectGuid>
     <OutputType>library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SearchComponent</RootNamespace>
     <AssemblyName>SearchComponent</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -34,6 +31,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Practices.Prism">
+      <HintPath>..\Libraries\Microsoft.Practices.Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\Libraries\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\Libraries\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -50,13 +56,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ISearchControl.cs" />
-    <Compile Include="SearchComponent.cs" />
-    <Page Include="Themes\Generic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Include="Models\SearchModel.cs" />
+    <Compile Include="ModuleDefinition\SearchControlModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -70,6 +71,14 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="SearchComponent.cs" />
+    <Compile Include="ShellSearchButton.xaml.cs">
+      <DependentUpon>ShellSearchButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\SearchPageBtnViewModel.cs" />
+    <Compile Include="Views\SearchPage.xaml.cs">
+      <DependentUpon>SearchPage.xaml</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -78,29 +87,45 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\musica-searcher.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\musica-searcher16.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\musica-searcher24.png" />
+    <Page Include="ShellSearchButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SearchPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
-      <Project>{291d89e4-5436-4e99-a402-322d10f2ed0c}</Project>
+      <Project>{291D89E4-5436-4E99-A402-322D10F2ED0C}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movies.GlobalResources\Movies.GlobalResources.csproj">
+      <Project>{1370a208-da8b-43ee-8cbb-a18d7992a8dc}</Project>
+      <Name>Movies.GlobalResources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movies.Models\Movies.Models.csproj">
+      <Project>{12CE1E5D-1E2D-4FE8-8084-B5E334CD54CD}</Project>
+      <Name>Movies.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PresentationExtension\PresentationExtension.csproj">
+      <Project>{b622321d-0980-42df-9165-79341bf7e64e}</Project>
+      <Name>PresentationExtension</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProjectInterfaces\Movies.MoviesInterfaces.csproj">
+      <Project>{2D97DA0A-18BE-48A1-B4FC-78B0B3CEB6C8}</Project>
+      <Name>Movies.MoviesInterfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /y "$(TargetPath)" "$(SolutionDir)Movies\$(OutDir)Modules\"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

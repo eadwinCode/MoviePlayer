@@ -1,4 +1,5 @@
-﻿using Common.Interfaces;
+﻿using Microsoft.Practices.ServiceLocation;
+using Movies.MoviesInterfaces;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,13 +10,22 @@ namespace VideoPlayerControl
     /// <summary>
     /// Interaction logic for VideoPlayerView.xaml
     /// </summary>
-    public partial class SubtitleMediaController : UserControl, Common.Interfaces.IMediaController
+    public partial class SubtitleMediaController : UserControl, IMediaController
     {
-       // public Canvas CanvasEnvironment { get { return this.mycanvas; } }
+        // public Canvas CanvasEnvironment { get { return this.mycanvas; } }
 
         //public ISubtitle Subtitle { get { return this.SubtitleText; } }
 
-        public UserControl MediaController { get { return this.mediacontrol; } }
+        IControllerView mediacontroller;
+        public IControllerView MediaController
+        {
+            get
+            {
+                if (mediacontroller == null)
+                    mediacontroller = new MediaController(FilePlayerManager.MediaControllerViewModel);
+                return this.mediacontroller;
+            }
+        }
 
        // public MediaUriElement MediaPlayer => this.MediaElementPlayer;
 
@@ -24,6 +34,8 @@ namespace VideoPlayerControl
             InitializeComponent();
             this.DataContext = new VideoPlayerVM(this);
             this.Loaded += VideoPlayerView_Loaded;
+
+            this.controlRegion.Content = this.MediaController;
             //this.MediaElementPlayer.VideoRenderer =WPFMediaKit.DirectShow.MediaPlayers.VideoRendererType.EnhancedVideoRenderer;
         }
 
@@ -34,6 +46,13 @@ namespace VideoPlayerControl
             var vm = (VideoPlayerVM)this.DataContext;
             
             vm.Loaded();
+            this.FocusableChanged += SubtitleMediaController_FocusableChanged;
+           
+        }
+
+        private void SubtitleMediaController_FocusableChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            
         }
 
         #region Not Necessary
@@ -86,9 +105,14 @@ namespace VideoPlayerControl
                 ScreenSettingsChanged(sender, null);
             }
         }
-      
 
-       
+        public IPlayFile FilePlayerManager
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<IPlayFile>();
+            }
+        }
 
     }
 

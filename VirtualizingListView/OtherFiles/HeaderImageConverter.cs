@@ -7,13 +7,11 @@ using System.Globalization;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Microsoft.WindowsAPICodePack.Shell;
-using Common.Model;
+using Movies.Models.Model;
 
 namespace VirtualizingListView
 {
     [ValueConversion(typeof(string), typeof(bool))]
-
-
     public class HeaderImageConverter : IValueConverter
     {
         static Image Desktop;

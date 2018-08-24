@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:Pagelocal="clr-namespace:VirtualizingListView.Pages"
+      xmlns:presentationlib="clr-namespace:PresentationExtension;assembly=PresentationExtension"
       xmlns:local="clr-namespace:VirtualizingListView"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
@@ -148,13 +149,13 @@
 
                     <TextBlock Margin="10,0,0,0" Foreground="{DynamicResource Theme.Foreground}" FontSize="15" 
                                Text="Sort By:" Padding="3"/>
-                    <local:ContextButton BorderThickness="0" 
+                    <presentationlib:ContextButton BorderThickness="0" 
                                          Style="{StaticResource zerobtnstyle}" 
                                          ContextMentPlacement="Center" Padding="3">
                         <TextBlock Text="{Binding ActiveSortType,UpdateSourceTrigger=PropertyChanged}" 
                                    Padding="3" Foreground="{DynamicResource Theme.HighlightColor}"
                                    FontSize="15" Cursor="Hand"/>
-                        <local:ContextButton.ShowContextOnClick>
+                        <presentationlib:ContextButton.ShowContextOnClick>
                             <ContextMenu ClipToBounds="True" ContextMenuService.ShowOnDisabled="True"  ContextMenuService.HasDropShadow="True" StaysOpen="True" >
                                 <ContextMenu.Template>
                                     <ControlTemplate>
@@ -176,19 +177,19 @@
                                     </ControlTemplate>
                                 </ContextMenu.Template>
                             </ContextMenu>
-                        </local:ContextButton.ShowContextOnClick>
-                    </local:ContextButton>
+                        </presentationlib:ContextButton.ShowContextOnClick>
+                    </presentationlib:ContextButton>
 
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" 
                             HorizontalAlignment="Right" Margin="10">
                     <TextBlock Margin="10,0,0,0" Foreground="{DynamicResource Theme.Foreground}" FontSize="15" Text="View:" Padding="3"/>
-                    <local:ContextButton BorderThickness="0" 
+                    <presentationlib:ContextButton BorderThickness="0" 
                                          Style="{StaticResource zerobtnstyle}"  
                                          ContextMentPlacement="Center" Padding="3">
                     <TextBlock Text="{Binding ActiveViewType,UpdateSourceTrigger=PropertyChanged}" 
                                Padding="3" Foreground="{DynamicResource Theme.HighlightColor}" FontSize="15" Cursor="Hand"/>
-                    <local:ContextButton.ShowContextOnClick>
+                        <presentationlib:ContextButton.ShowContextOnClick>
                         <ContextMenu ClipToBounds="True" ContextMenuService.ShowOnDisabled="True"  ContextMenuService.HasDropShadow="True" StaysOpen="True" >
                             <ContextMenu.Template>
                                 <ControlTemplate>
@@ -209,8 +210,8 @@
                                 </ControlTemplate>
                             </ContextMenu.Template>
                         </ContextMenu>
-                    </local:ContextButton.ShowContextOnClick>
-                    </local:ContextButton>
+                    </presentationlib:ContextButton.ShowContextOnClick>
+                    </presentationlib:ContextButton>
                 </StackPanel>
             </DockPanel>
 

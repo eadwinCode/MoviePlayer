@@ -1,0 +1,79 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cmd="clr-namespace:Common.ApplicationCommands;assembly=Common"
+    xmlns:presentationCmd="clr-namespace:PresentationExtension;assembly=PresentationExtension"
+    xmlns:local="clr-namespace:Movies.MoviePlaylistManager">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Movies.GlobalResources;component/Themes/Generic.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <ContextMenu x:Key="Playlistcntxtmenu">
+        <MenuItem Header="Play" Command="{x:Static cmd:VideoPlayerCommands.Play}" 
+                  CommandParameter="{Binding}">
+            <MenuItem.Icon>
+                <Image/>
+            </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem Header="Remove" Command="{x:Static cmd:VideoPlayerCommands.RemovefromPlayList}" 
+                  CommandParameter="{Binding}">
+            <MenuItem.Icon>
+                <Image/>
+            </MenuItem.Icon>
+        </MenuItem>
+    </ContextMenu>
+
+    <DataTemplate x:Key="PLayListTemplate">
+        <presentationCmd:CustomButton ContextMenu="{StaticResource Playlistcntxtmenu}"
+               Background="{Binding IsActive, Converter={StaticResource ActiveItemSelector}}" 
+                x:Name="main" Focusable="False"
+               Style="{StaticResource ContentContainer}" Height="40"
+               BorderBrush="Transparent" BorderThickness="0"
+               presentationCmd:VideoItemDoubleClick.DoubleClickCommand="{x:Static cmd:VideoPlayerCommands.Play}"
+               presentationCmd:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding DataContext, RelativeSource={RelativeSource Self}}"
+               >
+            <!--<y:VideoData>  local:VideoItemDoubleClick.DoubleClickCommand="{StaticResource ClickAction}"
+              local:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}"-->
+            <DockPanel x:Name="pldock"  TextBlock.Foreground="{Binding IsActive, Converter={StaticResource ActiveItemSelector} ,ConverterParameter=Foreground}" 
+                        LastChildFill="True" HorizontalAlignment="Stretch" 
+                        VerticalAlignment="Stretch"
+                        VirtualizingStackPanel.VirtualizationMode="Recycling" 
+                        VirtualizingStackPanel.IsVirtualizing="True" >
+                <!--<DockPanel.Background>
+                    <ImageBrush ImageSource="Images/check-1-icon.png" TileMode="Tile"   Stretch="None" ViewportUnits="Absolute" Opacity="0.095"/>
+                </DockPanel.Background>-->
+                <StackPanel Grid.Row="1" DockPanel.Dock="Bottom" Margin="5,0,0,0" Orientation="Horizontal"
+                                    HorizontalAlignment="Left" >
+                    <TextBlock   Text="{Binding ProgressAsString,
+                                Converter={StaticResource TextContexter}, ConverterParameter=Text}" 
+                                         Visibility="{Binding ProgressAsString,
+                                Converter={StaticResource TextContexter}, ConverterParameter=Visibility}"
+                                        FontSize="10" Padding="2" FontWeight="Regular"/>
+                    <TextBlock   Text="{Binding Duration}"  FontWeight="Regular"
+                                        FontSize="10" Padding="2"/>
+                </StackPanel>
+                <TextBlock Padding="2" TextWrapping="Wrap" FontWeight="Regular"
+                           x:Name="hh" FontSize="15" SnapsToDevicePixels="True"
+                           ToolTip="{Binding TooltipMessage}"
+                           Text="{Binding MediaTitle}" 
+                           TextTrimming="CharacterEllipsis"  />
+
+
+            </DockPanel>
+
+            <!--</y:VideoData>-->
+        </presentationCmd:CustomButton>
+
+        <DataTemplate.Triggers>
+            <!--<Trigger Property="IsMouseOver" Value="true">
+                <Setter TargetName="main" Property="Background">
+                    <Setter.Value>
+                        <ImageBrush ImageSource="Images/check-1-icon.png" TileMode="Tile"   Stretch="None" ViewportUnits="Absolute" Opacity="0.2"/>
+                    </Setter.Value>
+                </Setter>
+                <Setter TargetName="pldock" Property="TextBlock.Foreground" Value="White"/>
+            </Trigger>-->
+
+        </DataTemplate.Triggers>
+    </DataTemplate>
+</ResourceDictionary>

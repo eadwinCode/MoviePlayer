@@ -6,6 +6,8 @@ using System.Windows.Controls;
 using System.Windows;
 using VideoComponent.BaseClass;
 using Common.Util;
+using Movies.Models.Model;
+using Movies.Enums;
 
 namespace VirtualizingListView
 {

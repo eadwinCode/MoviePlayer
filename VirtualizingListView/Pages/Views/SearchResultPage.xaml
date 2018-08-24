@@ -9,6 +9,12 @@
       d:DesignHeight="300" d:DesignWidth="300"
       Title="SearchResultPage">
     <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/VirtualizingListView;component/Resources/ViewStyle.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/VirtualizingListView;component/Resources/Items.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+       
         <xv:GroupSort x:Key="GroupSort" />
 
         <CollectionViewSource x:Key="SearchResultVideoData" Source="{Binding SearchResults}">
@@ -16,6 +22,7 @@
                 <PropertyGroupDescription  Converter="{StaticResource GroupSort}" />
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
+        </ResourceDictionary>
     </Page.Resources>
     <ScrollViewer VerticalScrollBarVisibility="Auto" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
     <DockPanel Margin="10">

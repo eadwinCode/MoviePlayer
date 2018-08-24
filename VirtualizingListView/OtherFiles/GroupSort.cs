@@ -5,6 +5,8 @@ using System.Text;
 using System.Windows.Data;
 using System.IO;
 using VideoComponent.BaseClass;
+using Movies.Enums;
+using Movies.Models.Model;
 
 namespace VirtualizingListView
 {
@@ -17,7 +19,7 @@ namespace VirtualizingListView
             {
                 return value;
             }
-            if (obj.FileType == Common.Util.FileType.Folder)
+            if (obj.FileType == FileType.Folder)
             {
                 return "Folders";
             }

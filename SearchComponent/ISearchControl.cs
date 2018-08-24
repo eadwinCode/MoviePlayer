@@ -1,4 +1,4 @@
-﻿using Common.Interfaces;
+﻿using Movies.MoviesInterfaces;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Controls;

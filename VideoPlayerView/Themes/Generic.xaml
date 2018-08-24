@@ -1,12 +1,13 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:VideoPlayer="clr-namespace:VideoPlayerControl;assembly=VideoPlayerControl"
-       xmlns:sw="clr-namespace:WpfStyleableWindow.StyleableWindow"  
+    xmlns:VideoPlayer="clr-namespace:VideoPlayerControl;assembly=VideoPlayerControl"
+    xmlns:sw="clr-namespace:WpfStyleableWindow.StyleableWindow" 
+    xmlns:plylistmanager="clr-namespace:Movies.MoviePlaylistManager.Views;assembly=Movies.MoviePlaylistManager"
     xmlns:util="clr-namespace:Common.Util;assembly=Common"
     xmlns:local="clr-namespace:VideoPlayerView">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/VirtualizingListView;component/Resources/ViewStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/VideoPlayerControl;component/Themes/Generic.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     <Style TargetType="{x:Type local:CustomControl1}">
         <Setter Property="Template">
@@ -21,16 +22,16 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
-    <Style TargetType="{x:Type VideoPlayer:PlaylistView}">
+
+    <Style TargetType="{x:Type plylistmanager:PlaylistView}">
+        <Setter Property="Width" Value="250"/>
         <Style.Triggers>
             <Trigger  Value="Collapsed"  Property="util:MediaControlExtension.FileexpVisiblity">
                 <Trigger.EnterActions>
                     <BeginStoryboard x:Name="Current1">
                         <Storyboard>
-                            <DoubleAnimation Duration="0:0:0.200" To="0" From="240" 
-                                             Storyboard.TargetProperty="Width" />
-                            <ObjectAnimationUsingKeyFrames BeginTime="0:0:0" Duration="0:0:10" Storyboard.TargetProperty="Visibility">
+                            <ThicknessAnimation Storyboard.TargetProperty="Margin"  From="0,0,0,0" To="0,0,-240,0" AccelerationRatio=".9" Duration="0:0:.5"/>
+                            <ObjectAnimationUsingKeyFrames BeginTime="0:0:0.6" Duration="0:0:20" Storyboard.TargetProperty="Visibility">
                                 <DiscreteObjectKeyFrame KeyTime="0">
                                     <DiscreteObjectKeyFrame.Value>
                                         <Visibility>Collapsed</Visibility>
@@ -50,7 +51,8 @@
                 <Trigger.EnterActions>
                     <BeginStoryboard x:Name="Current2">
                         <Storyboard>
-                            <DoubleAnimation Duration="0:0:0.300" To="240" From="0" Storyboard.TargetProperty="Width" />
+                            <ThicknessAnimation Storyboard.TargetProperty="Margin" From="0,0,-240,0" To="0,0,0,0" DecelerationRatio=".9" Duration="0:0:.5"/>
+                            
                             <ObjectAnimationUsingKeyFrames BeginTime="0:0:0" Duration="0:0:20" Storyboard.TargetProperty="Visibility">
                                 <DiscreteObjectKeyFrame KeyTime="0">
                                     <DiscreteObjectKeyFrame.Value>
@@ -82,8 +84,8 @@
         <Grid Background="{StaticResource WindowBackColor}">
             <Border Grid.Row="1" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" >
                 <DockPanel>
-                    <VideoPlayer:PlaylistView Focusable="False" Cursor="Arrow" x:Name="playlistview" Width="10" Grid.Column="1"  DockPanel.Dock="Right" 
-                                                  Margin="0,0,0,0"  />
+                    <!--<VideoPlayer:PlaylistView Focusable="False" Cursor="Arrow" x:Name="playlistview" Width="10" Grid.Column="1"  DockPanel.Dock="Right" 
+                                                  Margin="0,0,0,0"  />-->
                     <DockPanel LastChildFill="True" Grid.Column="0">
                         <Grid Background="{TemplateBinding Background}">
                             <AdornerDecorator>
@@ -112,7 +114,7 @@
 
         <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
-                <Setter TargetName="playlistview" Property="Cursor" Value="Arrow"/>
+                <!--<Setter TargetName="playlistview" Property="Cursor" Value="Arrow"/>-->
             </Trigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>

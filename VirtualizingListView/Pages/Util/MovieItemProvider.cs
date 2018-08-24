@@ -1,8 +1,10 @@
-﻿using Common.FileHelper;
-using Common.Model;
-using Common.Util;
+﻿using Common.Util;
 using Delimon.Win32.IO;
 using Microsoft.WindowsAPICodePack.Shell;
+using Movies.Models.Interfaces;
+using Movies.Models.Model;
+using Movies.MoviesInterfaces;
+using Movies.Enums;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,7 +19,6 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using VideoComponent.BaseClass;
 using VirtualizingListView.Pages.ViewModel;
-using VirtualizingListView.Util;
 
 namespace VirtualizingListView.Pages.Util
 {
@@ -119,25 +120,25 @@ namespace VirtualizingListView.Pages.Util
 
             Dispatcher.BeginInvoke(new Action(delegate
             {
-                var itemchild = (VideoFolderChild)item;
-                if (files == null)
-                    files = FileExplorerCommonHelper.GetSubtitleFiles(FilePageViewModel.CurrentVideoFolder.Directory);
+                //var itemchild = (VideoFolderChild)item;
+                //if (files == null)
+                //    files = FileExplorerCommonHelper.GetSubtitleFiles(FilePageViewModel.CurrentVideoFolder.Directory);
 
-                itemchild.SubPath = GetSubtitlePath(item);
+                //itemchild.SubPath = GetSubtitlePath(item);
             }), DispatcherPriority.Background);
         }
 
         private VideoFolder GetItems(VideoFolder item)
         {
-            var s = FileLoader.FileLoaderInstance.LoadParentFiles(item, item.SortedBy);
-            foreach (var vfile in item.OtherFiles)
-            {
-                var temp = vfile;
-                if (vfile.FileType == FileType.Folder)
-                    temp = FileLoader.FileLoaderInstance.LoadParentFiles(vfile, vfile.SortedBy);
-            }
+            //var s = FileLoader.FileLoaderInstance.LoadParentFiles(item, item.SortedBy);
+            //foreach (var vfile in item.OtherFiles)
+            //{
+            //    var temp = vfile;
+            //    if (vfile.FileType == FileType.Folder)
+            //        temp = FileLoader.FileLoaderInstance.LoadParentFiles(vfile, vfile.SortedBy);
+            //}
 
-            return s;
+            return null;
         }
 
         private void LoadOtherFileDetails(VideoFolder item)
@@ -176,7 +177,8 @@ namespace VirtualizingListView.Pages.Util
 
         private ObservableCollection<SubtitleFilesModel> GetSubtitlePath(VideoFolder item)
         {
-            return FileExplorerCommonHelper.MatchSubToMedia(item.Name, files);
+            // return FileExplorerCommonHelper.MatchSubToMedia(item.Name, files);
+            return null;
         }
 
 
@@ -205,10 +207,10 @@ namespace VirtualizingListView.Pages.Util
 
             ObservableCollection<VideoFolder> list = new ObservableCollection<VideoFolder>();
 
-            for (int i = startIndex; i < startIndex + count; i++)
-            {
-                list.Add(FilePageViewModel.CurrentVideoFolder.OtherFiles[i]);
-            }
+            //for (int i = startIndex; i < startIndex + count; i++)
+            //{
+            //    list.Add(FilePageViewModel.CurrentVideoFolder.OtherFiles[i]);
+            //}
 
             return list;
         }

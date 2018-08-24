@@ -7,16 +7,14 @@ using Microsoft.Practices.Prism.UnityExtensions;
 using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.Unity;
-using VideoPlayerControl;
-using VideoPlayerView.FilePlayer;
-using Common.Interfaces;
 using Common.ApplicationCommands;
-using Common.FileHelper;
 using Movies;
-using VirtualizingListView.Threading.Interface;
-using VirtualizingListView.Threading;
-using VideoComponent.Interfaces;
-using VirtualizingListView.Util;
+using Movies.MoviesInterfaces;
+using Movies.Services;
+using Microsoft.Practices.Prism.Logging;
+using PresentationExtension.EventManager;
+using PresentationExtension.InterFaces;
+using Movies.Themes.Service;
 
 namespace RealMediaControl
 {
@@ -30,6 +28,19 @@ namespace RealMediaControl
         //    //moduleCatalog.ModulePath = AppDomain.CurrentDomain.BaseDirectory + "Modules";
         //    return moduleCatalog;
         //}
+        protected override ILoggerFacade CreateLogger()
+        {
+            return base.CreateLogger();
+        }
+        protected override void ConfigureModuleCatalog()
+        {
+            base.ConfigureModuleCatalog();
+            ProjectConfiguration projectConfiguration = new ProjectConfiguration();
+            foreach (ModuleInfo catalog in projectConfiguration.GetModuleInfo())
+            {
+                ModuleCatalog.AddModule(catalog);
+            }
+        }
 
         protected override RegionAdapterMappings ConfigureRegionAdapterMappings()
         {
@@ -37,20 +48,23 @@ namespace RealMediaControl
             return mappings;
         }
 
+        protected override void ConfigureContainer()
+        {
+            this.Container.RegisterType<IShell, MainView>(new ContainerControlledLifetimeManager());
+            base.ConfigureContainer();
+            this.Container.RegisterType<IEventManager, MovieEventManager>(new ContainerControlledLifetimeManager());
+        }
+
         protected override DependencyObject CreateShell()
         {
             SplashScreenWindow splashscreenwindow = new SplashScreenWindow();
             splashscreenwindow.Show();
-            this.Container.RegisterType<IPlayFile, PlayFile>();
-            this.Container.RegisterInstance<IBackgroundService>(new ExecutorImpl());
-            this.Container.RegisterInstance<IFileLoader>(FileLoader.FileLoaderInstance);
 
-            ApplicationService.CreateFolder();
-            ApplicationService.LoadFiles();
-
-            MainView shell = new MainView();
-            this.Container.RegisterInstance<IShell>(shell);
-           
+            IModule thememodule = Container.Resolve<ThemeModule>();
+            thememodule.Initialize();
+            base.InitializeModules();
+            
+            var shell = this.Container.Resolve<IShell>() as MainView;
             shell.Dispatcher.BeginInvoke((Action)delegate
             {
                 //shell.Show();

@@ -1,13 +1,13 @@
 ﻿using Common.ApplicationCommands;
-using Common.FileHelper;
-using Common.Interfaces;
-using Common.Model;
 using Common.Util;
 using MahApps.Metro.Controls;
 using MahApps.Metro.IconPacks;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.ViewModel;
 using Microsoft.Practices.ServiceLocation;
+using Movies.Models.Interfaces;
+using Movies.Models.Model;
+using Movies.MoviesInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,19 +17,13 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using VideoComponent.BaseClass;
-using VideoPlayerControl;
-using VideoPlayerControl.ViewModel;
-using VirtualizingListView;
-using VirtualizingListView.Pages;
-using VirtualizingListView.Pages.Views;
-using VirtualizingListView.View;
-using VirtualizingListView.ViewModel;
 
 namespace RealMediaControl.ViewModel
 {
     public class VideoPlayerVM:NotificationObject
     {
         private Visibility windowscontrol;
+        IApplicationService ApplicationService;
         private double windowsheight;
         private Visibility _Sliderthumb;
 
@@ -64,10 +58,10 @@ namespace RealMediaControl.ViewModel
             Sliderthumb = Visibility.Collapsed;
         }
         
-        public VideoPlayerVM()
+        public VideoPlayerVM(IApplicationService applicationService)
         {
             WindowsControl = Visibility.Visible;
-            
+            this.ApplicationService = applicationService;
         }
         
         public void Window_Loaded(object sender, RoutedEventArgs e)
@@ -78,22 +72,10 @@ namespace RealMediaControl.ViewModel
             commandbings.Add(new CommandBinding(VideoPlayerCommands.WMPPlay, WMPPlay_executed));
             commandbings.Add(new CommandBinding(VideoPlayerCommands.AddTo, AddTo_executed));
             commandbings.Add(new CommandBinding(VideoPlayerCommands.NewPlaylist, NewPlaylist_executed));
-            commandbings.Add(new CommandBinding(VideoPlayerCommands.RefreshFiles, 
-                RefreshFiles_executed, RefreshFiles_Enabled));
             commandbings.Add(new CommandBinding(VideoPlayerCommands.RemoveFromLastSeen,
                 RemoveFromLS_executed,RemoveFromLS_enabled));
 
             (IShell as Window).Closing += VideoPlayerVM_Closing;
-        }
-        
-        private void RefreshFiles_Enabled(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = CollectionViewModel.Instance.CanRefresh();
-        }
-
-        private void RefreshFiles_executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            CollectionViewModel.Instance.Refresh_Action();
         }
 
         private void RemoveFromLS_enabled(object sender, CanExecuteRoutedEventArgs e)
@@ -115,15 +97,18 @@ namespace RealMediaControl.ViewModel
         {
             VideoFolder vfc = (VideoFolder)e.Parameter;
             if (e.Parameter is VideoFolderChild){
-                HomePageLocal.PlaylistControl.CreateNewPlayList(vfc.FullName);
+                //HomePageLocal.PlaylistControl.CreateNewPlayList(vfc.FullName);
             }
             else
             {
                 if (vfc.OtherFiles.FirstOrDefault(x => x is VideoFolderChild) != null) {
                     List<string> listpath = GetListPath(vfc);
                     PlaylistModel playlistModel = new PlaylistModel();
-                    playlistModel.ItemsPaths.AddRange(listpath);
-                    HomePageLocal.PlaylistControl.CreateNewPlayList(playlistModel);
+                    foreach (var item in listpath)
+                    {
+                        playlistModel.Add(new Pathlist(item));
+                    }
+                    // HomePageLocal.PlaylistControl.CreateNewPlayList(playlistModel);
                 }
             }
         }

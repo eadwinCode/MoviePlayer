@@ -1,15 +1,14 @@
 ﻿<UserControl x:Class="VideoPlayerControl.SubtitleMediaController"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:sub="clr-namespace:RealMediaControlSubtitle.View;assembly=MoviesSubtitle"
              xmlns:rmc="clr-namespace:VideoPlayerControl"
              AllowDrop="True"
              xmlns:util="clr-namespace:Common.Util;assembly=Common">
-   
+
     <UserControl.Resources>
         <ResourceDictionary>
-          
-            <Style x:Key="ContentControlStyle" TargetType="{x:Type rmc:MediaController}">
+
+            <Style TargetType="{x:Type rmc:MediaController}">
                 <Style.Triggers>
                     <MultiTrigger>
                         <MultiTrigger.Conditions>
@@ -129,55 +128,13 @@
         </ResourceDictionary>
 
     </UserControl.Resources>
-
-    <!--<Grid Background="Transparent"  HorizontalAlignment="Stretch"
-              VerticalAlignment="Bottom"
-               x:Name="ParentGrid" Grid.Row="0">-->
-
-
-    <!--<Grid Grid.Row="0" x:Name="VideoContent" HorizontalAlignment="Stretch"
-              VerticalAlignment="Stretch">
-            -->
-    <!--<controls:MediaUriElement x:Name="MediaElementPlayer" Grid.Row="1"
-                                  DeeperColor="True"
-                                  Margin="4" />-->
-
-    <!--<local:DragCanvas x:Name="mycanvas"  >
-                
-
-                -->
-    <!--<ContentControl Style="{StaticResource ContentControlStyle}" Canvas.Bottom="{Binding ElementName=Windows, Path=ActualHeight}" x:Name="_mediaContainer"/>-->
-    <!--
-
-            </local:DragCanvas>-->
-
-
-
-    <!--<Viewbox Canvas.Bottom="59"  VerticalAlignment="Bottom"  MouseDown="Viewbox_MouseDown"  HorizontalAlignment="Center" >
-                <local1:OutlinedTextBlock  Text=" " SnapsToDevicePixels="True" Width="700"  x:Name="SubtitleText" TextAlignment="Center" TextWrapping="Wrap"
-                               StrokeThickness="2" FontWeight="ExtraBold" Stroke="Black" Visibility="Visible" FontSize="20" 
-                           FontFamily="Arial">
-                    <local1:OutlinedTextBlock.Effect>
-                        <DropShadowEffect   Direction="315" ShadowDepth="1.1" Color="Black" BlurRadius="0" Opacity=".8"/>
-                    </local1:OutlinedTextBlock.Effect>
-                </local1:OutlinedTextBlock>
-            </Viewbox>-->
-    <!--
-
-
-
-
-        </Grid>-->
     <Grid >
         <StackPanel HorizontalAlignment="Stretch"  DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
             <Grid Grid.Row="1"  x:Name="ControlHolder" >
-                <rmc:MediaController 
-                    Style="{StaticResource ContentControlStyle}"  x:Name="mediacontrol"/>
+                <ContentControl x:Name="controlRegion"/>
             </Grid>
         </StackPanel>
     </Grid>
-
-    <!--</Grid>-->
 
 
 </UserControl>

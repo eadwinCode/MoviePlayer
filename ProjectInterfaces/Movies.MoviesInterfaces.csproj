@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2D97DA0A-18BE-48A1-B4FC-78B0B3CEB6C8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Movies.MoviesInterfaces</RootNamespace>
+    <AssemblyName>Movies.MoviesInterfaces</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Delimon.Win32.IO">
+      <HintPath>..\Libraries\Delimon.Win32.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism">
+      <HintPath>..\Libraries\Microsoft.Practices.Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism.Interactivity">
+      <HintPath>..\Libraries\Microsoft.Practices.Prism.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\Libraries\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CommonInterfaces.cs" />
+    <Compile Include="IMediaController.cs" />
+    <Compile Include="IMovieFolderModel.cs" />
+    <Compile Include="IMovieTitle_Tab.cs" />
+    <Compile Include="Interfaces.cs" />
+    <Compile Include="IOpenFileCaller.cs" />
+    <Compile Include="IPlaylistManagerViewModel.cs" />
+    <Compile Include="ISortService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Meta.Vlc.Wpf\Meta.Vlc.Wpf - .Net 4.0.csproj">
+      <Project>{ed70ad57-1b05-428a-8a30-2cc533daf389}</Project>
+      <Name>Meta.Vlc.Wpf - .Net 4.0</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Meta.Vlc\Meta.Vlc - .Net 4.0.csproj">
+      <Project>{9368132d-33f8-4149-8733-3bf90715f887}</Project>
+      <Name>Meta.Vlc - .Net 4.0</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movies.Enums\Movies.Enums.csproj">
+      <Project>{0824A682-F34D-456B-8B0B-22FF40FEAE33}</Project>
+      <Name>Movies.Enums</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movies.MediaService\Movies.MediaService.csproj">
+      <Project>{b6faa2de-b0a4-4db9-9532-e6059788598a}</Project>
+      <Name>Movies.MediaService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movies.Models\Movies.Models.csproj">
+      <Project>{12CE1E5D-1E2D-4FE8-8084-B5E334CD54CD}</Project>
+      <Name>Movies.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

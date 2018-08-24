@@ -63,6 +63,7 @@
     <Compile Include="Subtitle\Subtitle.cs" />
     <Compile Include="Subtitle\TextBlock_Test.cs" />
     <Compile Include="View\ISubtitle.cs" />
+    <Compile Include="View\ISubtitle1.cs" />
     <Compile Include="View\SubtitleView.xaml.cs">
       <DependentUpon>SubtitleView.xaml</DependentUpon>
     </Compile>

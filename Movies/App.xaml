@@ -1,20 +1,16 @@
-﻿<Application
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<Application xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-            xmlns:sw="clr-namespace:WpfStyleableWindow.StyleableWindow;assembly=VideoPlayerView"
-            mc:Ignorable="d" x:Class="Movies.App"
-    >
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+            
+             mc:Ignorable="d" x:Class="Movies.App">
     <Application.Resources>
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/SearchComponent;component/Themes/Generic.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Movies.GlobalResources;component/Themes/Generic.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Movies;component/Resources/Styles.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/VirtualizingListView;component/Resources/Items.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/VirtualizingListView;component/Resources/ViewStyle.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/VideoPlayerView;component/Themes/Generic.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Movies.Themes;component/Themes/Hybrid.xaml"/>
 
                 <!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
@@ -78,7 +74,17 @@
                 <GradientStop Color="#90FFFFFF" Offset="0.5385"/>
                 <GradientStop Color="#00FFFFFF" Offset="0.5385"/>
             </LinearGradientBrush>
-
+           
+            <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+            <SolidColorBrush x:Key="Button.Static.Border" Color="DarkOrange"/>
+            <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFC6DAE5"/>
+            <SolidColorBrush x:Key="Button.MouseOver.Border" Color="DarkOrange"/>
+            <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC6DAE5"/>
+            <SolidColorBrush x:Key="Button.Pressed.Border" Color="DarkOrange"/>
+            <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+            <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+            <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+            
             <Style TargetType="ToolTip">
                 <Setter Property="Background">
                     <Setter.Value>
@@ -155,297 +161,9 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-
-
-            <!--Windows button Style-->
-            <Style x:Key="CloseStyle" TargetType="{x:Type Button}">
-                <Setter Property="Height" Value="25"/>
-                <Setter Property="Width" Value="25"/>
-                <Setter Property="Cursor" Value="Arrow"/>
-                <Setter Property="Background" Value="{StaticResource WindowBackColor}"/>
-                <Setter Property="Foreground" Value="{StaticResource WindowForeColor}"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type Button}">
-                            <Grid  Background="{TemplateBinding Background}" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
-                                <Grid Width="9" Height="9" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <Grid.RenderTransform>
-                                        <TransformGroup>
-                                            <ScaleTransform/>
-                                            <SkewTransform/>
-                                            <RotateTransform Angle="90"/>
-                                            <TranslateTransform/>
-                                        </TransformGroup>
-                                    </Grid.RenderTransform>
-                                    <Rectangle x:Name="recta" VerticalAlignment="Top" SnapsToDevicePixels="True" Fill="{ TemplateBinding Foreground}" Stroke="{TemplateBinding Foreground}" StrokeThickness="1" RenderTransformOrigin="0,0">
-                                        <Rectangle.RenderTransform>
-                                            <TransformGroup>
-                                                <ScaleTransform/>
-                                                <SkewTransform AngleY="45"/>
-                                                <RotateTransform/>
-                                                <TranslateTransform/>
-                                            </TransformGroup>
-                                        </Rectangle.RenderTransform>
-                                    </Rectangle>
-                                    <Rectangle VerticalAlignment="Bottom" Fill="{TemplateBinding Foreground}" SnapsToDevicePixels="True" Stroke="{TemplateBinding Foreground}" StrokeThickness="{Binding ElementName=recta,Path=StrokeThickness}" RenderTransformOrigin="0,0">
-                                        <Rectangle.RenderTransform>
-                                            <TransformGroup>
-                                                <ScaleTransform/>
-                                                <SkewTransform AngleY="-45"/>
-                                                <RotateTransform/>
-                                                <TranslateTransform/>
-                                            </TransformGroup>
-                                        </Rectangle.RenderTransform>
-                                    </Rectangle>
-                                </Grid>
-                            </Grid>
-                            <ControlTemplate.Triggers>
-                                <MultiTrigger>
-                                    <MultiTrigger.Conditions>
-                                        <Condition Property="IsMouseOver" Value="true"/>
-                                    </MultiTrigger.Conditions>
-                                    <Setter Property="Foreground" Value="{StaticResource WindowForeHighlightColor}"/>
-                                    <Setter TargetName="recta" Property="StrokeThickness" Value="1.3"/>
-                                </MultiTrigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
+           
             
-            <Style x:Key="EditedCloseStyle" TargetType="Button" BasedOn="{StaticResource CloseStyle}">
-                <Setter Property="Foreground" Value="Gray"/>
-                <Style.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Foreground" Value="Black"/>
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-            
-            <Style x:Key="maxbtn" TargetType="{x:Type Button}">
-                <Setter Property="Height" Value="25"/>
-                <Setter Property="Width" Value="25"/>
-                <Setter Property="Cursor" Value="Arrow"/>
-                <Setter Property="Background" Value="{StaticResource WindowBackColor}"/>
-                <Setter Property="Foreground" Value="{StaticResource WindowForeColor}"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type Button}">
-                            <Grid x:Name="maxwrapper" Background="{TemplateBinding Background}" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
-                                <Grid Width="10" Height="10" >
-                                    <Rectangle SnapsToDevicePixels="True" Fill="{TemplateBinding Background}" StrokeThickness=".8" Stroke="{TemplateBinding Foreground}"/>
-                                </Grid>
-                            </Grid>
-                            <ControlTemplate.Triggers>
-                                <MultiTrigger>
-                                    <MultiTrigger.Conditions>
-                                        <Condition Property="IsMouseOver" Value="true"/>
-                                    </MultiTrigger.Conditions>
-                                    <Setter Property="Foreground" Value="{StaticResource WindowForeHighlightColor}"/>
-                                </MultiTrigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-
-            <Style x:Key="normbtn" TargetType="{x:Type Button}">
-                <Setter Property="Height" Value="25"/>
-                <Setter Property="Width" Value="25"/>
-                <Setter Property="Cursor" Value="Arrow"/>
-                <Setter Property="ToolTip" Value="Maximize"/>
-                <Setter Property="Background" Value="{StaticResource WindowBackColor}"/>
-                <Setter Property="BorderBrush" Value="{StaticResource WindowBackColor}"/>
-                <Setter Property="Foreground" Value="{StaticResource WindowForeColor}"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type Button}">
-                            <StackPanel Orientation="Vertical">
-                                <Grid x:Name="normwrapper" Visibility="Visible" 
-                                      Background="{TemplateBinding Background}" 
-                                      Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
-                                    <Grid Width="8" Height="8" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <Grid.RenderTransform>
-                                            <TransformGroup>
-                                                <ScaleTransform/>
-                                                <SkewTransform/>
-                                                <RotateTransform/>
-                                                <TranslateTransform Y="2"/>
-                                            </TransformGroup>
-                                        </Grid.RenderTransform>
-                                        <Rectangle Panel.ZIndex="10" Fill="{TemplateBinding BorderBrush}"  StrokeThickness=".8"  Stroke="{TemplateBinding Foreground}" SnapsToDevicePixels="True"/>
-                                        <Rectangle Panel.ZIndex="-1" StrokeThickness=".8"   Stroke="{TemplateBinding Foreground}" SnapsToDevicePixels="True" RenderTransformOrigin="0.5,0.5">
-                                            <Rectangle.RenderTransform>
-                                                <TransformGroup>
-                                                    <TranslateTransform Y="-3" X="3"/>
-                                                </TransformGroup>
-                                            </Rectangle.RenderTransform>
-                                        </Rectangle>
-                                    </Grid>
-                                </Grid>
-                                <Grid x:Name="maxwrapper" Visibility="Visible" Background="{TemplateBinding Background}" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
-                                    <Grid Width="10" Height="10" >
-                                        <Rectangle SnapsToDevicePixels="True" Fill="{TemplateBinding Background}" StrokeThickness=".8" Stroke="{TemplateBinding Foreground}"/>
-                                    </Grid>
-                                </Grid>
-                            </StackPanel>
-                            <ControlTemplate.Triggers>
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding WindowState, 
-                                            RelativeSource={RelativeSource FindAncestor, 
-                                           AncestorType={x:Type Window}}}" Value="Normal"/>
-                                    </MultiDataTrigger.Conditions>
-                                    <Setter Property="ToolTip" Value="Maximize"/>
-                                    <Setter Property="Visibility" Value="Collapsed" TargetName="normwrapper"/>
-                                    <Setter Property="Visibility" Value="Visible" TargetName="maxwrapper"/>
-                                </MultiDataTrigger>
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding WindowState, 
-                                            RelativeSource={RelativeSource FindAncestor, 
-                                           AncestorType={x:Type Window}}}" Value="Maximized"/>
-                                    </MultiDataTrigger.Conditions>
-                                    <Setter Property="ToolTip" Value="Restore"/>
-                                    <Setter Property="Visibility" Value="Visible" TargetName="normwrapper"/>
-                                    <Setter Property="Visibility" Value="Collapsed" TargetName="maxwrapper"/>
-                                </MultiDataTrigger>
-                                <MultiTrigger>
-                                    <MultiTrigger.Conditions>
-                                        <Condition Property="IsMouseOver" Value="true"/>
-                                    </MultiTrigger.Conditions>
-                                    <Setter Property="Foreground" Value="{StaticResource WindowForeHighlightColor}"/>
-                                </MultiTrigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-
-            <Style x:Key="minbtn" TargetType="{x:Type Button}">
-                <Setter Property="Height" Value="25"/>
-                <Setter Property="Width" Value="25"/>
-                <Setter Property="Cursor" Value="Arrow"/>
-                <Setter Property="Background" Value="{StaticResource WindowBackColor}"/>
-                <Setter Property="Foreground" Value="{StaticResource WindowForeColor}"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type Button}">
-                            <Grid x:Name="wrapper" Background="{TemplateBinding Background}" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
-                                <Grid Width="10" Height="10" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <Rectangle Fill="{TemplateBinding Foreground}" Stroke="{TemplateBinding Foreground}" 
-                                           StrokeThickness="1" VerticalAlignment="Bottom" SnapsToDevicePixels="True"/>
-                                </Grid>
-                            </Grid>
-                            <ControlTemplate.Triggers>
-                                <MultiTrigger>
-                                    <MultiTrigger.Conditions>
-                                        <Condition Property="IsMouseOver" Value="true"/>
-                                    </MultiTrigger.Conditions>
-                                    <Setter Property="Foreground" 
-                                            Value="{StaticResource WindowForeHighlightColor}"/>
-                                </MultiTrigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-
-
-            <sw:WindowMinimizeCommand x:Key="MinimizeCommand"></sw:WindowMinimizeCommand>
-            <sw:WindowMaximizeCommand x:Key="MaximizeCommand"></sw:WindowMaximizeCommand>
-            <sw:WindowCloseCommand x:Key="CloseCommand"></sw:WindowCloseCommand>
-
-            <Style TargetType="{x:Type Button}" x:Key="WindowButton">
-                <Setter Property="Height" Value="25"/>
-                <Setter Property="Width" Value="25"/>
-                <Setter Property="Background" Value="{StaticResource WindowButtonColor}"/>
-                <Setter Property="Foreground" Value="{StaticResource WindowForeColor}"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type Button}">
-                            <Border Background="{TemplateBinding Background}">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                            </Border>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsEnabled" Value="False">
-                                    <Setter Property="Background" Value="{StaticResource WindowButtonColor}"/>
-                                    <Setter Property="Foreground" Value="{StaticResource WindowColor}"/>
-                                </Trigger>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background" Value="{StaticResource WindowButtonOverColor}"/>
-                                    <Setter Property="Foreground" Value="{StaticResource WindowForeHighlightColor}"/>
-                                </Trigger>
-                                <Trigger Property="IsPressed" Value="True">
-                                    <Setter Property="Background" Value="{StaticResource WindowButtonPressedColor}"/>
-                                    <Setter Property="Foreground" Value="{StaticResource WindowForeColor}"/>
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-
-            <Style TargetType="{x:Type Image}" x:Key="WindowIcon">
-                <Setter Property="Height" Value="25"/>
-                <Setter Property="Width" Value="25"/>
-            </Style>
-
-            <ControlTemplate x:Key="WindowTemplate" TargetType="{x:Type Window}">
-                <Grid Background="{StaticResource WindowBackColor}">
-                    <Border Grid.Row="1" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" >
-
-                        <DockPanel LastChildFill="True" Grid.Column="0">
-                            <Grid Background="{TemplateBinding Background}">
-                                <AdornerDecorator>
-                                    <ContentPresenter x:Name="WindowContent"/>
-                                </AdornerDecorator>
-                                <ResizeGrip  x:Name="WindowResizeGrip" HorizontalAlignment="Right" IsTabStop="false" Visibility="Collapsed" VerticalAlignment="Bottom"/>
-                            </Grid>
-                        </DockPanel>
-                    </Border>
-                    <Thumb Background="Transparent" x:Name="ThumbTop" Height="4" Margin="14,0" VerticalAlignment="Top" Cursor="SizeNS"  Opacity="0" sw:WindowResizeBehavior.TopResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
-                    <Thumb Background="Transparent" x:Name="ThumbTopLeft" Height="5" Width="5" VerticalAlignment="Top" HorizontalAlignment="Left" Cursor="SizeNWSE"  Opacity="0" sw:WindowResizeBehavior.TopLeftResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
-                    <Thumb Background="Transparent" x:Name="ThumbBottom" Height="4" Margin="14,0" VerticalAlignment="Bottom" Cursor="SizeNS" Opacity="0" sw:WindowResizeBehavior.BottomResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
-                    <Thumb Background="Transparent" x:Name="ThumbTopRight" Height="5" Width="5" VerticalAlignment="Top" HorizontalAlignment="Right" Cursor="SizeNESW"  Opacity="0" sw:WindowResizeBehavior.TopRightResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
-                    <Thumb Background="Transparent" x:Name="ThumbRight" HorizontalAlignment="Right" Margin="0,14" Width="4" Cursor="SizeWE"  Opacity="0" sw:WindowResizeBehavior.RightResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
-                    <Thumb Background="Transparent" x:Name="ThumbBottomRight" Height="5" Width="5" VerticalAlignment="Bottom" HorizontalAlignment="Right" Cursor="SizeNWSE"  Opacity="0" sw:WindowResizeBehavior.BottomRightResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
-                    <Thumb Background="Transparent" x:Name="ThumbLeft" HorizontalAlignment="Left" Margin="0,14" Width="4" Cursor="SizeWE"  Opacity="0" sw:WindowResizeBehavior.LeftResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
-                    <Thumb Background="Transparent" x:Name="ThumbBottomLeft" Height="5" Width="5" VerticalAlignment="Bottom" HorizontalAlignment="Left" Cursor="SizeNESW"  Opacity="0" sw:WindowResizeBehavior.BottomLeftResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
-                    <Grid.Effect>
-                        <DropShadowEffect   Direction="315" ShadowDepth="1.1" Color="Red" BlurRadius="0" Opacity=".8"/>
-                    </Grid.Effect>
-                </Grid>
-
-
-
-                <ControlTemplate.Triggers>
-                    <MultiTrigger>
-                        <MultiTrigger.Conditions>
-                            <Condition Property="ResizeMode" Value="CanResizeWithGrip"/>
-                            <Condition Property="WindowState" Value="Normal"/>
-                        </MultiTrigger.Conditions>
-                        <Setter Property="Visibility" TargetName="WindowResizeGrip" Value="Visible"/>
-                    </MultiTrigger>
-                </ControlTemplate.Triggers>
-            </ControlTemplate>
-
-            <Style x:Key="CustomWindowStyle" TargetType="{x:Type Window}">
-                <Setter Property="WindowStyle" Value="None"/>
-                <Setter Property="AllowsTransparency" Value="True"/>
-                <Setter Property="MinWidth" Value="200"/>
-                <Setter Property="MinHeight" Value="46"/>
-                <!--CaptionHeight + ResizeBorderThickness * 2-->
-                <Setter Property="Cursor" Value="Arrow"/>
-                <!--<Setter Property="Background" >
-                </Setter>-->
-                <Setter Property="Background" Value="Yellow"/>
-                <Setter Property="BorderBrush" Value="Green"/>
-                <Setter Property="BorderThickness" Value="1"/>
-                <Setter Property="Foreground" Value="DarkRed"/>
-                <Setter Property="Template" Value="{StaticResource WindowTemplate}"/>
-            </Style>
-
         </ResourceDictionary>
+
     </Application.Resources>
 </Application>

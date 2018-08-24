@@ -4,11 +4,13 @@
     xmlns:util="clr-namespace:Common.Util;assembly=Common"
     xmlns:cmd="clr-namespace:Common.ApplicationCommands;assembly=Common"
     xmlns:local="clr-namespace:VideoPlayerControl">
-
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Movies.GlobalResources;component/Themes/Generic.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
     <local:VolumeTextConverter x:Key="VolumeTextConverter"/>
    
     <Style TargetType="{x:Type local:MovieTitle_Tab}">
-        <Setter Property="TextBlock.FontSize" Value="14"/>
+        <Setter Property="TextBlock.FontSize" Value="18"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:MovieTitle_Tab}">
@@ -19,85 +21,56 @@
                                 Background="{TemplateBinding Background}">
                         <TextBlock Visibility="{Binding ShowOtherText,FallbackValue=Collasped}" 
                                    Text="{Binding MovieText,FallbackValue='---'}"  
-                                   TextTrimming="CharacterEllipsis"
-                                    Padding="{TemplateBinding Padding}" />
-                        <local:MarqueeTextBlock x:Name="tbmarquee" TextTrimming="CharacterEllipsis" 
-                                                Width="{TemplateBinding Width}" 
-                                       Text="{Binding MovieTitleText,FallbackValue='-Movie Title-'}"  
-                                     Padding="{TemplateBinding Padding}"/>
-
+                                   TextTrimming="CharacterEllipsis" x:Name="tbx"
+                                   Padding="{TemplateBinding Padding}" />
+                        <TextBlock x:Name="tbmarquee" TextTrimming="CharacterEllipsis" 
+                                   Width="{TemplateBinding Width}" 
+                                   Text="{Binding MovieTitleText,FallbackValue='-Movie Title-'}" 
+                                   Padding="{TemplateBinding Padding}"/>
                     </StackPanel>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=tbx,Path=Visibility}" Value="Visible" >
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="tbmarquee"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
     <Style TargetType="{x:Type local:VolumeControl}">
-        <Setter Property="TextBlock.FontSize" Value="12"/>
+        <Setter Property="TextBlock.FontSize" Value="16"/>
         <Setter Property="TextBlock.FontWeight" Value="Bold"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:VolumeControl}">
-                    <StackPanel Height="{TemplateBinding Height}" Orientation="Horizontal" Opacity="{TemplateBinding Opacity}"
+                    <StackPanel Height="{TemplateBinding Height}" Orientation="Vertical" Opacity="{TemplateBinding Opacity}"
                                Width="{TemplateBinding Width}" HorizontalAlignment="Center" 
                                 VerticalAlignment="Center">
                         <DockPanel x:Name="textonly" Background="Transparent" Width="120" >
-                            <TextBlock x:Name="tb" Opacity="0.7" TextAlignment="Center" Text="{Binding ElementName=volslider,Path=Value, Converter={StaticResource VolumeTextConverter}}"/>
+                            <TextBlock x:Name="tb" Opacity="0.7" Padding="5" 
+                                       Text="{Binding ElementName=volslider,Path=Value, Converter={StaticResource VolumeTextConverter}}"/>
                         </DockPanel>
-                        <DockPanel x:Name="showbtn" Visibility="Visible" Width="120" 
+                        <DockPanel x:Name="showbtn" Visibility="Collapsed" Width="120" 
                                    Background="Transparent">
-                            <Button Command="{Binding Mute,Mode=TwoWay}" Width="24">
-                                <Button.Style>
-                                    <Style TargetType="Button" >
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="Button">
-                                                    <Border CornerRadius="16" SnapsToDevicePixels="True" x:Name="border"  Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
-
-                                                        <Image Opacity=".7" x:Name="contentPresenter" Margin="2" Source="/VirtualizingListView;component/Resources/Images/sound-icone-4732-32.png" />
-
-                                                    </Border>
-
-                                                    <ControlTemplate.Triggers>
-                                                        <Trigger Property="IsDefaulted" Value="true">
-                                                            <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                                                        </Trigger>
-                                                        <Trigger Property="IsMouseOver" Value="true">
-                                                            <Setter Property="Opacity" TargetName="contentPresenter" Value="1"/>
-                                                        </Trigger>
-                                                        <Trigger Property="IsPressed" Value="true">
-                                                            <Setter Property="LayoutTransform" TargetName="contentPresenter">
-                                                                <Setter.Value>
-                                                                    <ScaleTransform ScaleX=".8" ScaleY="0.8"/>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
-                                                        </Trigger>
-                                                        <Trigger Property="IsEnabled" Value="false">
-                                                            <Setter Property="Opacity" TargetName="contentPresenter" Value=".3"/>
-                                                            <!--<Setter Property="Background" TargetName="border" Value="#FF18170D"/>
-                                                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>-->
-                                                            <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
-                                                        </Trigger>
-                                                    </ControlTemplate.Triggers>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </Button.Style>
-                            </Button>
-                            <Slider Margin="2" Style="{StaticResource SliderStyle1}" Value="50" 
+                            <!--<Button Command="{Binding Mute,Mode=TwoWay}" DockPanel.Dock="Right" Width="24" Style="{StaticResource ContentContainer}">
+                                <Image Opacity=".7" x:Name="contentPresenter"
+                                       Margin="2" Uid="sound-icone-4732-32.png" />
+                            </Button>-->
+                            <Slider Margin="2" Style="{StaticResource VolumeSliderStyle}" Value="50" 
                                     x:Name="volslider" Maximum="200" Cursor="Hand"
                                     SmallChange="0.1"/>
                         </DockPanel>
                     </StackPanel>
 
                     <ControlTemplate.Triggers>
-                        <!--<Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Opacity" TargetName="tb" Value="1"/>
-                        </Trigger>-->
-                        <Trigger Property="IsMouseOver" Value="True">
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Visibility" TargetName="showbtn" Value="Visible"/>
+                            <Setter Property="TextBlock.FontSize" Value="12"/>
+                            <Setter Property="TextBlock.TextAlignment" TargetName="tb" Value="Center"/>
+                        </Trigger>
+                        <!--<Trigger Property="IsMouseOver" Value="True">
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
@@ -113,9 +86,9 @@
                                                          Storyboard.TargetProperty="Width" />
                                     </Storyboard>
                                 </BeginStoryboard>
-                            </Trigger.ExitActions>
-                            <!--<Setter TargetName="textonly" Property="Visibility" Value="Collapsed"/>-->
-                        </Trigger>
+                            </Trigger.ExitActions>-->
+                            <!--<Setter TargetName="textonly" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>-->
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

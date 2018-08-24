@@ -1,15 +1,14 @@
-﻿
-using Common.Interfaces;
-using Microsoft.Practices.Prism.Events;
+﻿using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.ServiceLocation;
+using Movies.Models.Interfaces;
+using Movies.Models.Model;
+using Movies.MoviesInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Controls;
 using System.Windows.Input;
-using VideoComponent.BaseClass;
-using VideoComponent.Events;
 using VirtualizingListView.View;
 using VirtualizingListView.ViewModel;
 
@@ -33,7 +32,7 @@ namespace VirtualizingListView
             var videofolder = parameter as VideoFolder;
             if (videofolder.Directory.Exists)
             {
-                CollectionViewModel.Instance.OnVideoItemSelected(videofolder);
+                //CollectionViewModel.Instance.OnVideoItemSelected(videofolder);
             }
             else
             {

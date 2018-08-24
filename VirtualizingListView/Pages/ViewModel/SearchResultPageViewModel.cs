@@ -1,22 +1,27 @@
-﻿using Common.FileHelper;
-using Common.Interfaces;
-using Common.Util;
+﻿using Common.Util;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.ViewModel;
 using Microsoft.Practices.ServiceLocation;
+using Movies.Models.Interfaces;
+using Movies.Models.Model;
+using Movies.MoviesInterfaces;
+using Movies.Enums;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using VideoComponent.BaseClass;
-using VirtualizingListView.Pages.Model;
 using VirtualizingListView.Pages.Util;
-using VirtualizingListView.Util;
+using System;
 
 namespace VirtualizingListView.Pages.ViewModel
 {
     internal class SearchResultPageViewModel:NotificationObject
     {
+        
+
         public Style ListViewStyle
         {
             get { return listviewstyle; }
@@ -70,7 +75,7 @@ namespace VirtualizingListView.Pages.ViewModel
 
         private void NavigationService_LoadCompleted(object sender, NavigationEventArgs e)
         {
-            SearchModel searchmodel = (SearchModel)e.ExtraData;
+            ISearchModel searchmodel = (ISearchModel)e.ExtraData;
             SearchResults = (ObservableCollection<VideoFolder>)searchmodel.Results;
             ResultText = searchmodel.SearchQuery;
             ResultTextInDetail = SearchResults.Count.ToString();
@@ -81,13 +86,11 @@ namespace VirtualizingListView.Pages.ViewModel
 
         private void UpdateViewCollection()
         {
-            FileLoaderCompletion fileCompletionLoader = new FileLoaderCompletion();
-            var task = FileLoaderCompletion.CurrentTaskExecutor.CreateTask(() => {
+            if (SearchResults.Count == 0) return;
+            BackgroundService.Execute(() => {
                 //this.IsLoading = true;
-                fileCompletionLoader.FinishCollectionLoadProcess(SearchResults);
-            }, "");
-
-            FileLoaderCompletion.CurrentTaskExecutor.Execute(task);
+                LoaderCompletion.FinishCollectionLoadProcess(SearchResults);
+            }, String.Format("Updating files from search {0} result(s). ", ResultText));
         }
        
         private void UpdateView(ViewType value)
@@ -112,8 +115,43 @@ namespace VirtualizingListView.Pages.ViewModel
                 this.navigationService.Navigate(new FilePageView(this.navigationService), obj);
             }
             else
-                OpenFileCall.Open(videoFolder as IVideoData);
+                openFileCaller.Open(videoFolder as IVideoData,searchresults.OfType<VideoFolderChild>());
         }
-
+        
+        IBackgroundService BackgroundService
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<IBackgroundService>();
+            }
+        }
+        IApplicationService ApplicationService
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<IApplicationService>();
+            }
+        }
+        IFileLoaderCompletion LoaderCompletion
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<IFileLoaderCompletion>();
+            }
+        }
+        IFileLoader FileLoader
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<IFileLoader>();
+            }
+        }
+        IOpenFileCaller openFileCaller
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<IOpenFileCaller>();
+            }
+        }
     }
 }

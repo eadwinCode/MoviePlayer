@@ -1,18 +1,23 @@
-﻿using Common.FileHelper;
-using Common.Interfaces;
-using Common.Util;
+﻿using Common.Util;
 using MahApps.Metro.Controls;
 using MahApps.Metro.IconPacks;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.ViewModel;
+using Movies.Models.Interfaces;
+using Movies.Models.Model;
+using Movies.MoviesInterfaces;
+using Movies.Enums;
 using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using VideoComponent.BaseClass;
 using VirtualizingListView.Pages.Util;
-using VirtualizingListView.Util;
+using Microsoft.Practices.ServiceLocation;
+using PresentationExtension.InterFaces;
+using System.Windows.Threading;
 
 namespace VirtualizingListView.Pages.ViewModel
 
@@ -26,6 +31,44 @@ namespace VirtualizingListView.Pages.ViewModel
         private DataTemplateSelector mytemplatechange;
         private Style listviewstyle;
         private HamburgerMenuIconItem hamburgermenuicon;
+        private object Padlock = new object();
+
+        IBackgroundService BackgroundService
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<IBackgroundService>();
+            }
+        }
+
+        IApplicationService ApplicationService
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<IApplicationService>();
+            }
+        }
+        IFileLoaderCompletion LoaderCompletion
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<IFileLoaderCompletion>();
+            }
+        }
+        IFileLoader fileLoader
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<IFileLoader>();
+            }
+        }
+        IOpenFileCaller openFileCaller
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<IOpenFileCaller>();
+            }
+        }
 
         public HamburgerMenuIconItem HamburgerMenuIcon
         {
@@ -56,7 +99,7 @@ namespace VirtualizingListView.Pages.ViewModel
         }
         public DelegateCommand<object> OpenFolderCommand { get; private set; }
 
-        private SortType activesorttype = SortType.Extension;
+        private SortType activesorttype = SortType.Date;
         public SortType ActiveSortType
         {
             get { return activesorttype; }
@@ -68,8 +111,7 @@ namespace VirtualizingListView.Pages.ViewModel
             }
         }
 
-        private ViewType activeType = ApplicationService.AppSettings.ViewType;
-
+        private ViewType activeType;
         public ViewType ActiveViewType
         {
             get
@@ -82,7 +124,7 @@ namespace VirtualizingListView.Pages.ViewModel
                 {
                     UpdateView(value);
                 }
-                activeType = ApplicationService.AppSettings.ViewType = value;
+                activeType  = ApplicationService.AppSettings.ViewType = value;
                 this.RaisePropertyChanged(() => this.ActiveViewType);
             }
         }
@@ -123,6 +165,7 @@ namespace VirtualizingListView.Pages.ViewModel
             this.navigationService = navigationService;
             this.navigationService.LoadCompleted += NavigationService_LoadCompleted;
             OpenFolderCommand = new DelegateCommand<object>(OpenFolderCommandAction);
+            activeType = ApplicationService.AppSettings.ViewType;
             UpdateView(this.ActiveViewType);
         }
 
@@ -135,17 +178,15 @@ namespace VirtualizingListView.Pages.ViewModel
                 Icon = new PackIconMaterial() { Kind = PackIconMaterialKind.FolderOpen }
             };
 
-            FileLoaderCompletion fileCompletionLoader = new FileLoaderCompletion();
-            var task = FileLoaderCompletion.CurrentTaskExecutor.CreateTask(() => {
+            BackgroundService.Execute(() =>
+            {
                 this.IsLoading = true;
                 GetVideoFolder(videoFolder);
-            }, "Getting Folder Files", () =>
-            {
+            }, String.Format("Updating files in {0}", videoFolder.Name), () => {
                 this.IsLoading = false;
                 OnDataLoaded(videoFolder);
             });
-
-            FileLoaderCompletion.CurrentTaskExecutor.Execute(task);
+            
             navigationService.LoadCompleted -= NavigationService_LoadCompleted;
         }
 
@@ -173,32 +214,37 @@ namespace VirtualizingListView.Pages.ViewModel
         private void OnDataLoaded(VideoFolder result)
         {
             this.CurrentVideoFolder = result;
-            ActiveSortType = result.ParentDirectory != null ? result.ParentDirectory.SortedBy : CurrentVideoFolder.SortedBy;
         }
 
         private VideoFolder GetVideoFolder(VideoFolder obj)
         {
             if (obj.HasCompleteLoad) return obj;
-            return FileLoader.FileLoaderInstance.LoadParentFiles(obj, ActiveSortType);
+            return fileLoader.LoadParentFiles(obj, ActiveSortType);
         }
 
         private void UpdateViewCollection()
         {
-            if (VideoItemViewCollection == null) return;
-            FileLoaderCompletion fileCompletionLoader = new FileLoaderCompletion();
-            var task = FileLoaderCompletion.CurrentTaskExecutor.CreateTask(() =>
+            DispatcherTimer dispatcherTimer = new DispatcherTimer()
             {
-                lock (this)
-                {
-                    this.IsLoading = true;
-                    fileCompletionLoader.FinishCollectionLoadProcess(VideoItemViewCollection);
-                }
-            }, "Rounding Up File loading.", () =>
+                Interval = TimeSpan.FromMilliseconds(5000)
+            };
+            dispatcherTimer.Tick += (s, e) =>
             {
-                this.IsLoading = false;
-            });
+                dispatcherTimer.Stop();
 
-            FileLoaderCompletion.CurrentTaskExecutor.Execute(task);
+                if (VideoItemViewCollection == null) return;
+                BackgroundService.Execute(() =>
+                {
+                    lock (Padlock)
+                    {
+                        this.IsLoading = true;
+                        LoaderCompletion.FinishCollectionLoadProcess(VideoItemViewCollection);
+                    }
+                }, String.Format("Updating files thumbnails in {0}", CurrentVideoFolder.Name), () => {
+                    this.IsLoading = false;
+                });
+            };
+            dispatcherTimer.Start();
         }
 
         private void PageChangeEvent_Execute(Object s)
@@ -215,7 +261,7 @@ namespace VirtualizingListView.Pages.ViewModel
         {
             if (CurrentVideoFolder == null || CurrentVideoFolder.SortedBy == ActiveSortType) return;
 
-            CurrentVideoFolder = FileLoader.FileLoaderInstance.SortList(ActiveSortType, CurrentVideoFolder);
+            CurrentVideoFolder = fileLoader.SortList(ActiveSortType, CurrentVideoFolder);
             RaisePropertyChanged(() => this.VideoItemViewCollection);
         }
 
@@ -229,7 +275,7 @@ namespace VirtualizingListView.Pages.ViewModel
                     this.navigationService.Navigate(new FilePageView(this.navigationService), obj);
                 }
                 else
-                    OpenFileCall.Open(videoFolder as IVideoData);
+                    openFileCaller.Open(videoFolder as IVideoData);
             }
             else
             {

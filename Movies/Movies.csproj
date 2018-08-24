@@ -55,6 +55,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AxInterop.WMPLib">
+      <HintPath>..\Libraries\AxInterop.WMPLib.dll</HintPath>
+    </Reference>
     <Reference Include="ControlzEx">
       <HintPath>..\Libraries\ControlzEx.3.0.2.4\lib\net40\ControlzEx.dll</HintPath>
     </Reference>
@@ -89,6 +92,10 @@
     <Reference Include="Microsoft.Practices.Unity">
       <HintPath>..\Libraries\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json.Net20, Version=3.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Newtonsoft.Json.Net20.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -116,6 +123,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Services\ModuleConfiguration.cs" />
     <Compile Include="SplashScreen.xaml.cs">
       <DependentUpon>SplashScreen.xaml</DependentUpon>
     </Compile>
@@ -181,6 +189,14 @@
       <Project>{291d89e4-5436-4e99-a402-322d10f2ed0c}</Project>
       <Name>Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FlyoutControl\FlyoutControl.csproj">
+      <Project>{4abbc7e5-63de-4017-a048-4035d249ddfc}</Project>
+      <Name>FlyoutControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LocalVideoFiles\LocalVideoFiles.csproj">
+      <Project>{7f5abec7-4d64-40c5-bc86-1884575d1f2c}</Project>
+      <Name>LocalVideoFiles</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Meta.Vlc.Wpf\Meta.Vlc.Wpf - .Net 4.0.csproj">
       <Project>{ed70ad57-1b05-428a-8a30-2cc533daf389}</Project>
       <Name>Meta.Vlc.Wpf - .Net 4.0</Name>
@@ -189,12 +205,60 @@
       <Project>{9368132d-33f8-4149-8733-3bf90715f887}</Project>
       <Name>Meta.Vlc - .Net 4.0</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MoviesSubtitle\MoviesSubtitle.csproj">
-      <Project>{a3ee00bb-3c2b-43d1-8780-78c5c678ea2b}</Project>
-      <Name>MoviesSubtitle</Name>
+    <ProjectReference Include="..\Movies.Enums\Movies.Enums.csproj">
+      <Project>{0824a682-f34d-456b-8b0b-22ff40feae33}</Project>
+      <Name>Movies.Enums</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movies.GlobalResources\Movies.GlobalResources.csproj">
+      <Project>{1370a208-da8b-43ee-8cbb-a18d7992a8dc}</Project>
+      <Name>Movies.GlobalResources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movies.MediaService\Movies.MediaService.csproj">
+      <Project>{b6faa2de-b0a4-4db9-9532-e6059788598a}</Project>
+      <Name>Movies.MediaService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movies.Models\Movies.Models.csproj">
+      <Project>{12ce1e5d-1e2d-4fe8-8084-b5e334cd54cd}</Project>
+      <Name>Movies.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movies.MoviePlaylistManager\Movies.MoviePlaylistManager.csproj">
+      <Project>{6d034b32-531f-4ddb-9402-6c0d72b29953}</Project>
+      <Name>Movies.MoviePlaylistManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movies.MovieServices\Movies.MovieServices.csproj">
+      <Project>{35e7785e-9050-462d-8275-9282502824d1}</Project>
+      <Name>Movies.MovieServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movies.MusicProject\Movies.MusicProject.csproj">
+      <Project>{288da71d-1048-4b14-a1f4-cb3995abb991}</Project>
+      <Name>Movies.MusicProject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movies.PlaylistCollectionView\Movies.PlaylistCollectionView.csproj">
+      <Project>{985e8f02-c22d-473c-afd8-755f2519e403}</Project>
+      <Name>Movies.PlaylistCollectionView</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movies.StatusService\Movies.StatusService.csproj">
+      <Project>{1021afeb-e345-47b1-8c9f-109ca07dcb4b}</Project>
+      <Name>Movies.StatusService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movies.Themes\Movies.Themes.csproj">
+      <Project>{342ff9c4-5b5d-4f57-ad9c-c69d599bdba9}</Project>
+      <Name>Movies.Themes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PresentationExtension\PresentationExtension.csproj">
+      <Project>{b622321d-0980-42df-9165-79341bf7e64e}</Project>
+      <Name>PresentationExtension</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProjectInterfaces\Movies.MoviesInterfaces.csproj">
+      <Project>{2d97da0a-18be-48a1-b4fc-78b0b3ceb6c8}</Project>
+      <Name>Movies.MoviesInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RemovableStorageFiles\RemovableStorageFiles.csproj">
+      <Project>{b0f97ee9-bb64-42a8-aaa8-522e7184eb43}</Project>
+      <Name>RemovableStorageFiles</Name>
     </ProjectReference>
     <ProjectReference Include="..\SearchComponent\SearchComponent.csproj">
-      <Project>{ade006bd-579d-4706-80e7-9d833fd5c07c}</Project>
+      <Project>{3a6fd22c-d7b7-4713-80c6-8742186f8674}</Project>
       <Name>SearchComponent</Name>
     </ProjectReference>
     <ProjectReference Include="..\VideoComponent\VideoComponent.csproj">

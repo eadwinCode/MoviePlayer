@@ -24,17 +24,17 @@ namespace VideoPlayerView.Model
         {
             get
             {
-                switch (TrackType)
-                {
-                    case TrackType.Audio:
-                        return MediaControllerVM.MediaControllerInstance.IVideoElement.MediaPlayer.AudioTrackDescription
-                    [MediaControllerVM.MediaControllerInstance.IVideoElement.MediaPlayer.AudioTrack].Id;
-                    case TrackType.Video:
-                        return MediaControllerVM.MediaControllerInstance.IVideoElement.MediaPlayer.VlcMediaPlayer.VideoTrackDescription
-                    [MediaControllerVM.MediaControllerInstance.IVideoElement.MediaPlayer.VlcMediaPlayer.VideoTrack].Id;
-                    default:
-                        break;
-                }
+                //switch (TrackType)
+                //{
+                //    case TrackType.Audio:
+                //        returnFilePlayerManager.MediaControllerViewModel.IVideoElement.MediaPlayer.AudioTrackDescription
+                //    [FilePlayerManager.MediaControllerViewModel.IVideoElement.MediaPlayer.AudioTrack].Id;
+                //    case TrackType.Video:
+                //        returnFilePlayerManager.MediaControllerViewModel.IVideoElement.MediaPlayer.VlcMediaPlayer.VideoTrackDescription
+                //    [FilePlayerManager.MediaControllerViewModel.IVideoElement.MediaPlayer.VlcMediaPlayer.VideoTrack].Id;
+                //    default:
+                //        break;
+                //}
                 return 0;
             }
         }

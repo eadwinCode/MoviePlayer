@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 
-21-984631638
+10-1249792186
 
-68-231586502
-36-396076364
-LoadingAnimation\LoadingAnimationResource.xaml;Pages\Views\FilePageView.xaml;Pages\Views\HomePageLocal.xaml;Pages\Views\HomePageLocalNoFolder.xaml;Pages\Views\MediaServerPage.xaml;Pages\Views\SearchPage.xaml;Pages\Views\SearchResultPage.xaml;Pages\Views\UsbDrivePage.xaml;Pages\Views\UsbNoFolder.xaml;Pages\Views\VideoPlayerPage.xaml;Resources\Items.xaml;Resources\ViewStyle.xaml;Themes\Generic.xaml;Util\AddFolderDialogWindow\AddFolderDialog.xaml;Util\AddFolderDialogWindow\RemoveItemDialog.xaml;Util\RenameDialog\RenameDialogControl.xaml;View\FileExplorer.xaml;View\FileView.xaml;View\MyTreeView.xaml;View\PageNavigator.xaml;View\HomePlaylistView.xaml;
+32-1772712938
+40-2808919
+Pages\Views\FilePageView.xaml;Pages\Views\MediaServerPage.xaml;Pages\Views\SearchResultPage.xaml;Pages\Views\VideoPlayerPage.xaml;Resources\Items.xaml;Resources\ViewStyle.xaml;Themes\Generic.xaml;View\FileView.xaml;View\MediaServerView.xaml;View\PageNavigator.xaml;
 
 False
 

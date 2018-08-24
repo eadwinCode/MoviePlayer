@@ -102,60 +102,30 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActiveItemConverter.cs" />
     <Compile Include="HideFolder.cs" />
     <Compile Include="IItemProvider.cs" />
-    <Compile Include="LoadingAnimation\LoadingIndicator.cs" />
     <Compile Include="Model\NavigationModel.cs" />
+    <Compile Include="ModuleDefinition\FileViewModule.cs" />
     <Compile Include="NavigationConverter.cs" />
-    <Compile Include="OtherFiles\ContextButton.cs" />
-    <Compile Include="OtherFiles\CustomButton.cs" />
     <Compile Include="OtherFiles\CustomItemProvider.cs" />
     <Compile Include="OtherFiles\DoubleClick.cs" />
     <Compile Include="OtherFiles\GroupSort.cs" />
     <Compile Include="OtherFiles\HeaderImageConverter.cs" />
-    <Compile Include="OtherFiles\ILoadFile.cs" />
-    <Compile Include="OtherFiles\ISfolder.cs" />
     <Compile Include="OtherFiles\itemListSelector.cs" />
-    <Compile Include="OtherFiles\LoadandSave.cs" />
     <Compile Include="OtherFiles\MoreTemplateSelector.cs" />
     <Compile Include="OtherFiles\SerializeDeserializeHelper.cs" />
-    <Compile Include="OtherFiles\TextContexter.cs" />
-    <Compile Include="OtherFiles\ThumbNailConverter.cs" />
-    <Compile Include="OtherFiles\ThumbnailImageSource.cs" />
-    <Compile Include="OtherFiles\VideoItemDoubleClick.cs" />
-    <Compile Include="Pages\Model\NewFolderModel.cs" />
-    <Compile Include="Pages\Model\SearchModel.cs" />
-    <Compile Include="Pages\Util\FileCompletionLoader.cs" />
     <Compile Include="Pages\Util\MovieItemProvider.cs" />
     <Compile Include="Pages\Interfaces\IFilePageViewModel.cs" />
-    <Compile Include="Pages\ViewModel\UsbDriveViewModel.cs" />
+    <Compile Include="Pages\ViewModel\SearchResultPageViewModel.cs" />
     <Compile Include="Pages\Views\FilePageView.xaml.cs">
       <DependentUpon>FilePageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\ViewModel\FilePageViewModel.cs" />
-    <Compile Include="Pages\Views\HomePageLocal.xaml.cs">
-      <DependentUpon>HomePageLocal.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Views\HomePageLocalNoFolder.xaml.cs">
-      <DependentUpon>HomePageLocalNoFolder.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\ViewModel\HomePageLocalViewModel.cs" />
     <Compile Include="Pages\Views\MediaServerPage.xaml.cs">
       <DependentUpon>MediaServerPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Views\SearchPage.xaml.cs">
-      <DependentUpon>SearchPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\Views\SearchResultPage.xaml.cs">
       <DependentUpon>SearchResultPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\ViewModel\SearchResultPageViewModel.cs" />
-    <Compile Include="Pages\Views\UsbDrivePage.xaml.cs">
-      <DependentUpon>UsbDrivePage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Views\UsbNoFolder.xaml.cs">
-      <DependentUpon>UsbNoFolder.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Views\VideoPlayerPage.xaml.cs">
       <DependentUpon>VideoPlayerPage.xaml</DependentUpon>
@@ -173,43 +143,17 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Threading\Executor.cs" />
-    <Compile Include="Threading\Interface\IBackgroundService.cs" />
-    <Compile Include="Threading\Task.cs" />
-    <Compile Include="Threading\TaskCollection.cs" />
-    <Compile Include="Util\AddFolderDialogWindow\AddFolderDialogViewModel.cs" />
-    <Compile Include="Util\AddFolderDialogWindow\IAddFolderDialog.cs" />
-    <Compile Include="Util\AddFolderDialogWindow\RemoveItemDialog.xaml.cs">
-      <DependentUpon>RemoveItemDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Util\FileLoader.cs" />
-    <Compile Include="Util\FileOpenCall.cs" />
-    <Compile Include="Util\RenameDialog\RenameDialogControl.xaml.cs">
-      <DependentUpon>RenameDialogControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Util\TreeViewItemSort.cs" />
-    <Compile Include="Util\VideoFolderTaskManger.cs" />
     <Compile Include="VideoItemViewCollection.cs" />
-    <Compile Include="ViewModel\CollectionVM.cs" />
-    <Compile Include="Util\AddFolderDialogWindow\AddFolderDialog.xaml.cs">
-      <DependentUpon>AddFolderDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\FileExplorer.xaml.cs">
-      <DependentUpon>FileExplorer.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="ViewModel\FileViewViewModel.cs" />
+    <Compile Include="ViewModel\PageNavigatorViewModel.cs" />
     <Compile Include="View\FileView.xaml.cs">
       <DependentUpon>FileView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\FileViewViewModel.cs" />
-    <Compile Include="View\MyTreeView.xaml.cs">
-      <DependentUpon>MyTreeView.xaml</DependentUpon>
+    <Compile Include="View\MediaServerView.xaml.cs">
+      <DependentUpon>MediaServerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\PageNavigator.xaml.cs">
       <DependentUpon>PageNavigator.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ViewModel\PageNavigatorViewModel.cs" />
-    <Compile Include="View\HomePlaylistView.xaml.cs">
-      <DependentUpon>HomePlaylistView.xaml</DependentUpon>
     </Compile>
     <Compile Include="VirtualizingCollection.cs" />
     <Compile Include="VirtualPanel\VirtualStackPanel.cs" />
@@ -306,19 +250,7 @@
     <Resource Include="Resources\Images\video.png" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="LoadingAnimation\LoadingAnimationResource.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Pages\Views\FilePageView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\Views\HomePageLocal.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\Views\HomePageLocalNoFolder.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -326,21 +258,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Views\SearchPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Pages\Views\SearchResultPage.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\Views\UsbDrivePage.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\Views\UsbNoFolder.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Views\VideoPlayerPage.xaml">
       <SubType>Designer</SubType>
@@ -358,37 +278,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Util\AddFolderDialogWindow\AddFolderDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Util\AddFolderDialogWindow\RemoveItemDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Util\RenameDialog\RenameDialogControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\FileExplorer.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="View\FileView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\MyTreeView.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="View\MediaServerView.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\PageNavigator.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\HomePlaylistView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -404,9 +304,25 @@
       <Project>{9368132d-33f8-4149-8733-3bf90715f887}</Project>
       <Name>Meta.Vlc - .Net 4.0</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SearchComponent\SearchComponent.csproj">
-      <Project>{ade006bd-579d-4706-80e7-9d833fd5c07c}</Project>
-      <Name>SearchComponent</Name>
+    <ProjectReference Include="..\Movies.Enums\Movies.Enums.csproj">
+      <Project>{0824A682-F34D-456B-8B0B-22FF40FEAE33}</Project>
+      <Name>Movies.Enums</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movies.GlobalResources\Movies.GlobalResources.csproj">
+      <Project>{1370a208-da8b-43ee-8cbb-a18d7992a8dc}</Project>
+      <Name>Movies.GlobalResources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movies.Models\Movies.Models.csproj">
+      <Project>{12ce1e5d-1e2d-4fe8-8084-b5e334cd54cd}</Project>
+      <Name>Movies.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PresentationExtension\PresentationExtension.csproj">
+      <Project>{b622321d-0980-42df-9165-79341bf7e64e}</Project>
+      <Name>PresentationExtension</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProjectInterfaces\Movies.MoviesInterfaces.csproj">
+      <Project>{2d97da0a-18be-48a1-b4fc-78b0b3ceb6c8}</Project>
+      <Name>Movies.MoviesInterfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\VideoComponent\VideoComponent.csproj">
       <Project>{5e66548f-63d0-4690-aa1c-d09b203e573e}</Project>
@@ -427,6 +343,9 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Util\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MediaInfo.Native.17.12\build\MediaInfo.Native.targets" Condition="Exists('..\packages\MediaInfo.Native.17.12\build\MediaInfo.Native.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -435,6 +354,9 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\MediaInfo.Native.17.12\build\MediaInfo.Native.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MediaInfo.Native.17.12\build\MediaInfo.Native.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /y "$(TargetPath)" "$(SolutionDir)Movies\$(OutDir)Modules\"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

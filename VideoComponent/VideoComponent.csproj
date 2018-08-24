@@ -82,9 +82,6 @@
     <Compile Include="BaseClass\ISubtitleFiles.cs" />
     <Compile Include="BaseClass\IVideoData.cs" />
     <Compile Include="BaseClass\LastSeen.cs" />
-    <Compile Include="BaseClass\MediaFileWatcher.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="BaseClass\PlayMovie.cs" />
     <Compile Include="BaseClass\PreviewClass.cs" />
     <Compile Include="BaseClass\SortByDate.cs" />
@@ -92,8 +89,6 @@
     <Compile Include="BaseClass\SortByNames.cs" />
     <Compile Include="BaseClass\VideoData.cs" />
     <Compile Include="BaseClass\VideoDataExceptSort.cs" />
-    <Compile Include="BaseClass\VideoFolder.cs" />
-    <Compile Include="BaseClass\VideoFolderChild.cs" />
     <Compile Include="BaseClass\VideoInfo.cs" />
     <Compile Include="Command\DoubleClick.cs" />
     <Compile Include="Command\RelayCommand.cs" />
@@ -129,6 +124,18 @@
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{291d89e4-5436-4e99-a402-322d10f2ed0c}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movies.Enums\Movies.Enums.csproj">
+      <Project>{0824a682-f34d-456b-8b0b-22ff40feae33}</Project>
+      <Name>Movies.Enums</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movies.Models\Movies.Models.csproj">
+      <Project>{12ce1e5d-1e2d-4fe8-8084-b5e334cd54cd}</Project>
+      <Name>Movies.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProjectInterfaces\Movies.MoviesInterfaces.csproj">
+      <Project>{2D97DA0A-18BE-48A1-B4FC-78B0B3CEB6C8}</Project>
+      <Name>Movies.MoviesInterfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

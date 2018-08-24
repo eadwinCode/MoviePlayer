@@ -88,6 +88,7 @@
     <Compile Include="CustomControl1.cs" />
     <Compile Include="FilePlayer\PlayFile.cs" />
     <Compile Include="Model\AudioStream.cs" />
+    <Compile Include="ModuleDefinition\VideoPlayerModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -158,9 +159,25 @@
       <Project>{9368132d-33f8-4149-8733-3bf90715f887}</Project>
       <Name>Meta.Vlc - .Net 4.0</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MoviesSubtitle\MoviesSubtitle.csproj">
-      <Project>{a3ee00bb-3c2b-43d1-8780-78c5c678ea2b}</Project>
-      <Name>MoviesSubtitle</Name>
+    <ProjectReference Include="..\Movies.GlobalResources\Movies.GlobalResources.csproj">
+      <Project>{1370a208-da8b-43ee-8cbb-a18d7992a8dc}</Project>
+      <Name>Movies.GlobalResources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movies.MediaService\Movies.MediaService.csproj">
+      <Project>{b6faa2de-b0a4-4db9-9532-e6059788598a}</Project>
+      <Name>Movies.MediaService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movies.Models\Movies.Models.csproj">
+      <Project>{12ce1e5d-1e2d-4fe8-8084-b5e334cd54cd}</Project>
+      <Name>Movies.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movies.MoviePlaylistManager\Movies.MoviePlaylistManager.csproj">
+      <Project>{6d034b32-531f-4ddb-9402-6c0d72b29953}</Project>
+      <Name>Movies.MoviePlaylistManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProjectInterfaces\Movies.MoviesInterfaces.csproj">
+      <Project>{2d97da0a-18be-48a1-b4fc-78b0b3ceb6c8}</Project>
+      <Name>Movies.MoviesInterfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\VideoComponent\VideoComponent.csproj">
       <Project>{5e66548f-63d0-4690-aa1c-d09b203e573e}</Project>
@@ -169,10 +186,6 @@
     <ProjectReference Include="..\VideoPlayer\VideoPlayerControl.csproj">
       <Project>{e657ac6b-5b19-4b9f-bf5e-96822234dfdd}</Project>
       <Name>VideoPlayerControl</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\VirtualizingListView\VirtualizingListView.csproj">
-      <Project>{3f23b0dc-e93f-45c4-98fe-9e1e4d9de1e7}</Project>
-      <Name>VirtualizingListView</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -195,6 +208,9 @@
     </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /y "$(TargetPath)" "$(SolutionDir)Movies\$(OutDir)Modules\"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -175,6 +175,10 @@ C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoComponent\obj\Debug\VideoCompone
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoComponent\obj\Debug\VideoComponent.csproj.CoreCompileInputs.cache
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoComponent\obj\Debug\VideoComponent.dll
 C:\Users\EadwinToochos\Desktop\MoviePlayer\VideoComponent\obj\Debug\VideoComponent.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\obj\Debug\VideoComponent.csprojResolveAssemblyReference.cache
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\obj\Debug\VideoComponent_MarkupCompile.cache
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\obj\Debug\VideoComponent_MarkupCompile.lref
 C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\VideoComponent.dll
 C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\VideoComponent.pdb
 C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\Common.dll
@@ -187,14 +191,21 @@ C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\M
 C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\Microsoft.Practices.Unity.dll
 C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\Microsoft.WindowsAPICodePack.dll
 C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\Movies.Enums.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\Movies.Models.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\Movies.MoviesInterfaces.dll
 C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\Meta.Vlc.dll
-C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\Meta.Vlc.Wpf.dll
-C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\Newtonsoft.Json.Net20.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\Movies.MediaService.dll
 C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\System.Windows.Interactivity.dll
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\Meta.Vlc.Wpf.dll
 C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\Common.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\Movies.Enums.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\Movies.Models.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\Movies.MoviesInterfaces.pdb
 C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\Meta.Vlc.pdb
-C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\Meta.Vlc.Wpf.pdb
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\Movies.MediaService.pdb
 C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\System.Windows.Interactivity.xml
+C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\Meta.Vlc.Wpf.pdb
 C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\de\System.Windows.Interactivity.resources.dll
 C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\en\System.Windows.Interactivity.resources.dll
 C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\es\System.Windows.Interactivity.resources.dll
@@ -204,14 +215,9 @@ C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\j
 C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\ko\System.Windows.Interactivity.resources.dll
 C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\zh-Hans\System.Windows.Interactivity.resources.dll
 C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\bin\Debug\zh-Hant\System.Windows.Interactivity.resources.dll
-C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\obj\Debug\VideoComponent.csprojResolveAssemblyReference.cache
-C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\obj\Debug\GeneratedInternalTypeHelper.g.cs
-C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\obj\Debug\VideoComponent_MarkupCompile.cache
-C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\obj\Debug\VideoComponent_MarkupCompile.lref
 C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\obj\Debug\Themes\Generic.baml
 C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\obj\Debug\VideoComponent.g.resources
 C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\obj\Debug\VideoComponent.Properties.Resources.resources
 C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\obj\Debug\VideoComponent.csproj.GenerateResource.Cache
-C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\obj\Debug\VideoComponent.csproj.CoreCompileInputs.cache
 C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\obj\Debug\VideoComponent.dll
 C:\Users\EadwinToochos\Desktop\MoviePlayer - Copy (2)\VideoComponent\obj\Debug\VideoComponent.pdb

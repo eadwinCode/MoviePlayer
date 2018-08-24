@@ -1,0 +1,13 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Movies.Themes">
+    <SolidColorBrush x:Key="Theme.HighlightColor" Color="#CC364E6F"/>
+    <SolidColorBrush x:Key="Theme.Foreground" Color="White"/>
+    <SolidColorBrush x:Key="Theme.Background" Color="Black"/>
+    <SolidColorBrush x:Key="Theme.FolderColor" Color="#99FF0000"/>
+    <SolidColorBrush x:Key="Theme.WindowsTile" Color="Black"/>
+    <SolidColorBrush x:Key="Theme.DeleteColor" Color="Red"/>
+    <SolidColorBrush x:Key="Theme.AddFolderHighlight" Color="White"/>
+    <SolidColorBrush x:Key="Theme.MovieFile" Color="White"/>
+    <SolidColorBrush x:Key="Theme.BackColor" Color="White"/>
+</ResourceDictionary>

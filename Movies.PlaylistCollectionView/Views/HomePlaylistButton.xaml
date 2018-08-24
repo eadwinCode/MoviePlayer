@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="Movies.PlaylistCollectionView.Views.HomePlaylistButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:presentationExt="clr-namespace:PresentationExtension;assembly=PresentationExtension" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Movies.PlaylistCollectionView.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <presentationExt:WindowCommandButton
+                                        Command="{Binding DataContext.InjectViewCommand,
+                                        RelativeSource={RelativeSource 
+                    AncestorType=UserControl,Mode=FindAncestor}}"
+                                        CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
+                                        DataContext="{Binding HomePlaylist}">
+
+    </presentationExt:WindowCommandButton>
+    <!--<Button Content="Playlist" Command="{Binding }"/>-->
+</UserControl>

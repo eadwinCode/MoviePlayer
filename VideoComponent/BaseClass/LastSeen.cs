@@ -1,8 +1,7 @@
 ﻿using Common.ApplicationCommands;
-using Common.Interfaces;
-using Common.Model;
 using Common.Util;
 using Microsoft.Practices.Prism.ViewModel;
+using Movies.Models.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

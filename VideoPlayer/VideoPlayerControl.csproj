@@ -83,15 +83,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomControl1.cs" />
-    <Compile Include="DragCanvas.cs" />
-    <Compile Include="ICommandBinding.cs" />
-    <Compile Include="IMediaController.cs" />
-    <Compile Include="IPlayListClose.cs" />
-    <Compile Include="IVideoPlayer.cs" />
-    <Compile Include="MarqueeTextBlock.cs" />
-    <Compile Include="MouseDownHelper.cs" />
-    <Compile Include="MovieTitle_Tab.cs" />
-    <Compile Include="PlayList\PlayListManager.cs" />
+    <Compile Include="Util\DragCanvas.cs" />
+    <Compile Include="Interfaces\IControllerView.cs" />
+    <Compile Include="Util\MarqueeTextBlock.cs" />
+    <Compile Include="Util\MouseDownHelper.cs" />
+    <Compile Include="Util\MovieTitle_Tab.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -105,24 +101,20 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="TextBlockService.cs" />
-    <Compile Include="TextConverter.cs" />
-    <Compile Include="Util\Common.cs" />
-    <Compile Include="ViewConverter.cs" />
+    <Compile Include="Util\TextConverter.cs" />
+    <Compile Include="Util\ViewConverter.cs" />
+    <Compile Include="ViewModel\MediaControllerViewModel.cs" />
     <Compile Include="ViewModel\MediaControllerVM.cs" />
     <Compile Include="ViewModel\VideoPlayerExtd.cs" />
     <Compile Include="ViewModel\VideoPlayerVM.cs" />
     <Compile Include="View\MediaController.xaml.cs">
       <DependentUpon>MediaController.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\PlaylistView.xaml.cs">
-      <DependentUpon>PlaylistView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\SubtitleMediaController.xaml.cs">
       <DependentUpon>SubtitleMediaController.xaml</DependentUpon>
     </Compile>
-    <Compile Include="VolumeControl.cs" />
-    <Compile Include="VolumeTextConverter.cs" />
+    <Compile Include="Util\VolumeControl.cs" />
+    <Compile Include="Util\VolumeTextConverter.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -139,10 +131,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\MediaController.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\PlaylistView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -164,17 +152,33 @@
       <Project>{9368132d-33f8-4149-8733-3bf90715f887}</Project>
       <Name>Meta.Vlc - .Net 4.0</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MoviesSubtitle\MoviesSubtitle.csproj">
-      <Project>{a3ee00bb-3c2b-43d1-8780-78c5c678ea2b}</Project>
-      <Name>MoviesSubtitle</Name>
+    <ProjectReference Include="..\Movies.Enums\Movies.Enums.csproj">
+      <Project>{0824a682-f34d-456b-8b0b-22ff40feae33}</Project>
+      <Name>Movies.Enums</Name>
     </ProjectReference>
-    <ProjectReference Include="..\VideoComponent\VideoComponent.csproj">
-      <Project>{5e66548f-63d0-4690-aa1c-d09b203e573e}</Project>
-      <Name>VideoComponent</Name>
+    <ProjectReference Include="..\Movies.GlobalResources\Movies.GlobalResources.csproj">
+      <Project>{1370a208-da8b-43ee-8cbb-a18d7992a8dc}</Project>
+      <Name>Movies.GlobalResources</Name>
     </ProjectReference>
-    <ProjectReference Include="..\VirtualizingListView\VirtualizingListView.csproj">
-      <Project>{3f23b0dc-e93f-45c4-98fe-9e1e4d9de1e7}</Project>
-      <Name>VirtualizingListView</Name>
+    <ProjectReference Include="..\Movies.MediaService\Movies.MediaService.csproj">
+      <Project>{b6faa2de-b0a4-4db9-9532-e6059788598a}</Project>
+      <Name>Movies.MediaService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movies.Models\Movies.Models.csproj">
+      <Project>{12ce1e5d-1e2d-4fe8-8084-b5e334cd54cd}</Project>
+      <Name>Movies.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movies.MoviePlaylistManager\Movies.MoviePlaylistManager.csproj">
+      <Project>{6d034b32-531f-4ddb-9402-6c0d72b29953}</Project>
+      <Name>Movies.MoviePlaylistManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PresentationExtension\PresentationExtension.csproj">
+      <Project>{b622321d-0980-42df-9165-79341bf7e64e}</Project>
+      <Name>PresentationExtension</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProjectInterfaces\Movies.MoviesInterfaces.csproj">
+      <Project>{2d97da0a-18be-48a1-b4fc-78b0b3ceb6c8}</Project>
+      <Name>Movies.MoviesInterfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

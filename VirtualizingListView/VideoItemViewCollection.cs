@@ -5,7 +5,6 @@ using System.Threading;
 using System.Windows.Controls;
 using VideoComponent;
 using VirtualizingListView.OtherFiles;
-using VirtualizingListView.Util;
 
 namespace VirtualizingListView
 {

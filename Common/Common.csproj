@@ -59,20 +59,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnimationHelper.cs" />
+    <Compile Include="ApplicationCommands\ApplicationRegion.cs" />
     <Compile Include="ApplicationCommands\VideoPlayerCommands.cs" />
     <Compile Include="CustomControl1.cs" />
     <Compile Include="Events\CommonEvents.cs" />
-    <Compile Include="FileHelper\ApplicationService.cs" />
-    <Compile Include="FileHelper\Common.cs" />
-    <Compile Include="FileHelper\SavedLastSeenCollection.cs" />
-    <Compile Include="FileHelper\SavedPlaylist.cs" />
-    <Compile Include="FileHelper\Settings.cs" />
     <Compile Include="IItemProvider.cs" />
-    <Compile Include="Interfaces\Interface1.cs" />
-    <Compile Include="Model\MoviePathModel.cs" />
-    <Compile Include="Model\PlayedFiles.cs" />
-    <Compile Include="Model\PlaylistModel.cs" />
-    <Compile Include="Model\SubtitleFilesModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -86,12 +77,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Themes\Skin\ReferencedAssemblySkin.cs" />
-    <Compile Include="Themes\Skin\Skin.cs" />
     <Compile Include="Util\CommonHelper.cs" />
     <Compile Include="Util\ControlParts.cs" />
-    <Compile Include="Util\EnumClass.cs" />
-    <Compile Include="Util\EnumConverter.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -103,20 +90,8 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Themes\BlackSkin.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Hybrid.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\WhiteSkin.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <Folder Include="FileHelper\" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Meta.Vlc.Wpf\Meta.Vlc.Wpf - .Net 4.0.csproj">
       <Project>{ed70ad57-1b05-428a-8a30-2cc533daf389}</Project>

@@ -4,36 +4,19 @@
                     xmlns:VideoComponent="clr-namespace:VideoComponent.BaseClass;assembly=VideoComponent"
                     xmlns:VirtualPanel="clr-namespace:VirtualizingListView.VirtualPanel"
                     xmlns:cmd="clr-namespace:Common.ApplicationCommands;assembly=Common"
-                    xmlns:enum ="clr-namespace:Common.Util;assembly=Common"
+                    xmlns:enum ="clr-namespace:Movies.Enums;assembly=Movies.Enums"
                     xmlns:local="clr-namespace:VirtualizingListView"
-                    xmlns:loadingvisual="clr-namespace:VirtualizingListView.LoadingAnimation"
+                    xmlns:loadingvisual="clr-namespace:Movies.GlobalResources.LoadingAnimation;assembly=Movies.GlobalResources"
+                    xmlns:presentationCmd="clr-namespace:PresentationExtension;assembly=PresentationExtension" 
                     xmlns:View="clr-namespace:VirtualizingListView.View" >
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/VideoComponent;component/Themes/Generic.xaml"/>
-
-        <ResourceDictionary Source="pack://application:,,,/VirtualizingListView;component/LoadingAnimation/LoadingAnimationResource.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Movies.GlobalResources;component/Themes/Generic.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <local:DoubleClick x:Key="ClickAction" />
-    <local:ThumbnailImageSource x:Key="ImageSource"/>
-    <local:ThumbNailConverter x:Key="ThumbnailConverter"/>
     <local:ItemListSelector x:Key="VDataTemplateSelector"/>
-    <local:ActiveItemConverter x:Key="ActiveItemSelector"/>
-    <local:TextContexter x:Key="TextContexter"/>
-    <local:BooleanInversion x:Key="BooleanInversion"/>
-    
-    <ImageBrush x:Key="ImageBackground" 
-                ImageSource="/VirtualizingListView;component/Resources/Images/Movies - Copy.png" 
-                                    TileMode="Tile"   
-                                    Stretch="UniformToFill" 
-                                    ViewportUnits="Absolute" 
-                                    Opacity="0.1"/>
-    <ImageBrush x:Key="ImageOutline" ImageSource="Images/check-1-icon.png" TileMode="Tile"   
-                Stretch="None" ViewportUnits="Absolute" Opacity="0.3"/>
-
-    
-
     <ObjectDataProvider x:Key="SortByEnum" MethodName="GetValues"
                         ObjectType="{x:Type sys:Enum}">
         <ObjectDataProvider.MethodParameters>
@@ -127,21 +110,6 @@
         </MenuItem>
     </ContextMenu>
 
-    <ContextMenu x:Key="Playlistcntxtmenu">
-        <MenuItem Header="Play" Command="{x:Static cmd:VideoPlayerCommands.Play}" 
-                  CommandParameter="{Binding}">
-            <MenuItem.Icon>
-                <Image/>
-            </MenuItem.Icon>
-        </MenuItem>
-        <MenuItem Header="Remove" Command="{x:Static cmd:VideoPlayerCommands.RemovefromPlayList}" 
-                  CommandParameter="{Binding}">
-            <MenuItem.Icon>
-                <Image/>
-            </MenuItem.Icon>
-        </MenuItem>
-    </ContextMenu>
-
     <!--<ContextMenu x:Key="ListViewCntxtMenu">
         <MenuItem Header="View"  ItemsSource="{Binding Source={StaticResource ViewByEnum}}">
             <MenuItem.ItemContainerStyle>
@@ -165,144 +133,7 @@
         </MenuItem>
     </ContextMenu>-->
 
-    <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
-    <SolidColorBrush x:Key="Button.Static.Border" Color="DarkOrange"/>
-    <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFC6DAE5"/>
-    <SolidColorBrush x:Key="Button.MouseOver.Border" Color="DarkOrange"/>
-    <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC6DAE5"/>
-    <SolidColorBrush x:Key="Button.Pressed.Border" Color="DarkOrange"/>
-    <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
-    <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
-    <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
-
-    <Style x:Key="MoviesButton" TargetType="{x:Type Button}">
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="Background" Value="#CC364E6F"/>
-        <Setter Property="Foreground">
-            <Setter.Value>
-                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-                    <GradientStop Color="Black" Offset="0"/>
-                    <GradientStop Color="DarkOrange" Offset="1"/>
-                </LinearGradientBrush>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="Padding" Value="1"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border x:Name="border" CornerRadius="3" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
-                        <ContentPresenter x:Name="contentPresenter" 
-                                          Focusable="False" 
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                                          Margin="{TemplateBinding Padding}" 
-                                          RecognizesAccessKey="True" 
-                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          />
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsDefaulted" Value="true">
-                            <Setter Property="BorderBrush" TargetName="border" Value="Yellow"/>
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Background" TargetName="border" Value="#CC364E6F"/>
-                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="true">
-                            <Setter Property="Background" TargetName="border" Value="#CC364E6F"/>
-                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Background" TargetName="border" Value="#CC364E6F"/>
-                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
-                            <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="VerticalBevelGrip" TargetType="{x:Type GridSplitter}">
-        <Setter Property="Background" >
-            <Setter.Value>
-                <ImageBrush ImageSource="Images/check-1-icon.png" 
-                            TileMode="Tile"   Stretch="None" 
-                            ViewportUnits="Absolute" Opacity="0.095"/>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type GridSplitter}">
-                    <Grid ToolTip="Resize" SnapsToDevicePixels="True" Background="{TemplateBinding Background}">
-                        <!-- Grip -->
-                        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                            <Rectangle Width="2" Height="2" Fill="DarkOrange"/>
-                            <Rectangle Width="2" Height="2" Margin="0 2 0 2" Fill="DarkOrange"/>
-                            <Rectangle Width="2" Height="2" Fill="DarkOrange"/>
-                            <!-- (could also use an image or a drawing) -->
-                        </StackPanel>
-                        <!-- Bevels -->
-                        <Border BorderBrush="Transparent" BorderThickness="1,0,0,0"/>
-                        <Border BorderBrush="Transparent" BorderThickness="0,0,1,0"/>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style TargetType="{x:Type Button}" x:Key="ContentContainer">
-        <Setter Property="Template" >
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" Padding="{TemplateBinding Padding}" BorderThickness="{TemplateBinding BorderThickness}">
-                        <Grid>
-                            <!--<Thumb HorizontalAlignment="Stretch" Padding="1" 
-                                   Background="Transparent" 
-                                   BorderBrush="Red"
-                                   VerticalAlignment="Stretch" 
-                                   x:Name="DragThumb">
-                                <Thumb.Style>
-                                    <Style TargetType="Thumb">
-                                        <Setter Property="SnapsToDevicePixels" Value="true" />
-                                        <Setter Property="OverridesDefaultStyle" Value="true" />
-                                        <Setter Property="Background" Value="Transparent"/>
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="Thumb">
-                                                    <Border HorizontalAlignment="Stretch" 
-                                                            VerticalAlignment="Stretch" 
-                                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                                            BorderThickness="{TemplateBinding Padding}"
-                                                            Background="{TemplateBinding Background}"/>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </Thumb.Style>
-                            </Thumb>-->
-                            <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                        </Grid>
-                    </Border>
-                    <!--<ControlTemplate.Triggers>
-                        <Trigger Property="IsPressed" Value="true">
-                            <Setter  Property="Background" Value="Red">
-                                -->
-                    <!--<Setter.Value>
-                                    <ImageBrush ImageSource="Images/check-1-icon.png" TileMode="Tile"   Stretch="None" ViewportUnits="Absolute" Opacity="0.2"/>
-                                </Setter.Value>-->
-                    <!--
-                            </Setter>
-                        </Trigger>
-                    </ControlTemplate.Triggers>-->
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
+   
     <Style x:Key="loadingprogressbar" TargetType="{x:Type ProgressBar}">
         <Setter Property="Template">
             <Setter.Value>
@@ -343,287 +174,20 @@
         </Setter>
     </Style>
 
-    <Style x:Key="listViewControl" TargetType="{x:Type ListView}">
-        <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True"/>
-        <Setter Property="VirtualizingStackPanel.VirtualizationMode" Value="Standard"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <!--<Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="ListView">
-                    <ScrollViewer >
-                        <Border BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}">
-                            <Grid>
-                                <TextBlock x:Name="toberemove" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                           Foreground="Gray" FontStyle="Italic" FontSize="11" Margin="0,3,0,0"  
-                                           Text="No Media File Here"/>
-                                <ItemsPresenter/>
-                            </Grid>
-                        </Border>
-                    </ScrollViewer>
-                    <ControlTemplate.Triggers>
-                        <DataTrigger  Binding="{Binding HasItems, RelativeSource={RelativeSource Self}}" Value="true">
-                            <Setter TargetName="toberemove" Property="Visibility" Value="Collapsed"/>
-                        </DataTrigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>-->
-        <Setter Property="ItemsPanel">
-            <Setter.Value>
-                <!--<ItemsPanelTemplate>
-                    <WrapPanel Margin="0,2,0,2" Orientation="Horizontal" />
-                    -->
-                <!-- ItemHeight="{Binding Path=ItemSize.Height, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"
-                     ItemWidth="{Binding Path=ItemSize.Width, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"/>-->
-                <!--
-                </ItemsPanelTemplate>-->
-                <ItemsPanelTemplate>
-                    <!--<VirtualPanel:VirtualWrapPanel  IsItemsHost="True" Orientation="Vertical"
-                                            VirtualizingStackPanel.VirtualizationMode="Standard" 
-                                            VirtualizingStackPanel.IsVirtualizing="True"
-                                                     ItemHeight="63"
-                                                     />-->
-
-                    <!--<r:VirtualWrapPanel Orientation="Horizontal" ItemHeight="65" ItemWidth="260" 
-                                        VirtualizingPanel.VirtualizationMode="Recycling" 
-                                            VirtualizingPanel.IsVirtualizing="True" />-->
-                    <VirtualizingStackPanel VirtualizingStackPanel.VirtualizationMode="Standard" VirtualizingStackPanel.IsVirtualizing="True" Margin="0,2,0,2" Orientation="Vertical"  />
-                    <!--ItemHeight="{Binding Path=ItemSize.Height, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"
-                     ItemWidth="{Binding Path=ItemSize.Width, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"/>-->
-                </ItemsPanelTemplate>
-            </Setter.Value>
-        </Setter>
-
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding IsLoading}" Value="True">
-                <Setter Property="Cursor" Value="Wait"/>
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
-
-    <Style x:Key="PlaylistListView" TargetType="{x:Type ListView}">
-        <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True"/>
-        <Setter Property="VirtualizingStackPanel.VirtualizationMode" Value="Standard"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <!--<Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="ListView">
-                    <ScrollViewer >
-                        <Border BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}">
-                            <Grid>
-                                <TextBlock x:Name="toberemove" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                           Foreground="Gray" FontStyle="Italic" FontSize="11" Margin="0,3,0,0"  
-                                           Text="No Media File Here"/>
-                                <ItemsPresenter/>
-                            </Grid>
-                        </Border>
-                    </ScrollViewer>
-                    <ControlTemplate.Triggers>
-                        <DataTrigger  Binding="{Binding HasItems, RelativeSource={RelativeSource Self}}" Value="true">
-                            <Setter TargetName="toberemove" Property="Visibility" Value="Collapsed"/>
-                        </DataTrigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>-->
-        <Setter Property="ItemsPanel">
-            <Setter.Value>
-                <!--<ItemsPanelTemplate>
-                    <WrapPanel Margin="0,2,0,2" Orientation="Horizontal" />
-                    -->
-                <!-- ItemHeight="{Binding Path=ItemSize.Height, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"
-                     ItemWidth="{Binding Path=ItemSize.Width, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"/>-->
-                <!--
-                </ItemsPanelTemplate>-->
-                <ItemsPanelTemplate>
-                    <!--<VirtualPanel:VirtualWrapPanel  IsItemsHost="True" Orientation="Vertical"
-                                            VirtualizingStackPanel.VirtualizationMode="Standard" 
-                                            VirtualizingStackPanel.IsVirtualizing="True"
-                                                     ItemHeight="40"
-                                                     />-->
-
-                    <!--<r:VirtualWrapPanel Orientation="Horizontal" ItemHeight="65" ItemWidth="260" 
-                                        VirtualizingPanel.VirtualizationMode="Recycling" 
-                                            VirtualizingPanel.IsVirtualizing="True" />-->
-                    <VirtualizingStackPanel  Margin="0,2,0,2" Orientation="Vertical" />
-                    <!--ItemHeight="{Binding Path=ItemSize.Height, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"
-                     ItemWidth="{Binding Path=ItemSize.Width, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"/>-->
-                </ItemsPanelTemplate>
-            </Setter.Value>
-        </Setter>
-
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding IsLoading}" Value="True">
-                <Setter Property="Cursor" Value="Wait"/>
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
-
-    <Style x:Key="txtbxstyle" TargetType="{x:Type TextBox}">
-        <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-        <Setter Property="AllowDrop" Value="true"/>
-        <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
-        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type TextBox}">
-                    <Border  x:Name="border" Background="Transparent"  SnapsToDevicePixels="True"
-                             BorderBrush="#5AFFFFFF" 
-                             BorderThickness="0,1,0,1" CornerRadius="1">
-                        <DockPanel LastChildFill="True">
-                            <!--<Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="20"/>
-                            </Grid.ColumnDefinitions>-->
-                            <ScrollViewer x:Name="PART_ContentHost" 
-                                          Focusable="false"
-                                          HorizontalScrollBarVisibility="Hidden" 
-                                          VerticalScrollBarVisibility="Hidden"/>
-                        </DockPanel>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Opacity" TargetName="border" Value="0.56"/>
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="BorderBrush" TargetName="border" Value="Orange"/>
-                        </Trigger>
-                        <Trigger Property="IsKeyboardFocused" Value="true">
-                            <Setter Property="BorderBrush" TargetName="border" Value="DarkOrange"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    
-    <Style x:Key="Searchtxtbx" TargetType="{x:Type TextBox}">
-        <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-        <Setter Property="AllowDrop" Value="true"/>
-        <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
-        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type TextBox}">
-                    <Border  x:Name="border" Background="Transparent"  SnapsToDevicePixels="True"
-                             BorderBrush="#5AFFFFFF" 
-                             BorderThickness="0,0,0,1" CornerRadius="0">
-                        <DockPanel LastChildFill="True">
-                            <!--<Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="20"/>
-                            </Grid.ColumnDefinitions>-->
-                            <TextBlock  x:Name="searchimg" Padding="5" Text="Search a movie..."  
-                                        Foreground="LightGray" DockPanel.Dock="Left" 
-                                        Visibility="Visible" />
-                            <ScrollViewer x:Name="PART_ContentHost" 
-                                          Focusable="false"
-                                          HorizontalScrollBarVisibility="Hidden" 
-                                          VerticalScrollBarVisibility="Hidden"/>
-                        </DockPanel>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Opacity" TargetName="border" Value="0.56"/>
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="BorderBrush" TargetName="border" Value="Orange"/>
-                        </Trigger>
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self},
-                                    Path=IsKeyboardFocused}" Value="false"/>
-                                <Condition Binding="{Binding IsSearchBtnVisible}" Value="Collapsed"/>
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="Visibility" TargetName="searchimg" Value="Visible"/>
-                        </MultiDataTrigger>
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self},
-                                    Path=IsKeyboardFocused}" Value="true"/>
-                                <Condition Binding="{Binding IsSearchBtnVisible}" Value="Collapsed"/>
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="Visibility" TargetName="searchimg" Value="Collapsed"/>
-                        </MultiDataTrigger>
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self},
-                                    Path=IsKeyboardFocused}" Value="false"/>
-                                <Condition Binding="{Binding IsSearchBtnVisible}" Value="Visible"/>
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="Visibility" TargetName="searchimg" Value="Collapsed"/>
-                        </MultiDataTrigger>
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self},
-                                    Path=IsKeyboardFocused}" Value="true"/>
-                                <Condition Binding="{Binding IsSearchBtnVisible}" Value="Visible"/>
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="Visibility" TargetName="searchimg" Value="Collapsed"/>
-                        </MultiDataTrigger>
-                        <Trigger Property="IsKeyboardFocused" Value="true">
-                            <Setter Property="BorderBrush" TargetName="border" Value="DarkOrange"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <ItemsPanelTemplate x:Key="VideoItemsPanel">
-
-        <WrapPanel Margin="0,2,0,2" Orientation="Horizontal" IsItemsHost="True">
-        </WrapPanel>
-    </ItemsPanelTemplate>
-
-    <Style x:Key="lvStyle1" TargetType="{x:Type ListView}">
-        <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True"/>
-        <Setter Property="VirtualizingStackPanel.VirtualizationMode" Value="Recycling"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="ItemsSource" Value="{Binding}"/>
-        <Setter Property="ItemsPanel">
-            <Setter.Value>
-                <ItemsPanelTemplate>
-
-                    <!--<VirtualPanel:VirtualWrapPanel Orientation="Horizontal" ItemHeight="190" ItemWidth="150" 
-                                        VirtualizingStackPanel.VirtualizationMode="Recycling" 
-                                            VirtualizingStackPanel.IsVirtualizing="True" />-->
-                    <WrapPanel Margin="0,2,0,2" Orientation="Horizontal" />
-                    <!--ItemHeight="{Binding Path=ItemSize.Height, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"
-                     ItemWidth="{Binding Path=ItemSize.Width, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"/>-->
-                </ItemsPanelTemplate>
-            </Setter.Value>
-        </Setter>
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding IsLoading}" Value="True">
-                <Setter Property="Cursor" Value="Wait"/>
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
-
     <DataTemplate x:Key="FileLargeTemplate">
-        <local:CustomButton ContextMenu="{StaticResource fileexprcntxtmenu}" 
+        <presentationCmd:CustomButton ContextMenu="{StaticResource fileexprcntxtmenu}" 
                             Background="Transparent"
                             Margin="4" x:Name="main" 
                             Style="{StaticResource ContentContainer}"
                             BorderBrush="Transparent" 
                             BorderThickness="0"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                             IsEnabled="{Binding IsLoading,Converter={StaticResource BooleanInversion}}"
-                            local:VideoItemDoubleClick.DoubleClickCommand="{Binding 
+                            presentationCmd:VideoItemDoubleClick.DoubleClickCommand="{Binding 
             DataContext.OpenFolderCommand,RelativeSource={RelativeSource AncestorType=Page,Mode=FindAncestor}}"
-                            local:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding DataContext, 
+                            presentationCmd:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding DataContext, 
             RelativeSource={RelativeSource Self}}"  
-                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  
+                            
                             TextBlock.Foreground="White" 
                             TextBlock.FontStyle="Italic"  >
             <!--<y:VideoData >-->
@@ -702,7 +266,7 @@
                 </Border>
             </Grid>
             <!--</y:VideoData>-->
-        </local:CustomButton>
+        </presentationCmd:CustomButton>
 
         <DataTemplate.Triggers>
             <Trigger  Property="IsMouseOver" Value="true">
@@ -735,15 +299,15 @@
     </DataTemplate>
 
     <DataTemplate x:Key="FolderLargeTemplate">
-        <local:CustomButton Background="Transparent" Margin="4" x:Name="main" 
+        <presentationCmd:CustomButton Background="Transparent" Margin="4" x:Name="main" 
                             Style="{StaticResource ContentContainer}" 
                             ContextMenu="{StaticResource foldercntxtmenu}"
                             IsEnabled="{Binding IsLoading,Converter={StaticResource BooleanInversion}}"
                             BorderBrush="Transparent" BorderThickness="0"
-                            local:VideoItemDoubleClick.DoubleClickCommand="{Binding 
+                            presentationCmd:VideoItemDoubleClick.DoubleClickCommand="{Binding 
             DataContext.OpenFolderCommand,RelativeSource={RelativeSource 
             AncestorType=Page,Mode=FindAncestor}}"
-                            local:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding 
+                            presentationCmd:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding 
             DataContext, RelativeSource={RelativeSource Self}}" 
                             Grid.Column="0" HorizontalAlignment="Stretch" 
                             VerticalAlignment="Stretch"  
@@ -762,7 +326,7 @@
                             VerticalAlignment="Top"  CornerRadius="5"  
                             Height="15"  Margin="2,3,2,0" >
                             <Border.Background>
-                                <ImageBrush ImageSource="Images/check-1-icon.png" 
+                                <ImageBrush ImageSource="/Movies.GlobalResources;component/Images/check-1-icon.png" 
                                         TileMode="Tile"  
                                         Stretch="None" 
                                         ViewportUnits="Absolute" Opacity="0.3"/>
@@ -809,7 +373,7 @@
                     </Grid>
                 </Grid>
             </Grid>
-        </local:CustomButton>
+        </presentationCmd:CustomButton>
         <DataTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
                 <Trigger.EnterActions>
@@ -838,15 +402,15 @@
     </DataTemplate>
 
     <DataTemplate x:Key="FileSmallTemplate">
-        <local:CustomButton ContextMenu="{StaticResource fileexprcntxtmenu}" 
+        <presentationCmd:CustomButton ContextMenu="{StaticResource fileexprcntxtmenu}" 
                             Background="Transparent" 
                             IsEnabled="{Binding IsLoading,Converter={StaticResource BooleanInversion}}"
                             Margin="4" x:Name="main"
                             Style="{StaticResource ContentContainer}"
                             BorderBrush="Transparent" BorderThickness="0"
-                            local:VideoItemDoubleClick.DoubleClickCommand="{Binding 
+                            presentationCmd:VideoItemDoubleClick.DoubleClickCommand="{Binding 
             DataContext.OpenFolderCommand,RelativeSource={RelativeSource AncestorType=Page,Mode=FindAncestor}}"
-                            local:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding 
+                            presentationCmd:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding 
             DataContext, RelativeSource={RelativeSource Self}}"
                             HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
             <!--<y:VideoData>-->
@@ -929,7 +493,7 @@
             </DockPanel>
 
             <!--</y:VideoData>-->
-        </local:CustomButton>
+        </presentationCmd:CustomButton>
 
         <DataTemplate.Triggers>
             <!--<Trigger Property="IsMouseOver" Value="true">
@@ -943,68 +507,14 @@
         </DataTemplate.Triggers>
     </DataTemplate>
 
-    <DataTemplate x:Key="PLayListTemplate">
-        <local:CustomButton ContextMenu="{StaticResource Playlistcntxtmenu}"
-               Background="{Binding IsActive, Converter={StaticResource ActiveItemSelector}}" 
-               Margin="2,3,2,3" x:Name="main" Focusable="False"
-               Style="{StaticResource ContentContainer}" Height="38"
-               BorderBrush="Transparent" BorderThickness="0"
-               local:VideoItemDoubleClick.DoubleClickCommand="{x:Static cmd:VideoPlayerCommands.Play}"
-               local:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding DataContext, RelativeSource={RelativeSource Self}}"
-               >
-            <!--<y:VideoData>  local:VideoItemDoubleClick.DoubleClickCommand="{StaticResource ClickAction}"
-              local:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}"-->
-            <DockPanel x:Name="pldock"  TextBlock.Foreground="{Binding IsActive, Converter={StaticResource ActiveItemSelector} ,ConverterParameter=Foreground}" Margin="1"
-                        LastChildFill="True" HorizontalAlignment="Stretch" 
-                        VerticalAlignment="Stretch"
-                        VirtualizingStackPanel.VirtualizationMode="Recycling" 
-                        VirtualizingStackPanel.IsVirtualizing="True" >
-                <!--<DockPanel.Background>
-                    <ImageBrush ImageSource="Images/check-1-icon.png" TileMode="Tile"   Stretch="None" ViewportUnits="Absolute" Opacity="0.095"/>
-                </DockPanel.Background>-->
-                <StackPanel Grid.Row="1" DockPanel.Dock="Bottom" Orientation="Horizontal"
-                                    HorizontalAlignment="Left" >
-                    <TextBlock   Text="{Binding ProgressAsString,
-                                Converter={StaticResource TextContexter}, ConverterParameter=Text}" 
-                                         Visibility="{Binding ProgressAsString,
-                                Converter={StaticResource TextContexter}, ConverterParameter=Visibility}"
-                                        FontSize="10" Padding="2"/>
-                    <TextBlock   Text="{Binding Duration}"
-                                        FontSize="10" Padding="2"/>
-                </StackPanel>
-                <TextBlock  Padding="2" TextWrapping="Wrap"
-                           x:Name="hh"  FontWeight="Bold"
-                           ToolTip="{Binding TooltipMessage}"
-                           Text="{Binding MediaTitle}"
-                           TextTrimming="CharacterEllipsis"  />
-
-               
-            </DockPanel>
-
-            <!--</y:VideoData>-->
-        </local:CustomButton>
-
-        <DataTemplate.Triggers>
-            <!--<Trigger Property="IsMouseOver" Value="true">
-                <Setter TargetName="main" Property="Background">
-                    <Setter.Value>
-                        <ImageBrush ImageSource="Images/check-1-icon.png" TileMode="Tile"   Stretch="None" ViewportUnits="Absolute" Opacity="0.2"/>
-                    </Setter.Value>
-                </Setter>
-                <Setter TargetName="pldock" Property="TextBlock.Foreground" Value="White"/>
-            </Trigger>-->
-
-        </DataTemplate.Triggers>
-    </DataTemplate>
-
     <DataTemplate x:Key="FolderSmallTemplate">
-        <local:CustomButton Background="Transparent" Margin="4" x:Name="main" 
+        <presentationCmd:CustomButton Background="Transparent" Margin="4" x:Name="main" 
                             Style="{StaticResource ContentContainer}" 
                             ContextMenu="{StaticResource foldercntxtmenu}"
                             BorderBrush="Transparent" BorderThickness="0"
-                            local:VideoItemDoubleClick.DoubleClickCommand="{Binding DataContext.OpenFolderCommand,
+                            presentationCmd:VideoItemDoubleClick.DoubleClickCommand="{Binding DataContext.OpenFolderCommand,
             RelativeSource={RelativeSource AncestorType=Page,Mode=FindAncestor}}"
-                            local:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding DataContext, 
+                            presentationCmd:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding DataContext, 
             RelativeSource={RelativeSource Self}}" >
             <!--<y:VideoData >-->
             <DockPanel  TextBlock.Foreground="{DynamicResource Theme.Foreground}" TextBlock.FontStyle="Italic" LastChildFill="True" Height="47">
@@ -1033,7 +543,7 @@
                         VerticalAlignment="Top" 
                         Margin="0,3,3,0" >
                         <Border.Background>
-                            <ImageBrush ImageSource="Images/check-1-icon.png" TileMode="Tile"   Stretch="None" ViewportUnits="Absolute" Opacity="0.3"/>
+                            <ImageBrush ImageSource="/Movies.GlobalResources;component/Images/check-1-icon.png" TileMode="Tile"   Stretch="None" ViewportUnits="Absolute" Opacity="0.3"/>
                         </Border.Background>
                         <TextBlock Text="{Binding ChildrenSize}" 
                                TextAlignment="Center" Margin="2,2,3,2" 
@@ -1059,239 +569,12 @@
                                TextTrimming="CharacterEllipsis"  />
             </DockPanel>
             <!--</y:VideoData>-->
-        </local:CustomButton>
+        </presentationCmd:CustomButton>
 
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding IsLoading}" Value="true">
                 <Setter TargetName="onloading" Property="Opacity" Value=".7"/>
                 <Setter  Property="Cursor" Value="Wait"/>
-            </DataTrigger>
-        </DataTemplate.Triggers>
-    </DataTemplate>
-
-    <Style x:Key="CustomContainerStyle" TargetType="ListViewItem">
-        <!--<Setter Property="Focusable" Value="False"/>
-        <Setter Property="Background" Value="Transparent"/>-->
-        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-
-        <!--<Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ListViewItem}">
-                    <Border x:Name="container" Background="{TemplateBinding Background}" Margin="{TemplateBinding Margin}" >
-                        <ContentPresenter HorizontalAlignment="Stretch" SnapsToDevicePixels="True"
-                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="container" Property="Background" Value="{StaticResource ImageOutline}"/>
-                            <Setter Property="TextBlock.Foreground" Value="White"/>
-                            <Setter  Property="TextBlock.FontWeight" Value="Bold"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>-->
-    </Style>
-
-    <Style x:Key="NormalListVistStyle" TargetType="ListView">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ListView}">
-                    <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
-                        <ScrollViewer Focusable="False" Padding="{TemplateBinding Padding}">
-                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                        </ScrollViewer>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" TargetName="Bd" Value="White"/>
-                            <Setter Property="BorderBrush" TargetName="Bd" Value="#FFD9D9D9"/>
-                        </Trigger>
-                        
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style TargetType="{x:Type Button}" x:Key="zerobtnstyle">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border  Background="{TemplateBinding Background}"  BorderThickness="{TemplateBinding BorderThickness}"  BorderBrush="{TemplateBinding BorderBrush}" >
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="Foreground" Value="Yellow" />
-    </Style>
-
-    <Style x:Key="HomePageListViewContainerStyle" TargetType="ListViewItem">
-        <!--<Setter Property="Focusable" Value="False"/>
-        <Setter Property="Background" Value="Transparent"/>-->
-        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-        <!--<Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ListViewItem}">
-                    <Border x:Name="container" Background="{TemplateBinding Background}" Margin="{TemplateBinding Margin}" >
-                        <ContentPresenter HorizontalAlignment="Stretch" SnapsToDevicePixels="True"
-                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding DataContext.IsLoading,
-                              RelativeSource={RelativeSource Self}}"  
-                                     Value="true">
-                            <Setter  Property="TextBlock.FontWeight" Value="UltraBold"/>
-                        </DataTrigger>
-
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="TextBlock.Foreground" 
-                                    Value="{DynamicResource Theme.Foreground}"/>
-                            <Setter  Property="TextBlock.FontWeight" Value="Bold"/>
-                            <Setter Property="Background" Value="#99514949" TargetName="container"/>
-                        </Trigger>
-
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>-->
-    </Style>
-
-    <Style x:Key="dialogbtn" TargetType="{x:Type Button}" >
-        <Setter Property="Background" Value="#FF3E3E42"/>
-        <Setter Property="BorderThickness" Value="3"/>
-        <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="ToolTip" Value="{x:Null}"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border BorderThickness="{TemplateBinding BorderThickness}"
-                                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                                    x:Name="wrapper" 
-                                                    Background="{TemplateBinding Background}" Width="{TemplateBinding Width}" 
-                                                    Height="{TemplateBinding Height}">
-                        <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center" 
-                                              Content="{TemplateBinding Content}"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsMouseOver" Value="true"/>
-                            </MultiTrigger.Conditions>
-                            <Setter TargetName="wrapper" 
-                                    Property="BorderBrush" 
-                                    Value="DarkGray"/>
-                            <Setter
-                                Property="TextBlock.Foreground" 
-                                Value="{DynamicResource Theme.HighlightColor}"/>
-                        </MultiTrigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <DataTemplate x:Key="HomeFolderTemplate">
-        <local:CustomButton Background="Transparent" Margin="4" x:Name="main" 
-                            Style="{StaticResource ContentContainer}" 
-                            IsEnabled="{Binding IsLoading,Converter={StaticResource BooleanInversion}}"
-                            BorderBrush="Transparent" BorderThickness="0"
-                            local:VideoItemDoubleClick.DoubleClickCommand="{Binding 
-            DataContext.OpenFolderCommand,RelativeSource={RelativeSource 
-            AncestorType=Page,Mode=FindAncestor}}"
-                            local:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding 
-            DataContext, RelativeSource={RelativeSource Self}}" 
-                            Grid.Column="0" HorizontalAlignment="Stretch" 
-                            VerticalAlignment="Stretch"  
-                            TextBlock.Foreground="{DynamicResource Theme.Foreground}" 
-                            TextBlock.FontStyle="Italic">
-            <Grid >
-                <Grid Width="140" Height="180"  
-                      HorizontalAlignment="Left" 
-                      VerticalAlignment="Top"  >
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid Grid.Row="0">
-                        <Border Panel.ZIndex="10" HorizontalAlignment="Right" 
-                            VerticalAlignment="Top"  CornerRadius="5"  
-                            Height="15"  Margin="2,3,2,0" >
-                            <Border.Background>
-                                <ImageBrush ImageSource="Images/check-1-icon.png" 
-                                        TileMode="Tile"  
-                                        Stretch="None" 
-                                        ViewportUnits="Absolute" Opacity="0.3"/>
-                            </Border.Background>
-                            <TextBlock Text="{Binding FolderChildCount, UpdateSourceTrigger=PropertyChanged}" 
-                                       TextAlignment="Center" Margin="2,2,3,2"  VerticalAlignment="Center" />
-                        </Border>
-                        <loadingvisual:LoadingIndicator 
-                            HorizontalAlignment="Center" Style="{DynamicResource LoadingIndicatorWaveStyleKey}"
-                            VerticalAlignment="Bottom"  Margin="0,0,0,40" Height="20"
-                            SpeedRatio="1" Foreground="{DynamicResource Theme.HighlightColor}" 
-                            IsActive="{Binding IsLoading}"/>
-                        <Path  Fill="{DynamicResource Theme.HighlightColor}" x:Name="path" 
-                               StrokeThickness=".5" Stroke="Black" 
-                               Data="M10,4H4C2.89,4 2,4.89 2,6V18C2,19.1 2.9,20 4,
-                               20H20C21.1,20 22,19.1 22,18V8C22,6.89 
-                               21.1,6 20,6H12L10,4Z" ToolTip="{Binding FileName}" >
-                            <Path.RenderTransform>
-                                <TransformGroup>
-                                    <ScaleTransform ScaleX="6" ScaleY="5.5"/>
-                                    <RotateTransform />
-                                </TransformGroup>
-                            </Path.RenderTransform>
-                        </Path>
-                    </Grid>
-                    <Grid Height="60" VerticalAlignment="Bottom" Opacity=".8"  
-                          x:Name="footer" Grid.Row="1" Panel.ZIndex="-8" >
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="45"/>
-                            <RowDefinition Height="15"/>
-                        </Grid.RowDefinitions>
-
-                        <TextBlock Margin="4,3,3,0" FontSize="15"    
-                                   TextAlignment="Center"
-                                   Text="{Binding FileName,UpdateSourceTrigger=PropertyChanged}" 
-                                   VerticalAlignment="Center"
-                                   TextWrapping="Wrap"  TextTrimming="WordEllipsis" Grid.Row="0" ToolTipService.InitialShowDelay="1500"
-                               ToolTip="{Binding FullName,UpdateSourceTrigger=PropertyChanged}"    />
-
-                        <TextBlock  Grid.Row="1" Text="{Binding CreationDate}" 
-                                    HorizontalAlignment="Right" 
-                                    FontSize="10" Margin="0,0,3,2" 
-                                    Padding="0,0,0,0" />
-                    </Grid>
-                </Grid>
-            </Grid>
-        </local:CustomButton>
-        <DataTemplate.Triggers>
-            <Trigger Property="IsMouseOver" Value="true">
-                <Trigger.EnterActions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Duration="0:0:.2" Storyboard.TargetName="footer"
-                                             Storyboard.TargetProperty="Opacity" To="1"/>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.EnterActions>
-                <Trigger.ExitActions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Duration="0:0:.2" Storyboard.TargetName="footer"
-                                             Storyboard.TargetProperty="Opacity" To="0.8"/>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.ExitActions>
-            </Trigger>
-
-            <DataTrigger Binding="{Binding IsLoading}" Value="true">
-                <Setter  Property="Cursor" Value="Wait"/>
-                <Setter TargetName="path" Property="Opacity" Value=".8"/>
             </DataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>

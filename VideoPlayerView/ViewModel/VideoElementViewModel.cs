@@ -1,11 +1,13 @@
-﻿using Common.Interfaces;
-using Common.Model;
-using Common.Util;
+﻿using Common.Util;
 using Meta.Vlc;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.ViewModel;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Win32;
+using Movies.MediaService.Interfaces;
+using Movies.MediaService.Models;
+using Movies.Models.Model;
+using Movies.MoviesInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,37 +21,12 @@ namespace VideoPlayerView.ViewModel
 {
     public partial class VideoElementViewModel:NotificationObject
     {
-        public DelegateCommand<object> SelectedAudioTrackCommand { get; private set; }
-        public DelegateCommand<object> SelectedVideoTrackCommand { get; private set; }
         private WindowState IntialWindowsState;
 
         public VideoElementViewModel()
         {
             // SetStyleOnWindowState((Application.Current.MainWindow.WindowState));
-            SelectedAudioTrackCommand = new DelegateCommand<object>(SetSelectedAudioTrack);
-            SelectedVideoTrackCommand = new DelegateCommand<object>(SetSelectedVideoTrack);
         }
-
-        private void SetSelectedAudioTrack(object parameter)
-        {
-            if(CurrentAudioTrack != parameter)
-            {
-                CurrentAudioTrack.IsActive = false;
-                IVideoElement.MediaPlayer.AudioTrack = (parameter as Stream).Track.Id;
-                currentAudiotrack = (Stream)parameter;
-            }
-        }
-
-        private void SetSelectedVideoTrack(object parameter)
-        {
-            if (CurrentVideoTrack != parameter)
-            {
-                CurrentVideoTrack.IsActive = false;
-                IVideoElement.MediaPlayer.VlcMediaPlayer.VideoTrack = (parameter as Stream).Track.Id;
-                currentAudiotrack = (Stream)parameter;
-            }
-        }
-
 
         private string maxbtntooltip;
         public string MaxbtnTooltip
@@ -81,34 +58,34 @@ namespace VideoPlayerView.ViewModel
         
         internal void Loaded()
         {
+            //remember to fix dis
             IVideoElement.PlayListView.OnPlaylistClose += Plv_OnPlaylistClose;
-            IVideoElement.IVideoPlayer.ScreenSettingsChanged += IVideoPlayer_ScreenSettingsChanged;
-            MediaControlExtension.SetFileexpVisiblity(IVideoElement.PlayListView as UIElement, 
+            IVideoElement.IVideoPlayerController.ScreenSettingsChanged += IVideoPlayer_ScreenSettingsChanged;
+            MediaControlExtension.SetFileexpVisiblity(IVideoElement.PlayListView as UIElement,
                 System.Windows.Visibility.Collapsed);
+
             //FocusManager.SetFocusedElement(IVideoElement as DependencyObject,Mouse.Captured);
 
             SystemEvents.PowerModeChanged += this.SystemEvents_PowerModeChanged;
-            MediaControllerVM.MediaControllerInstance.SubtitleChanged += MediaControllerInstance_SubtitleChanged;
-            IVideoElement.MediaPlayer.MediaOpened += new EventHandler(MediaPlayer_MediaOpened);
+           FilePlayerManager.MediaControllerViewModel.SubtitleChanged += MediaControllerInstance_SubtitleChanged;
+            MediaPlayerService.OnMediaOpened += new EventHandler(MediaPlayer_MediaOpened);
             (IVideoElement as Window).Closing += new System.ComponentModel.CancelEventHandler(VideoElementViewModel_Closing);
+        }
+
+        private void MediaPlayer_MediaOpened(object sender, EventArgs e)
+        {
+           // throw new NotImplementedException();
         }
 
         private void VideoElementViewModel_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             SystemEvents.PowerModeChanged -= this.SystemEvents_PowerModeChanged;
         }
-
-        void MediaPlayer_MediaOpened(object sender, EventArgs e)
-        {
-            CurrentAudioTrack = null;
-            videotracks = null;
-            audiotracks = null;
-            CurrentVideoTrack = null;
-        }
+        
 
         private void MediaControllerInstance_SubtitleChanged(object sender, EventArgs e)
         {
-            SubtitleTitleCollection = null;
+            RaisePropertyChanged(() => this.SubtitleTitleCollection);
         }
 
         private void SystemEvents_PowerModeChanged(object sender, PowerModeChangedEventArgs e)
@@ -118,16 +95,16 @@ namespace VideoPlayerView.ViewModel
                 case PowerModes.Resume:
                     if (IsSuspended)
                     {
-                        MediaControllerVM.MediaControllerInstance.PlayAction(); 
+                       FilePlayerManager.MediaControllerViewModel.PlayAction(); 
                         IsSuspended = false;
                     }
                     break;
                 case PowerModes.StatusChange:
                     break;
                 case PowerModes.Suspend:
-                    if (MediaControllerVM.MediaControllerInstance.IsPlaying)
+                    if (FilePlayerManager.MediaControllerViewModel.IsPlaying)
                     {
-                        MediaControllerVM.MediaControllerInstance.PlayAction();
+                        FilePlayerManager.MediaControllerViewModel.PlayAction();
                         IsSuspended = true;
                     }
                     break;
@@ -166,95 +143,59 @@ namespace VideoPlayerView.ViewModel
                 //IVideoElement.WindowsTab.Visibility = Visibility.Visible;
                 (IVideoElement as Window).WindowState = IntialWindowsState;
             }
-            
           //  }
-            
         }
 
         private IVideoElement IVideoElement
         {
             get { return ServiceLocator.Current.GetInstance<IPlayFile>().VideoElement; }
         }
-
+        
     }
 
     public partial class VideoElementViewModel
     {
-        private Stream currentAudiotrack;
-        public Stream CurrentAudioTrack
+       
+       // private List<Stream> audiotracks;
+        public IEnumerable<MediaTrackDescription> AudioTracks
         {
             get
             {
-                return currentAudiotrack;
-            }
-            set { currentAudiotrack = value; RaisePropertyChanged(() => this.CurrentAudioTrack); }
-        }
-
-        private Stream currentVideotrack;
-        public Stream CurrentVideoTrack
-        {
-            get
-            {
-                return currentVideotrack;
-            }
-            set { currentVideotrack = value; RaisePropertyChanged(() => this.CurrentVideoTrack); }
-        }
-
-        private List<Stream> audiotracks;
-        public List<Stream> AudioTracks
-        {
-            get
-            {
-                if (audiotracks == null)
-                {
-                    audiotracks = new List<Stream>();
-                    foreach (var item in IVideoElement.MediaPlayer.AudioTrackDescription)
-                    {
-                        Stream astrack = new Stream(item, TrackType.Audio);
-                        audiotracks.Add(astrack);
-                        if (item.Id == IVideoElement.MediaPlayer.AudioTrackDescription[IVideoElement.MediaPlayer.AudioTrack].Id)
-                            CurrentAudioTrack = astrack;
-                    }
-                }
-                return audiotracks;
-
+                return (MediaPlayerService.AudioTracksManagement.AudioTracks);
             }
         }
 
-        private List<Stream> videotracks;
-        public List<Stream> VideoTracks
+        //private List<Stream> videotracks;
+        public IEnumerable<MediaTrackDescription> VideoTracks
         {
             get
             {
-                if (videotracks == null)
-                {
-                    videotracks = new List<Stream>();
-                    foreach (var item in IVideoElement.MediaPlayer.VlcMediaPlayer.VideoTrackDescription)
-                    {
-                        Stream astrack = new Stream(item, TrackType.Video);
-                        videotracks.Add(astrack);
-                        if (item.Id == IVideoElement.MediaPlayer.VlcMediaPlayer.VideoTrackDescription[IVideoElement.MediaPlayer.VlcMediaPlayer.VideoTrack].Id)
-                            CurrentVideoTrack = astrack;
-                    }
-                }
-                return videotracks;
-
+                return (MediaPlayerService.VideoTracksManagement.VideoTracks);
+            }
+        }
+        
+        public IEnumerable<MediaTrackDescription> SubtitleTitleCollection
+        {
+            get
+            {
+                return (MediaPlayerService.SubtitleManagement.SubtitleList);
             }
         }
 
-        private ObservableCollection<SubtitleFilesModel> subtitletitlecollection;
-        public ObservableCollection<SubtitleFilesModel> SubtitleTitleCollection
+
+        IMediaPlayerService MediaPlayerService
         {
             get
             {
-                if (subtitletitlecollection == null)
-                    subtitletitlecollection = new ObservableCollection<SubtitleFilesModel>(MediaControllerVM.
-                        MediaControllerInstance.CurrentVideoItem.SubPath);
-                return subtitletitlecollection;
+                return FilePlayerManager.MediaPlayerService;
             }
-            private set
+        }
+
+        IPlayFile FilePlayerManager
+        {
+            get
             {
-                subtitletitlecollection = value; RaisePropertyChanged(() => this.SubtitleTitleCollection);
+                return ServiceLocator.Current.GetInstance<IPlayFile>();
             }
         }
     }

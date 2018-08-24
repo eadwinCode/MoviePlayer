@@ -15,10 +15,10 @@ namespace Meta.Vlc
     public class TrackDescription
     {
         private IntPtr _pointer;
+        public IntPtr Pointer { get { return _pointer; } }
+        public Interop.MediaPlayer.TrackDescription Struct;
 
-        internal Interop.MediaPlayer.TrackDescription Struct;
-
-        internal TrackDescription(IntPtr pointer)
+        public TrackDescription(IntPtr pointer)
         {
             _pointer = pointer;
             if (pointer != IntPtr.Zero)
@@ -47,7 +47,7 @@ namespace Meta.Vlc
     {
         private List<TrackDescription> _list;
         private IntPtr _pointer;
-
+        public IntPtr Pointer { get { return _pointer; } }
         /// <summary>
         ///     Create a readonly list by a pointer of <see cref="Interop.MediaPlayer.TrackDescription" />.
         /// </summary>

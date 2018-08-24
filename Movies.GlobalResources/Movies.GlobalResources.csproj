@@ -1,0 +1,337 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1370A208-DA8B-43EE-8CBB-A18D7992A8DC}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <RootNamespace>Movies.GlobalResources</RootNamespace>
+    <AssemblyName>Movies.GlobalResources</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\LocalFileStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ImagePathConverter\ImageConverter.cs" />
+    <Compile Include="LoadingAnimation\LoadingIndicator.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PresentationExtension\PresentationExtension.csproj">
+      <Project>{b622321d-0980-42df-9165-79341bf7e64e}</Project>
+      <Name>PresentationExtension</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProjectInterfaces\Movies.MoviesInterfaces.csproj">
+      <Project>{2d97da0a-18be-48a1-b4fc-78b0b3ceb6c8}</Project>
+      <Name>Movies.MoviesInterfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\1444150377_ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\1444151826_source_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\1468868785_icon-111-search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\1468868797_search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\1468868809_search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\1468869084_icon-111-search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\1494208427_folder_black_movies.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\1498943046_orange-folder-open.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\1498943107_orange-folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\360-view.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\add-button-with-plus-symbol-in-a-black-circle %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\add-button-with-plus-symbol-in-a-black-circle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\back %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\back %282%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\back %283%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\back %284%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\back.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\check-1-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\clear.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\diskdrive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\exit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\fast-forward.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Field+Tile+in+Gray.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\film-list.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Folder-96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\folder-icon-128x128.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\folder-icon-256x256.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Folderss - Copy.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Folderss.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\fullscreen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\left-arrow %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\left-arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\magnifier.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\movie-clapper-open.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Movies - Copy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Movies.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\musica-searcher.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\mute.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\next %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\next.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\orange_folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\pause %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\pause.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\pause1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\play-button %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\play-button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\play%283%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\play.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\play2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\play3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\playlist.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Plus-icon %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Plus-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\repeat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\replay %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\replay %282%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\replay %283%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\replay.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\rewind.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\right-arrow %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\right-arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\save-file-option.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\sound-icone-4732-128.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\sound-icone-4732-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\speaker.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\speech_bubble_center_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\speech_bubble_center_3%282%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\spk.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\srt.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\stop %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\stop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\update-arrow %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\update-arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\video-player.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\video.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\musica-searcher16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\musica-searcher24.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

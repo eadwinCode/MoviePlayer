@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:VirtualizingListView.View" 
+             xmlns:local="clr-namespace:VirtualizingListView.View"
+             xmlns:prism="http://www.codeplex.com/prism"
+
              xmlns:util="clr-namespace:VirtualizingListView"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="600">
@@ -13,89 +15,17 @@
                 <ResourceDictionary Source="pack://application:,,,/VirtualizingListView;component/Resources/ViewStyle.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/VirtualizingListView;component/Resources/Items.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <util:BooleanInversion x:Key="BooleanInversion"/>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
         <Grid x:Name="MainViewWrapper" >
             <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="40"/>
                 <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
             <!--"-->
             <DockPanel Grid.Row="0" Background="{DynamicResource Theme.Background}"
                    IsEnabled="{Binding HasAction, Converter={StaticResource BooleanInversion}}">
-                <Button Content="Search" DockPanel.Dock="Right"
-                    Command="{Binding SearchCommand}" 
-                    x:Name="seachcontent" Width="45" Height="35" ToolTip="Search a movie" 
-                    Background="{DynamicResource Theme.HighlightColor}"
-                    HorizontalAlignment="Right" Margin="5,3">
-                    <Button.Style>
-                        <Style TargetType="Button" >
-                            <Setter Property="Focusable" Value="False"/>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="Button">
-                                        <Border CornerRadius="2" 
-                                            Background="{TemplateBinding Background}" 
-                                            SnapsToDevicePixels="True" 
-                                            BorderBrush="{TemplateBinding BorderBrush}" 
-                                            x:Name="border"  
-                                            Width="{TemplateBinding Width}" 
-                                            Height="{TemplateBinding Height}">
-
-                                            <Image x:Name="contentPresenter" Opacity="0.7" 
-                                               Height="18" Width="18" Margin="3" 
-                                               Stretch="Uniform" 
-                                               Source="/SearchComponent;component/Images/musica-searcher24.png"
-                                               HorizontalAlignment="Center" 
-                                               VerticalAlignment="Center"/>
-                                        </Border>
-
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsDefaulted" Value="true">
-                                                <Setter Property="BorderBrush" 
-                                                    TargetName="border" 
-                                                    Value="{DynamicResource {x:Static 
-                                                SystemColors.HighlightBrushKey}}"/>
-                                            </Trigger>
-                                            <Trigger Property="IsMouseOver" 
-                                                 Value="true">
-                                                <Setter Property="Opacity" 
-                                                    TargetName="contentPresenter" Value="1"/>
-                                            </Trigger>
-                                            <Trigger Property="IsPressed" Value="true">
-                                                <Setter Property="LayoutTransform" >
-                                                    <Setter.Value>
-                                                        <ScaleTransform ScaleX="1" ScaleY="0.9"/>
-                                                    </Setter.Value>
-                                                </Setter>
-                                                <Setter Property="BorderBrush"
-                                                    TargetName="border" 
-                                                    Value="{StaticResource Button.Pressed.Border}"/>
-                                            </Trigger>
-                                            <Trigger Property="IsEnabled" Value="false">
-                                                <Setter Property="Opacity" 
-                                                    TargetName="contentPresenter" Value=".3"/>
-                                                <Setter Property="Background" 
-                                            TargetName="border" 
-                                                    Value="{StaticResource Button.Disabled.Border}"/>
-                                                <Setter Property="BorderBrush" 
-                                                    TargetName="border" 
-                                                    Value="{StaticResource 
-                                            Button.Disabled.Border}"/>
-                                                <Setter 
-                                                Property="TextElement.Foreground" 
-                                                TargetName="contentPresenter" 
-                                                    Value="{StaticResource Button.Disabled.Foreground}"/>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </Button.Style>
-                </Button>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" DockPanel.Dock="Left">
                     <Button Width="50" Height="30" 
                             Margin="1" Background="Transparent"
@@ -231,100 +161,21 @@
                         </Button.Style>
                     </Button>-->
                 </StackPanel>
-                <StackPanel Margin="3"  
-                        IsEnabled="{Binding IsOnSearchPage, Converter={StaticResource BooleanInversion}}"
-                        HorizontalAlignment="Right" 
-                        
-                        Orientation="Horizontal">
-                    <util:WindowCommandButton Loaded="WindowCommandButton_Loaded" 
-                                           Command="{Binding DataContext.VideoFolderCommand,
-                                        RelativeSource={RelativeSource AncestorType=UserControl,
-                                        Mode=FindAncestor}}" 
-                                           CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
-                                           DataContext="{Binding VideoFolders}">
-                    </util:WindowCommandButton>
-
-                    <util:WindowCommandButton
-                                        Command="{Binding DataContext.UsbDriveCommand,
-                                        RelativeSource={RelativeSource 
-                    AncestorType=UserControl,Mode=FindAncestor}}"
-                                        CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
-                                        DataContext="{Binding UsbDrive}">
-
-                    </util:WindowCommandButton>
-
-                    <!--<util:WindowCommandButton 
-                                        Command="{Binding 
-                                        DataContext.MediaServerCommand,
-                                        RelativeSource={RelativeSource 
-                    AncestorType=UserControl,Mode=FindAncestor}}"
-                                        CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
-                                        DataContext="{Binding MediaServer}">
-                    </util:WindowCommandButton>-->
-                </StackPanel>
-
             </DockPanel>
-            <Grid  x:Name="ListPanel" Grid.Row="1" DockPanel.Dock="Top" >
+            <Grid x:Name="ListPanel" Grid.Row="1" DockPanel.Dock="Top" >
                 <local:PageNavigator x:Name="pagenavigator" Grid.Column="2"/>
             </Grid>
-            <Grid.Resources>
-                <Style TargetType="util:WindowCommandButton">
-                    <Setter Property="FontSize" Value="20"/>
-                    <Setter Property="Margin" Value="5,0,10,0"/>
-                    <Setter Property="FontWeight" Value="Regular"/>
-                    <Setter Property="TextBlock.Foreground" Value="{DynamicResource Theme.Foreground}"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="util:WindowCommandButton">
-                                <Border x:Name="bd" Margin="{TemplateBinding Margin}"
-                                Opacity=".7" Background="Transparent" 
-                                BorderThickness="0,0,0,2">
-                                    <DockPanel>
-                                        <ContentControl DockPanel.Dock="Left"
-                                                HorizontalAlignment="Center" x:Name="icon"
-                                                VerticalAlignment="Center" Height="18"
-                                                FontSize="{TemplateBinding FontSize}"
-                                                Focusable="False" Margin="1,0,5,0"
-                                                Content="{Binding DataContext.Icon,
-                                    RelativeSource={RelativeSource Self}}" >
-                                            <ContentControl.RenderTransform>
-                                                <TransformGroup>
-                                                    <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
-                                                    <RotateTransform />
-                                                </TransformGroup>
-                                            </ContentControl.RenderTransform>
-                                        </ContentControl>
-                                        <TextBlock Grid.Column="1"
-                                           VerticalAlignment="Center" 
-                                           Padding="5"
-                                           Text="{Binding DataContext.Label,
-                                    RelativeSource={RelativeSource Self}}" />
-                                    </DockPanel>
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="bd" Property="BorderBrush" 
-                                            Value="{DynamicResource Theme.HighlightColor}"/>
-                                        <Setter TargetName="bd" Property="Opacity" Value="1"/>
-                                        <Setter TargetName="icon" Property="Foreground" 
-                                            Value="{DynamicResource Theme.HighlightColor}"/>
-                                    </Trigger>
-                                    <DataTrigger 
-                                        Binding="{Binding IsActive,RelativeSource={RelativeSource Self}}" 
-                                        Value="true">
-                                        <Setter TargetName="bd" Property="Opacity" Value="1"/>
-                                        <Setter TargetName="icon" Property="Foreground" 
-                                        Value="{DynamicResource Theme.HighlightColor}"/>
-                                        <Setter TargetName="bd" Property="BorderBrush" 
-                                            Value="{DynamicResource Theme.HighlightColor}"/>
-                                    </DataTrigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Grid.Resources>
         </Grid>
         <ContentControl x:Name="DialogDock"></ContentControl>
     </Grid>
 </UserControl>
+<!--<StackPanel Margin="3"  prism:RegionManager.RegionName="PageNavigatorRegion"
+                        IsEnabled="{Binding IsOnSearchPage, Converter={StaticResource BooleanInversion}}"
+                        HorizontalAlignment="Right" 
+                        
+                        Orientation="Horizontal">
+
+
+
+
+</StackPanel>-->

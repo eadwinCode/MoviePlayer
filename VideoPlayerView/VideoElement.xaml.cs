@@ -1,5 +1,4 @@
-﻿using Common.Interfaces;
-using Meta.Vlc.Wpf;
+﻿using Meta.Vlc.Wpf;
 using Microsoft.Win32;
 using System;
 using System.ComponentModel;
@@ -12,6 +11,11 @@ using VideoPlayerControl.ViewModel;
 using VideoPlayerView.Util;
 using VideoPlayerView.ViewModel;
 using MahApps.Metro.Controls;
+using Movies.MoviesInterfaces;
+using VideoPlayerControl;
+using Microsoft.Practices.ServiceLocation;
+using Movies.MediaService.Interfaces;
+using Movies.MediaService.Service;
 
 namespace VideoPlayerView
 {
@@ -21,42 +25,107 @@ namespace VideoPlayerView
     public partial class VideoElement : MetroWindow, IVideoElement
     {
         //IPlayListClose playlistview;
+        public IMediaPlayerService imediaplayerservice;
+
+        private IPlaylistViewMediaPlayerView playlistview;
+        public IPlaylistViewMediaPlayerView PlayListView
+        {
+            get
+            {
+                if (playlistview == null)
+                {
+                    playlistview = FilePlayerMananger.PlaylistManagerViewModel.
+                    GetPlaylistView(FilePlayerMananger.MediaControllerViewModel) as IPlaylistViewMediaPlayerView;
+                }
+                return playlistview;
+            }
+        }
+
+        IMediaController ivideoplayercontroller;
+        public IMediaController IVideoPlayerController
+        {
+            get
+            {
+                if (ivideoplayercontroller == null)
+                    ivideoplayercontroller = new SubtitleMediaController();
+                return this.ivideoplayercontroller;
+            }
+        }
+
+        IPlayFile FilePlayerMananger
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<IPlayFile>();
+            }
+        }
+
+        IMediaPlayerService MediaPlayerService
+        {
+            get
+            {
+                return FilePlayerMananger.MediaPlayerService;
+            }
+        }
+
+        public UIElement ParentGrid
+        {
+            get { return this._videoContent; }
+        }
+
+        public ContentControl ContentDockRegion
+        {
+            get { return this.contentdockregion; }
+        }
+
         public VideoElement()
         {
             InitializeComponent();
             this.DataContext = new VideoElementViewModel();
             this.Loaded += VideoElement_Loaded;
 
+            this.MediaControlRegion.Content = IVideoPlayerController;
+            this.PlaylistViewRegion.Content = PlayListView;
+            this.MediaElementViewRegion.Content = MediaPlayerService.VideoPlayer;
             //var previousExecutionState = NativeMethods.SetThreadExecutionState(
             //    NativeMethods.ES_CONTINUOUS
             //    | NativeMethods.ES_SYSTEM_REQUIRED);
+
+
         }
-        
 
         protected override void OnDrop(DragEventArgs e)
         {
             base.OnDrop(e);
-            var vm = videoplayer.DataContext as VideoPlayerVM;
+            var vm = (IVideoPlayerController as UserControl).DataContext as VideoPlayerVM;
             vm.OnDrop(e);
         }
         
-
         private void VideoElement_Loaded(object sender, RoutedEventArgs e)
         {
             var vm = this.DataContext as VideoElementViewModel;
             vm.Loaded();
-            MediaElementPlayer.MediaOpened += MediaControllerInstance_VlcMediaOpened;
-           // IVideoPlayer.MediaPlayer.MediaUriPlayer.MediaPositionChanged += MediaUriPlayer_MediaPositionChanged;
+            MediaPlayerService.OnMediaOpened += MediaControllerInstance_VlcMediaOpened;
+
+            this.FocusElement();
+            // IVideoPlayer.MediaPlayer.MediaUriPlayer.MediaPositionChanged += MediaUriPlayer_MediaPositionChanged;
+        }
+
+        private void FocusElement()
+        {
+            this.Focus();
+            (this.IVideoPlayerController as UserControl).Focus();
         }
 
         private void MediaControllerInstance_VlcMediaOpened(object sender, EventArgs e)
-        { //+ IVideoPlayer.MediaController.ActualHeight
+        { 
+            //+ IVideoPlayer.MediaController.ActualHeight
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
             {
-                var vm = videoplayer.DataContext as VideoPlayerVM;
+                var vm = (IVideoPlayerController as UserControl).DataContext as VideoPlayerVM;
                 if (!vm.AllowAutoResize) return;
-                this.Height = Math.Min(720, MediaPlayer.VlcMediaPlayer.PixelHeight* 0.6666666666667);
-                this.Width = Math.Min(1280, MediaPlayer.VlcMediaPlayer.PixelWidth * 0.6666666666667);
+                this.Height = Math.Min(720, MediaPlayerService.PixelHeight* 0.6666666666667);
+                this.Width = Math.Min(1280, MediaPlayerService.PixelWidth * 0.6666666666667);
                //this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             }));
         }
@@ -64,82 +133,36 @@ namespace VideoPlayerView
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            //playlistview = (IPlayListClose)this.Template.FindName("playlistview", this);
+            //(playlistview as UserControl).Style = (Style)this.Template.FindName("playlistview", this);
         }
-
-        public IPlayListClose PlayListView { get { return this.playlistview; } }
-
-        public IMediaController IVideoPlayer
-        {
-            get
-            {
-                return this.videoplayer;
-            }
-        }
-
-        //UIElement IVideoElement.WindowsTab
-        //{
-        //    get
-        //    {
-        //        return this.WindowsTab;
-        //    }
-        //}
-
-        //UIElement IVideoElement.WindowsTabDock
-        //{
-        //    get
-        //    {
-        //        return this.WindowsTabDock;
-        //    }
-        //}
-
-        public VlcPlayer MediaPlayer { get { return this.MediaElementPlayer; } }
-
-        public UIElement ParentGrid
-        {
-            get { return this._videoContent; }
-        }
-
+        
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
             base.OnPreviewKeyDown(e);
-            (this.IVideoPlayer as UserControl).Focus();
-            //this.Focus();
-            
+            (this.IVideoPlayerController as UserControl).Focus();
         }
+
         protected override void OnPreviewKeyUp(KeyEventArgs e)
         {
             base.OnPreviewKeyUp(e);
             
-            if (MediaControllerVM.MediaControllerInstance.IsRewindOrFastForward)
+            if (FilePlayerMananger.MediaControllerViewModel.IsRewindOrFastForward)
             {
-                ((IVideoPlayer as UserControl).DataContext as VideoPlayerVM).RestoreMediaState();
+                ((IVideoPlayerController as UserControl).DataContext as VideoPlayerVM).RestoreMediaState();
             }
-            ((IVideoPlayer as UserControl).DataContext as VideoPlayerVM).VisibilityAnimation();
-        }
-        public void SetTopMost()
-        {
-            if (!this.Topmost)
-            {
-                this.Topmost = true;
-            }
-            else
-            {
-                this.Topmost = false;
-            }
+            ((IVideoPlayerController as UserControl).DataContext as VideoPlayerVM).VisibilityAnimation();
         }
 
         protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
         {
             if (!(e.Source is VlcPlayer)) return;
-            var vm = (VideoPlayerVM)videoplayer.DataContext;
+            var vm = (VideoPlayerVM)(IVideoPlayerController as UserControl).DataContext;
             vm.OnMouseDoubleClick(e);
         }
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            MediaElementPlayer.Dispose();
-            ApiManager.ReleaseAll();
+            MediaPlayerService.Dispose();
             base.OnClosing(e);
         }
 
@@ -153,6 +176,18 @@ namespace VideoPlayerView
             }
              else
                 mnItem.GetBindingExpression(MenuItem.IsCheckedProperty).UpdateTarget();
+        }
+
+        public void SetTopMost()
+        {
+            if (!this.Topmost)
+            {
+                this.Topmost = true;
+            }
+            else
+            {
+                this.Topmost = false;
+            }
         }
     }
 }

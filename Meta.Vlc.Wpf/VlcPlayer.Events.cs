@@ -145,16 +145,17 @@ namespace Meta.Vlc.Wpf
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
             {
                 OnPropertyChanged(() => Time);
-                
-                if (TimeChanged != null)
-                {
-                    TimeChanged(this, new EventArgs());
-                }
                 if (MediaOpened != null && CanExecute())
                 {
                     _isPublished = true;
                     MediaOpened(this, new EventArgs());
                 }
+
+                if (TimeChanged != null)
+                {
+                    TimeChanged(this, new EventArgs());
+                }
+               
             }));
         }
 

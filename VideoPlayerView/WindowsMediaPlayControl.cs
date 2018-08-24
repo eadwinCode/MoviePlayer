@@ -1,11 +1,10 @@
-﻿using Common.FileHelper;
-using Common.Model;
-using Common.Util;
+﻿using Common.Util;
+using Microsoft.Practices.ServiceLocation;
+using Movies.Models.Model;
+using Movies.MoviesInterfaces;
 using System;
 using System.Windows.Forms;
 using System.Windows.Threading;
-using VideoComponent.BaseClass;
-using VideoPlayerControl.PlayList;
 
 namespace MediaControl
 {
@@ -14,8 +13,23 @@ namespace MediaControl
         public double resumeposition;
        // private int currentpos;
         private int playstate;
-       // private int timerstate;
-        private PlayListManager playListManager;
+        // private int timerstate;
+
+        private IPlaylistManagerViewModel playListManager
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<IPlayFile>().PlaylistManagerViewModel;
+            }
+        }
+        private IApplicationService IApplicationService 
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<IApplicationService>();
+            }
+        }
+
         public VideoFolderChild CurrentVideoItem;
         private DispatcherTimer MediaPositionTimer;
 
@@ -32,19 +46,18 @@ namespace MediaControl
             MediaPositionTimer = new DispatcherTimer();
             MediaPositionTimer.Tick += MediaPositionTimer_Tick;
             MediaPositionTimer.Interval = TimeSpan.FromMilliseconds(200);
-
-            playListManager = new PlayListManager();
+            
             this.FormClosing += Wmp_test_FormClosing;
         }
 
         private void MediaPositionTimer_Tick(object sender, EventArgs e)
         {
-            CurrentVideoItem.Progress = axWindowsMediaPlayer1.Ctlcontrols.currentPosition;
+            CurrentVideoItem.Progress = Math.Round((double.Parse(axWindowsMediaPlayer1.Ctlcontrols.currentPosition.ToString()) / double.Parse(axWindowsMediaPlayer1.currentMedia.duration.ToString()) * 100), 2) ;
         }
 
         private void AxWindowsMediaPlayer1_MediaError(object sender, AxWMPLib._WMPOCXEvents_MediaErrorEvent e)
         {
-            throw new NotImplementedException();
+
         }
 
         private void AxWindowsMediaPlayer1_PositionChange(object sender, AxWMPLib._WMPOCXEvents_PositionChangeEvent e)
@@ -74,7 +87,7 @@ namespace MediaControl
                 CurrentVideoItem.LastPlayedPoisition.ProgressLastSeen = (double)CurrentVideoItem.Progress;
                 if (!CurrentVideoItem.HasLastSeen && CurrentVideoItem.Progress > 0)
                 {
-                    ApplicationService.SavedLastSeenCollection.Add((PlayedFiles)CurrentVideoItem.LastPlayedPoisition);
+                    IApplicationService.SavedLastSeenCollection.Add((PlayedFiles)CurrentVideoItem.LastPlayedPoisition);
                 }
                 MediaPositionTimer.Stop();
                 resumeposition = CurrentVideoItem.Progress;
@@ -147,9 +160,9 @@ namespace MediaControl
             CurrentVideoItem.LastPlayedPoisition.ProgressLastSeen = (double)axWindowsMediaPlayer1.Ctlcontrols.currentPosition;
             if (!CurrentVideoItem.HasLastSeen && CurrentVideoItem.Progress > 0)
             {
-                ApplicationService.SavedLastSeenCollection.Add((PlayedFiles)CurrentVideoItem.LastPlayedPoisition);
+                IApplicationService.SavedLastSeenCollection.Add((PlayedFiles)CurrentVideoItem.LastPlayedPoisition);
             }
-            ApplicationService.SaveLastSeenFile();
+            IApplicationService.SaveLastSeenFile();
         }
         
 

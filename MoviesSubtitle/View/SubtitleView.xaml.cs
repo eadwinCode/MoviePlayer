@@ -1,6 +1,4 @@
-﻿using Common.Interfaces;
-using Common.Model;
-using HTMLConverter;
+﻿using HTMLConverter;
 using MediaControl.Subtitles;
 using System;
 using System.Threading.Tasks;

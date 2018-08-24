@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="Movies.MoviePlaylistManager.Views.SavePlaylistDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Movies.MoviePlaylistManager.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Background="#B2000000">
+    <Border  Background="#CC000000" VerticalAlignment="Center" Width="400"
+            HorizontalAlignment="Center"  CornerRadius="3" BorderThickness=".8"
+            BorderBrush="{DynamicResource Theme.HighlightColor}">
+        <DockPanel VerticalAlignment="Top">
+            <Grid DockPanel.Dock="Top" Background="{DynamicResource Theme.HighlightColor}">
+                <TextBlock Text="Save Playlist Dialog" Foreground="White" Padding="5" FontSize="15" FontWeight="Regular"/>
+            </Grid>
+            <Border Padding="6">
+            <DockPanel LastChildFill="True" >
+                    <TextBlock DockPanel.Dock="Top" FontSize="13" Foreground="White" Padding="3" Text="Playlist Name:"/>
+                    <TextBox AcceptsTab="False" 
+                         x:Name="NewPlaylistName" Padding="3" DockPanel.Dock="Top" 
+                           Text="{Binding TempPlaylistName,UpdateSourceTrigger=PropertyChanged}" 
+                           />
+                <DockPanel DockPanel.Dock="Bottom" Height="25" LastChildFill="True" Margin="0,10,0,10">
+                    <Button Width="50" Margin="0,0,1,0" 
+                            Style="{StaticResource MoviesButton}"
+                            Command="{Binding CancelCommand}" 
+                            Content="Cancel" DockPanel.Dock="Right"/>
+                    <Button Width="50" Margin="0,0,5,0" Style="{StaticResource MoviesButton}"
+                            Command="{Binding OkCommand}" 
+                            Content="Ok" 
+                            DockPanel.Dock="Right"/>
+                    <TextBlock Padding="3" Foreground="White" Text="{Binding ErrorMessage}"/>
+                </DockPanel>
+            </DockPanel>
+            </Border>
+        </DockPanel>
+    </Border>
+</UserControl>

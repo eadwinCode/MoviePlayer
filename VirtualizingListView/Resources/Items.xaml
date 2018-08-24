@@ -5,7 +5,6 @@
                     xmlns:xv ="clr-namespace:VirtualizingListView"
                     >
     <xv:GroupSort x:Key="GroupSort" />
-    <xv:ISfolder x:Key="IsFolder"/>
 
     <CollectionViewSource x:Key="myVideoData" Source="{Binding VideoItemViewCollection}">
         <CollectionViewSource.GroupDescriptions>
