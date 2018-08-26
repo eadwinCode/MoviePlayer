@@ -1,0 +1,128 @@
+﻿using Delimon.Win32.IO;
+using Movies.Models.Interfaces;
+using Movies.Models.Model;
+using Movies.MoviesInterfaces;
+using Movies.Enums;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using Movies.MediaService.Interfaces;
+using System.Windows.Threading;
+
+namespace Movies.MoviesInterfaces
+{
+    public interface IBackgroundService
+    {
+        void Shutdown();
+        void Shutdown(ITask task);
+        void Execute();
+        void Execute(ITask task);
+        ITask Execute(Action action, string message = null, Action callback = null);
+        //Task CreateTask<T> (Action<T> action, string message, Action callback);
+    }
+    public interface ITask
+    {
+        bool IsBusy { get; }
+        bool IsCancelled { get; }
+        IStatusMessage ProcessStatusNotice { get;}
+        string GetMessage();
+        string GetSubscription();
+        void Run();
+        void Stop();
+    }
+        public interface ISettings
+    {
+        DirectoryInfo LastDirectory { get; set; }
+        ViewType ViewType { get; set; }
+    }
+    
+    public interface IPlayFile
+    {
+        IVideoElement VideoElement { get; }
+        IMediaPlayerService MediaPlayerService { get; }
+        IPlaylistManagerViewModel PlaylistManagerViewModel { get; }
+        IMediaControllerViewModel MediaControllerViewModel { get; }
+        void PlayFileInit(IVideoData obj);
+        void AddFiletoPlayList(IVideoData obj);
+        void WMPPlayFileInit(IVideoData vfc);
+        void PlayFileInit(IFolder obj);
+        void AddFiletoPlayList(IFolder obj);
+        void WMPPlayFileInit(IFolder vfc);
+        void PlayFileFromPlayList(PlaylistModel playlistModel);
+        void PlayFileInit(IVideoData playFile, IEnumerable<VideoFolderChild> TemperalList);
+    }
+
+    public interface ICollectionViewModel
+    {
+        string CurrentDir { get; set; }
+        DirectoryInfo DirectoryPosition { get; set; }
+        Object GetCollectionVM { get; }
+        IFileExplorer IFileExplorer { get; }
+        bool IsLoading { get; set; }
+        double LoadingProgress { get; set; }
+        DataTemplateSelector MyTemplateChange { get; set; }
+        ViewType ActiveViewType { get; set; }
+
+        void TreeViewUpdate(string obj);
+    }
+
+    public interface IFileLoader
+    {
+        bool HasDataSource { get; }
+        IDictionary<string, VideoFolder> GetAllFiles(ObservableCollection<VideoFolder> itemsSource);
+        VideoFolder GetExistingVideoFolderIfAny(VideoFolder videoFolder);
+        VideoFolder GetFolderItems(VideoFolder item);
+        void GetRootDetails(SortType sorttype, ref VideoFolder ParentDir);
+        void InitGetAllFiles(ObservableCollection<VideoFolder> itemsSource);
+        VideoFolder LoadChildrenFiles(DirectoryInfo directoryInfo, bool newpath = false);
+        ObservableCollection<VideoFolder> LoadChildrenFiles(VideoFolder Parentdir, bool newpath = false);
+        ObservableCollection<VideoFolder> LoadChildrenFiles(VideoFolder Parentdir, IList<FileInfo> files, bool newpath = false);
+        VideoFolder LoadParentFiles(VideoFolder Parentdir, IList<DirectoryInfo> SubDirectory, IList<FileInfo> SubFiles, SortType sorttype);
+        VideoFolder LoadParentFiles(VideoFolder Parentdir, IList<DirectoryInfo> SubDirectory, SortType sorttype);
+        VideoFolder LoadParentFiles(VideoFolder Parentdir, IList<FileInfo> SubFiles, SortType sorttype);
+        VideoFolder LoadParentFiles(VideoFolder ParentDir, SortType sorttype);
+        void RemoveFromDataSource(VideoFolder existingVideoFolder);
+        ObservableCollection<VideoFolder> SortList(SortType sorttype, ObservableCollection<VideoFolder> list);
+        VideoFolder SortList(SortType sorttype, VideoFolder parent);
+    }
+
+    public interface IFileLoaderCompletion
+    {
+        void FinishCollectionLoadProcess(IList<VideoFolder> itemsSource, Dispatcher dispatcherUnit);
+        void FinishCollectionLoadProcess(ObservableCollection<VideoFolder> itemsSource, bool IsMovieFolder);
+    }
+
+
+    public interface IFileExplorerCommonHelper
+    {
+        bool CheckForWantedDir(DirectoryInfo dir, IDictionary<string, string> formats);
+        string FileSizeConverter(double filelength);
+        T GetElement<T>(DependencyObject element);
+        List<FileInfo> GetFilesByExtensions(DirectoryInfo dir, IDictionary<string, string> extensions);
+        List<DirectoryInfo> GetParentSubDirectory(DirectoryInfo DirectoryPosition, IDictionary<string, string> formats);
+        List<DirectoryInfo> GetParentSubDirectoryWithoutCheck(DirectoryInfo DirectoryPosition, IDictionary<string, string> formats);
+        IEnumerable<FileInfo> GetSubtitleFiles(DirectoryInfo dir);
+        bool Match(string srtfile, string file);
+        ObservableCollection<SubtitleFilesModel> MatchSubToMedia(string p, IEnumerable<FileInfo> subpath);
+        List<FileInfo> RemoveDirectory(List<FileInfo> files, FileInfo fileInfo);
+    }
+
+    public interface ISavedPlaylistCollection
+    {
+        ObservableCollection<PlaylistModel> MoviePlayList { get; set; }
+    }
+
+    public interface ISavedLastSeenCollection
+    {
+        IDictionary<string, PlayedFiles> LastSeenCollection { get; }
+
+        void Add(PlayedFiles playedFiles);
+        PlayedFiles GetLastSeen(string fileName);
+        bool HasItem(PlayedFiles playedFiles);
+        void Remove(PlayedFiles playedFiles);
+    }
+}
