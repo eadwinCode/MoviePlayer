@@ -228,6 +228,8 @@ namespace VideoPlayerControl.ViewModel
 
         private void Previous_enabled(object sender, CanExecuteRoutedEventArgs e)
         {
+            if (FilePlayerManager.MediaControllerViewModel.IsfetchingRepeatItemAsync)
+                e.CanExecute = false;
             e.CanExecute = MediaControllerViewModel.CanPrev();
         }
         
@@ -254,6 +256,8 @@ namespace VideoPlayerControl.ViewModel
 
         private void Next_enabled(object sender, CanExecuteRoutedEventArgs e)
         {
+            if (FilePlayerManager.MediaControllerViewModel.IsfetchingRepeatItemAsync)
+                e.CanExecute = false;
             e.CanExecute = MediaControllerViewModel.CanNext();
         }
         

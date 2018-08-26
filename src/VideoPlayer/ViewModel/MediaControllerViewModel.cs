@@ -16,6 +16,7 @@ namespace VideoPlayerControl.ViewModel
 {
     public partial class MediaControllerViewModel
     {
+        public bool IsfetchingRepeatItemAsync { get; private set; }
 
         public MediaControllerViewModel()
         {
@@ -263,6 +264,7 @@ namespace VideoPlayerControl.ViewModel
 
         private VideoFolderChild GetItem_for_Repeat()
         {
+            IsfetchingRepeatItemAsync = true;
             Thread.Sleep(1000);
             VideoFolderChild item = null;
             (IVideoElement as Window).Dispatcher.Invoke(new Action(() => {
@@ -275,6 +277,7 @@ namespace VideoPlayerControl.ViewModel
         {
             if (vfc != null)
                 this.GetVideoItem(vfc, true);
+            IsfetchingRepeatItemAsync = false;
         }
 
         private void VlcMediaPlayer_Opening(object sender, EventArgs e)

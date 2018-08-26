@@ -46,7 +46,7 @@ namespace Movies.MoviesInterfaces
         DelegateCommand ToFullScreenBtn { get; }
         Slider VolumeSlider { get; }
         VolumeState VolumeState { get; set; }
-
+        bool IsfetchingRepeatItemAsync { get; }
         event PropertyChangedEventHandler PropertyChanged;
         event EventHandler SubtitleChanged;
 
