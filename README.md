@@ -14,7 +14,8 @@ Give examples
 A step by step series of examples that tell you have to get a development env running
 Say what the step will be
 ## Deployment
-Add additional notes about how to deploy this on a live system
+You can download the setup with the link below:
+*https://drive.google.com/open?id=1razW90U_w6anxZyLrpLKhYt8m8JeyrqV
 ## Built With
 * https://my.visualstudio.com/Downloads?q=visual%20studio%202010&wt.mc_id=o~msft~vscom~older-downloads
 ## Contributing
