@@ -4,6 +4,7 @@ using MahApps.Metro.IconPacks;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Prism.ViewModel;
+using Movies.MoviesInterfaces;
 using Movies.PlaylistCollectionView.Views;
 using PresentationExtension;
 using PresentationExtension.CommonEvent;
@@ -17,9 +18,9 @@ namespace Movies.PlaylistCollectionView.ViewModels
 {
     public class HomePlaylistButtonViewModel : NotificationObject
     {
+        private IHomePlaylist HomePlaylistService;
         IEventManager EventManager;
         private DelegateCommand<WindowCommandButton> injectviewcommand;
-        HomePlaylistView HomePlaylistView;
         public DelegateCommand<WindowCommandButton> InjectViewCommand
         {
             get
@@ -33,16 +34,16 @@ namespace Movies.PlaylistCollectionView.ViewModels
                 return injectviewcommand;
             }
         }
-        public HomePlaylistButtonViewModel(IEventManager eventmanager)
+        public HomePlaylistButtonViewModel(IEventManager eventmanager, IHomePlaylist  homePlaylistmanager)
         {
+            this.HomePlaylistService = homePlaylistmanager;
             EventManager = eventmanager;
-            HomePlaylistView = new HomePlaylistView();
             InitHamBurgerMenu();
         }
 
         private void InjectViewHandler()
         {
-            EventManager.GetEvent<NavigateNewPage>().Publish(HomePlaylistView);
+            EventManager.GetEvent<NavigateNewPage>().Publish(HomePlaylistService.GetHomePlaylistView());
         }
 
         private HamburgerMenuIconItem usbDrive;
@@ -60,15 +61,8 @@ namespace Movies.PlaylistCollectionView.ViewModels
             {
                 Label = "Manage Playlist",
                 Icon = new PackIconMaterial() { Kind = PackIconMaterialKind.PlaylistPlay },
-                Tag = HomePlaylistView
+                Tag = HomePlaylistService.GetHomePlaylistView()
             };
-
-            //MediaServer = new HamburgerMenuIconItem()
-            //{
-            //    Label = "Media server",
-            //    Icon = new PackIconMaterial() { Kind = PackIconMaterialKind.ServerNetwork },
-            //    Tag = new MediaServerPage()
-            //};
         }
 
     }

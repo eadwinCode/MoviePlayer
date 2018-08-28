@@ -19,7 +19,7 @@ namespace VirtualizingListView.Pages.Views
     /// <summary>
     /// Interaction logic for MediaServerPage.xaml
     /// </summary>
-    public partial class MediaServerPage : Page, IMainPages
+    public partial class MediaServerPage : Page, IMainPage
     {
         private IWindowsCommandButton WindowCommandButton;
         public bool HasController { get { return WindowCommandButton != null; } }

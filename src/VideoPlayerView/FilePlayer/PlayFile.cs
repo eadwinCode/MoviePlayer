@@ -271,7 +271,7 @@ namespace VideoPlayerView.FilePlayer
                 {
                     var task = Task.Factory.StartNew(() =>
                     {
-                        LoaderCompletion.FinishCollectionLoadProcess(videoFolder.OtherFiles,Dispatcher.CurrentDispatcher);
+                        LoaderCompletion.FinishCollectionLoadProcess(videoFolder.OtherFiles,null);
                     }).ContinueWith(t => { }, TaskScheduler.FromCurrentSynchronizationContext());
 
                     InitPlayerView(item);
@@ -294,21 +294,11 @@ namespace VideoPlayerView.FilePlayer
                 var item = videoFolder.OtherFiles.FirstOrDefault(x => x is VideoFolderChild);
                 if (item != null)
                 {
-                    var task = Task.Factory.StartNew(() =>
-                    {
-                        LoaderCompletion.FinishCollectionLoadProcess(videoFolder.OtherFiles, Dispatcher.CurrentDispatcher);
-                    }).ContinueWith(t => { }, TaskScheduler.FromCurrentSynchronizationContext());
-
                     InitPlayerView();
-                    MediaControlExtension.SetFileexpVisiblity(VideoElement.PlayListView as UIElement,
-                        Visibility.Visible);
-
+                    MediaControlExtension.
+                        SetFileexpVisiblity(VideoElement.PlayListView as UIElement,Visibility.Visible);
                     VideoFolder vf = (VideoFolder)obj;
-                    var vfc = vf.OtherFiles.Where(x => x is VideoFolderChild);
-                    foreach (var folderchild in vfc)
-                    {
-                        PlaylistManagerViewModel.Add(folderchild);
-                    }
+                    PlaylistManagerViewModel.Add(vf.OtherFiles.Where(x => x is VideoFolderChild));
                 }
 
             }

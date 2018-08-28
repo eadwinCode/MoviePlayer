@@ -46,17 +46,18 @@ namespace Movies.PlaylistCollectionView.RenameDialog
 
         private void OkCommand_Execute(object sender, ExecutedRoutedEventArgs e)
         {
-            //IPageNavigatorHost.DockControl.Content = null;
             if (OnFinished != null)
                 OnFinished.Invoke(this, new RoutedEventArgs());
+
+            IPageNavigatorHost.DockControl.Content = null;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-           // IPageNavigatorHost.DockControl.Content = null;
             iscancel = true;
             if (OnFinished != null)
                 OnFinished.Invoke(this, null);
+            IPageNavigatorHost.DockControl.Content = null;
         }
 
         private void RenameDialog_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -78,8 +79,7 @@ namespace Movies.PlaylistCollectionView.RenameDialog
         {
             get
             {
-                return null;
-               // return ServiceLocator.Current.GetInstance<IShell>().PageNavigatorHost;
+                return ServiceLocator.Current.GetInstance<IPageNavigatorHost>();
             }
         }
 

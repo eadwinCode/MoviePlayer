@@ -297,7 +297,7 @@ namespace VideoPlayerControl.ViewModel
         private void ResetVisibilityAnimation()
         {
             //if((IVideoElement as Window).Dispatcher.)
-            IDispatcherService.InvokeDispatchAction(() =>
+            (IVideoElement as Window).Dispatcher.Invoke(DispatcherPriority.Background,new Action(() =>
             {
                 //if () return;
                 this.MousemoveTimer.Stop();
@@ -309,7 +309,7 @@ namespace VideoPlayerControl.ViewModel
                     //MediaControlExtension.SetAnimateWindowsTab(IVideoElement.WindowsTab as UIElement, true);
                 }
                 //else { MediaControlExtension.SetAnimateWindowsTab(IVideoElement.WindowsTab as UIElement, false); }
-            });
+            }));
         }
 
         public void FullScreenSettings()

@@ -1,4 +1,5 @@
 ﻿using Delimon.Win32.IO;
+using Microsoft.Practices.ServiceLocation;
 using Movies.Enums;
 using Movies.Models.Interfaces;
 using Movies.Models.Model;
@@ -290,6 +291,19 @@ namespace Movies.Models.Model
                 ParentDirectoryChanged.Invoke(this, new EventArgs());
             if (OnFileNameChangedChanged != null)
                 OnFileNameChangedChanged.Invoke(oldname, this);
+        }
+
+        public ObservableCollection<PlaylistModel> PlayListItems
+        {
+            get { return ApplicationModelService.AppPlaylist.MoviePlayList; }
+        }
+
+        protected IApplicationModelService ApplicationModelService
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<IApplicationModelService>();
+            }
         }
 
     }

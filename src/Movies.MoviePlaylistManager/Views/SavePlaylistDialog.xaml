@@ -11,13 +11,13 @@
             BorderBrush="{DynamicResource Theme.HighlightColor}">
         <DockPanel VerticalAlignment="Top">
             <Grid DockPanel.Dock="Top" Background="{DynamicResource Theme.HighlightColor}">
-                <TextBlock Text="Save Playlist Dialog" Foreground="White" Padding="5" FontSize="15" FontWeight="Regular"/>
+                <TextBlock Text="Save Playlist Dialog" Foreground="White" Padding="5" FontSize="17" FontWeight="Regular"/>
             </Grid>
             <Border Padding="6">
             <DockPanel LastChildFill="True" >
-                    <TextBlock DockPanel.Dock="Top" FontSize="13" Foreground="White" Padding="3" Text="Playlist Name:"/>
+                    <TextBlock DockPanel.Dock="Top" FontSize="15" Foreground="White" Padding="3" Text="Playlist Name:"/>
                     <TextBox AcceptsTab="False" 
-                         x:Name="NewPlaylistName" Padding="3" DockPanel.Dock="Top" 
+                         x:Name="NewPlaylistName" Padding="3" DockPanel.Dock="Top" FontSize="15"
                            Text="{Binding TempPlaylistName,UpdateSourceTrigger=PropertyChanged}" 
                            />
                 <DockPanel DockPanel.Dock="Bottom" Height="25" LastChildFill="True" Margin="0,10,0,10">

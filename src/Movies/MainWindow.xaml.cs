@@ -2,6 +2,7 @@
 using RealMediaControl.ViewModel;
 using System;
 using System.Windows;
+using System.Windows.Input;
 
 namespace Movies
 {
@@ -17,6 +18,7 @@ namespace Movies
             this.Loaded += videoPlayerVM.Window_Loaded;
             this.Loaded += MainView_Loaded;
         }
+        
 
         private void MainView_Loaded(object sender, RoutedEventArgs e)
         {

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Movies.PlaylistCollectionView.Views"
+             xmlns:localViewModel="clr-namespace:Movies.PlaylistCollectionView.ViewModels"
              xmlns:presentationCmd="clr-namespace:PresentationExtension;assembly=PresentationExtension"
              mc:Ignorable="d" TextBlock.Foreground="White"
              d:DesignHeight="300" d:DesignWidth="300">
@@ -15,13 +16,13 @@
             </ResourceDictionary.MergedDictionaries>
 
             <ContextMenu x:Key="PlaylistContextMenu">
-                <MenuItem Header="Open Playlist" Command="{x:Static local:HomePlaylistView.OpenPlaylist}" 
+                <MenuItem Header="Open Playlist" Command="{x:Static localViewModel:HomePlaylistViewModel.OpenPlaylist}" 
                       CommandParameter="{Binding}" />
-                <MenuItem Header="Edit Playlist" Command="{x:Static local:HomePlaylistView.EditPlaylist}" 
+                <MenuItem Header="Edit Playlist" Command="{x:Static localViewModel:HomePlaylistViewModel.EditPlaylist}" 
                       CommandParameter="{Binding}"/>
-                <MenuItem Header="Rename Playlist" Command="{x:Static local:HomePlaylistView.RenamePlaylist}" 
+                <MenuItem Header="Rename Playlist" Command="{x:Static localViewModel:HomePlaylistViewModel.RenamePlaylist}" 
                       CommandParameter="{Binding}"/>
-                <MenuItem Header="Delete Playlist" Command="{x:Static local:HomePlaylistView.RemovePlaylist}" 
+                <MenuItem Header="Delete Playlist" Command="{x:Static localViewModel:HomePlaylistViewModel.RemovePlaylist}" 
                       CommandParameter="{Binding}"/>
             </ContextMenu>
         </ResourceDictionary>
@@ -33,7 +34,7 @@
             <TextBlock Foreground="{DynamicResource Theme.Foreground}"  
                        FontSize="20" Padding="10" FontWeight="Medium" Text="Playlist"/>
         </Grid>
-        <ListView x:Name="Playlist"  Margin="10" BorderThickness="0"
+        <ListView Margin="10" BorderThickness="0"
                   ItemsSource="{Binding PlayListCollection}"
                   Style="{StaticResource HomePlaylistViewControl}"
                   ScrollViewer.VerticalScrollBarVisibility="Auto" 
@@ -51,7 +52,7 @@
                                 Margin="4" x:Name="main" 
                                 Style="{StaticResource ContentContainer}"
                                 BorderBrush="Transparent" BorderThickness="0"
-                                presentationCmd:VideoItemDoubleClick.DoubleClickCommand="{x:Static local:HomePlaylistView.OpenPlaylist}"
+                                presentationCmd:VideoItemDoubleClick.DoubleClickCommand="{x:Static localViewModel:HomePlaylistViewModel.OpenPlaylist}"
                                 presentationCmd:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding DataContext, RelativeSource={RelativeSource Self}}"  
                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  
                                 TextBlock.Foreground="{DynamicResource Theme.Foreground}" 

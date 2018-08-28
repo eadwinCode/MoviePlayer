@@ -68,6 +68,7 @@
     <Compile Include="Services\HomePlaylistModule.cs" />
     <Compile Include="ViewModels\EditPlayViewModel.cs" />
     <Compile Include="ViewModels\HomePlaylistButtonViewModel.cs" />
+    <Compile Include="ViewModels\HomePlaylistViewModel.cs" />
     <Compile Include="Views\EditPlaylistView.xaml.cs">
       <DependentUpon>EditPlaylistView.xaml</DependentUpon>
     </Compile>

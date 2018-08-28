@@ -21,6 +21,18 @@ namespace Movies.MoviesInterfaces
         void ShowDialog();
     }
 
+    public interface IHomePlaylist
+    {
+        ObservableCollection<PlaylistModel> PlayListCollection { get; }
+        object GetHomePlaylistView();
+        void AddMoviePlaylistItem(PlaylistModel plm);
+        void AddToPlayList(IPlaylistModel ipl, bool addtomovieplaylist = true);
+        void CreateNewPlayList(PlaylistModel playlistModel);
+        void CreateNewPlayList(string ItemPath);
+        void InitializeComponent();
+        void RemoveMoviePlaylistItem(PlaylistModel plm);
+    }
+
     public interface IStatusMessageManager
     {
         IStatusMessage CreateMessage(string message);
@@ -92,7 +104,7 @@ namespace Movies.MoviesInterfaces
     
     public interface IShell
     {
-
+        CommandBindingCollection CommandBindings { get; }
     }
 
     public interface IPageNavigatorHost

@@ -198,7 +198,7 @@ namespace Movies.MovieServices.Services
                 return true;
             }
             int check = 0;
-            string[] delimeter = { ".","_"," ", "-", " ", "_", "[", "]", "(", ")", "," };
+            string[] delimeter = { ".","_"," ", "-", " ", "_", "[", "]", "(", ")", ",","+" };
             string[] srttin = srtfile.Split(delimeter, StringSplitOptions.RemoveEmptyEntries);
             string[] filetin = file.Split(delimeter, StringSplitOptions.RemoveEmptyEntries);
             int perfitting = 0;

@@ -7,7 +7,7 @@ using System.Windows.Navigation;
 
 namespace PresentationExtension.InterFaces
 {
-    public interface IMainPages
+    public interface IMainPage
     {
         void SetController(IWindowsCommandButton controller);
         bool HasController { get; }

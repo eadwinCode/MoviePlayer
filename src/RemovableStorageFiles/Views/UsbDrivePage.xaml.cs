@@ -9,7 +9,7 @@ namespace RemovableStorageFiles.Views
     /// <summary>
     /// Interaction logic for UsbDrivePage.xaml
     /// </summary>
-    public partial class UsbDrivePage : Page, IMainPages
+    public partial class UsbDrivePage : Page, IMainPage
     {
         public bool HasController { get { return WindowCommandButton != null; } }
         public ContentControl Docker { get { return HomePageDock; } }

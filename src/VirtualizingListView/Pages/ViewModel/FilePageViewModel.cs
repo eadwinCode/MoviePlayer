@@ -283,7 +283,7 @@ namespace VirtualizingListView.Pages.ViewModel
             {
                 while (this.navigationService.CanGoBack)
                 {
-                    if (navigationService.Content is IMainPages) break;
+                    if (navigationService.Content is IMainPage) break;
                     this.navigationService.GoBack();
                 }
             }

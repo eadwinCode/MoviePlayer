@@ -40,7 +40,7 @@ namespace Movies.MovieServices.Services
             this.dispatcherService = dispatcherService;
         }
 
-        public void FinishCollectionLoadProcess(IList<VideoFolder> itemsSource, Dispatcher dispatcherUnit)
+        public void FinishCollectionLoadProcess(IList<VideoFolder> itemsSource, Dispatcher dispatcherUnit = null)
         {
             Parallel.ForEach(itemsSource, (o) =>
             {

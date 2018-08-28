@@ -16,7 +16,7 @@ namespace LocalVideoFiles.ViewModels
 {
     internal class HomePageLocalViewModel:NotificationObject
     {
-        private IMainPages PageOwner;
+        private IMainPage PageOwner;
         private static bool isLoadingData;
         //private static VideoFolder HomePageFolderHost;
 
@@ -59,7 +59,7 @@ namespace LocalVideoFiles.ViewModels
         public DelegateCommand AddFolderCommand { get; private set; }
         public DelegateCommand<VideoFolder> OpenFolderCommand { get; private set; }
 
-        public HomePageLocalViewModel(IMainPages owner)
+        public HomePageLocalViewModel(IMainPage owner)
         {
             PageOwner = owner;
             AddFolderCommand = new DelegateCommand(AddFolderCommandAction);

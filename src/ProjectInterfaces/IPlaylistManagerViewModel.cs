@@ -21,6 +21,7 @@ namespace Movies.MoviesInterfaces
         string TempPlaylistName { get; set; }
 
         void Add(VideoFolder vfc);
+        void Add(IEnumerable<VideoFolder> EnumerableVfc);
         VideoFolderChild GetNextItem();
         VideoFolderChild GetPreviousItem();
         PlaylistModel NewCreatePlaylist();

@@ -22,11 +22,17 @@ namespace Movies.MovieServices.Services
 
         public void BeginInvokeDispatchAction(Dispatcher customDispatcher,Action action)
         {
-            customDispatcher.BeginInvoke(action, DispatcherPriority.Background);
+            if (customDispatcher != null)
+                customDispatcher.BeginInvoke(action, DispatcherPriority.Background);
+            else
+                BeginInvokeDispatchAction(action);
         }
         public void InvokeDispatchAction(Dispatcher customDispatcher, Action action)
         {
-            customDispatcher.Invoke(action, DispatcherPriority.Background);
+            if (customDispatcher != null)
+                customDispatcher.Invoke(action, DispatcherPriority.Background);
+            else
+                InvokeDispatchAction(action);
         }
         public void ExecuteTimerAction(Action callback, long millisecond)
         {

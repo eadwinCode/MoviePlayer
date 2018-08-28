@@ -15,5 +15,6 @@ namespace PresentationExtension.CommonEvent
     public class NavigateNewPage : EventToken<object> { }
     public class NavigateSearchResult : EventToken<object> { }
     public class PlaylistCollectionChangedEventToken : EventToken<object> { }
-    
+    public class IsPlaylistManagerBusy : EventToken<bool> { }
+
 }

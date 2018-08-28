@@ -2,6 +2,8 @@
 using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Unity;
+using Movies.MoviesInterfaces;
+using Movies.PlaylistCollectionView.ViewModels;
 using Movies.PlaylistCollectionView.Views;
 using System;
 using System.Collections.Generic;
@@ -28,7 +30,7 @@ namespace Movies.PlaylistCollectionView.Services
 
         private void RegisterServices()
         {
-            
+            unityContainer.RegisterType<IHomePlaylist, HomePlaylistViewModel>(new ContainerControlledLifetimeManager());
         }
 
         private void RegisterViews()

@@ -15,39 +15,50 @@
         </ResourceDictionary>
 
     </UserControl.Resources>
-    <Border Background="{DynamicResource Theme.Background}" 
-            BorderBrush="{DynamicResource Theme.HighlightColor}" 
-            BorderThickness="1" Height="150" Width="300" CornerRadius="2">
-    <StackPanel   DockPanel.Dock="Top"  Margin="5">
-            <TextBlock Text="PlayList" FontSize="30" Foreground="{DynamicResource Theme.Foreground}" FontWeight="Bold"/>
-        <TextBox x:Name="RenameText" Style="{StaticResource txtbxstyle}" Foreground="White" AcceptsTab="False" TextChanged="TextBox_TextChanged" Padding="3" DockPanel.Dock="Top" Height="25"
-                            Margin="0,5,0,5" Background="{Binding Background, ElementName=window}"
-                           />
-        <DockPanel DockPanel.Dock="Bottom" Height="30" HorizontalAlignment="Center" LastChildFill="True" >
-                <Button  Style="{StaticResource dialogbtn}" 
-                         Margin="0,0,1,0" Click="Button_Click" Width="80" Height="30"
-                         DockPanel.Dock="Right">
-                    <TextBlock Text="Cancel" 
-                                   HorizontalAlignment="Center" 
-                                   VerticalAlignment="Center" FontWeight="DemiBold"
-                                   FontSize="15" Foreground="OldLace"/>
-                </Button>
-                <Button  Style="{StaticResource dialogbtn}"  
-                         Command="{x:Static local:RenameDialogControl.OkCommand}"   
-                         Height="30" Width="80" DockPanel.Dock="Right">
-                    <TextBlock Text="Ok" 
-                                   HorizontalAlignment="Center" 
-                                   VerticalAlignment="Center" FontWeight="DemiBold"
-                                   FontSize="15" Foreground="OldLace"/>
-                </Button>
-            </DockPanel>
-        <TextBlock DockPanel.Dock="Bottom" Height="25"
-                   Visibility="Collapsed"
-                   Foreground="White" 
-                   Text="{Binding ErrorMessage}"
-                   Padding="3"  />
-        </StackPanel>
+    <Border Background="#CC000000" VerticalAlignment="Center" Width="400"
+            HorizontalAlignment="Center"  CornerRadius="3" BorderThickness=".8"
+            BorderBrush="{DynamicResource Theme.HighlightColor}">
+        <DockPanel VerticalAlignment="Top">
+            <Grid DockPanel.Dock="Top" Background="{DynamicResource Theme.HighlightColor}">
+                <TextBlock Text="Save Playlist Dialog" Foreground="White" Padding="5" FontSize="17" FontWeight="Regular"/>
+            </Grid>
+            <Border Padding="6">
+                <DockPanel LastChildFill="True" >
+                    <TextBlock DockPanel.Dock="Top" FontSize="15" Foreground="White" Padding="3" Text="Playlist Name:"/>
+                    <TextBox AcceptsTab="False" x:Name="RenameText" Padding="3" FontSize="15"  DockPanel.Dock="Top" 
+                             Text="{Binding TempPlaylistName,UpdateSourceTrigger=PropertyChanged}" 
+                             Margin="0,5,0,5"  />
 
+                    <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" 
+                                HorizontalAlignment="Right" 
+                                Margin="0,10,0,10">
+                      
+                        <Button  Style="{StaticResource dialogbtn}" 
+                                 Command="{x:Static local:RenameDialogControl.OkCommand}"   
+                                 Height="30" Width="80" DockPanel.Dock="Right" Margin="2">
+                            <TextBlock Text="Ok" Padding="3"
+                                    HorizontalAlignment="Center" 
+                                    VerticalAlignment="Center" FontWeight="DemiBold"
+                                    FontSize="15" Foreground="OldLace"/>
+                        </Button>
+                        <Button Style="{StaticResource dialogbtn}" 
+                                Margin="2" Click="Button_Click" Width="80" Height="30"
+                                DockPanel.Dock="Right">
+                            <TextBlock Text="Cancel" 
+                                    HorizontalAlignment="Center" 
+                                    VerticalAlignment="Center" FontWeight="DemiBold"
+                                    FontSize="15" Foreground="OldLace"/>
+                        </Button>
+                    </StackPanel>
+
+                    <TextBlock DockPanel.Dock="Bottom" Height="25"
+                               Visibility="Collapsed"
+                               Foreground="White" 
+                               Text="{Binding ErrorMessage}"
+                               Padding="3"  />
+                </DockPanel>
+            </Border>
+        </DockPanel>
     </Border>
     <UserControl.Background>
         <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">

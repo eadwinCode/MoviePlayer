@@ -62,7 +62,7 @@
             </MenuItem.Icon>
         </MenuItem>
         <Separator/>
-        <MenuItem Header="Add to Playlist" ItemsSource="{Binding PlayListItems}" >
+        <MenuItem Header="Add to Existing Playlist" ItemsSource="{Binding PlayListItems}" >
             <MenuItem.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding}" Padding="5"/>
@@ -104,6 +104,23 @@
         <MenuItem Header="Create New PlayList"   
                   Command="{x:Static cmd:VideoPlayerCommands.NewPlaylist}" 
                   CommandParameter="{Binding}">
+            <MenuItem.Icon>
+                <Image/>
+            </MenuItem.Icon>
+        </MenuItem>
+        <Separator/>
+        <MenuItem Header="Add to Existing Playlist" ItemsSource="{Binding PlayListItems}" >
+            <MenuItem.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" Padding="5"/>
+                </DataTemplate>
+            </MenuItem.ItemTemplate>
+            <MenuItem.ItemContainerStyle>
+                <Style TargetType="{x:Type MenuItem}">
+                    <Setter Property="Command" Value="{x:Static cmd:VideoPlayerCommands.AddTo}" />
+                    <Setter Property="CommandParameter" Value="{Binding}" />
+                </Style>
+            </MenuItem.ItemContainerStyle>
             <MenuItem.Icon>
                 <Image/>
             </MenuItem.Icon>

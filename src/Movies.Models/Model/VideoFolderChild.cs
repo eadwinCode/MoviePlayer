@@ -263,7 +263,7 @@ namespace Movies.Models.Model
                     return false;
                 }
                 if (ApplicationModelService.AppSettings.ViewType == ViewType.Small && 
-                    MaxiProgress == null || !HasSearchSubtitleFile)
+                    Duration == ApplicationDummyMessage.DurationNotYetLoaded)
                 {
                     return false;
                 }
@@ -323,18 +323,6 @@ namespace Movies.Models.Model
                 UpdateProperties();
             }
         }
-
-        public ObservableCollection<PlaylistModel> PlayListItems
-        {
-            get { return ApplicationModelService.AppPlaylist.MoviePlayList; }
-        }
-
-        private IApplicationModelService ApplicationModelService
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<IApplicationModelService>();
-            }
-        }
+        
     }
 }

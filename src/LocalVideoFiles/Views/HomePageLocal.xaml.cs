@@ -9,7 +9,7 @@ namespace LocalVideoFiles.Views
     /// <summary>
     /// Interaction logic for HomePageLocal.xaml
     /// </summary>
-    public partial class HomePageLocal : Page,IMainPages
+    public partial class HomePageLocal : Page,IMainPage
     {
         //private static HomePlaylistView stplaylistcontrol;
         //public static HomePlaylistView PlaylistControl

@@ -186,7 +186,7 @@ namespace Movies.MoviePlaylistManager.ViewModel
                 var list = GetObservableCollection(plm);
                 //list = FileLoader.FileLoaderInstance.SortList(SortType.Name, list);
                 return list;
-            }).ContinueWith(t => { this.PlayListCollection = t.Result; IsLoading = false;
+            }).ContinueWith(t => { this.PlayListCollection = t.Result; 
                 InitFinishCollection();
             }, TaskScheduler.FromCurrentSynchronizationContext());
         }
@@ -194,9 +194,9 @@ namespace Movies.MoviePlaylistManager.ViewModel
         private void InitFinishCollection()
         {
             DispatcherService.ExecuteTimerAction(() => {
-                BackgroundService.Execute(() => {
-                    LoaderCompletion.FinishCollectionLoadProcess(PlayListCollection,Dispatcher.CurrentDispatcher);
-                }, "Getting playlist metadata...");
+            BackgroundService.Execute(() => {
+                LoaderCompletion.FinishCollectionLoadProcess(PlayListCollection,null);
+            }, "Getting playlist metadata...", () => { IsLoading = false; });
             }, 5000);
         }
 
@@ -408,6 +408,13 @@ namespace Movies.MoviePlaylistManager.ViewModel
             }
         }
 
+        public void Add(IEnumerable<VideoFolder> EnumerableVfc)
+        {
+            IsLoading = true;
+            this.PlayListCollection.AddRange(EnumerableVfc);
+            InitFinishCollection();
+        }
+
         public void Remove(VideoFolder vfc)
         {
             if (this.PlayListCollection.Contains(vfc))
@@ -415,7 +422,6 @@ namespace Movies.MoviePlaylistManager.ViewModel
                 this.PlayListCollection.Remove(vfc);
                 HasChanges = true;
             }
-
         }
 
         public string PlaylistName

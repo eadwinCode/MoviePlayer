@@ -28,7 +28,9 @@ namespace Movies.MoviePlaylistManager.ViewModel
         public bool IsLoading
         {
             get { return isloading; }
-            set { isloading = value; RaisePropertyChanged(() => this.IsLoading); }
+            set { isloading = value;
+                IEventManager.GetEvent<IsPlaylistManagerBusy>().Publish(value);
+                RaisePropertyChanged(() => this.IsLoading); }
         }
 
         private string sortedname;
@@ -119,8 +121,13 @@ namespace Movies.MoviePlaylistManager.ViewModel
 
         private void SortFunction(SortType sortType)
         {
+            if (IsLoading) return;
+
             SortedName = sortType.ToString();
-            this.PlayListCollection = FileLoader.SortList(sortType, PlayListCollection);
+            Task.Factory.StartNew(() =>FileLoader.SortList(sortType, _playlist)).ContinueWith(t => {
+                _playlist = t.Result;
+                RaisePropertyChanged(() => this.PlayListCollection);
+            }, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         IFileExplorerCommonHelper FileExplorerCommonHelper

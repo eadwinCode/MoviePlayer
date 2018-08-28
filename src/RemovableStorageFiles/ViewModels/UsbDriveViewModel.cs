@@ -20,7 +20,7 @@ namespace RemovableStorageFiles.ViewModels
 {
     public class UsbDriveViewModel:NotificationObject
     {
-        private IMainPages PageOwner;
+        private IMainPage PageOwner;
         IFileLoaderCompletion LoaderCompletion
         {
             get
@@ -71,7 +71,7 @@ namespace RemovableStorageFiles.ViewModels
         public DelegateCommand<object> OpenFolderCommand { get; private set; }
         public DelegateCommand ReloadCommand { get; private set; }
 
-        public UsbDriveViewModel(IMainPages pageowner)
+        public UsbDriveViewModel(IMainPage pageowner)
         {
             this.PageOwner = pageowner;
 

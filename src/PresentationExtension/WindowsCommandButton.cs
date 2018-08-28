@@ -57,7 +57,7 @@ namespace PresentationExtension
         {
             HamburgerMenuIconItem = this.DataContext as HamburgerMenuIconItem;
 
-            IMainPages mainPages = HamburgerMenuIconItem.Tag as IMainPages;
+            IMainPage mainPages = HamburgerMenuIconItem.Tag as IMainPage;
             if (!mainPages.HasController)
                 mainPages.SetController(this);
         }
