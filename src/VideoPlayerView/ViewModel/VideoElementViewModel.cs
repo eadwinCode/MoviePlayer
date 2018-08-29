@@ -85,7 +85,7 @@ namespace VideoPlayerView.ViewModel
 
         private void MediaControllerInstance_SubtitleChanged(object sender, EventArgs e)
         {
-            RaisePropertyChanged(() => this.SubtitleTitleCollection);
+            //RaisePropertyChanged(() => this.SubtitleTitleCollection);
         }
 
         private void SystemEvents_PowerModeChanged(object sender, PowerModeChangedEventArgs e)
@@ -156,31 +156,7 @@ namespace VideoPlayerView.ViewModel
     public partial class VideoElementViewModel
     {
        
-       // private List<Stream> audiotracks;
-        public IEnumerable<MediaTrackDescription> AudioTracks
-        {
-            get
-            {
-                return (MediaPlayerService.AudioTracksManagement.AudioTracks);
-            }
-        }
-
-        //private List<Stream> videotracks;
-        public IEnumerable<MediaTrackDescription> VideoTracks
-        {
-            get
-            {
-                return (MediaPlayerService.VideoTracksManagement.VideoTracks);
-            }
-        }
-        
-        public IEnumerable<MediaTrackDescription> SubtitleTitleCollection
-        {
-            get
-            {
-                return (MediaPlayerService.SubtitleManagement.SubtitleList);
-            }
-        }
+      
 
 
         IMediaPlayerService MediaPlayerService

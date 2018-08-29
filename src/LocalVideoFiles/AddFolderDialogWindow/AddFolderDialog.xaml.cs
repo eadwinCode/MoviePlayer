@@ -14,7 +14,6 @@ namespace LocalVideoFiles.AddFolderDialogWindow
         public AddFolderDialog()
         {
             InitializeComponent();
-            //this.Owner = Application.Current.MainWindow;
             this.DataContext = new AddFolderDialogViewModel();
         }
 
@@ -22,15 +21,12 @@ namespace LocalVideoFiles.AddFolderDialogWindow
         {
             if (OnFinished != null)
                 OnFinished.Invoke(this, null);
-
             IPageNavigatorHost.DockControl.Content = null;
-            //((IPageNavigatorHost as UserControl).DataContext as FileViewViewModel).HasAction = false;
         }
 
         public void ShowDialog()
         {
             IPageNavigatorHost.DockControl.Content = this;
-           // ((IPageNavigatorHost as UserControl).DataContext as FileViewViewModel).HasAction = true;
         }
 
         private IPageNavigatorHost IPageNavigatorHost

@@ -8,7 +8,7 @@
         <ResourceDictionary Source="pack://application:,,,/Movies.GlobalResources;component/Themes/Generic.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     <local:VolumeTextConverter x:Key="VolumeTextConverter"/>
-   
+    <local:TrackListConverter x:Key="TrackListConverter" />
     <Style TargetType="{x:Type local:MovieTitle_Tab}">
         <Setter Property="TextBlock.FontSize" Value="18"/>
         <Setter Property="Template">
@@ -103,9 +103,9 @@
         <Setter Property="IsEnabled" Value="True"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
     </Style>
-    
-   
 
    
-   
+
+
+
 </ResourceDictionary>

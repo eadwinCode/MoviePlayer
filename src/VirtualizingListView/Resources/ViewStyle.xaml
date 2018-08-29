@@ -208,7 +208,8 @@
                             TextBlock.Foreground="White" 
                             TextBlock.FontStyle="Italic"  >
             <!--<y:VideoData >-->
-            <Grid  Width="160" Background="#7F000000" Height="200" HorizontalAlignment="Left" VerticalAlignment="Top"  >
+            <Grid  Width="160" Background="#7F000000" Height="200" 
+                   HorizontalAlignment="Left" VerticalAlignment="Top"  >
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>

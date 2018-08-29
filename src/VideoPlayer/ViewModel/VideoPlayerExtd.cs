@@ -8,6 +8,7 @@ using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Movies.MoviesInterfaces;
+using VideoPlayerControl.View;
 
 namespace VideoPlayerControl.ViewModel
 {
@@ -58,9 +59,22 @@ namespace VideoPlayerControl.ViewModel
 
             IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.ResizeMediaAlways,
               ResizeMediaAlways_executed));
+
+            IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.ToggleMediaMenu,
+              ToggleMediaMenu_executed,ToggleMediaMenu_enabled));
             // IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.MinimizeMediaCtrl, MinimizeMediaCtrl_executed));
         }
-        
+
+        private void ToggleMediaMenu_enabled(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = !FilePlayerManager.MediaPlayerService.HasStopped;
+        }
+
+        private void ToggleMediaMenu_executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            mediaMenuViewModel.GetMediaMenuView().ShowDialog();
+        }
+
         private void ResizeMediaAlways_executed(object sender, ExecutedRoutedEventArgs e)
         {
             if (this.AllowAutoResize)

@@ -1,0 +1,90 @@
+﻿<UserControl x:Class="VideoPlayerControl.View.MediaMenu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:cmd="clr-namespace:Common.ApplicationCommands;assembly=Common"
+             xmlns:local="clr-namespace:VideoPlayerControl.View"
+             mc:Ignorable="d" Background="#CC000000"
+             d:DesignHeight="500" d:DesignWidth="500">
+    <UserControl.Resources>
+
+        <Style TargetType="{x:Type MenuItem}">
+            <Setter Property="IsCheckable" Value="True"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="Padding" Value="6"/>
+            <Setter Property="Margin" Value="15,0,0,0"/>
+            <Setter Property="TextBlock.FontSize" Value="13"/>
+            <Setter Property="IsChecked" Value="{Binding IsSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+        </Style>
+        
+        <Style TargetType="{x:Type Menu}">
+            <!--<Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="MenuItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>-->
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="TextBlock.Foreground" Value="White"/>
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Margin="1" Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Border Background="#CC000000"  VerticalAlignment="Center" Width="400"
+            HorizontalAlignment="Center" BorderThickness=".8"
+            BorderBrush="{DynamicResource Theme.HighlightColor}">
+        <DockPanel VerticalAlignment="Top" MaxHeight="400">
+            <DockPanel DockPanel.Dock="Top" Height="40" Background="{DynamicResource Theme.HighlightColor}">
+                <Button VerticalAlignment="Center" ToolTip="Close Menu" x:Name="close" Click="Close_Click" DockPanel.Dock="Right">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource CloseStyle}">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Foreground" Value="LightGray"/>
+                            <Setter Property="Focusable" Value="False"/>
+                            <Setter Property="Opacity" Value=".7"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="true">
+                                    <Setter Property="Opacity" Value="1"/>
+                                    <Setter Property="TextBlock.Foreground" Value="White"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <TextBlock VerticalAlignment="Center" Text="Media Options" Foreground="White" Padding="5" FontSize="17" FontWeight="Regular"/>
+            </DockPanel>
+            <ScrollViewer Padding="6" TextBlock.FontSize="15" TextBlock.FontWeight="DemiBold"
+                          HorizontalScrollBarVisibility="Disabled" 
+                          VerticalScrollBarVisibility="Auto">
+                <DockPanel LastChildFill="True" >
+                    <DockPanel TextBlock.Foreground="White" DockPanel.Dock="Top">
+                        <TextBlock Text="Audio Tracks" Padding="3" DockPanel.Dock="Top"/>
+                        <Menu ItemsSource="{Binding AudioTracks}"/>
+                    </DockPanel>
+
+                    <!--<DockPanel  TextBlock.Foreground="White" DockPanel.Dock="Top">
+                        <TextBlock Text="Video Tracks" Padding="3" DockPanel.Dock="Top"/>
+                        <Menu ItemsSource="{Binding VideoTracks}" />
+                    </DockPanel>-->
+
+                    <DockPanel TextBlock.Foreground="White" >
+                        <TextBlock Text="Subtitle" DockPanel.Dock="Top" Padding="3"/>
+                        <Menu DockPanel.Dock="Top" >
+                            <MenuItem Header="Add Subtitle File"  IsCheckable="False"
+                                  Command="{x:Static cmd:VideoPlayerCommands.AddSubFile}"/>
+                        </Menu>
+                        <Menu ItemsSource="{Binding SubtitleTitleCollection,UpdateSourceTrigger=PropertyChanged}"/>
+                    </DockPanel>
+                </DockPanel>
+            </ScrollViewer>
+        </DockPanel>
+    </Border>
+</UserControl>

@@ -22,6 +22,7 @@ namespace Movies.MovieServices.Services
         IFileLoader FileLoader;
         bool isLoadingData;
         private IDictionary<string, VideoFolder> data;
+        private ObservableCollection<VideoFolder> allfolders;
         object _lock = new object();
 
         private IEventManager IEventManager
@@ -60,8 +61,6 @@ namespace Movies.MovieServices.Services
                 return data != null && data.Count > 0; }
         }
         
-
-        private ObservableCollection<VideoFolder> allfolders;
         public ObservableCollection<VideoFolder> AllFoldersList
         {
             get { return allfolders; }
@@ -92,8 +91,7 @@ namespace Movies.MovieServices.Services
             if (allfolders == null) return null;
             return allfolders.Where(x => x.Equals(videoFolder)).FirstOrDefault();
         }
-
-
+        
         public VideoFolder GetExistingCopy<T>(VideoFolder videoFolder, IList<T> enumerable) where T : VideoFolder
         {
             return enumerable.Where(x => x.Equals(videoFolder)).FirstOrDefault();
@@ -113,8 +111,20 @@ namespace Movies.MovieServices.Services
                    isLoadingData = false;
                    CommandManager.InvalidateRequerySuggested();
                    FolderItemChange();
+                   ResetAllFolderListIsloadingFlag();
                }, TaskScheduler.FromCurrentSynchronizationContext());
 
+        }
+
+        private void ResetAllFolderListIsloadingFlag()
+        {
+            foreach (VideoFolder videofolder in AllFoldersList)
+            {
+                if (videofolder.IsLoading)
+                {
+                    videofolder.IsLoading = false;
+                }
+            }
         }
 
         public void LoadAllFolders(ObservableCollection<MovieFolderModel> removedFolder = null)
@@ -152,7 +162,8 @@ namespace Movies.MovieServices.Services
                 VideoFolder videoFolder = null;
                 if (DataSource != null)
                     DataSource.TryGetValue(item.FullName, out videoFolder);
-                else
+
+                if(videoFolder == null)
                     videoFolder = AllFoldersList.Where(x => x.FilePath.Equals(item.FullName)).FirstOrDefault();
                 RemoveVideoItem(videoFolder);
                 if (videoFolder != null)
@@ -197,7 +208,6 @@ namespace Movies.MovieServices.Services
         private void AllFoldersList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             FolderItemChange();
-
         }
 
         private bool AddVideoItem(VideoFolder videoFolder)

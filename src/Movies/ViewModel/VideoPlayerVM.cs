@@ -71,9 +71,7 @@ namespace RealMediaControl.ViewModel
             CommandAction.RegisterCommands();
             (IShell as Window).Closing += VideoPlayerVM_Closing;
         }
-
-       
-
+        
         private void VideoPlayerVM_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             ApplicationService.SaveFiles();

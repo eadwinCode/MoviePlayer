@@ -1,11 +1,11 @@
 ﻿<Controls:MetroWindow x:Class="VideoPlayerView.VideoElement"
                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                      xmlns:cmd="clr-namespace:Common.ApplicationCommands;assembly=Common"
                       xmlns:util="clr-namespace:Common.Util;assembly=Common"
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       xmlns:system="clr-namespace:System;assembly=mscorlib"
                       xmlns:VPVUtil="clr-namespace:VideoPlayerView.Util"
+                      xmlns:cmd="clr-namespace:Common.ApplicationCommands;assembly=Common"
                       xmlns:sw="clr-namespace:WpfStyleableWindow.StyleableWindow"
                       FocusManager.FocusedElement="{Binding ElementName=MediaControlRegion,Path=Content}"
                     ShowInTaskbar="True" 
@@ -16,7 +16,7 @@
                     Title="Movie Hub"
                     WindowStartupLocation="Manual"
                     Width="620"
-                    Height="500" 
+                    Height="500" WindowState="Maximized"
                     MinWidth="320" 
                     Background="{StaticResource ImageBackground}"
                     NonActiveWindowTitleBrush="Black"
@@ -55,8 +55,8 @@
             <Style TargetType="Button">
                 <Setter Property="Focusable" Value="False"/>
             </Style>
-            <VPVUtil:TrackListConverter x:Key="TrackListConverter" />
-            <ContextMenu x:Key="MediaContextMenu">
+            
+            <ContextMenu x:Key="MediaContextMenu" ContextMenuOpening="ContextMenu_ContextMenuOpening">
                 <MenuItem Header="Play/Pause" Command="{x:Static cmd:VideoPlayerCommands.PausePlay}" >
                     <MenuItem.Icon>
                         <Image/>
@@ -78,113 +78,33 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator/>
-                <MenuItem Header="Audio">
-                    <MenuItem Header="Audio Tracks" MenuItem.SubmenuOpened="MenuItem_SubmenuOpened"
-                              ItemsSource="{Binding AudioTracks}">
-                        <MenuItem.ItemContainerStyle>
-                            <Style TargetType="{x:Type MenuItem}">
-                                <Setter Property="Command" Value="{Binding DataContext.SelectedAudioTrackCommand, 
-                                    RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
-                                <Setter Property="CommandParameter" Value="{Binding}"/>
-                                <Setter Property="Padding" Value="5"/>
-                                <Setter Property="IsCheckable" Value="True"/>
-                                <Setter Property="IsChecked" Value="{Binding IsSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                                <EventSetter Event="MenuItem.SubmenuOpened" Handler="MenuItem_SubmenuOpened"/>
-                            </Style>
-                        </MenuItem.ItemContainerStyle>
-
-                        <MenuItem.Icon>
-                            <Image/>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <Separator/>
-                    <MenuItem Header="Increase Vol"  Command="{x:Static cmd:VideoPlayerCommands.VolUp}"/>
-                    <MenuItem Header="Decrease Vol"  Command="{x:Static cmd:VideoPlayerCommands.VolDown}"/>
-                    <MenuItem Header="Mute"  Command="{x:Static cmd:VideoPlayerCommands.Mute}"/>
-                </MenuItem>
-
-                <MenuItem Header="Video">
-                    <MenuItem Header="Video Tracks" MenuItem.SubmenuOpened="MenuItem_SubmenuOpened"
-                              ItemsSource="{Binding VideoTracks}">
-                        <MenuItem.ItemContainerStyle>
-                            <Style TargetType="{x:Type MenuItem}">
-                                <Setter Property="Command" Value="{Binding DataContext.SelectedVideoTrackCommand, 
-                                    RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
-                                <Setter Property="CommandParameter" Value="{Binding}"/>
-                                <Setter Property="IsCheckable" Value="True"/>
-                                <Setter Property="Padding" Value="5"/>
-                                <Setter Property="IsChecked" Value="{Binding IsSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,
-                                    Converter={StaticResource TrackListConverter}}"/>
-                            </Style>
-                        </MenuItem.ItemContainerStyle>
-
-                        <MenuItem.Icon>
-                            <Image/>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="FullScreen" Command="{x:Static 
-                                            cmd:VideoPlayerCommands.FullScreen}">
-                        <MenuItem.Icon>
-                            <Image/>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem.Icon>
-                        <Image/>
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="Subtitle" >
-                    <MenuItem Header="Add Subtitle File"  Command="{x:Static cmd:VideoPlayerCommands.AddSubFile}"/>
-                    <MenuItem Header="Sub tracks" IsSubmenuOpen="True" ItemsSource="{Binding SubtitleTitleCollection,UpdateSourceTrigger=PropertyChanged}">
-                        <MenuItem.ItemContainerStyle>
-                            <Style TargetType="{x:Type MenuItem}">
-                                <Setter Property="IsCheckable" Value="True"/>
-                                <Setter Property="Padding" Value="5"/>
-                                <Setter Property="IsChecked" Value="{Binding IsSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                                <Setter Property="HeaderTemplate">
-                                    <Setter.Value>
-                                        <DataTemplate>
-                                            <TextBlock MaxWidth="200" Text="{Binding}" TextTrimming="WordEllipsis"/>
-                                        </DataTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </MenuItem.ItemContainerStyle>
-                    </MenuItem>
-                </MenuItem>
+               
                 <Separator/>
 
-                <MenuItem Header="TopMost" IsCheckable="True"
-                  Command="{x:Static cmd:VideoPlayerCommands.TopMost}">
-                    <!--<MenuItem.Icon>
-                <Image/>
-            </MenuItem.Icon>-->
-                </MenuItem>
-                <Separator/>
-
+                
                 <MenuItem Header="PlayList" Command="{x:Static cmd:VideoPlayerCommands.PlayList}" >
                     <MenuItem.Icon>
                         <Image/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <Separator/>
-                <MenuItem Header="Allow AutoResize" IsCheckable="True" IsChecked="True"
-                  Command="{x:Static cmd:VideoPlayerCommands.ResizeMediaAlways}"/>
-
             </ContextMenu>
+
         </ResourceDictionary>
     </Window.Resources>
     <!--<DockPanel LastChildFill="True" Background="Black">-->
-    <Grid Background="Black" x:Name="_videoContent" ContextMenu="{StaticResource MediaContextMenu}" sw:WindowDragBehavior.LeftMouseButtonDrag="{Binding
-            RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}">
+    <Grid Background="Black" x:Name="_videoContent"  
+          sw:WindowDragBehavior.LeftMouseButtonDrag="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}">
             <!-- sw:WindowDragBehavior.LeftMouseButtonDrag="{Binding
         RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"> LibVlcPath="..\..\..\LibVlc" 
        <VideoPlayer:PlaylistView x:Name="plv" Width="10" DockPanel.Dock="Right" Margin="0,32,0,0"  />-->
+        
         <DockPanel>
             <ContentControl x:Name="PlaylistViewRegion"  Grid.Column="1"  DockPanel.Dock="Right" Margin="0,0,0,0" />
             <!--<VideoPlayer:PlaylistView Focusable="False" Cursor="Arrow"  />-->
             <DockPanel LastChildFill="True" Grid.Column="0">
                 <Grid>
-                    <ContentControl x:Name="MediaElementViewRegion" Drop="MediaElementViewRegion_Drop"  Grid.Column="1" AllowDrop="True"  Margin="0,0,0,0" />
+                    <ContentControl x:Name="MediaElementViewRegion" Drop="MediaElementViewRegion_Drop"  Grid.Column="1" AllowDrop="True"  
+                                    Margin="0,0,0,0" />
                     <!--<wpf:VlcPlayer VlcOption="{StaticResource VlcOptions}" 
                        EndBehavior="Nothing" Stretch="Uniform">
 
@@ -194,7 +114,8 @@
 
                     <Button DockPanel.Dock="Right"  Width="40" Height="30"  Visibility="{Binding FullScreenBtn}"  
                             HorizontalAlignment="Right" ToolTip="Close"   VerticalAlignment="Top" 
-                            Command="{StaticResource CloseCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}">
+                            Command="{StaticResource CloseCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}" BasedOn="{StaticResource CloseStyle}">
                                 <Setter Property="Background" Value="Transparent"/>
@@ -210,7 +131,11 @@
                 </Grid>
             </DockPanel>
         </DockPanel>
+        
+        <Grid ContextMenu="{StaticResource MediaContextMenu}" IsEnabled="True">
 
+        </Grid>
+        
         <ContentControl x:Name="contentdockregion"  Grid.Column="1"  DockPanel.Dock="Right" Margin="0,0,0,0" />
     </Grid>
     <!--</DockPanel>-->

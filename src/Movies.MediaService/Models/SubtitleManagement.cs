@@ -1,16 +1,18 @@
 ﻿using Meta.Vlc.Wpf;
 using Microsoft.Practices.Prism.ViewModel;
+using Movies.MediaService.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace Movies.MediaService.Models
 {
     public class SubtitleManagement : NotificationObject
     {
         VlcPlayer mediaplayer;
-
+        private readonly MediaPlayerService mediaPlayerService;
         private MediaTrackDescriptionList subtitlelist;
         private MediaTrackDescription subtitle;
         private bool IsUpdating;
@@ -36,13 +38,20 @@ namespace Movies.MediaService.Models
             set { mediaplayer.VlcMediaPlayer.SubtitleDelay = value; }
         }
 
-        public SubtitleManagement(VlcPlayer mediaplayer)
+        public SubtitleManagement(VlcPlayer mediaplayer,MediaPlayerService mediaPlayerService)
         {
             this.mediaplayer = mediaplayer;
+            this.mediaPlayerService = mediaPlayerService;
         }
 
         public void ReloadData()
         {
+            if(subtitle != null)
+            {
+                subtitlelist.OnPropertyChanged -= Subtitlelist_OnPropertyChanged;
+                subtitlelist = null;
+            }
+
             subtitlelist = new MediaTrackDescriptionList(mediaplayer.VlcMediaPlayer.SubtitleDescription.Pointer);
             if(Currentsubtitle > 0 && Currentsubtitle < subtitlelist.Count)
                 SetSubtitle(subtitlelist[0]);
@@ -61,7 +70,9 @@ namespace Movies.MediaService.Models
         public void SetSubtitle(string filepath)
         {
             mediaplayer.VlcMediaPlayer.SetSubtitleFile(filepath);
+            Thread.Sleep(10);
             ReloadData();
+            mediaPlayerService.PublishSubItemAddedEvent();
         }
 
         private void SetSubtitle(MediaTrackDescription mediaTrackDescription)

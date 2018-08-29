@@ -22,6 +22,7 @@ namespace Movies.MediaService.Service
         private VideoTracksManagement videotracksmanagement; 
         private SubtitleManagement subtitlemanagement;
         private ChapterManagement chaptermanagement;
+        private MovieMediaState state = MovieMediaState.NothingSpecial;
 
         public event EventHandler OnMediaOpened;
         public event EventHandler OnSubItemAdded;
@@ -56,10 +57,10 @@ namespace Movies.MediaService.Service
         public bool CanPlay { get { return _vlcPlayer.VlcMediaPlayer.CanPlay; } }
 
         public bool CanPause { get { return _vlcPlayer.VlcMediaPlayer.HasVideo; } }
-
+        
         public float Rate { get { return _vlcPlayer.Rate; } }
 
-        public MovieMediaState State { get { return GetMediaState(); } }
+        public MovieMediaState State { get { return state; } }
         
         public int Volume { get { return _vlcPlayer.Volume; }
             set { _vlcPlayer.Volume = value; } }
@@ -86,7 +87,7 @@ namespace Movies.MediaService.Service
 
         public bool HasStopped
         {
-            get { return _vlcPlayer.HasStopped; }
+            get { return this.State == MovieMediaState.Ended || this.State == MovieMediaState.NothingSpecial; }
         }
 
         public Dispatcher MediaDispatcher
@@ -105,7 +106,7 @@ namespace Movies.MediaService.Service
             // Default installation path of VideoLAN.LibVLC.Windows
             vlcLibDirectory = new DirectoryInfo(Path.Combine(currentDirectory, "LibVlc",
                 IntPtr.Size == 4 ? "win-x86" : "win-x86"));
-            Dispatcher.CurrentDispatcher.Invoke(new Action(() => { 
+            Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Background,new Action(() => { 
                 _vlcPlayer = new VlcPlayer(true)
                 {
                     EndBehavior = EndBehavior.Nothing,
@@ -123,7 +124,7 @@ namespace Movies.MediaService.Service
             audiotracksmanagement = new AudioTracksManagement(_vlcPlayer);
             audiotracksmanagement.LoadData();
             videoadjustmanagement = new VideoAdjustManagement(_vlcPlayer);
-            subtitlemanagement = new SubtitleManagement(_vlcPlayer);
+            subtitlemanagement = new SubtitleManagement(_vlcPlayer,this);
             subtitlemanagement.ReloadData();
             chaptermanagement = new ChapterManagement(_vlcPlayer);
 

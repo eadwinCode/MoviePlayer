@@ -11,6 +11,9 @@ using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using Movies.MediaService.Interfaces;
+using System.Collections.Generic;
+using Movies.MediaService.Models;
+using System.Windows.Controls.Primitives;
 
 namespace VideoPlayerControl.ViewModel
 {
@@ -25,6 +28,7 @@ namespace VideoPlayerControl.ViewModel
         private string playtext;
         private DelegateCommand _next;
         private DelegateCommand _prev;
+        public DelegateCommand<Popup> showmenucommand;
         private bool isplaying;
         private DelegateCommand tofullscreenbtn;
         private bool cananimate;
@@ -204,7 +208,23 @@ namespace VideoPlayerControl.ViewModel
                 return _prev;
             }
         }
-        
+
+        public DelegateCommand<Popup> ShowMenuCommand
+        {
+            get
+            {
+                if (showmenucommand == null)
+                    showmenucommand = new DelegateCommand<Popup>((popup) => {
+                        if (popup.IsOpen)
+                            popup.IsOpen = false;
+                        else
+                            popup.IsOpen = true;
+                    });
+                return showmenucommand;
+            }
+        }
+
+
         public string PlayText
         {
             get { return playtext; }
@@ -259,6 +279,16 @@ namespace VideoPlayerControl.ViewModel
             }
         }
 
+        public IDispatcherService DispatcherService
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<IDispatcherService>();
+            }
+        }
+
         public MovieMediaState MediaState { get { return MediaPlayerService.State; } }
+
+        
     }
 }

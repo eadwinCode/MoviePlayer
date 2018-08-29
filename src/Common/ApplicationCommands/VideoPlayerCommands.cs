@@ -57,8 +57,12 @@ namespace Common.ApplicationCommands
         private static RoutedUICommand refreshfiles = new RoutedUICommand();
         private static RoutedUICommand addsubfile = new RoutedUICommand();
         private static RoutedUICommand resizemediaalways = new RoutedUICommand();
+        private static RoutedUICommand togglemediaoptions = new RoutedUICommand();
 
-
+        public static RoutedUICommand ToggleMediaMenu
+        {
+            get { return togglemediaoptions; }
+        }
         public static RoutedUICommand ResizeMediaAlways
         {
             get { return resizemediaalways; }

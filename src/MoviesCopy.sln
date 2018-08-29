@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 10
-VisualStudioVersion = 11.0.27130.2003
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movies", "Movies\Movies.csproj", "{5CAB894A-9461-4929-9FD9-7D938EDC7EEE}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3F23B0DC-E93F-45C4-98FE-9E1E4D9DE1E7} = {3F23B0DC-E93F-45C4-98FE-9E1E4D9DE1E7}
@@ -55,8 +53,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movies.MediaService", "Movies.MediaService\Movies.MediaService.csproj", "{B6FAA2DE-B0A4-4DB9-9532-E6059788598A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movies.MusicProject", "Movies.MusicProject\Movies.MusicProject.csproj", "{288DA71D-1048-4B14-A1F4-CB3995ABB991}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Deployment", "Deployment\Deployment.vdproj", "{5DCA957F-482F-435F-9D42-CDC05A66ABE9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -356,18 +352,6 @@ Global
 		{288DA71D-1048-4B14-A1F4-CB3995ABB991}.Release|x64.Build.0 = Release|Any CPU
 		{288DA71D-1048-4B14-A1F4-CB3995ABB991}.Release|x86.ActiveCfg = Release|Any CPU
 		{288DA71D-1048-4B14-A1F4-CB3995ABB991}.Release|x86.Build.0 = Release|Any CPU
-		{5DCA957F-482F-435F-9D42-CDC05A66ABE9}.Debug|Any CPU.ActiveCfg = Debug
-		{5DCA957F-482F-435F-9D42-CDC05A66ABE9}.Debug|Any CPU.Build.0 = Debug
-		{5DCA957F-482F-435F-9D42-CDC05A66ABE9}.Debug|x64.ActiveCfg = Debug
-		{5DCA957F-482F-435F-9D42-CDC05A66ABE9}.Debug|x64.Build.0 = Debug
-		{5DCA957F-482F-435F-9D42-CDC05A66ABE9}.Debug|x86.ActiveCfg = Debug
-		{5DCA957F-482F-435F-9D42-CDC05A66ABE9}.Debug|x86.Build.0 = Debug
-		{5DCA957F-482F-435F-9D42-CDC05A66ABE9}.Release|Any CPU.ActiveCfg = Release
-		{5DCA957F-482F-435F-9D42-CDC05A66ABE9}.Release|Any CPU.Build.0 = Release
-		{5DCA957F-482F-435F-9D42-CDC05A66ABE9}.Release|x64.ActiveCfg = Release
-		{5DCA957F-482F-435F-9D42-CDC05A66ABE9}.Release|x64.Build.0 = Release
-		{5DCA957F-482F-435F-9D42-CDC05A66ABE9}.Release|x86.ActiveCfg = Release
-		{5DCA957F-482F-435F-9D42-CDC05A66ABE9}.Release|x86.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

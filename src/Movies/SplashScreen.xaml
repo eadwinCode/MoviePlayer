@@ -1,12 +1,12 @@
 ﻿<Window x:Class="Movies.SplashScreenWindow" BorderBrush="Transparent"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Splash" Height="150" Width="500" WindowStyle="None" 
+        Title="Splash"  WindowStyle="None" Height="150" Width="500"
         SnapsToDevicePixels="True" Topmost="True" 
         ShowInTaskbar="False" BorderThickness="0"
-        AllowsTransparency="True" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="Black" >
+        AllowsTransparency="True" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="#FF0C1017"  >
 
-    <Border Background="#99FF0000"  BorderThickness="1">
+    <Border  BorderThickness="1"  >
         <Border >
             <StackPanel  Margin="4" Orientation="Horizontal" HorizontalAlignment="Center">
                 <Image Uid="video-player.png" 

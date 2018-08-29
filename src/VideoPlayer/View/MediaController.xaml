@@ -122,7 +122,8 @@
                                                                 <ScaleTransform ScaleX=".9" ScaleY="0.9"/>
                                                             </Setter.Value>
                                                         </Setter>
-                                                        <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                                                        <Setter Property="BorderBrush" TargetName="border" 
+                                                                Value="{StaticResource Button.Pressed.Border}"/>
                                                     </Trigger>
                                                 </ControlTemplate.Triggers>
                                             </ControlTemplate>
@@ -132,7 +133,8 @@
                             </Button.Style>
                         </Button>
                         <Button Content="NO" Margin="3" DockPanel.Dock="Right" 
-                                Foreground="White" Command="{Binding CloseLastSeenCommand}" Background="#FF364E6F">
+                                Foreground="White" Command="{Binding CloseLastSeenCommand}" 
+                                Background="#FF364E6F">
                             <Button.Style>
                                 <Style TargetType="Button">
                                     <Setter Property="Focusable" Value="False"/>
@@ -301,29 +303,243 @@
                                                 </Button>
                                             </Border>
                                         </Grid>
-                                        <Button  Width="34" DockPanel.Dock="Left" x:Name="Previous" 
+                                    <Button  Width="34" DockPanel.Dock="Left" x:Name="Previous" 
                                                  ToolTip="Next" 
                                                  MouseEnter="Previous_MouseEnter" 
                                                  MouseLeave="Previous_MouseLeave"
                                                  ToolTipClosing="PlNext_ToolTipClosing"  Command="{x:Static 
                                             cmd:VideoPlayerCommands.Next}" >
+                                        <Button.Style>
+                                            <Style TargetType="Button" >
+                                                <Setter Property="Focusable" Value="False"/>
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="Button">
+                                                            <Border CornerRadius="16" x:Name="border"  
+                                                            Width="{TemplateBinding Width}" 
+                                                            Height="{TemplateBinding Height}">
+
+                                                                <Image Opacity=".7" 
+                                                               SnapsToDevicePixels="True" 
+                                                               x:Name="contentPresenter" 
+                                                               Margin="1,6,1,0" Uid="next.png" />
+
+                                                            </Border>
+                                                            <ControlTemplate.Triggers>
+                                                                <Trigger Property="IsDefaulted" Value="true">
+                                                                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsMouseOver" Value="true">
+                                                                    <Setter Property="Opacity" TargetName="contentPresenter" Value="1"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsPressed" Value="true">
+                                                                    <Setter Property="LayoutTransform" >
+                                                                        <Setter.Value>
+                                                                            <ScaleTransform ScaleX=".9" ScaleY="0.9"/>
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsEnabled" Value="false">
+                                                                    <Setter Property="Opacity" TargetName="contentPresenter" Value=".3"/>
+                                                                    <!--<Setter Property="Background" TargetName="border" Value="#FF18170D"/>
+                                                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>-->
+                                                                    <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                                                                </Trigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                    <Button  Width="40" DockPanel.Dock="Left" 
+                                             ToolTip="Media Option" Background="Transparent" 
+                                             Command="{x:Static cmd:VideoPlayerCommands.ToggleMediaMenu}" >
+                                        <Button.Style>
+                                            <Style TargetType="Button" >
+                                                <Setter Property="Focusable" Value="False"/>
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="Button">
+                                                            <Border x:Name="border"  Padding="5" Background="{TemplateBinding Background}"
+                                                                    Width="{TemplateBinding Width}" 
+                                                                    Height="{TemplateBinding Height}">
+                                                                <Path Opacity=".7" Fill="White"  HorizontalAlignment="Center"
+                                                                      VerticalAlignment="Center"
+                                                                      SnapsToDevicePixels="True" 
+                                                                      x:Name="contentPresenter" Data="M21,13C21,17.97 16.97,22 12,22C7.03,22 3,17.97 3,13L3.03,4.43C5.68,2.88 8.76,2 12.05,2C15.3,2 18.36,2.87 21,4.38V13M13,19.93C16.39,19.44 19,16.5 19,13V5.59C16.9,4.57 14.54,4 12.05,4C9.5,4 7.08,4.6 4.94,5.66L5,13C5,16.5 7.63,19.44 11,19.93V18H13V19.93M11,16H8L6,13L9,14H10L11,13H13L14,14H15L18,13L16,16H13L12,15L11,16M6,9.03C6.64,8.4 7.5,8.05 8.5,8.05C9.45,8.05 10.34,8.4 11,9.03C10.34,9.65 9.45,10 8.5,10C7.5,10 6.64,9.65 6,9.03M13,9.03C13.64,8.4 14.5,8.05 15.5,8.05C16.45,8.05 17.34,8.4 18,9.03C17.34,9.65 16.45,10 15.5,10C14.5,10 13.64,9.65 13,9.03Z">
+                                                                    <Path.LayoutTransform>
+                                                                        <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
+                                                                    </Path.LayoutTransform>
+                                                                </Path>
+
+                                                            </Border>
+                                                            <ControlTemplate.Triggers>
+                                                                <Trigger Property="IsDefaulted" Value="true">
+                                                                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsMouseOver" Value="true">
+                                                                    <Setter Property="Opacity" TargetName="contentPresenter" Value="1"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsPressed" Value="true">
+                                                                    <Setter Property="LayoutTransform" >
+                                                                        <Setter.Value>
+                                                                            <ScaleTransform ScaleX=".9" ScaleY="0.9"/>
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsEnabled" Value="false">
+                                                                    <Setter Property="Opacity" TargetName="contentPresenter" Value=".3"/>
+                                                                    <!--<Setter Property="Background" TargetName="border" Value="#FF18170D"/>
+                                                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>-->
+                                                                    <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                                                                </Trigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                </DockPanel>
+                                    <DockPanel Background="Transparent" HorizontalAlignment="Right"
+                                               x:Name="GroupControl" VerticalAlignment="Stretch" 
+                                               LastChildFill="True" Grid.Column="2">
+                                    <DockPanel  DockPanel.Dock="Left" >
+                                        <Button SnapsToDevicePixels="True" Width="50" Margin="0,0,5,0"  
+                                        x:Name="repeatbtn" ToolTip="Playlist"
+                                        Command="{x:Static cmd:VideoPlayerCommands.PlayList}"  
+                                        DockPanel.Dock="Left">
                                             <Button.Style>
                                                 <Style TargetType="Button" >
                                                     <Setter Property="Focusable" Value="False"/>
                                                     <Setter Property="Template">
                                                         <Setter.Value>
                                                             <ControlTemplate TargetType="Button">
-                                                                <Border CornerRadius="16" x:Name="border"  
-                                                            Width="{TemplateBinding Width}" 
-                                                            Height="{TemplateBinding Height}">
 
-                                                                    <Image Opacity=".7" 
-                                                               SnapsToDevicePixels="True" 
-                                                               x:Name="contentPresenter" 
-                                                               Margin="1,6,1,0" 
-                             Uid="next.png" />
+                                                                <Border CornerRadius="16" SnapsToDevicePixels="True"
+                                                                        x:Name="border"  Padding="5"
+                                                                        Width="{TemplateBinding Width}" 
+                                                                        Height="{TemplateBinding Height}">
+                                                                    <Path Opacity=".7" Fill="White"  HorizontalAlignment="Center"
+                                                                      VerticalAlignment="Center"
+                                                                      SnapsToDevicePixels="True" 
+                                                                      x:Name="contentPresenter" Data="M9,5V9H21V5M9,19H21V15H9M9,14H21V10H9M4,9H8V5H4M4,19H8V15H4M4,14H8V10H4V14Z">
+                                                                        <Path.LayoutTransform>
+                                                                            <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
+                                                                        </Path.LayoutTransform>
+                                                                    </Path>
 
                                                                 </Border>
+
+                                                                <ControlTemplate.Triggers>
+                                                                    <Trigger Property="IsDefaulted" Value="true">
+                                                                        <Setter Property="BorderBrush" TargetName="border" 
+                                                                                Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                                                    </Trigger>
+                                                                    <Trigger Property="IsMouseOver" Value="true">
+                                                                        <Setter Property="Opacity" 
+                                                                                TargetName="contentPresenter" Value="1"/>
+                                                                    </Trigger>
+                                                                    <Trigger Property="IsPressed" Value="true">
+                                                                        <Setter Property="LayoutTransform" >
+                                                                            <Setter.Value>
+                                                                                <ScaleTransform ScaleX=".9" ScaleY="0.9"/>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                        <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                                                                    </Trigger>
+                                                                    <Trigger Property="IsEnabled" Value="false">
+                                                                        <Setter Property="Opacity" TargetName="contentPresenter" Value=".3"/>
+                                                                        <!--<Setter Property="Background" TargetName="border" Value="#FF18170D"/>
+                                                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>-->
+                                                                        <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                                                                    </Trigger>
+                                                                </ControlTemplate.Triggers>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                        <Button SnapsToDevicePixels="True" Width="20" 
+                                    ToolTip="{Binding RepeatMode}"
+                                     Command="{Binding RepeatBtn}" Margin="5,0">
+                                            <Button.Style>
+                                                <Style TargetType="Button" >
+                                                    <Setter Property="Focusable" Value="False"/>
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border CornerRadius="16" 
+                                                                SnapsToDevicePixels="True" 
+                                                                x:Name="border"  
+                                                                Width="{TemplateBinding Width}"
+                                                                Height="{TemplateBinding Height}">
+
+                                                                    <Image Opacity=".4" 
+                                                                   x:Name="contentPresenter" 
+                                                                   Margin="1,6,1,0" 
+                               Uid="repeat.png" />
+
+                                                                </Border>
+
+                                                                <ControlTemplate.Triggers>
+                                                                    <DataTrigger Binding="{Binding RepeatMode,Converter={StaticResource EnumConverter},
+                                                            ConverterParameter={x:Type enums:RepeatMode}}" Value="Repeat">
+                                                                        <Setter Property="Opacity" TargetName="contentPresenter" Value=".7"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding RepeatMode,Converter={StaticResource EnumConverter},
+                                                            ConverterParameter={x:Type enums:RepeatMode}}" Value="RepeatOnce">
+                                                                        <Setter Property="Opacity" TargetName="contentPresenter" Value="1"/>
+                                                                    </DataTrigger>
+                                                                    <Trigger Property="IsDefaulted" Value="true">
+                                                                        <Setter Property="BorderBrush" TargetName="border" 
+                                                                    Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                                                    </Trigger>
+                                                                    <Trigger Property="IsPressed" Value="true">
+                                                                        <Setter Property="LayoutTransform" TargetName="contentPresenter">
+                                                                            <Setter.Value>
+                                                                                <ScaleTransform ScaleX=".8" ScaleY="0.8"/>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                        <Setter Property="BorderBrush" TargetName="border" 
+                                                                        Value="{StaticResource Button.Pressed.Border}"/>
+                                                                    </Trigger>
+                                                                    <Trigger Property="IsEnabled" Value="false">
+                                                                        <Setter Property="Opacity" TargetName="contentPresenter" Value=".3"/>
+
+                                                                        <Setter Property="Background" TargetName="border" Value="#FF18170D"/>
+                                                                        <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+
+                                                                        <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                                                                    </Trigger>
+                                                                </ControlTemplate.Triggers>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                        <Button  Width="24" Margin="5,0,5,0" ToolTip="FullScreen"
+                                     x:Name="FulBtn" Command="{Binding ToFullScreenBtn}" 
+                                     DockPanel.Dock="Left">
+                                            <!--Visibility="{Binding CanAnimate,
+                                Converter={StaticResource ViewConverter}}"-->
+                                            <Button.Style>
+                                                <Style TargetType="Button" >
+                                                    <Setter Property="Focusable" Value="False"/>
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border CornerRadius="16" SnapsToDevicePixels="True" x:Name="border"  Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+
+                                                                    <Image Opacity=".7" x:Name="contentPresenter" Margin="1,6,1,0" Uid="fullscreen.png" />
+
+                                                                </Border>
+
                                                                 <ControlTemplate.Triggers>
                                                                     <Trigger Property="IsDefaulted" Value="true">
                                                                         <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
@@ -352,172 +568,23 @@
                                                 </Style>
                                             </Button.Style>
                                         </Button>
-                                      
+
+                                        <Button Width="45"  VerticalAlignment="Center" Style="{StaticResource zerobtnstyle}"
+                                                Command="{Binding ShowMenuCommand}" Foreground="White" Height="40" Margin="0,0,5,0"
+                                                CommandParameter="{Binding ElementName=optionsPop}"
+                                                BorderThickness="0" x:Name="options" ToolTip="Options">
+                                            <Button.Content>
+                                                <TextBlock Text="..." Padding="3" VerticalAlignment="Center"/>
+                                            </Button.Content>
+                                        </Button>
                                     </DockPanel>
-                                    <DockPanel Background="Transparent" HorizontalAlignment="Right"
-                                           x:Name="GroupControl" VerticalAlignment="Stretch" 
-                                           LastChildFill="True" Grid.Column="2"  Width="230">
-                                        <DockPanel  DockPanel.Dock="Left" >
-                                            <Button SnapsToDevicePixels="True" Width="26" Margin="0,0,5,0"  
-                                        x:Name="repeatbtn" ToolTip="Playlist"
-                                        Command="{x:Static cmd:VideoPlayerCommands.PlayList}"  
-                                        DockPanel.Dock="Left">
-                                                <Button.Style>
-                                                    <Style TargetType="Button" >
-                                                        <Setter Property="Focusable" Value="False"/>
-                                                        <Setter Property="Template">
-                                                            <Setter.Value>
-                                                                <ControlTemplate TargetType="Button">
-
-                                                                    <Border CornerRadius="16" SnapsToDevicePixels="True" x:Name="border"  Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
-
-                                                                        <Image Opacity=".7" x:Name="contentPresenter" Margin="1,6,1,0" Uid="playlist.png">
-
-                                                                        </Image>
-
-                                                                    </Border>
-
-                                                                    <ControlTemplate.Triggers>
-                                                                        <Trigger Property="IsDefaulted" Value="true">
-                                                                            <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                                                                        </Trigger>
-                                                                        <Trigger Property="IsMouseOver" Value="true">
-                                                                            <Setter Property="Opacity" TargetName="contentPresenter" Value="1"/>
-                                                                        </Trigger>
-                                                                        <Trigger Property="IsPressed" Value="true">
-                                                                            <Setter Property="LayoutTransform" >
-                                                                                <Setter.Value>
-                                                                                    <ScaleTransform ScaleX=".9" ScaleY="0.9"/>
-                                                                                </Setter.Value>
-                                                                            </Setter>
-                                                                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
-                                                                        </Trigger>
-                                                                        <Trigger Property="IsEnabled" Value="false">
-                                                                            <Setter Property="Opacity" TargetName="contentPresenter" Value=".3"/>
-                                                                            <!--<Setter Property="Background" TargetName="border" Value="#FF18170D"/>
-                                                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>-->
-                                                                            <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
-                                                                        </Trigger>
-                                                                    </ControlTemplate.Triggers>
-                                                                </ControlTemplate>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </Style>
-                                                </Button.Style>
-                                            </Button>
-                                            <Button SnapsToDevicePixels="True" Width="20" 
-                                    ToolTip="{Binding RepeatMode}"
-                                     Command="{Binding RepeatBtn}" Margin="5,0">
-                                                <Button.Style>
-                                                    <Style TargetType="Button" >
-                                                        <Setter Property="Focusable" Value="False"/>
-                                                        <Setter Property="Template">
-                                                            <Setter.Value>
-                                                                <ControlTemplate TargetType="Button">
-                                                                    <Border CornerRadius="16" 
-                                                                SnapsToDevicePixels="True" 
-                                                                x:Name="border"  
-                                                                Width="{TemplateBinding Width}"
-                                                                Height="{TemplateBinding Height}">
-
-                                                                        <Image Opacity=".4" 
-                                                                   x:Name="contentPresenter" 
-                                                                   Margin="1,6,1,0" 
-                               Uid="repeat.png" />
-
-                                                                    </Border>
-
-                                                                    <ControlTemplate.Triggers>
-                                                                        <DataTrigger Binding="{Binding RepeatMode,Converter={StaticResource EnumConverter},
-                                                            ConverterParameter={x:Type enums:RepeatMode}}" Value="Repeat">
-                                                                            <Setter Property="Opacity" TargetName="contentPresenter" Value=".7"/>
-                                                                        </DataTrigger>
-                                                                        <DataTrigger Binding="{Binding RepeatMode,Converter={StaticResource EnumConverter},
-                                                            ConverterParameter={x:Type enums:RepeatMode}}" Value="RepeatOnce">
-                                                                            <Setter Property="Opacity" TargetName="contentPresenter" Value="1"/>
-                                                                        </DataTrigger>
-                                                                        <Trigger Property="IsDefaulted" Value="true">
-                                                                            <Setter Property="BorderBrush" TargetName="border" 
-                                                                    Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                                                                        </Trigger>
-                                                                        <Trigger Property="IsPressed" Value="true">
-                                                                            <Setter Property="LayoutTransform" TargetName="contentPresenter">
-                                                                                <Setter.Value>
-                                                                                    <ScaleTransform ScaleX=".8" ScaleY="0.8"/>
-                                                                                </Setter.Value>
-                                                                            </Setter>
-                                                                            <Setter Property="BorderBrush" TargetName="border" 
-                                                                        Value="{StaticResource Button.Pressed.Border}"/>
-                                                                        </Trigger>
-                                                                        <Trigger Property="IsEnabled" Value="false">
-                                                                            <Setter Property="Opacity" TargetName="contentPresenter" Value=".3"/>
-
-                                                                            <Setter Property="Background" TargetName="border" Value="#FF18170D"/>
-                                                                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
-
-                                                                            <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
-                                                                        </Trigger>
-                                                                    </ControlTemplate.Triggers>
-                                                                </ControlTemplate>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </Style>
-                                                </Button.Style>
-                                            </Button>
-                                            <Button  Width="24" Margin="5,0,5,0" ToolTip="FullScreen"
-                                     x:Name="FulBtn" Command="{Binding ToFullScreenBtn}" 
-                                     DockPanel.Dock="Left">
-                                                <!--Visibility="{Binding CanAnimate,
-                                Converter={StaticResource ViewConverter}}"-->
-                                                <Button.Style>
-                                                    <Style TargetType="Button" >
-                                                        <Setter Property="Focusable" Value="False"/>
-                                                        <Setter Property="Template">
-                                                            <Setter.Value>
-                                                                <ControlTemplate TargetType="Button">
-                                                                    <Border CornerRadius="16" SnapsToDevicePixels="True" x:Name="border"  Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
-
-                                                                        <Image Opacity=".7" x:Name="contentPresenter" Margin="1,6,1,0" Uid="fullscreen.png" />
-
-                                                                    </Border>
-
-                                                                    <ControlTemplate.Triggers>
-                                                                        <Trigger Property="IsDefaulted" Value="true">
-                                                                            <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                                                                        </Trigger>
-                                                                        <Trigger Property="IsMouseOver" Value="true">
-                                                                            <Setter Property="Opacity" TargetName="contentPresenter" Value="1"/>
-                                                                        </Trigger>
-                                                                        <Trigger Property="IsPressed" Value="true">
-                                                                            <Setter Property="LayoutTransform" >
-                                                                                <Setter.Value>
-                                                                                    <ScaleTransform ScaleX=".9" ScaleY="0.9"/>
-                                                                                </Setter.Value>
-                                                                            </Setter>
-                                                                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
-                                                                        </Trigger>
-                                                                        <Trigger Property="IsEnabled" Value="false">
-                                                                            <Setter Property="Opacity" TargetName="contentPresenter" Value=".3"/>
-                                                                            <!--<Setter Property="Background" TargetName="border" Value="#FF18170D"/>
-                                                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>-->
-                                                                            <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
-                                                                        </Trigger>
-                                                                    </ControlTemplate.Triggers>
-                                                                </ControlTemplate>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </Style>
-                                                </Button.Style>
-                                            </Button>
-                                        </DockPanel>
-
-                                        <y:VolumeControl HorizontalAlignment="Center" Background="Transparent"
+                                    <y:VolumeControl HorizontalAlignment="Center" 
+                                                         Background="Transparent"
                                                          Margin="0,5,10,0" x:Name="volCtrl"
                                                          VerticalAlignment="Center"  Width="120"
                                                          DockPanel.Dock="Left" DataContext="{Binding 
                                             ElementName=mediaControl,Path=DataContext}"/>
-
-                                    </DockPanel>
+                                </DockPanel>
                                 </DockPanel>
                             <DockPanel Margin="10,0">
                                 <DockPanel DockPanel.Dock="Top">
@@ -571,8 +638,53 @@
         </DockPanel>
 
         </Border>
+        <Popup IsOpen="False" DataContext="{Binding ElementName=_messageView,Path=DataContext}"
+               StaysOpen="False" VerticalOffset="-3" Width="150" x:Name="optionsPop" Placement="Top"
+               PopupAnimation="Slide"
+               PlacementTarget="{Binding ElementName=options}">
+            <Popup.Resources>
+                <Style TargetType="{x:Type MenuItem}">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Padding" Value="8"/>
+                    <Setter Property="TextBlock.FontSize" Value="13"/>
+                    <Setter Property="TextBlock.Foreground" Value="White"/>
+                </Style>
 
-        
+                <Style TargetType="{x:Type Menu}">
+                    <!--<Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="MenuItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>-->
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="TextBlock.Foreground" Value="White"/>
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel Margin="1" Orientation="Vertical"/>
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Popup.Resources>
+            <Border Padding="2" Background="Black" >
+                <Menu>
+                    <MenuItem Header="TopMost" IsCheckable="True"
+                              Command="{x:Static cmd:VideoPlayerCommands.TopMost}">
+                        <!--<MenuItem.Icon>
+                <Image/>
+            </MenuItem.Icon>--> 
+                    </MenuItem>
+                    <MenuItem Header="Allow AutoResize" IsCheckable="True" IsChecked="True"
+                              Command="{x:Static cmd:VideoPlayerCommands.ResizeMediaAlways}"/>
+                </Menu>
+            </Border>
+         
+        </Popup>
+
     </Grid>
    
 </UserControl>

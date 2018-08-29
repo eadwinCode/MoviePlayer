@@ -28,6 +28,8 @@ namespace Movies.MediaService.Service
 
         private void _vlcPlayer_StateChanged(object sender, Meta.Vlc.ObjectEventArgs<Meta.Vlc.Interop.Media.MediaState> e)
         {
+            state = GetMediaState();
+
             if (OnStateChanged != null)
                 OnStateChanged.Invoke(this, EventArgs.Empty);
         }
@@ -112,6 +114,12 @@ namespace Movies.MediaService.Service
             if (Buffering != null)
                 Buffering.Invoke(this, EventArgs.Empty);
         }
-        
+
+        internal void PublishSubItemAddedEvent()
+        {
+            if (this.OnSubItemAdded != null)
+                this.OnSubItemAdded.Invoke(this, EventArgs.Empty);
+        }
+
     }
 }

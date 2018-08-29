@@ -56,13 +56,12 @@ namespace VideoPlayerControl.ViewModel
         
         private void ConvertSubFilesToVLCSubFile()
         {
-            MediaPlayerService.MediaDispatcher.BeginInvoke(new Action(() =>
+            (IVideoElement as Window).Dispatcher.BeginInvoke(new Action(() =>
             {
                 if (MediaPlayerService.SubtitleManagement == null)
                     return;
                 if (MediaPlayerService.SubtitleManagement.SubstituteCount > 0)
                 {
-                    MediaPlayerService.SubtitleManagement.SetSubtitle("");
                     return;
                 }
 
@@ -185,6 +184,8 @@ namespace VideoPlayerControl.ViewModel
 
             PlayBackAction(CommonHelper.SetPlayerTitle("Stopped",
                     CurrentVideoItem.MediaTitle + "..."),"Pause");
+            HaslastSeen = false;
+            LastSeenTime = TimeSpan.FromMilliseconds(0.0);
         }
         
         private void Stop()
@@ -197,7 +198,7 @@ namespace VideoPlayerControl.ViewModel
         
         private void NewVideoAction(VideoFolderChild obj, bool frompl = false)
         {
-            MediaPlayerService.MediaDispatcher.Invoke(new Action(() =>
+            (IVideoElement as Window).Dispatcher.Invoke(new Action(() =>
             {
                 if (obj == null)
                 {
@@ -213,7 +214,7 @@ namespace VideoPlayerControl.ViewModel
                                 = TimeSpan.FromMilliseconds(0);
                             return;
                         }
-                        PlayAction();
+                        PlayAction(true);
                         return;
                     }
                     if (obj.FileName == CurrentVideoItem.FileName)
@@ -227,14 +228,13 @@ namespace VideoPlayerControl.ViewModel
                         IsDirectoryChanged = true;
                     }
                 }
-
-                MediaPlayerService.Stop();
+                MediaPlayerStop();
 
                 this.currentvideoitem = obj;
                 CurrentVideoItemChangedEvent(currentvideoitem, frompl);
                 IVideoElement.Title = (obj.FileName);
                 MediaPlayerService.LoadMedia(obj.FilePath, MediaPlayerService.VlcOption);
-                PlayAction();
+                PlayAction(true);
                 CommandManager.InvalidateRequerySuggested();
             }), DispatcherPriority.ContextIdle, null);
         }
@@ -264,17 +264,19 @@ namespace VideoPlayerControl.ViewModel
 
         private VideoFolderChild GetItem_for_Repeat()
         {
-            IsfetchingRepeatItemAsync = true;
-            Thread.Sleep(1000);
             VideoFolderChild item = null;
-            (IVideoElement as Window).Dispatcher.Invoke(new Action(() => {
+            IsfetchingRepeatItemAsync = true;
+            (IVideoElement as Window).Dispatcher.Invoke(new Action(() =>
+            {
                 item = this.AsynSearchForNextItem();
-            }), null);
+            }));
+            
             return item;
         }
 
-        private void StartRepeatAction(VideoFolderChild vfc)
+        private void StartRepeatAction()
         {
+            var vfc = GetItem_for_Repeat();
             if (vfc != null)
                 this.GetVideoItem(vfc, true);
             IsfetchingRepeatItemAsync = false;
@@ -357,17 +359,22 @@ namespace VideoPlayerControl.ViewModel
         private void VlcMediaPlayer_EndReached(object sender, EventArgs e)
         {
             //Stop();
-            (IVideoElement as Window).Dispatcher.Invoke(new Action(() =>
+            (IVideoElement as Window).Dispatcher.BeginInvoke(new Action(() =>
             {
                 DragPositionSlider.IsEnabled = false;
                 DragPositionSlider.Value = 0;
                 CurrentVideoItem.IsActive = false;
+                HaslastSeen = false;
+                LastSeenTime = TimeSpan.FromMilliseconds(0.0);
                 if (this.RepeatMode != RepeatMode.NoRepeat)
                 {
-                    Task.Factory.StartNew(() => GetItem_for_Repeat())
-                        .ContinueWith(t => StartRepeatAction(t.Result), TaskScheduler.FromCurrentSynchronizationContext());
+                    if (IsfetchingRepeatItemAsync)
+                        return;
+                    IsfetchingRepeatItemAsync = true;
+                    DispatcherService.ExecuteTimerAction(() => StartRepeatAction(), 50);
                 }
-            }), null);
+                FilePlayerManager.VideoElement.ContentDockRegion.Content = null;
+            }));
         }
 
         void MediaPlayer_OnSubItemAdded(object sender, EventArgs e)
@@ -403,7 +410,7 @@ namespace VideoPlayerControl.ViewModel
 
         private void VlcMediaPlayer_MediaOpened(object sender, EventArgs e)
         {
-            (IVideoElement as Window).Dispatcher.Invoke(new Action(() =>
+            (IVideoElement as Window).Dispatcher.BeginInvoke(new Action(() =>
             {
                 //MediaPlayerService.Pause();
                 if (CurrentVideoItem.SubPath != null)
@@ -434,7 +441,7 @@ namespace VideoPlayerControl.ViewModel
                 CommonHelper.SetPlayerTitle("Playing",
                     CurrentVideoItem.MediaTitle);
 
-            }), DispatcherPriority.Background, null);
+            }), DispatcherPriority.Background);
 
         }
 
@@ -504,8 +511,15 @@ namespace VideoPlayerControl.ViewModel
             }
         }
 
-        public void PlayAction()
+        public void PlayAction(bool igonreMediaState = false)
         {
+            if(igonreMediaState)
+            {
+                MediaPlayerService.Play();
+                PlayText = "Pause";
+                return;
+            }
+
             if (MediaPlayerService.State == MovieMediaState.Playing)
             {
                 MediaPlayerService.PauseOrResume();
@@ -555,6 +569,8 @@ namespace VideoPlayerControl.ViewModel
 
         public void NextPlayAction()
         {
+            if (!MediaPlayerService.HasStopped)
+                MediaPlayerService.Stop();
             NewVideoAction(FilePlayerManager.PlaylistManagerViewModel.GetNextItem());
         }
 
@@ -579,6 +595,8 @@ namespace VideoPlayerControl.ViewModel
 
         public void PrevPlayAction()
         {
+            if (!MediaPlayerService.HasStopped)
+                MediaPlayerService.Stop();
             NewVideoAction(FilePlayerManager.PlaylistManagerViewModel.GetPreviousItem());
         }
 
@@ -626,6 +644,10 @@ namespace VideoPlayerControl.ViewModel
 
         public void GetVideoItem(VideoFolderChild obj, bool frompl = false)
         {
+            if (!MediaPlayerService.HasStopped)
+                MediaPlayerService.Stop();
+
+            FilePlayerManager.VideoElement.ContentDockRegion.Content = null;
             NewVideoAction(obj, frompl);
         }
     }

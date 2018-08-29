@@ -113,9 +113,9 @@ namespace VideoPlayerView
             {
                 var vm = (IVideoPlayerController as UserControl).DataContext as VideoPlayerVM;
                 if (!vm.AllowAutoResize) return;
-                this.Height = Math.Min(720, MediaPlayerService.PixelHeight* 0.6666666666667);
+                this.Height = Math.Min(720, MediaPlayerService.PixelHeight * 0.6666666666667);
                 this.Width = Math.Min(1280, MediaPlayerService.PixelWidth * 0.6666666666667);
-               //this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                //this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             }));
         }
         
@@ -173,5 +173,10 @@ namespace VideoPlayerView
             }
         }
 
+        private void ContextMenu_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+           
+            Console.WriteLine("xsds d sd d --------ContextMenu Entered here-----------");
+        }
     }
 }

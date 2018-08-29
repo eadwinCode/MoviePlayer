@@ -61,7 +61,7 @@ namespace Movies.MoviesInterfaces
         void MediaPlayStopAction();
         void MuteAction();
         void NextPlayAction();
-        void PlayAction();
+        void PlayAction(bool igonreMediaState = false);
         void PositionSlideTimerTooltipStop();
         void PrevPlayAction();
         void SetSubtitle(string filepath);

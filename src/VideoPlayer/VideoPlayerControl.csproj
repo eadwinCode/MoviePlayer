@@ -102,13 +102,18 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Util\TextConverter.cs" />
+    <Compile Include="Util\TrackListConverter.cs" />
     <Compile Include="Util\ViewConverter.cs" />
     <Compile Include="ViewModel\MediaControllerViewModel.cs" />
     <Compile Include="ViewModel\MediaControllerVM.cs" />
+    <Compile Include="ViewModel\MediaMenuViewModel.cs" />
     <Compile Include="ViewModel\VideoPlayerExtd.cs" />
     <Compile Include="ViewModel\VideoPlayerVM.cs" />
     <Compile Include="View\MediaController.xaml.cs">
       <DependentUpon>MediaController.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MediaMenu.xaml.cs">
+      <DependentUpon>MediaMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SubtitleMediaController.xaml.cs">
       <DependentUpon>SubtitleMediaController.xaml</DependentUpon>
@@ -133,6 +138,10 @@
     <Page Include="View\MediaController.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\MediaMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\SubtitleMediaController.xaml">
       <Generator>MSBuild:Compile</Generator>

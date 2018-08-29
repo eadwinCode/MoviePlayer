@@ -26,6 +26,7 @@ namespace VideoPlayerControl.ViewModel
         internal bool Isloaded;
         private bool isfullscreenmode;
         private IVideoElement icommandbindings;
+        MediaMenuViewModel mediaMenuViewModel;
 
         IMediaControllerViewModel MediaControllerViewModel
         {
@@ -131,6 +132,7 @@ namespace VideoPlayerControl.ViewModel
             MousemoveTimer = new DispatcherTimer(DispatcherPriority.Background);
             ScreenSetting = SCREENSETTINGS.Normal;
             VideoPlayerView.Loaded += VideoPlayerView_Loaded;
+            mediaMenuViewModel = new MediaMenuViewModel();
         }
         
         private void Init()
@@ -145,12 +147,12 @@ namespace VideoPlayerControl.ViewModel
 
         private void VlcMediaPlayer_EncounteredError(object sender, EventArgs e)
         {
-            ResetVisibilityAnimation();
+            ResetVisibilityAnimationAsyn();
         }
 
         private void VlcMediaPlayer_EndReached(object sender, EventArgs e)
         {
-            ResetVisibilityAnimation();
+            ResetVisibilityAnimationAsyn();
         }
 
         private void WindowsTab_MouseLeave(object sender, MouseEventArgs e)
@@ -296,8 +298,23 @@ namespace VideoPlayerControl.ViewModel
 
         private void ResetVisibilityAnimation()
         {
+            //if((IVideoElement as Window).Dispatcher.)//if () return;
+            this.MousemoveTimer.Stop();
+            MediaControlExtension.SetIsMouseOverMediaElement(IMediaController.MediaController as UIElement, null);
+            (IVideoElement as Window).Cursor = Cursors.Arrow;
+            if (Isloaded && ScreenSetting == SCREENSETTINGS.Normal && !IsFullScreenMode)
+            {
+                // IVideoElement.WindowsTab.Visibility = Visibility.Visible;
+                //MediaControlExtension.SetAnimateWindowsTab(IVideoElement.WindowsTab as UIElement, true);
+            }
+            //else { MediaControlExtension.SetAnimateWindowsTab(IVideoElement.WindowsTab as UIElement, false); }
+
+        }
+
+        private void ResetVisibilityAnimationAsyn()
+        {
             //if((IVideoElement as Window).Dispatcher.)
-            (IVideoElement as Window).Dispatcher.Invoke(DispatcherPriority.Background,new Action(() =>
+            (IVideoElement as Window).Dispatcher.Invoke(new Action(() =>
             {
                 //if () return;
                 this.MousemoveTimer.Stop();

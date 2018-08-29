@@ -12,7 +12,7 @@
         BorderBrush="Black"
         NonActiveBorderBrush="Black"
         ResizeMode="CanResizeWithGrip" 
-        WindowState="Normal" 
+        WindowState="Maximized" 
         WindowStartupLocation="Manual" 
         MinWidth="500" 
         TitleCaps="False"
