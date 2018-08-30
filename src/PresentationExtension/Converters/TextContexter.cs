@@ -16,6 +16,7 @@ namespace PresentationExtension.Converters
                 string input = (value as string) == string.Empty ? null : value as string;
                 return input == null ? "" : input + "/";
             }
+            
             if ((parameter as string) == "Visibility")
             {
                 string input = (value as string) == string.Empty ? null : value as string;

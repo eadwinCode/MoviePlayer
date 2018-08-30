@@ -20,6 +20,11 @@ namespace VideoPlayerControl.ViewModel
             MediaPlayerService.OnSubItemAdded += MediaPlayerService_SubItemChanged;
         }
 
+        public void Dispose()
+        {
+            MediaMenu = null;
+        }
+
         private void MediaPlayerService_SubItemChanged(object sender, EventArgs e)
         {
             RaisePropertyChanged(() => this.SubtitleTitleCollection);

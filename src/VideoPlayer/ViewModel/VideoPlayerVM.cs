@@ -143,6 +143,13 @@ namespace VideoPlayerControl.ViewModel
             MediaPlayerService.EndReached += VlcMediaPlayer_EndReached;
             MediaPlayerService.EncounteredError += VlcMediaPlayer_EncounteredError;
             MediaPlayerService.MouseMove += ParentGrid_MouseMove;
+            MediaPlayerService.OnMediaOpened += MediaPlayerService_OnMediaOpened;
+        }
+
+        private void MediaPlayerService_OnMediaOpened(object sender, EventArgs e)
+        {
+            if (mediaMenuViewModel != null)
+                mediaMenuViewModel.Dispose();
         }
 
         private void VlcMediaPlayer_EncounteredError(object sender, EventArgs e)

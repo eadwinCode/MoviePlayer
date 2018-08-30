@@ -9,6 +9,7 @@ namespace Movies.MediaService.Interfaces
     public interface IMediaPlayerService
     {
         bool CanPause { get; }
+        bool IsDisposed { get; }
         bool CanPlay { get; }
         TimeSpan CurrentTimer { get; set; }
         bool HasVideo { get; }

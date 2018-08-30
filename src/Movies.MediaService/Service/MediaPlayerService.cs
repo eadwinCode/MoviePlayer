@@ -53,6 +53,7 @@ namespace Movies.MediaService.Service
         public TimeSpan Duration { get { return _vlcPlayer.Length; } }
 
         public bool HasVideo { get { return _vlcPlayer.VlcMediaPlayer.HasVideo; } }
+        public bool IsDisposed { get { return _isdispoed; } }
 
         public bool CanPlay { get { return _vlcPlayer.VlcMediaPlayer.CanPlay; } }
 
@@ -87,7 +88,7 @@ namespace Movies.MediaService.Service
 
         public bool HasStopped
         {
-            get { return this.State == MovieMediaState.Ended || this.State == MovieMediaState.NothingSpecial; }
+            get { return this.State == MovieMediaState.Ended || this.State == MovieMediaState.NothingSpecial || this.state == MovieMediaState.Stopped; }
         }
 
         public Dispatcher MediaDispatcher
@@ -97,6 +98,8 @@ namespace Movies.MediaService.Service
         string[] vlcoption = {
             "-I", "dummy", "--ignore-config", "--no-video-title","--verbose=2"
         };
+        private bool _isdispoed = false;
+
         public string[] VlcOption { get { return vlcoption; } set { vlcoption = value; } } 
 
         public MediaPlayerService()
@@ -228,6 +231,7 @@ namespace Movies.MediaService.Service
         {
             _vlcPlayer.Dispose();
             ApiManager.ReleaseAll();
+            _isdispoed = true;
         }
     
     }

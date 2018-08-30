@@ -1,4 +1,5 @@
 ﻿using Microsoft.Practices.ServiceLocation;
+using Movies.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,6 +66,8 @@ namespace Movies.MediaService.Service
         {
             if (OnMediaStopped!= null)
                 OnMediaStopped.Invoke(this, EventArgs.Empty);
+            state = MovieMediaState.Stopped;
+
         }
 
         void VlcMediaPlayer_Playing(object sender, Meta.Vlc.ObjectEventArgs<Meta.Vlc.Interop.Media.MediaState> e)
@@ -99,12 +102,14 @@ namespace Movies.MediaService.Service
 
         void VlcMediaPlayer_EndReached(object sender, Meta.Vlc.ObjectEventArgs<Meta.Vlc.Interop.Media.MediaState> e)
         {
+            state = MovieMediaState.Ended;
             if (EndReached != null)
                 EndReached.Invoke(this, EventArgs.Empty);
         }
 
         private void VlcMediaPlayer_EncounteredError(object sender, EventArgs e)
         {
+            state = MovieMediaState.Stopped;
             if (EncounteredError != null)
                 EncounteredError.Invoke(this, EventArgs.Empty);
         }

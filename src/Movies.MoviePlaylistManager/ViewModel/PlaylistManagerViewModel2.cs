@@ -187,7 +187,7 @@ namespace Movies.MoviePlaylistManager.ViewModel
                 //list = FileLoader.FileLoaderInstance.SortList(SortType.Name, list);
                 return list;
             }).ContinueWith(t => { this.PlayListCollection = t.Result; 
-                InitFinishCollection();
+                IsLoading = false;
             }, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
@@ -196,7 +196,7 @@ namespace Movies.MoviePlaylistManager.ViewModel
             DispatcherService.ExecuteTimerAction(() => {
             BackgroundService.Execute(() => {
                 LoaderCompletion.FinishCollectionLoadProcess(PlayListCollection,null);
-            }, "Getting playlist metadata...", () => { IsLoading = false; });
+            }, "Getting playlist metadata...", () => { });
             }, 5000);
         }
 

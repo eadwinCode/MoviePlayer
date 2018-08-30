@@ -54,6 +54,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movies.MediaService", "Movi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movies.MusicProject", "Movies.MusicProject\Movies.MusicProject.csproj", "{288DA71D-1048-4B14-A1F4-CB3995ABB991}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Deployment", "Deployment\Deployment.vdproj", "{F2F06ECE-2466-4481-83B8-3595C40AAE12}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -352,6 +354,18 @@ Global
 		{288DA71D-1048-4B14-A1F4-CB3995ABB991}.Release|x64.Build.0 = Release|Any CPU
 		{288DA71D-1048-4B14-A1F4-CB3995ABB991}.Release|x86.ActiveCfg = Release|Any CPU
 		{288DA71D-1048-4B14-A1F4-CB3995ABB991}.Release|x86.Build.0 = Release|Any CPU
+		{F2F06ECE-2466-4481-83B8-3595C40AAE12}.Debug|Any CPU.ActiveCfg = Debug
+		{F2F06ECE-2466-4481-83B8-3595C40AAE12}.Debug|Any CPU.Build.0 = Debug
+		{F2F06ECE-2466-4481-83B8-3595C40AAE12}.Debug|x64.ActiveCfg = Debug
+		{F2F06ECE-2466-4481-83B8-3595C40AAE12}.Debug|x64.Build.0 = Debug
+		{F2F06ECE-2466-4481-83B8-3595C40AAE12}.Debug|x86.ActiveCfg = Debug
+		{F2F06ECE-2466-4481-83B8-3595C40AAE12}.Debug|x86.Build.0 = Debug
+		{F2F06ECE-2466-4481-83B8-3595C40AAE12}.Release|Any CPU.ActiveCfg = Release
+		{F2F06ECE-2466-4481-83B8-3595C40AAE12}.Release|Any CPU.Build.0 = Release
+		{F2F06ECE-2466-4481-83B8-3595C40AAE12}.Release|x64.ActiveCfg = Release
+		{F2F06ECE-2466-4481-83B8-3595C40AAE12}.Release|x64.Build.0 = Release
+		{F2F06ECE-2466-4481-83B8-3595C40AAE12}.Release|x86.ActiveCfg = Release
+		{F2F06ECE-2466-4481-83B8-3595C40AAE12}.Release|x86.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

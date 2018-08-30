@@ -11,6 +11,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Microsoft.Practices.Prism.Commands;
+using Common.ApplicationCommands;
 
 namespace VideoPlayerControl.ViewModel
 {
@@ -190,7 +191,7 @@ namespace VideoPlayerControl.ViewModel
         
         private void Stop()
         {
-            if (MediaPlayerService.HasStopped)
+            if (!MediaPlayerService.HasStopped && !MediaPlayerService.IsDisposed)
                 MediaPlayerService.Stop();
             DragPositionSlider.IsEnabled = false;
             DragPositionSlider.Value = 0;
@@ -198,7 +199,7 @@ namespace VideoPlayerControl.ViewModel
         
         private void NewVideoAction(VideoFolderChild obj, bool frompl = false)
         {
-            (IVideoElement as Window).Dispatcher.Invoke(new Action(() =>
+            (IVideoElement as Window).Dispatcher.BeginInvoke(new Action(() =>
             {
                 if (obj == null)
                 {
@@ -214,7 +215,7 @@ namespace VideoPlayerControl.ViewModel
                                 = TimeSpan.FromMilliseconds(0);
                             return;
                         }
-                        PlayAction(true);
+                        PlayAction();
                         return;
                     }
                     if (obj.FileName == CurrentVideoItem.FileName)
@@ -255,6 +256,8 @@ namespace VideoPlayerControl.ViewModel
                 if (CurrentVideoItem == null) return;
                 TimeSpan ts = new TimeSpan();
                 ts = MediaPlayerService.Duration;
+                if (CurrentVideoItem.Duration == ApplicationDummyMessage.DurationNotYetLoaded)
+                    currentvideoitem.Duration = ts.ToString(@"hh\:mm\:ss");
                 DragPositionSlider.Maximum = ts.TotalSeconds;
                 DragPositionSlider.SmallChange = 1;
                 SetMediaVolume(VolumeSlider.Value);

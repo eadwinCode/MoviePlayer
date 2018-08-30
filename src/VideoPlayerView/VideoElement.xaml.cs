@@ -92,8 +92,14 @@ namespace VideoPlayerView
             this.MediaControlRegion.Content = IVideoPlayerController;
             this.PlaylistViewRegion.Content = PlayListView;
             this.MediaElementViewRegion.Content = MediaPlayerService.VideoPlayer;
+            MediaElementViewRegion.MouseDoubleClick += MediaElementViewRegion_MouseDoubleClick;
         }
 
+        private void MediaElementViewRegion_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var vm = (VideoPlayerVM)(IVideoPlayerController as UserControl).DataContext;
+            vm.OnMouseDoubleClick(e);
+        }
 
         private void MediaElementViewRegion_Drop(object sender, DragEventArgs e)
         {
@@ -136,29 +142,10 @@ namespace VideoPlayerView
             ((IVideoPlayerController as UserControl).DataContext as VideoPlayerVM).VisibilityAnimation();
         }
 
-        protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
-        {
-            if (!(e.Source is VlcPlayer)) return;
-            var vm = (VideoPlayerVM)(IVideoPlayerController as UserControl).DataContext;
-            vm.OnMouseDoubleClick(e);
-        }
-
         protected override void OnClosing(CancelEventArgs e)
         {
             MediaPlayerService.Dispose();
             base.OnClosing(e);
-        }
-
-        private void MenuItem_SubmenuOpened(object sender, RoutedEventArgs e)
-        {
-            MenuItem mnItem = sender as MenuItem;
-            
-            if (!mnItem.IsCheckable)
-            {
-                mnItem.GetBindingExpression(MenuItem.ItemsSourceProperty).UpdateSource();
-            }
-             else
-                mnItem.GetBindingExpression(MenuItem.IsCheckedProperty).UpdateTarget();
         }
 
         public void SetTopMost()
@@ -171,12 +158,6 @@ namespace VideoPlayerView
             {
                 this.Topmost = false;
             }
-        }
-
-        private void ContextMenu_ContextMenuOpening(object sender, ContextMenuEventArgs e)
-        {
-           
-            Console.WriteLine("xsds d sd d --------ContextMenu Entered here-----------");
         }
     }
 }

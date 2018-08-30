@@ -44,17 +44,14 @@
                 </DockPanel.Background>-->
                 <StackPanel Grid.Row="1" DockPanel.Dock="Bottom" Margin="5,0,0,0" Orientation="Horizontal"
                                     HorizontalAlignment="Left" >
-                    <TextBlock   Text="{Binding ProgressAsString,
-                                Converter={StaticResource TextContexter}, ConverterParameter=Text}" 
+                    <TextBlock   Text="{Binding ProgressAsString}" 
                                          Visibility="{Binding ProgressAsString,
                                 Converter={StaticResource TextContexter}, ConverterParameter=Visibility}"
                                         FontSize="10" Padding="2" FontWeight="Regular"/>
-                    <TextBlock   Text="{Binding Duration}"  FontWeight="Regular"
-                                        FontSize="10" Padding="2"/>
                 </StackPanel>
                 <TextBlock Padding="2" TextWrapping="Wrap" FontWeight="Regular"
                            x:Name="hh" FontSize="15" SnapsToDevicePixels="True"
-                           ToolTip="{Binding TooltipMessage}"
+                           ToolTip="{Binding MediaTitle}"
                            Text="{Binding MediaTitle}" 
                            TextTrimming="CharacterEllipsis"  />
 
