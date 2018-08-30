@@ -13,7 +13,7 @@ Give examples
 ### Installing
 A step by step series of examples that tell you have to get a development env running
 Say what the step will be
-## Deployment
+## Set Up
 You can download the setup with the link below:
 * https://drive.google.com/open?id=1yhGXXDOcIp7XAJoDtF08eaEeUoWq0Hfr
 ## Built With
