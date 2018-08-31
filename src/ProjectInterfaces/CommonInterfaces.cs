@@ -88,6 +88,8 @@ namespace Movies.MoviesInterfaces
         void RemoveFromDataSource(VideoFolder existingVideoFolder);
         ObservableCollection<VideoFolder> SortList(SortType sorttype, ObservableCollection<VideoFolder> list);
         VideoFolder SortList(SortType sorttype, VideoFolder parent);
+        VideoFolderChild CreateVideoFolderChild(IFolder Parentdir, FileInfo fileInfo);
+        void SetLastSeen(VideoFolderChild videoFolderChild);
     }
 
     public interface IFileLoaderCompletion

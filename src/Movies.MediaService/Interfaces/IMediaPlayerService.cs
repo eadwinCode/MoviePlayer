@@ -26,6 +26,7 @@ namespace Movies.MediaService.Interfaces
         int Volume { get; set; }
         string[] VlcOption { get; set; }
         string MediaError { get; }
+        double FPS { get; }
 
 
         AudioTracksManagement AudioTracksManagement { get; }

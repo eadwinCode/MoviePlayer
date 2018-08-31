@@ -348,6 +348,7 @@ namespace VideoPlayerControl.ViewModel
                 DragPositionSlider.Value = MediaPlayerService.CurrentTimer.TotalSeconds;
                 CurrentVideoItem.Progress = Math.Round((double.Parse(DragPositionSlider.Value.ToString()) / double.Parse(MediaPlayerService.Duration.TotalSeconds.ToString()) * 100), 2);
                 //(sender as VlcPlayer).VlcMediaPlayer.SetFullScreen();
+                Console.WriteLine("-----FPS @ {0}----------", MediaPlayerService.FPS);
             }
         }
 

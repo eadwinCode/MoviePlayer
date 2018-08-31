@@ -140,11 +140,7 @@ namespace Movies.MovieServices.Services
                 FileInfo fileInfo = new FileInfo(path);
                 if (ApplicationService.Formats.ContainsKey(fileInfo.Extension))
                 {
-                    VideoFolderChild videoFolderChild = new VideoFolderChild(Mediafolder, fileInfo)
-                    {
-                        FileType = FileType.File
-                    };
-                    Mediafolder.OtherFiles.Add(videoFolderChild);
+                    Mediafolder.OtherFiles.Add(FileLoader.CreateVideoFolderChild(Mediafolder,fileInfo));
                     FileLoader.SortList(Mediafolder.SortedBy, Mediafolder);
                 }
             }));

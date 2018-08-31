@@ -100,7 +100,12 @@ namespace Movies.MediaService.Service
         };
         private bool _isdispoed = false;
 
-        public string[] VlcOption { get { return vlcoption; } set { vlcoption = value; } } 
+        public string[] VlcOption { get { return vlcoption; } set { vlcoption = value; } }
+
+        public double FPS
+        {
+            get { return _vlcPlayer.FPS; }
+        }
 
         public MediaPlayerService()
         {

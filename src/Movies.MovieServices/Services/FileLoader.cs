@@ -4,6 +4,7 @@ using Microsoft.Practices.ServiceLocation;
 using Microsoft.WindowsAPICodePack.Shell;
 using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
 using Movies.Enums;
+using Movies.Models.Interfaces;
 using Movies.Models.Model;
 using Movies.MoviesInterfaces;
 using PresentationExtension.CommonEvent;
@@ -318,22 +319,7 @@ namespace Movies.MovieServices.Services
             for (int i = 0; i < files.Count; i++)
             {
                 if (files[i] == null) continue;
-                VideoFolderChild vd;
-                PlayedFiles pdf = applicationService.SavedLastSeenCollection.GetLastSeen(files[i].Name);
-                vd = new VideoFolderChild(Parentdir, files[i])
-                {
-                    FileSize = filecommonhelper.FileSizeConverter(files[i].Length),
-                    FileType = FileType.File
-                };
-                if (pdf != null)
-                {
-                    vd.LastPlayedPoisition = pdf;
-                }
-                else
-                {
-                    vd.LastPlayedPoisition = new PlayedFiles(files[i].Name);
-                }
-                vd.OnFileNameChangedChanged += ParentDir_OnFileNameChangedChanged;
+                VideoFolderChild vd = CreateVideoFolderChild(Parentdir, files[i]);
                 if (vd != null)
                     Toparent.Add(vd);
             }
@@ -415,23 +401,8 @@ namespace Movies.MovieServices.Services
             ObservableCollection<VideoFolder> Toparent = new ObservableCollection<VideoFolder>();
             for (int i = 0; i < files.Count; i++)
             {
-                VideoFolderChild vd;
-                PlayedFiles pdf = applicationService.SavedLastSeenCollection.GetLastSeen(files[i].Name) as PlayedFiles;
-                vd = new VideoFolderChild(Parentdir, files[i])
-                {
-                    FileSize = filecommonhelper.FileSizeConverter(files[i].Length),
-                    FileType = FileType.File
-
-                };
-                if (pdf != null)
-                {
-                    vd.LastPlayedPoisition = pdf;
-                }
-                else
-                {
-                    vd.LastPlayedPoisition = new PlayedFiles(files[i].Name);
-                }
-                vd.OnFileNameChangedChanged += ParentDir_OnFileNameChangedChanged;
+                if (files[i] == null) continue;
+                VideoFolderChild vd = CreateVideoFolderChild(Parentdir, files[i]);
                 if(vd != null)
                     Toparent.Add(vd);
             }
@@ -446,29 +417,42 @@ namespace Movies.MovieServices.Services
             {
                 VideoFolder Parentdir = new VideoFolder(directoryInfo.Parent.FullName);
                 FileInfo fileInfo = new FileInfo(directoryInfo.FullName);
-                PlayedFiles pdf = applicationService.SavedLastSeenCollection.GetLastSeen(fileInfo.Name) as PlayedFiles;
-                VideoFolderChild vfc = new VideoFolderChild(Parentdir, fileInfo)
-                {
-                    FileSize = filecommonhelper.FileSizeConverter(fileInfo.Length),
-                    FileType = FileType.File
-                };
-                if (pdf != null)
-                {
-                    vfc.LastPlayedPoisition = pdf;
-                }
-                else
-                {
-                    vfc.LastPlayedPoisition = new PlayedFiles(fileInfo.Name);
-                }
-                IEnumerable<FileInfo> files = null;
-                files = filecommonhelper.GetSubtitleFiles(directoryInfo.Parent);
-                vfc.SubPath = filecommonhelper.MatchSubToMedia(vfc.Name, files);
+                VideoFolderChild vfc = CreateVideoFolderChild(Parentdir, fileInfo);
+                #region Search For Subtitle
+                //IEnumerable<FileInfo> files = null;
+                //files = filecommonhelper.GetSubtitleFiles(directoryInfo.Parent);
+                //vfc.SubPath = filecommonhelper.MatchSubToMedia(vfc.Name, files);
 
-                //RunShellFunction(vfc);
+                //RunShellFunction(vfc); 
+                #endregion
                 return vfc;
             }
            
             return vf;
+        }
+
+        public VideoFolderChild CreateVideoFolderChild(IFolder Parentdir,FileInfo fileInfo)
+        {
+            VideoFolderChild vfc = new VideoFolderChild(Parentdir, fileInfo)
+            {
+                FileSize = filecommonhelper.FileSizeConverter(fileInfo.Length),
+                FileType = FileType.File
+            };
+            vfc.OnFileNameChangedChanged += ParentDir_OnFileNameChangedChanged;
+            SetLastSeen(vfc);
+            return vfc;
+        }
+        public void SetLastSeen(VideoFolderChild videoFolderChild)
+        {
+            PlayedFiles pdf = applicationService.SavedLastSeenCollection.GetLastSeen(videoFolderChild.FileInfo.Name) as PlayedFiles;
+            if (pdf != null)
+            {
+                videoFolderChild.LastPlayedPoisition = pdf;
+            }
+            else
+            {
+                videoFolderChild.LastPlayedPoisition = new PlayedFiles(videoFolderChild.FileInfo.Name);
+            }
         }
 
         public void GetRootDetails(SortType sorttype, ref VideoFolder ParentDir)

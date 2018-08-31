@@ -264,20 +264,14 @@ namespace VideoPlayerControl.ViewModel
 
         private void AddSubtitleFileAction(string[] filePathInfo)
         {
-            bool issubfile = false;
             for (int i = 0; i < filePathInfo.Length; i++)
             {
                 FileInfo file = new FileInfo(filePathInfo[i]);
                 if (file.Extension == ".srt")
                 {
-                    issubfile = true;
                     MediaControllerViewModel.SetSubtitle(file.FullName);
                 }
             }
-            //    if (issubfile)
-            //    {
-            //        MediaControllerVM.UpdateHardCodedSubs();
-            //    }
         }
 
         private void ParentGrid_MouseMove(object sender, MouseEventArgs e)
