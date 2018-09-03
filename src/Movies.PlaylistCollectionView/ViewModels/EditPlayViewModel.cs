@@ -68,7 +68,7 @@ namespace Movies.PlaylistCollectionView.ViewModels
 
         public string PlayCollectionCountString
         {
-            get { return PlaylistCollection.Count + " Items"; }
+            get { return PlaylistCollection.Count + " Item(s)"; }
         }
 
 

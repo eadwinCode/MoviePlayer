@@ -62,8 +62,9 @@ namespace VideoPlayerView.FilePlayer
         {
             get
             {
-                if (imediaservice == null)
+                if (imediaservice == null) { 
                     imediaservice = new MediaPlayerService();
+                }
                 return imediaservice;
             }
         }
@@ -135,15 +136,7 @@ namespace VideoPlayerView.FilePlayer
 
         private void LoadFiletoPlayer(object obj)
         {
-            DispatcherTimer dispatcherTimer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromMilliseconds(5000)
-            };
-            dispatcherTimer.Tick += (s, e) => {
-                dispatcherTimer.Stop();
-                mediaControllerViewModel.GetVideoItem((VideoFolderChild)obj);
-            };
-            dispatcherTimer.Start();
+            mediaControllerViewModel.GetVideoItem((VideoFolderChild)obj);
         }
 
         private void InitWMPView(object obj)
@@ -174,17 +167,7 @@ namespace VideoPlayerView.FilePlayer
             CloseLibraries();
             (IShell as Window).WindowState = ShellState;
         }
-
-        public void PlayFileFromPlayList(PlaylistModel plm)
-        {
-            InitPlayerView();
-            MediaControlExtension.SetFileexpVisiblity(VideoElement.PlayListView as UIElement,
-                Visibility.Visible);
-
-            PlaylistManagerViewModel.PlayFromAList(plm);
-            (IShell as Window).WindowState = WindowState.Minimized;
-        }
-
+        
         private void PlayFile_Closed(object sender, EventArgs e)
         {
             if (_videoelement != null)
@@ -215,6 +198,16 @@ namespace VideoPlayerView.FilePlayer
             iplaylistmanagerviewmodel = null;
             mediaControllerViewModel = null;
             imediaservice = null;
+        }
+
+        public void PlayFileFromPlayList(PlaylistModel plm)
+        {
+            InitPlayerView();
+            MediaControlExtension.SetFileexpVisiblity(VideoElement.PlayListView as UIElement,
+                Visibility.Visible);
+
+            PlaylistManagerViewModel.PlayFromAList(plm);
+            (IShell as Window).WindowState = WindowState.Minimized;
         }
 
         public void PlayFileInit(IVideoData obj)
@@ -302,6 +295,21 @@ namespace VideoPlayerView.FilePlayer
                 }
 
             }
+        }
+        /// <summary>
+        /// Maps the VideoElement to memory to reduce lag when needed
+        /// </summary>
+        public void PrepareVideoElement()
+        {
+            _videoelement = new VideoElement();
+            (_videoelement as Window).Width = 20;
+            (_videoelement as Window).Height = 20;
+            (_videoelement as Window).WindowState = WindowState.Normal;
+            (_videoelement as Window).Show();
+            (_videoelement as Window).Close();
+
+            CloseLibraries();
+            _videoelement = null;
         }
 
         public void WMPPlayFileInit(IFolder vfc)

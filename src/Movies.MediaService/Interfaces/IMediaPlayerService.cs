@@ -35,6 +35,7 @@ namespace Movies.MediaService.Interfaces
         VideoAdjustManagement VideoAdjustManagement { get; }
 
         VideoTracksManagement VideoTracksManagement { get; }
+        bool HasLoadedMedia { get; }
 
         event EventHandler Buffering;
         event EventHandler EncounteredError;

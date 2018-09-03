@@ -242,8 +242,9 @@ namespace VideoPlayerControl.ViewModel
 
         private void Previous_enabled(object sender, CanExecuteRoutedEventArgs e)
         {
-            if (FilePlayerManager.MediaControllerViewModel.IsfetchingRepeatItemAsync)
+            if (FilePlayerManager.MediaControllerViewModel.IsfetchingRepeatItemAsync || !FilePlayerManager.MediaPlayerService.HasLoadedMedia)
                 e.CanExecute = false;
+
             e.CanExecute = MediaControllerViewModel.CanPrev();
         }
         
@@ -259,20 +260,21 @@ namespace VideoPlayerControl.ViewModel
 
         private void PausePlay_enabled(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute =FilePlayerManager.MediaControllerViewModel.CurrentVideoItem != null;
+            e.CanExecute =FilePlayerManager.MediaControllerViewModel.CurrentVideoItem != null || !FilePlayerManager.MediaPlayerService.HasLoadedMedia;
         }
         
         private void Next_executed(object sender, ExecutedRoutedEventArgs e)
         {
-            ResetVisibilityAnimation();
+           ResetVisibilityAnimation();
            FilePlayerManager.MediaControllerViewModel.NextPlayAction();
         }
 
         private void Next_enabled(object sender, CanExecuteRoutedEventArgs e)
         {
-            if (FilePlayerManager.MediaControllerViewModel.IsfetchingRepeatItemAsync)
+            if (FilePlayerManager.MediaControllerViewModel.IsfetchingRepeatItemAsync || !FilePlayerManager.MediaPlayerService.HasLoadedMedia)
                 e.CanExecute = false;
-            e.CanExecute = MediaControllerViewModel.CanNext();
+            else
+                e.CanExecute = MediaControllerViewModel.CanNext();
         }
         
         private void Mute_executed(object sender, ExecutedRoutedEventArgs e)

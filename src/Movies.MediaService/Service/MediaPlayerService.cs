@@ -10,10 +10,12 @@ using System.Reflection;
 using System.IO;
 using System.Windows.Input;
 using System.Windows.Threading;
+using System.Windows.Controls;
+using System.Windows;
 
 namespace Movies.MediaService.Service
 {
-    public partial class MediaPlayerService : IMediaPlayerService
+    public partial class MediaPlayerService : FrameworkElement, IMediaPlayerService
     {
         private readonly DirectoryInfo vlcLibDirectory;
         private VlcPlayer _vlcPlayer;
@@ -23,6 +25,8 @@ namespace Movies.MediaService.Service
         private SubtitleManagement subtitlemanagement;
         private ChapterManagement chaptermanagement;
         private MovieMediaState state = MovieMediaState.NothingSpecial;
+        private static bool MediaplayerVlclibLoaded = false;
+        private static object _lock = new object();
 
         public event EventHandler OnMediaOpened;
         public event EventHandler OnSubItemAdded;
@@ -93,7 +97,7 @@ namespace Movies.MediaService.Service
 
         public Dispatcher MediaDispatcher
         {
-            get { return _vlcPlayer.Dispatcher; }
+            get { return this.Dispatcher; }
         }
         string[] vlcoption = {
             "-I", "dummy", "--ignore-config", "--no-video-title","--verbose=2"
@@ -106,6 +110,8 @@ namespace Movies.MediaService.Service
         {
             get { return _vlcPlayer.FPS; }
         }
+        bool hasloadedmedia = MediaplayerVlclibLoaded;
+        public bool HasLoadedMedia { get { return hasloadedmedia; } }
 
         public MediaPlayerService()
         {
@@ -114,7 +120,7 @@ namespace Movies.MediaService.Service
             // Default installation path of VideoLAN.LibVLC.Windows
             vlcLibDirectory = new DirectoryInfo(Path.Combine(currentDirectory, "LibVlc",
                 IntPtr.Size == 4 ? "win-x86" : "win-x86"));
-            Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Background,new Action(() => { 
+            this.Dispatcher.Invoke(DispatcherPriority.Background,new Action(() => { 
                 _vlcPlayer = new VlcPlayer(true)
                 {
                     EndBehavior = EndBehavior.Nothing,
@@ -169,12 +175,49 @@ namespace Movies.MediaService.Service
 
         public void LoadMedia(string filepath, string[] option = null)
         {
-            if(option ==null)
+            lock (_lock)
+            {
+                if (!MediaplayerVlclibLoaded)
+                {
+                    DispatcherTimer ActionTimer = new DispatcherTimer(DispatcherPriority.Background)
+                    {
+                        Interval = TimeSpan.FromMilliseconds(2000)
+                    };
+                    ActionTimer.Tick += (s, e) => {
+                        ActionTimer.Stop();
+                        this.MediaPlayerServiceLoadMedia(filepath, option);
+                        hasloadedmedia = true;
+                    };
+                    MediaplayerVlclibLoaded = true;
+                    ActionTimer.Start();
+                    return;
+                }
+
+                this.MediaPlayerServiceLoadMedia(filepath, option);
+            }
+        }
+
+        void MediaPlayerServiceLoadMedia(string filepath, string[] option = null)
+        {
+            if (option == null)
                 _vlcPlayer.LoadMedia(filepath);
             else
-                _vlcPlayer.LoadMediaWithOptions(filepath,option);
+                _vlcPlayer.LoadMediaWithOptions(filepath, option);
 
-           // InitializeComponent();
+            // InitializeComponent();
+            HookUpEvents();
+
+            Play();
+        }
+
+        void MediaPlayerServiceLoadMedia(Uri UrlPath, string[] option = null)
+        {
+            if (option == null)
+                _vlcPlayer.LoadMedia(UrlPath);
+            else
+                _vlcPlayer.LoadMediaWithOptions(UrlPath, option);
+
+            // InitializeComponent();
             HookUpEvents();
 
             Play();
@@ -182,15 +225,26 @@ namespace Movies.MediaService.Service
 
         public void LoadMedia(Uri UrlPath, string[] option = null)
         {
-            if (option == null)
-                _vlcPlayer.LoadMedia(UrlPath);
-            else
-                _vlcPlayer.LoadMediaWithOptions(UrlPath, option);
+            lock (_lock)
+            {
+                if (!MediaplayerVlclibLoaded)
+                {
+                    DispatcherTimer ActionTimer = new DispatcherTimer(DispatcherPriority.Background)
+                    {
+                        Interval = TimeSpan.FromMilliseconds(2000)
+                    };
+                    ActionTimer.Tick += (s, e) => {
+                        ActionTimer.Stop();
+                        this.MediaPlayerServiceLoadMedia(UrlPath, option);
+                        hasloadedmedia = true;
+                    };
+                    ActionTimer.Start();
+                    MediaplayerVlclibLoaded = true;
+                    return;
+                }
 
-            //InitializeComponent();
-            HookUpEvents();
-
-            Play();
+                this.MediaPlayerServiceLoadMedia(UrlPath, option);
+            }
         }
 
         public void Pause()

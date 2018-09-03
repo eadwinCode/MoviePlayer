@@ -118,7 +118,7 @@ namespace Movies.Models.Interfaces
         double Progress { get; set; }
         string ProgressAsString { get; set; }
         string Resolution { get; set; }
-        ObservableCollection<SubtitleFilesModel> SubPath { get; set; }
+        ObservableCollection<string> SubPath { get; set; }
         Visibility SubVisible { get; }
         ImageSource Thumbnail { get; set; }
         string TooltipMessage { get; }

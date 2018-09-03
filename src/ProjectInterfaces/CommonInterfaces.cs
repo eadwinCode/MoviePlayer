@@ -54,6 +54,7 @@ namespace Movies.MoviesInterfaces
         void WMPPlayFileInit(IFolder vfc);
         void PlayFileFromPlayList(PlaylistModel playlistModel);
         void PlayFileInit(IVideoData playFile, IEnumerable<VideoFolderChild> TemperalList);
+        void PrepareVideoElement();
     }
 
     public interface ICollectionViewModel
@@ -109,7 +110,7 @@ namespace Movies.MoviesInterfaces
         List<DirectoryInfo> GetParentSubDirectoryWithoutCheck(DirectoryInfo DirectoryPosition, IDictionary<string, string> formats);
         IEnumerable<FileInfo> GetSubtitleFiles(DirectoryInfo dir);
         bool Match(string srtfile, string file);
-        ObservableCollection<SubtitleFilesModel> MatchSubToMedia(string p, IEnumerable<FileInfo> subpath);
+        ObservableCollection<string> MatchSubToMedia(string p, IEnumerable<FileInfo> subpath);
         List<FileInfo> RemoveDirectory(List<FileInfo> files, FileInfo fileInfo);
     }
 

@@ -113,14 +113,13 @@ namespace Movies.MovieServices.Services
         {
             if (item.FileType == FileType.Folder) return;
             if ((item as VideoFolderChild).HasSearchSubtitleFile) return;
-
+            if (files == null)
+                files = filecommonhelper.GetSubtitleFiles(item.ParentDirectory.Directory);
+            var subs = GetSubtitlePath(item.Name);
             dispatcherService.BeginInvokeDispatchAction(new Action(delegate
             {
                 var itemchild = (VideoFolderChild)item;
-                if (files == null)
-                    files = filecommonhelper.GetSubtitleFiles(item.ParentDirectory.Directory);
-
-                itemchild.SubPath = GetSubtitlePath(item);
+                itemchild.SubPath = subs;
             }));
         }
 
@@ -175,9 +174,9 @@ namespace Movies.MovieServices.Services
            }));
         }
 
-        private ObservableCollection<SubtitleFilesModel> GetSubtitlePath(VideoFolder item)
+        private ObservableCollection<string> GetSubtitlePath(string name)
         {
-            return filecommonhelper.MatchSubToMedia(item.Name, files);
+            return filecommonhelper.MatchSubToMedia(name, files);
         }
         
     }

@@ -34,10 +34,8 @@ namespace VideoPlayerView.ModuleDefinition
 
         private void RegisterViews()
         {
-            IPlayFile playFile = new PlayFile();
-            var initPlayer = playFile.MediaPlayerService.VideoPlayer;
-            playFile = null;
-            initPlayer = null;
+            var filepilemanager = unityContainer.Resolve<IPlayFile>();
+            filepilemanager.PrepareVideoElement();
         }
     }
 }

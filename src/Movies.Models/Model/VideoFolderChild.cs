@@ -15,7 +15,7 @@ namespace Movies.Models.Model
     public class VideoFolderChild : VideoFolder, IVideoData, IComparable<VideoFolderChild>,IEquatable<VideoFolderChild>
     {
         private string duration = ApplicationDummyMessage.DurationNotYetLoaded;
-        private ObservableCollection<SubtitleFilesModel> subpath;
+        private ObservableCollection<string> subpath;
         private uint frameheight;
         private uint framewidth; 
         private string resolution;
@@ -127,7 +127,7 @@ namespace Movies.Models.Model
             }
         }
         
-        public ObservableCollection<SubtitleFilesModel> SubPath
+        public ObservableCollection<string> SubPath
         {
             get { return subpath; }
             set { subpath = value; RaisePropertyChangedEvent("SubVisible");

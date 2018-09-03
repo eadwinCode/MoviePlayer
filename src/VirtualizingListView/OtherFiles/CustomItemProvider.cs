@@ -194,7 +194,7 @@ namespace VirtualizingListView.OtherFiles
             return imageSource;
         }
 
-        private ObservableCollection<SubtitleFilesModel> GetSubtitlePath(VideoFolder item)
+        private ObservableCollection<string> GetSubtitlePath(VideoFolder item)
         {
             //return FileExplorerCommonHelper.MatchSubToMedia(item.Name, files);
             return null;

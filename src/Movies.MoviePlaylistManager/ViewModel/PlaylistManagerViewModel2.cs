@@ -181,14 +181,17 @@ namespace Movies.MoviePlaylistManager.ViewModel
             CurrentPlaylist = plm;
             IsLoading = true;
             currentplaylist.SetIsActive(true);
-            Task.Factory.StartNew(() =>
-            {
-                var list = GetObservableCollection(plm);
-                //list = FileLoader.FileLoaderInstance.SortList(SortType.Name, list);
-                return list;
-            }).ContinueWith(t => { this.PlayListCollection = t.Result; 
-                IsLoading = false;
-            }, TaskScheduler.FromCurrentSynchronizationContext());
+            DispatcherService.ExecuteTimerAction(() => {
+                Task.Factory.StartNew(() =>
+                {
+                    return GetObservableCollection(plm);
+                    //list = FileLoader.FileLoaderInstance.SortList(SortType.Name, list);
+                }).ContinueWith(t => {
+                    this.PlayListCollection = t.Result;
+                    IsLoading = false;
+                }, TaskScheduler.FromCurrentSynchronizationContext());
+            }, 2000);
+            
         }
 
         private void InitFinishCollection()

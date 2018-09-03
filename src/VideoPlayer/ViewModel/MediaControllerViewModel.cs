@@ -68,8 +68,8 @@ namespace VideoPlayerControl.ViewModel
 
                 foreach (var item in CurrentVideoItem.SubPath)
                 {
-                    if (item.Directory == null) continue;
-                    this.SetSubtitle(item.Directory);
+                    if (item == null) continue;
+                    this.SetSubtitle(item);
                 }
             }), DispatcherPriority.Background, null);
             
@@ -594,7 +594,7 @@ namespace VideoPlayerControl.ViewModel
             {
                 return false;
             }
-            return MediaPlayerService.Duration != TimeSpan.Zero;
+            return MediaPlayerService.CanPlay;
         }
 
         public void PrevPlayAction()

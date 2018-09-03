@@ -141,23 +141,23 @@ namespace Movies.MovieServices.Services
             return false;
         }
 
-        public ObservableCollection<SubtitleFilesModel> MatchSubToMedia(string p, IEnumerable<FileInfo> subpath)
+        public ObservableCollection<string> MatchSubToMedia(string p, IEnumerable<FileInfo> subpath)
         {
             if (subpath == null) return null;
             var posiblepath = subpath.Where(x => Match(Path.GetFileNameWithoutExtension(x.Name)
                          ,(Path.GetFileNameWithoutExtension(p)))).ToArray();
             if (posiblepath.Length != 0)
             {
-                ObservableCollection<SubtitleFilesModel> subfilepath = new ObservableCollection<SubtitleFilesModel>();
+                ObservableCollection<string> subfilepath = new ObservableCollection<string>();
                 for (int i = 0; i < posiblepath.Length; i++)
                 {
-                    subfilepath.Add(new SubtitleFilesModel(SubtitleType.SubFile,posiblepath[i].FullName));
+                    subfilepath.Add((posiblepath[i].FullName));
                    //subfilepath[i] = posiblepath[i].FullName;
                 }
                 return subfilepath;
             }
 
-            return new ObservableCollection<SubtitleFilesModel>();
+            return new ObservableCollection<string>();
         }
 
         public IEnumerable<FileInfo> GetSubtitleFiles(DirectoryInfo dir)
