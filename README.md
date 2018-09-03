@@ -1,4 +1,4 @@
-# Movie-Player-WPF.NET
+# Movie Hub
 Movie Player is a desktop application software used to play movies, 
 store and organize digital audio and video. 
 This has great features as listed below:
