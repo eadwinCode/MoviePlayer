@@ -186,7 +186,7 @@ namespace VideoPlayerControl.ViewModel
         private void VideoPlayerView_Loaded(object sender, RoutedEventArgs e)
         {
             Init();
-            MousemoveTimer.Interval = TimeSpan.FromSeconds(5);
+            MousemoveTimer.Interval = TimeSpan.FromMilliseconds(1200);
             MousemoveTimer.Tick += MousemoveTimer_Tick;
             this.MousemoveTimer.Stop();
 

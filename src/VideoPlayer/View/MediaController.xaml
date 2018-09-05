@@ -75,7 +75,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid VerticalAlignment="Bottom" >
+    <Grid VerticalAlignment="Bottom" Background="Transparent">
         <Border>
             <Border.Background>
                 <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
@@ -176,133 +176,123 @@
                         </Button>
                     </StackPanel>
                 </DockPanel>
-            <Grid Margin="0,0,0,10">
-                <Border  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <!--<Border.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-                            <GradientStop Color="Transparent"/>
-                            <GradientStop Color="#7F000000"/>
-                        </LinearGradientBrush>
-                    </Border.Background>-->
-                    <!--<Border.Effect>
-                            <effect:Transparency Opacity="1"  />
-                        </Border.Effect>-->
-                </Border>
+                <Grid Margin="0,0,0,10"  Background="Transparent">
+
                     <Border BorderThickness="2"   
                             TextBlock.Foreground="White" 
                             util:BorderPart.IsEnabled="True"
                             Background="Transparent">
                         <DockPanel  Background="Transparent"
                                         x:Name="GroupSlider" Grid.Column="0">
-                                <DockPanel DockPanel.Dock="Bottom" >
-                                    <DockPanel HorizontalAlignment="Left" 
+                            <DockPanel DockPanel.Dock="Bottom"  Background="Transparent" >
+                                <DockPanel HorizontalAlignment="Left"  Background="Transparent"
                                                Margin="10,0" DockPanel.Dock="Left">
-                                     
-                                        <Button SnapsToDevicePixels="True" Width="32" DockPanel.Dock="Left" 
+
+                                    <Button SnapsToDevicePixels="True" Width="32" DockPanel.Dock="Left" 
                                                 x:Name="PlNext"  ToolTip="Previous"
                                                 ToolTipClosing="PlNext_ToolTipClosing" 
                                                 Command="{x:Static cmd:VideoPlayerCommands.Previous}"
                                         
                                                 MouseEnter="PlNext_MouseEnter" 
                                                 MouseLeave="Previous_MouseLeave">
-                                            <Button.Style>
-                                                <Style TargetType="Button" >
-                                                    <Setter Property="Focusable" Value="False"/>
-                                                    <Setter Property="Template">
-                                                        <Setter.Value>
-                                                            <ControlTemplate TargetType="Button">
+                                        <Button.Style>
+                                            <Style TargetType="Button" >
+                                                <Setter Property="Focusable" Value="False"/>
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="Button">
 
-                                                                <Border CornerRadius="16" SnapsToDevicePixels="True" x:Name="border"  Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                                                            <Border CornerRadius="16" SnapsToDevicePixels="True" x:Name="border"  Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
 
-                                                                    <Image Opacity=".7" x:Name="contentPresenter" Margin="1,6,1,0" Uid="back.png">
+                                                                <Image Opacity=".7" x:Name="contentPresenter" Margin="1,6,1,0" Uid="back.png">
 
-                                                                    </Image>
+                                                                </Image>
 
-                                                                </Border>
+                                                            </Border>
 
-                                                                <ControlTemplate.Triggers>
-                                                                    <Trigger Property="IsDefaulted" Value="true">
-                                                                        <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                                                                    </Trigger>
-                                                                    <Trigger Property="IsMouseOver" Value="true">
-                                                                        <Setter Property="Opacity" TargetName="contentPresenter" Value="1"/>
-                                                                    </Trigger>
-                                                                    <Trigger Property="IsPressed" Value="true">
-                                                                        <Setter Property="LayoutTransform" >
-                                                                            <Setter.Value>
-                                                                                <ScaleTransform ScaleX=".9" ScaleY="0.9"/>
-                                                                            </Setter.Value>
-                                                                        </Setter>
-                                                                        <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
-                                                                    </Trigger>
-                                                                    <Trigger Property="IsEnabled" Value="false">
-                                                                        <Setter Property="Opacity" TargetName="contentPresenter" Value=".3"/>
-                                                                        <!--<Setter Property="Background" TargetName="border" Value="#FF18170D"/>
+                                                            <ControlTemplate.Triggers>
+                                                                <Trigger Property="IsDefaulted" Value="true">
+                                                                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsMouseOver" Value="true">
+                                                                    <Setter Property="Opacity" TargetName="contentPresenter" Value="1"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsPressed" Value="true">
+                                                                    <Setter Property="LayoutTransform" >
+                                                                        <Setter.Value>
+                                                                            <ScaleTransform ScaleX=".9" ScaleY="0.9"/>
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsEnabled" Value="false">
+                                                                    <Setter Property="Opacity" TargetName="contentPresenter" Value=".3"/>
+                                                                    <!--<Setter Property="Background" TargetName="border" Value="#FF18170D"/>
                                                     <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>-->
-                                                                        <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
-                                                                    </Trigger>
-                                                                </ControlTemplate.Triggers>
-                                                            </ControlTemplate>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                </Style>
-                                            </Button.Style>
-                                        </Button>
-                                        <Grid DockPanel.Dock="Left" 
+                                                                    <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                                                                </Trigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                    <Grid DockPanel.Dock="Left" 
                                               Width="53" ToolTip="{Binding PlayText}"
                                               Margin="0,1,0,0" 
                                               Background="Transparent">
-                                            <Border BorderThickness="2" >
-                                                <Button  Command="{x:Static 
+                                        <Border BorderThickness="2" >
+                                            <Button  Command="{x:Static 
                                                     cmd:VideoPlayerCommands.PausePlay}" 
                                                          CommandParameter="{Binding}" >
-                                                    <Button.Style>
-                                                        <Style TargetType="Button" >
-                                                            <Setter Property="Focusable" Value="False"/>
-                                                            <Setter Property="Template">
-                                                                <Setter.Value>
-                                                                    <ControlTemplate TargetType="Button">
-                                                                        <Border  SnapsToDevicePixels="True" 
+                                                <Button.Style>
+                                                    <Style TargetType="Button" >
+                                                        <Setter Property="Focusable" Value="False"/>
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="Button">
+                                                                    <Border  SnapsToDevicePixels="True" 
                                                                 x:Name="border" 
                                                                 Width="{TemplateBinding Width}" 
                                                                 Height="{TemplateBinding Height}">
-                                                                            <Image x:Name="contentPresenter" Margin="0" SnapsToDevicePixels="True"
+                                                                        <Image x:Name="contentPresenter" Margin="0" SnapsToDevicePixels="True"
                                                                    Uid="play-button.png" Opacity=".7" />
-                                                                        </Border>
+                                                                    </Border>
 
-                                                                        <ControlTemplate.Triggers>
-                                                                            <DataTrigger Binding="{Binding IsPlaying}" Value="True">
-                                                                                <Setter Property="Image.Uid" TargetName="contentPresenter" Value="pause.png"/>
-                                                                            </DataTrigger>
-                                                                            <Trigger Property="IsDefaulted" Value="true">
-                                                                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                                                                            </Trigger>
-                                                                            <Trigger Property="IsMouseOver" Value="true">
-                                                                                <Setter Property="Opacity" Value="1"  TargetName="contentPresenter"/>
-                                                                            </Trigger>
-                                                                            <Trigger Property="IsPressed" Value="true">
-                                                                                <Setter Property="LayoutTransform" TargetName="contentPresenter">
-                                                                                    <Setter.Value>
-                                                                                        <ScaleTransform ScaleX=".8" ScaleY="0.8"/>
-                                                                                    </Setter.Value>
-                                                                                </Setter>
-                                                                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
-                                                                            </Trigger>
-                                                                            <Trigger Property="IsEnabled" Value="false">
-                                                                                <Setter Property="Image.Uid" TargetName="contentPresenter" Value="play-button (1).png"/>
-                                                                                <!--<Setter Property="Background" TargetName="border" Value="#FF18170D"/>
+                                                                    <ControlTemplate.Triggers>
+                                                                        <DataTrigger Binding="{Binding IsPlaying}" Value="True">
+                                                                            <Setter Property="Image.Uid" TargetName="contentPresenter" Value="pause.png"/>
+                                                                        </DataTrigger>
+                                                                        <Trigger Property="IsDefaulted" Value="true">
+                                                                            <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                                                        </Trigger>
+                                                                        <Trigger Property="IsMouseOver" Value="true">
+                                                                            <Setter Property="Opacity" Value="1"  TargetName="contentPresenter"/>
+                                                                        </Trigger>
+                                                                        <Trigger Property="IsPressed" Value="true">
+                                                                            <Setter Property="LayoutTransform" TargetName="contentPresenter">
+                                                                                <Setter.Value>
+                                                                                    <ScaleTransform ScaleX=".8" ScaleY="0.8"/>
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                                                                        </Trigger>
+                                                                        <Trigger Property="IsEnabled" Value="false">
+                                                                            <Setter Property="Image.Uid" TargetName="contentPresenter" Value="play-button (1).png"/>
+                                                                            <!--<Setter Property="Background" TargetName="border" Value="#FF18170D"/>
                                                     <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>-->
-                                                                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
-                                                                            </Trigger>
-                                                                        </ControlTemplate.Triggers>
-                                                                    </ControlTemplate>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </Style>
-                                                    </Button.Style>
-                                                </Button>
-                                            </Border>
-                                        </Grid>
+                                                                            <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                                                                        </Trigger>
+                                                                    </ControlTemplate.Triggers>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button>
+                                        </Border>
+                                    </Grid>
                                     <Button  Width="34" DockPanel.Dock="Left" x:Name="Previous" 
                                                  ToolTip="Next" 
                                                  MouseEnter="Previous_MouseEnter" 
@@ -404,7 +394,7 @@
                                         </Button.Style>
                                     </Button>
                                 </DockPanel>
-                                    <DockPanel Background="Transparent" HorizontalAlignment="Right"
+                                <DockPanel Background="Transparent" HorizontalAlignment="Right"
                                                x:Name="GroupControl" VerticalAlignment="Stretch" 
                                                LastChildFill="True" Grid.Column="2">
                                     <DockPanel  DockPanel.Dock="Left" >
@@ -585,11 +575,11 @@
                                                          DockPanel.Dock="Left" DataContext="{Binding 
                                             ElementName=mediaControl,Path=DataContext}"/>
                                 </DockPanel>
-                                </DockPanel>
-                            <DockPanel Margin="10,0">
-                                <DockPanel DockPanel.Dock="Top">
+                            </DockPanel>
+                            <DockPanel Margin="10,0"  Background="Transparent">
+                                <DockPanel DockPanel.Dock="Top"  Background="Transparent">
                                     <StackPanel VerticalAlignment="Center" 
-                                                DockPanel.Dock="Right" 
+                                                DockPanel.Dock="Right"  Background="Transparent"
                                                 Orientation="Horizontal">
                                         <TextBlock  TextBlock.FontSize="18" Margin="2,0,0,0"
                                                     Text="{Binding Path=DragPositionSlider.Value,
@@ -634,9 +624,8 @@
                             </DockPanel>
                         </DockPanel>
                     </Border>
-            </Grid>
-        </DockPanel>
-
+                </Grid>
+            </DockPanel>
         </Border>
         <Popup IsOpen="False" DataContext="{Binding ElementName=_messageView,Path=DataContext}"
                StaysOpen="False" VerticalOffset="-3" Width="150" x:Name="optionsPop" Placement="Top"
