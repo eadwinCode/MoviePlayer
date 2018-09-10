@@ -25,6 +25,7 @@ namespace VideoPlayerView.FilePlayer
         private static IVideoElement _videoelement;
         private WindowsMediaPlayControl WindowsMediaPlayer;
         private bool HasScubscribed;
+        private bool isplayingMedia = false;
         private WindowState ShellState = WindowState.Normal;
         private object padlock = new object();
 
@@ -43,6 +44,14 @@ namespace VideoPlayerView.FilePlayer
             get
             {
                 return ServiceLocator.Current.GetInstance<IFileLoaderCompletion>();
+            }
+        }
+
+        IRadioService RadioServicecs
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<IRadioService>();
             }
         }
 
@@ -75,11 +84,18 @@ namespace VideoPlayerView.FilePlayer
         {
             get { return ServiceLocator.Current.GetInstance<IShell>(); }
         }
+
+        public bool IsPlayingMedia { get { return isplayingMedia; } }
     }
 
     public partial class PlayFile
     {
         private void PlayFile_Closing1(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            ShutDownMediaPlayer();
+        }
+
+        public void ShutDownMediaPlayer()
         {
             if (_videoelement != null)
             {
@@ -89,7 +105,6 @@ namespace VideoPlayerView.FilePlayer
             if (WindowsMediaPlayer != null)
             {
                 WindowsMediaPlayer.Close();
-
             }
             if (Win32Api.SetThreadExecutionState(Win32Api.ES_CONTINUOUS) == null)
             {
@@ -109,6 +124,8 @@ namespace VideoPlayerView.FilePlayer
         {
             try
             {
+                if (RadioServicecs.IsRadioOn)
+                    RadioServicecs.ShutdownRadio();
                 if (_videoelement == null)
                 {
                     _videoelement = new VideoElement();
@@ -125,6 +142,7 @@ namespace VideoPlayerView.FilePlayer
                 {
                     LoadFiletoPlayer(obj);
                 }
+                isplayingMedia = true;
             }
             catch (Exception)
             {
@@ -144,6 +162,8 @@ namespace VideoPlayerView.FilePlayer
             #region Creating VideoPlayer Object
             try
             {
+                if (RadioServicecs.IsRadioOn)
+                    RadioServicecs.ShutdownRadio();
                 if (WindowsMediaPlayer == null)
                 {
                     WindowsMediaPlayer = new WindowsMediaPlayControl();
@@ -156,6 +176,8 @@ namespace VideoPlayerView.FilePlayer
                 }
                 WindowsMediaPlayer.OpenFile((VideoFolderChild)obj);
                 WindowsMediaPlayer.Show();
+                isplayingMedia = true;
+
             }
             catch (Exception) { throw; }
             #endregion
@@ -165,6 +187,8 @@ namespace VideoPlayerView.FilePlayer
         {
             WindowsMediaPlayer = null;
             CloseLibraries();
+            isplayingMedia = false;
+
             (IShell as Window).WindowState = ShellState;
         }
         
@@ -174,11 +198,14 @@ namespace VideoPlayerView.FilePlayer
             {
                 Window_Closing();
             }
+
         }
 
         private void PlayFile_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Window_Closing();
+            isplayingMedia = false;
+
         }
 
         private void Window_Closing()
@@ -187,6 +214,7 @@ namespace VideoPlayerView.FilePlayer
             {
                 mediaControllerViewModel.CloseMediaPlayer(true);
                 _videoelement = null;
+                isplayingMedia = false;
                 CloseLibraries();
                 (IShell as Window).WindowState = ShellState;
             }
@@ -306,6 +334,7 @@ namespace VideoPlayerView.FilePlayer
             (_videoelement as Window).Height = 20;
             (_videoelement as Window).WindowState = WindowState.Normal;
             (_videoelement as Window).Show();
+            (_videoelement as Window).CommandBindings.Clear();
             (_videoelement as Window).Close();
 
             CloseLibraries();

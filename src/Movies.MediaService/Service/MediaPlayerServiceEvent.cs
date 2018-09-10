@@ -1,5 +1,6 @@
 ﻿using Microsoft.Practices.ServiceLocation;
 using Movies.Enums;
+using Movies.MediaService.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -117,7 +118,7 @@ namespace Movies.MediaService.Service
         private void VlcMediaPlayer_Buffering(object sender, Meta.Vlc.MediaPlayerBufferingEventArgs e)
         {
             if (Buffering != null)
-                Buffering.Invoke(this, EventArgs.Empty);
+                Buffering.Invoke(this, new MediaBufferingEventArgs() {NewCache = e.NewCache });
         }
 
         internal void PublishSubItemAddedEvent()

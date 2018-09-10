@@ -36,7 +36,7 @@ namespace Movies.MediaService.Service
         public event EventHandler EndReached;
         public event EventHandler EncounteredError;
         public event EventHandler OnMediaMouseEnter;
-        public event EventHandler Buffering;
+        public event EventHandler<MediaBufferingEventArgs> Buffering;
         public event EventHandler OnDurationChanged;
         public event EventHandler OnMediaChanged;
         public event EventHandler OnMediaOpening;

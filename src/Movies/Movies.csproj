@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <StartupObject>Movies.App</StartupObject>
@@ -213,6 +213,10 @@
     <ProjectReference Include="..\Movies.GlobalResources\Movies.GlobalResources.csproj">
       <Project>{1370a208-da8b-43ee-8cbb-a18d7992a8dc}</Project>
       <Name>Movies.GlobalResources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movies.InternetRadio\Movies.InternetRadio.csproj">
+      <Project>{09792bf0-34a2-4c28-ac5a-3825065cef1d}</Project>
+      <Name>Movies.InternetRadio</Name>
     </ProjectReference>
     <ProjectReference Include="..\Movies.MediaService\Movies.MediaService.csproj">
       <Project>{b6faa2de-b0a4-4db9-9532-e6059788598a}</Project>

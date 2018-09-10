@@ -44,6 +44,13 @@
         NoRepeat
     };
 
+    public enum RadioSort
+    {
+        Favorite,
+        TopRated,
+        Personal
+    };
+
     public enum MovieMediaState
     {
         NothingSpecial = 0,

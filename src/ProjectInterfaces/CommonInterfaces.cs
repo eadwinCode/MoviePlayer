@@ -46,6 +46,8 @@ namespace Movies.MoviesInterfaces
         IMediaPlayerService MediaPlayerService { get; }
         IPlaylistManagerViewModel PlaylistManagerViewModel { get; }
         IMediaControllerViewModel MediaControllerViewModel { get; }
+        bool IsPlayingMedia { get; }
+        void ShutDownMediaPlayer();
         void PlayFileInit(IVideoData obj);
         void AddFiletoPlayList(IVideoData obj);
         void WMPPlayFileInit(IVideoData vfc);

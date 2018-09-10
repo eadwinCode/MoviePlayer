@@ -115,6 +115,7 @@
                         <!--Body Items-->
                         <StackPanel Grid.Row="2" VerticalAlignment="Top">
                             <ItemsControl prism:RegionManager.RegionName="SubMenuItemsRegion" DockPanel.Dock="Top"/>
+                            <ContentControl prism:RegionManager.RegionName="ShellRadioRegion" DockPanel.Dock="Top"/>
                             <ContentControl prism:RegionManager.RegionName="ShellPlaylistRegion" DockPanel.Dock="Top"/>
                             <Separator Height=".5" Width="150" HorizontalAlignment="Left" Padding="5"/>
                             <ContentControl prism:RegionManager.RegionName="ShellThemeRegion" DockPanel.Dock="Top"/>

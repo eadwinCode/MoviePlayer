@@ -128,6 +128,9 @@ namespace Movies.Services
             typeA = typeof(HomePlaylistModule);
             moduleInfos.Add(new ModuleInfo() { ModuleName = typeA.Name, ModuleType = typeA.AssemblyQualifiedName });
 
+            typeA = typeof(InternetRadio.ModuleDefinition.InternetRadioModule);
+            moduleInfos.Add(new ModuleInfo() { ModuleName = typeA.Name, ModuleType = typeA.AssemblyQualifiedName });
+
             return moduleInfos;
         }
     }

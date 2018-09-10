@@ -58,7 +58,7 @@
                                 <Image Opacity=".7" x:Name="contentPresenter"
                                        Margin="2" Uid="sound-icone-4732-32.png" />
                             </Button>-->
-                            <Slider Margin="2" Style="{StaticResource VolumeSliderStyle}" Value="50" 
+                            <Slider Margin="2" Style="{StaticResource VolumeSliderStyle}" Value="100" 
                                     x:Name="volslider" Maximum="200" Cursor="Hand"
                                     SmallChange="0.1"/>
                         </DockPanel>

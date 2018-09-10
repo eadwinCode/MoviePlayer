@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Models\AudioTracksManagement.cs" />
     <Compile Include="Models\ChapterManagement.cs" />
+    <Compile Include="Models\MediaBufferingEventArgs.cs" />
     <Compile Include="Models\MediaTrackDescription.cs" />
     <Compile Include="Models\MediaTrackDescriptionList.cs" />
     <Compile Include="Models\SubtitleManagement.cs" />

@@ -37,7 +37,7 @@ namespace Movies.MediaService.Interfaces
         VideoTracksManagement VideoTracksManagement { get; }
         bool HasLoadedMedia { get; }
 
-        event EventHandler Buffering;
+        event EventHandler<MediaBufferingEventArgs> Buffering;
         event EventHandler EncounteredError;
         event EventHandler EndReached;
         event MouseEventHandler MouseMove;

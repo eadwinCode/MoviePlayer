@@ -1,4 +1,3 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movies", "Movies\Movies.csproj", "{5CAB894A-9461-4929-9FD9-7D938EDC7EEE}"
@@ -53,6 +52,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movies.MediaService", "Movies.MediaService\Movies.MediaService.csproj", "{B6FAA2DE-B0A4-4DB9-9532-E6059788598A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movies.MusicProject", "Movies.MusicProject\Movies.MusicProject.csproj", "{288DA71D-1048-4B14-A1F4-CB3995ABB991}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movies.InternetRadio", "Movies.InternetRadio\Movies.InternetRadio.csproj", "{09792BF0-34A2-4C28-AC5A-3825065CEF1D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -352,6 +353,18 @@ Global
 		{288DA71D-1048-4B14-A1F4-CB3995ABB991}.Release|x64.Build.0 = Release|Any CPU
 		{288DA71D-1048-4B14-A1F4-CB3995ABB991}.Release|x86.ActiveCfg = Release|Any CPU
 		{288DA71D-1048-4B14-A1F4-CB3995ABB991}.Release|x86.Build.0 = Release|Any CPU
+		{09792BF0-34A2-4C28-AC5A-3825065CEF1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09792BF0-34A2-4C28-AC5A-3825065CEF1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09792BF0-34A2-4C28-AC5A-3825065CEF1D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{09792BF0-34A2-4C28-AC5A-3825065CEF1D}.Debug|x64.Build.0 = Debug|Any CPU
+		{09792BF0-34A2-4C28-AC5A-3825065CEF1D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{09792BF0-34A2-4C28-AC5A-3825065CEF1D}.Debug|x86.Build.0 = Debug|Any CPU
+		{09792BF0-34A2-4C28-AC5A-3825065CEF1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09792BF0-34A2-4C28-AC5A-3825065CEF1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09792BF0-34A2-4C28-AC5A-3825065CEF1D}.Release|x64.ActiveCfg = Release|Any CPU
+		{09792BF0-34A2-4C28-AC5A-3825065CEF1D}.Release|x64.Build.0 = Release|Any CPU
+		{09792BF0-34A2-4C28-AC5A-3825065CEF1D}.Release|x86.ActiveCfg = Release|Any CPU
+		{09792BF0-34A2-4C28-AC5A-3825065CEF1D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

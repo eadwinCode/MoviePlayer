@@ -63,6 +63,7 @@
     <Compile Include="Model\NewFolderModel.cs" />
     <Compile Include="Model\PlayedFiles.cs" />
     <Compile Include="Model\PlaylistModel.cs" />
+    <Compile Include="Model\RadioModel.cs" />
     <Compile Include="Model\SavedLastSeenCollection.cs" />
     <Compile Include="Model\SavedPlaylist.cs" />
     <Compile Include="Model\Settings.cs" />
