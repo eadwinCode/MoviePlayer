@@ -87,8 +87,13 @@
   <ItemGroup>
     <Compile Include="CustomControl1.cs" />
     <Compile Include="FilePlayer\PlayFile.cs" />
-    <Compile Include="Model\AudioStream.cs" />
+    <Compile Include="MediaPlayerWindowView.xaml.cs">
+      <DependentUpon>MediaPlayerWindowView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ModuleDefinition\VideoPlayerModule.cs" />
+    <Compile Include="PadeMediaWindow.xaml.cs">
+      <DependentUpon>PadeMediaWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -105,18 +110,7 @@
     <Compile Include="Util\CheckboxGrouping.cs" />
     <Compile Include="Util\NativeMethods.cs" />
     <Compile Include="Util\TrackListConverter.cs" />
-    <Compile Include="VideoElement.xaml.cs">
-      <DependentUpon>VideoElement.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ViewModel\VideoElementViewModel.cs" />
-    <Compile Include="WindowsStyleClass\ControlDoubleClickBehavior.cs" />
-    <Compile Include="WindowsStyleClass\ShowSystemMenuBehavior.cs" />
-    <Compile Include="WindowsStyleClass\SystemMenuManager.cs" />
-    <Compile Include="WindowsStyleClass\WindowCloseCommand.cs" />
-    <Compile Include="WindowsStyleClass\WindowDragBehavior.cs" />
-    <Compile Include="WindowsStyleClass\WindowMaximizeCommand.cs" />
-    <Compile Include="WindowsStyleClass\WindowMinimizeCommand.cs" />
-    <Compile Include="WindowsStyleClass\WindowResizeBehavior.cs" />
+    <Compile Include="MediaPlayerWindowViewModel.cs" />
     <Compile Include="WindowsMediaPlayControl.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -137,11 +131,15 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Themes\Generic.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="MediaPlayerWindowView.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="VideoElement.xaml">
+    <Page Include="PadeMediaWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -151,29 +149,21 @@
       <Project>{291d89e4-5436-4e99-a402-322d10f2ed0c}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Meta.Vlc.Wpf\Meta.Vlc.Wpf - .Net 4.0.csproj">
-      <Project>{ed70ad57-1b05-428a-8a30-2cc533daf389}</Project>
-      <Name>Meta.Vlc.Wpf - .Net 4.0</Name>
+    <ProjectReference Include="..\MovieHub.MediaPlayerElement\MovieHub.MediaPlayerElement.csproj">
+      <Project>{e3e88727-8e4a-4b69-a9b2-a9085a76ab92}</Project>
+      <Name>MovieHub.MediaPlayerElement</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Meta.Vlc\Meta.Vlc - .Net 4.0.csproj">
-      <Project>{9368132d-33f8-4149-8733-3bf90715f887}</Project>
-      <Name>Meta.Vlc - .Net 4.0</Name>
+    <ProjectReference Include="..\Movies.Enums\Movies.Enums.csproj">
+      <Project>{0824a682-f34d-456b-8b0b-22ff40feae33}</Project>
+      <Name>Movies.Enums</Name>
     </ProjectReference>
     <ProjectReference Include="..\Movies.GlobalResources\Movies.GlobalResources.csproj">
       <Project>{1370a208-da8b-43ee-8cbb-a18d7992a8dc}</Project>
       <Name>Movies.GlobalResources</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Movies.MediaService\Movies.MediaService.csproj">
-      <Project>{b6faa2de-b0a4-4db9-9532-e6059788598a}</Project>
-      <Name>Movies.MediaService</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Movies.Models\Movies.Models.csproj">
       <Project>{12ce1e5d-1e2d-4fe8-8084-b5e334cd54cd}</Project>
       <Name>Movies.Models</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Movies.MoviePlaylistManager\Movies.MoviePlaylistManager.csproj">
-      <Project>{6d034b32-531f-4ddb-9402-6c0d72b29953}</Project>
-      <Name>Movies.MoviePlaylistManager</Name>
     </ProjectReference>
     <ProjectReference Include="..\ProjectInterfaces\Movies.MoviesInterfaces.csproj">
       <Project>{2d97da0a-18be-48a1-b4fc-78b0b3ceb6c8}</Project>
@@ -182,10 +172,6 @@
     <ProjectReference Include="..\VideoComponent\VideoComponent.csproj">
       <Project>{5e66548f-63d0-4690-aa1c-d09b203e573e}</Project>
       <Name>VideoComponent</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\VideoPlayer\VideoPlayerControl.csproj">
-      <Project>{e657ac6b-5b19-4b9f-bf5e-96822234dfdd}</Project>
-      <Name>VideoPlayerControl</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -206,6 +192,10 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model\" />
+    <Folder Include="ViewModel\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

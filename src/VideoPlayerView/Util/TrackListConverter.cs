@@ -1,11 +1,10 @@
-﻿using Meta.Vlc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
-using VideoPlayerControl.ViewModel;
+using MovieHub.MediaPlayerElement.ViewModel;
 
 namespace VideoPlayerView.Util
 {

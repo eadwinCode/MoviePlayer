@@ -1,5 +1,6 @@
 ﻿using Microsoft.Practices.Prism;
 using Movies.Enums;
+using Movies.Models.Interfaces;
 using Movies.Models.Model;
 using Movies.MoviesInterfaces;
 using System;
@@ -11,7 +12,7 @@ using VideoComponent.BaseClass;
 
 namespace Movies.MovieServices.Services
 {
-    public class SortService : ISortService
+    internal class SortService : ISortService
     {
         private object _lock = new object();
         public VideoFolder SortList(SortType sorttype, VideoFolder parent)
@@ -69,6 +70,32 @@ namespace Movies.MovieServices.Services
                 return asd;
             }
            
+        }
+
+        public IEnumerable<T> SortList<T>(SortType sorttype, IEnumerable<T> list) where T : IItemSort
+        {
+            lock (this)
+            {
+                if (list == null) return list;
+
+                ObservableCollection<T> asd = new ObservableCollection<T>();
+                if (sorttype == SortType.Date)
+                {
+                    IEnumerable<T> de = (list).OrderBy(x => x, new SortByDate());
+                    asd.AddRange(de);
+                }
+                else if (sorttype == SortType.Extension)
+                {
+                    IEnumerable<T> de = list.OrderBy(x => x, new SortByExtension());
+                    asd.AddRange(de);
+                }
+                else
+                {
+                    IEnumerable<T> de = list.OrderBy(x => x, new SortByNames());
+                    asd.AddRange(de);
+                }
+                return asd;
+            }
         }
     }
 }

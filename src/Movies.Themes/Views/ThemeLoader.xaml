@@ -17,10 +17,8 @@
                                               Style="{StaticResource ContentContainer}"
                                               BorderBrush="Transparent" 
                                               BorderThickness="0" 
-                                              presentationCmd:VideoItemDoubleClick.DoubleClickCommand=
-                                              "{Binding  DataContext.ThemeCommand,RelativeSource={RelativeSource AncestorType=UserControl,Mode=FindAncestor}}"
-                                              presentationCmd:VideoItemDoubleClick.DoubleClickCommandParameter=
-                                              "{Binding DataContext,RelativeSource={RelativeSource Self}}"
+                                              Command="{Binding  DataContext.ThemeCommand,RelativeSource={RelativeSource AncestorType=UserControl,Mode=FindAncestor}}"
+                                              CommandParameter="{Binding DataContext,RelativeSource={RelativeSource Self}}"
                                               HorizontalAlignment="Stretch" 
                                               VerticalAlignment="Stretch">
                     <Border x:Name="bd" Opacity=".7" Background="Transparent" 
@@ -53,13 +51,13 @@
         </ResourceDictionary>
     </UserControl.Resources>
     
-    <ListView SelectionMode="Single" Margin="5"
+    <ItemsControl Margin="5"
               BorderBrush="Transparent" BorderThickness="0" 
               ItemsSource="{Binding ThemeModels}" 
               ItemTemplate="{StaticResource ThemeTemplate}" 
               ScrollViewer.VerticalScrollBarVisibility="Disabled" 
               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-              ItemContainerStyle="{StaticResource ZeroContainerStyle}"
+              
               Background="Transparent" >
-    </ListView>
+    </ItemsControl>
 </UserControl>

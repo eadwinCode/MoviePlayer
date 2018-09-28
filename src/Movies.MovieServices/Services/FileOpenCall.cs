@@ -24,7 +24,7 @@ namespace Movies.MovieServices.Services
             iplayFilecaller.PlayFileInit(videoFolder);
         }
 
-        public void Open(IVideoData videoFolder, IEnumerable<VideoFolderChild> movielist)
+        public void Open(IPlayable videoFolder, IEnumerable<IPlayable> movielist)
         {
             iplayFilecaller.PlayFileInit(videoFolder,movielist);
         }

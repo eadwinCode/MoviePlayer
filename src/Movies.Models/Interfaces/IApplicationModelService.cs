@@ -10,6 +10,9 @@ namespace Movies.Models.Interfaces
     {
         SavedPlaylistCollection AppPlaylist { get; }
         SavedLastSeenCollection SavedLastSeenCollection { get; }
+        SavedRadioCollection SavedRadioCollection { get; }
         Settings AppSettings { get; }
+
+        bool SaveLastSeenFile();
     }
 }

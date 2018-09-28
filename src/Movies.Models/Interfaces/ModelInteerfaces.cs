@@ -57,21 +57,18 @@ namespace Movies.Models.Interfaces
             get;
         }
         void RemoveLastSeen();
+        void Add();
+        void Save();
     }
 
-    public interface IFolder
+    public interface IFolder : IItemSort
     {
         int ChildrenSize { get; }
-        string CreationDate { get; }
         int Day { get; }
         DirectoryInfo Directory { get; }
         bool Exists { get; }
-        string FileExtension { get; }
-        FileInfo FileInfo { get; }
-        string FileName { get; }
         string FilePath { get; }
         string FileSize { get; set; }
-        FileType FileType { get; set; }
         string FolderChildCount { get; }
         string FullName { get; }
         bool HasCompleteLoad { get; set; }
@@ -79,6 +76,7 @@ namespace Movies.Models.Interfaces
         bool HasSubFolders { get; set; }
         bool HasThumbnail { get; }
         bool IsLoading { get; set; }
+        FileInfo FileInfo { get; }
         ObservableCollection<PlayedFiles> LastSeenCollection { get; set; }
         string Name { get; }
         ObservableCollection<VideoFolder> OtherFiles { get; set; }
@@ -97,10 +95,9 @@ namespace Movies.Models.Interfaces
         string ToString();
     }
 
-    public interface IVideoData
+    public interface IVideoData : IMediaPlayabeLastSeen, ILocaFilePlayable , IItemSort
     {
         string Duration { get; set; }
-        string FilePath { get; }
         string FileSize { get; set; }
         uint FrameHeight { get; set; }
         uint FrameWidth { get; set; }
@@ -110,12 +107,11 @@ namespace Movies.Models.Interfaces
         bool HasSearchSubtitleFile { get; set; }
         bool HasThumbnail { get; }
         bool IsActive { get; set; }
-        ILastSeen LastPlayedPoisition { get; set; }
+        
         int? MaxiProgress { get; set; }
         string MediaTitle { get; set; }
         Visibility PlayedVisible { get; }
         ObservableCollection<PlaylistModel> PlayListItems { get; }
-        double Progress { get; set; }
         string ProgressAsString { get; set; }
         string Resolution { get; set; }
         ObservableCollection<string> SubPath { get; set; }
@@ -124,9 +120,28 @@ namespace Movies.Models.Interfaces
         string TooltipMessage { get; }
 
         event OnFileNameChangedHandler OnFileNameChangedChanged;
-
-        void PlayCompletely();
         string ToString();
         void UpdateProperties();
+    }
+
+    public interface IMediaPlayabeLastSeen
+    {
+        double Progress { get; set; }
+        ILastSeen LastPlayedPoisition { get; set; }
+        void SetProgress();
+        void PlayCompletely();
+    }
+
+    public interface ILocaFilePlayable
+    {
+        string FilePath { get; }
+    }
+
+    public interface IItemSort
+    {
+        DateTime CreationDate { get; }
+        string FileExtension { get; }
+        string FileName { get; }
+        GroupCatergory FileType { get; }
     }
 }

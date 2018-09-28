@@ -1,0 +1,48 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:Componentdock="clr-namespace:Movies.MovieServices.Services">
+    <Style TargetType="{x:Type Componentdock:ComponentDocker}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Grid.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                                <GradientStop Color="Transparent"/>
+                                <GradientStop Color="#7F000000"/>
+                            </LinearGradientBrush>
+                        </Grid.Background>
+                        <Border Background="Black" VerticalAlignment="Center"
+                                Height="{Binding DialogHeight,RelativeSource={RelativeSource AncestorType=Componentdock:ComponentDocker}}"
+                                Width="{Binding DialogWidth,RelativeSource={RelativeSource AncestorType=Componentdock:ComponentDocker}}"
+                                HorizontalAlignment="Center" CornerRadius="3" 
+                                BorderBrush="Red"
+                                BorderThickness="2">
+                            <DockPanel>
+                                <Grid DockPanel.Dock="Top" Grid.ColumnSpan="2" Background="Bisque">
+                                    <TextBlock Padding="5" TextAlignment="Left" FontWeight="Regular" FontSize="16"
+                                               Foreground="Black"
+                                               Text="{Binding DialogTitle,RelativeSource={RelativeSource AncestorType=Componentdock:ComponentDocker}}"/>
+                                </Grid>
+                                <Grid DockPanel.Dock="Bottom">
+                                    <StackPanel Grid.Row="4" Height="30" HorizontalAlignment="Right" Margin="3" Orientation="Horizontal">
+                                        <Button Margin="2" Command="{Binding OkCommand,RelativeSource={RelativeSource AncestorType=Componentdock:ComponentDocker}}" 
+                                                Content="{Binding OKButtonText,RelativeSource={RelativeSource AncestorType=Componentdock:ComponentDocker}}" 
+                                                Width="80" HorizontalAlignment="Right"/>
+                                        <Button Margin="2" Command="{Binding CancelCommand,RelativeSource={RelativeSource AncestorType=Componentdock:ComponentDocker}}" 
+                                                Content="{Binding CancelButtonText,RelativeSource={RelativeSource AncestorType=Componentdock:ComponentDocker}}" 
+                                                Width="80" HorizontalAlignment="Right"/>
+                                    </StackPanel>
+                                </Grid>
+                                <Grid Margin="1" >
+                                    <ContentPresenter Content="{Binding Content,RelativeSource={RelativeSource AncestorType=Componentdock:ComponentDocker}}"/>
+                                </Grid>
+                            </DockPanel>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

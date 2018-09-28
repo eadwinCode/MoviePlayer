@@ -1,0 +1,75 @@
+﻿<Page x:Class="Movies.InternetRadio.Views.RadioFavoritePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Movies.InternetRadio.Views"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      Title="RadioFavoritePage">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Movies.InternetRadio;component/Themes/Generic.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid x:Name="_parent">
+        <DockPanel>
+            <DockPanel>
+                <DockPanel DockPanel.Dock="Top">
+                    <Button Command="{Binding ClearAllCommand}" Style="{StaticResource dialogbtn}" VerticalAlignment="Center" 
+                            DockPanel.Dock="Right" Margin="5" Padding="2">
+                        <TextBlock Text="Clear All" 
+                                       HorizontalAlignment="Center" Padding="5" ToolTip="Add Radio Station"
+                                       VerticalAlignment="Center" FontWeight="DemiBold"
+                                       FontSize="15" Foreground="OldLace"/>
+                    </Button>
+                    <DockPanel>
+                        <Path DockPanel.Dock="Left" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15"
+                              Focusable="False" Fill="{DynamicResource Theme.HighlightColor}" 
+                              Data="M12,10C13.1,10 14,10.9 14,12C14,13.1 13.1,14 12,14C10.9,14 10,13.1 10,12C10,10.9 10.9,10 12,10M12,22C10.05,22 8.22,21.44 6.69,20.47L10,15.47C10.6,15.81 11.28,16 12,16C12.72,16 13.4,15.81 14,15.47L17.31,20.47C15.78,21.44 13.95,22 12,22M2,12C2,7.86 4.5,4.3 8.11,2.78L10.34,8.36C8.96,9 8,10.38 8,12H2M16,12C16,10.38 15.04,9 13.66,8.36L15.89,2.78C19.5,4.3 22,7.86 22,12H16Z"
+                              RenderTransformOrigin="0.5,0.5" >
+                            <Path.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="1.6" ScaleY="1.6"/>
+                                    <RotateTransform />
+                                </TransformGroup>
+                            </Path.RenderTransform>
+                        </Path>
+                        <TextBlock Text="{Binding  CurrentRadioGroup.RadioName}"
+                               VerticalAlignment="Center"   TextTrimming="CharacterEllipsis" 
+                               FontSize="22" Padding="5" FontWeight="Light"
+                               Foreground="{DynamicResource Theme.Foreground}"/>
+                    </DockPanel>
+                </DockPanel>
+                <ItemsControl Style="{StaticResource lvStyle1}"  BorderBrush="Transparent" 
+                          BorderThickness="0"  x:Name="collections"
+                          ScrollViewer.VerticalScrollBarVisibility="Auto"  Margin="10,5,0,2"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          Background="Transparent"
+                          SizeChanged="Collections_SizeChanged"
+                          ItemsSource="{Binding RadioModelCollection}"
+                          ItemTemplateSelector="{StaticResource DataTemplateSelector}"
+                          Grid.RowSpan="2" >
+                    <ItemsControl.GroupStyle>
+                        <GroupStyle >
+                            <GroupStyle.HeaderTemplate>
+                                <DataTemplate>
+                                    <!--<VirtualizingStackPanel Orientation="Vertical" Margin="5">
+                                <TextBlock  Margin="10,2,2,2"  FontSize="18" Foreground="White" Text="{Binding Path=Name}"  />
+                            </VirtualizingStackPanel>-->
+                                </DataTemplate>
+                            </GroupStyle.HeaderTemplate>
+                        </GroupStyle>
+
+                    </ItemsControl.GroupStyle>
+                </ItemsControl>
+            </DockPanel>
+        </DockPanel>
+        <Border HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,5,0" BorderBrush="{DynamicResource Theme.HighlightColor}" 
+                BorderThickness="2">
+            <ContentControl   VerticalAlignment="Bottom" x:Name="MediaControlRegion" />
+        </Border>
+    </Grid>
+</Page>

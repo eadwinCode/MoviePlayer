@@ -49,11 +49,11 @@ namespace LocalVideoFiles.AddFolderDialogWindow
             }
         }
 
-        private IShell Shell
+        private IShellWindow Shell
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<IShell>();
+                return ServiceLocator.Current.GetInstance<IShellWindow>();
             }
         }
     }

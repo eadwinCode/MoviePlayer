@@ -9,26 +9,14 @@ namespace Movies
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainView : IShell
+    public partial class MainView : IShellWindow
     {
-        public MainView(VideoPlayerVM videoPlayerVM)
+        public MainView(IShellWindowService ishellwindowservice)
         {
             InitializeComponent();
-            this.DataContext = videoPlayerVM;
-            this.Loaded += videoPlayerVM.Window_Loaded;
-            this.Loaded += MainView_Loaded;
-        }
-        
-
-        private void MainView_Loaded(object sender, RoutedEventArgs e)
-        {
-
+            this.DataContext = ishellwindowservice;
+            this.Loaded += (s,e) =>ishellwindowservice.OnWindowsLoaded();
         }
     }
-
-    public enum SCREENSETTINGS
-    {
-        Normal,
-        Fullscreen
-    };
+    
 }

@@ -21,21 +21,10 @@ namespace Movies.MoviePlaylistManager.Views
     /// </summary>
     public partial class SavePlaylistDialog : UserControl
     {
-        IPlayFile FilePlayManager
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<IPlayFile>();
-            }
-        }
-        IPlaylistManagerViewModel PlaylistManagerViewModel
-        {
-            get { return FilePlayManager.PlaylistManagerViewModel; }
-        }
+       
         public SavePlaylistDialog()
         {
             InitializeComponent();
-            this.DataContext = PlaylistManagerViewModel;
             this.Loaded += (s, e) => {
                 this.NewPlaylistName.Focus();
             };
@@ -43,7 +32,7 @@ namespace Movies.MoviePlaylistManager.Views
 
         public void ShowDialog()
         {
-            FilePlayManager.VideoElement.ContentDockRegion.Content = this;
+          //  FilePlayManager.VideoElement.ContentDockRegion.Content = this;
         }
     }
 }

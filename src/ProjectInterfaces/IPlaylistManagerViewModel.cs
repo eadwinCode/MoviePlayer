@@ -6,35 +6,23 @@ using Movies.Models.Model;
 
 namespace Movies.MoviesInterfaces
 {
-    public interface IPlaylistManagerViewModel
+    public interface IPlaylistManager
     {
         bool CanNext { get; }
         bool CanPrevious { get; }
-        DelegateCommand ClearPlaylist { get; }
-        PlaylistModel CurrentPlaylist { get; set; }
-        DelegateCommand EnableSaveDialog { get; }
-        bool HasChanges { get; set; }
-        bool IsSaveDialogEnable { get; set; }
-        int NowPlayingIndex { get; }
-        ObservableCollection<VideoFolder> PlayListCollection { get; set; }
-        string PlaylistName { get; }
-        string TempPlaylistName { get; set; }
+        IPlaylistModel CurrentPlaylist { get;  }
+        ObservableCollection<IPlayable> PlayListCollection { get; }
+        string PlayListName { get; }
+        
+        IPlayable GetNextItem();
+        IPlayable GetPreviousItem();
+        IPlaylistModel NewCreatePlaylist(string playlistName);
+        
+        void Remove(IPlayable vfc);
+        void SavePlaylistAction(string playlistName = null);
 
-        void Add(VideoFolder vfc);
-        void Add(IEnumerable<VideoFolder> EnumerableVfc);
-        VideoFolderChild GetNextItem();
-        VideoFolderChild GetPreviousItem();
-        PlaylistModel NewCreatePlaylist();
-        void PlayFromAList(PlaylistModel plm);
-        void PlaylistViewLoaded();
-        void Remove(VideoFolder vfc);
-        void SavePlaylistAction();
-        void UpdateList();
-        void UpdateNowPlaying(object obj, bool frompl);
         string WhatsNextItem();
         string WhatsPreviousItem();
-
-        object GetPlaylistView(IMediaControllerViewModel mediaControllerViewModel);
-        void PlayFromTemperalList(IVideoData playFile, IEnumerable<VideoFolderChild> TemperalList);
+        
     }
 }

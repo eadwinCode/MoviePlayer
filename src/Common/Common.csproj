@@ -79,6 +79,14 @@
     </Compile>
     <Compile Include="Util\CommonHelper.cs" />
     <Compile Include="Util\ControlParts.cs" />
+    <Compile Include="WindowsStyleClass\ControlDoubleClickBehavior.cs" />
+    <Compile Include="WindowsStyleClass\ShowSystemMenuBehavior.cs" />
+    <Compile Include="WindowsStyleClass\SystemMenuManager.cs" />
+    <Compile Include="WindowsStyleClass\WindowCloseCommand.cs" />
+    <Compile Include="WindowsStyleClass\WindowDragBehavior.cs" />
+    <Compile Include="WindowsStyleClass\WindowMaximizeCommand.cs" />
+    <Compile Include="WindowsStyleClass\WindowMinimizeCommand.cs" />
+    <Compile Include="WindowsStyleClass\WindowResizeBehavior.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

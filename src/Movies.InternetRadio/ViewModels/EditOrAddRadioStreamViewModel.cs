@@ -47,7 +47,10 @@ namespace Movies.InternetRadio.ViewModels
             this.AddLogoCommand = new DelegateCommand(AddlogoHandler);
             this.SaveCommand = new DelegateCommand(SaveRadioStatioHandler);
             this.CloseCommand = new DelegateCommand(CloseHandler);
-            this.CurrentRadioStation = radioStation == null ? new RadioModel() : radioStation.Clone() as RadioModel;
+
+            //this.CurrentRadioStation = radioStation == null ? new RadioModel() :
+            //    radioStation.Clone() as RadioModel;
+
             Title = radioStation == null ? "Create new RadioStation" : "Edit RadioStation";
             editOrAddRadioStreamView = new EditOrAddRadioStreamView() { DataContext = this };
         }
@@ -76,7 +79,7 @@ namespace Movies.InternetRadio.ViewModels
             {
                 string ImagePath = openFileDialog.FileName;
                 System.Drawing.Image image = System.Drawing.Image.FromFile(ImagePath);
-                CurrentRadioStation.StationUidLogo = ImageToByteArray(image);
+                //CurrentRadioStation.StationUidLogo = ImageToByteArray(image);
             }
         }
         

@@ -3,108 +3,127 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:util="clr-namespace:Common.Util;assembly=Common"
     xmlns:cmd="clr-namespace:Common.ApplicationCommands;assembly=Common"
+    xmlns:rmc="clr-namespace:VideoPlayerControl"
     xmlns:local="clr-namespace:VideoPlayerControl">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/Movies.GlobalResources;component/Themes/Generic.xaml"/>
+   <ResourceDictionary Source="pack://application:,,,/VideoPlayerControl;component/Themes/MovieControlTemplate.xaml"/>
     </ResourceDictionary.MergedDictionaries>
-    <local:VolumeTextConverter x:Key="VolumeTextConverter"/>
-    <local:TrackListConverter x:Key="TrackListConverter" />
-    <Style TargetType="{x:Type local:MovieTitle_Tab}">
-        <Setter Property="TextBlock.FontSize" Value="18"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:MovieTitle_Tab}">
-                    <StackPanel Orientation="Vertical" Margin="0,2" Opacity="{TemplateBinding Opacity}"
-                                Width="{TemplateBinding Width}" 
-                                Height="{TemplateBinding Height}"  
-                               
-                                Background="{TemplateBinding Background}">
-                        <TextBlock Visibility="{Binding ShowOtherText,FallbackValue=Collasped}" 
-                                   Text="{Binding MovieText,FallbackValue='---'}"  
-                                   TextTrimming="CharacterEllipsis" x:Name="tbx" SnapsToDevicePixels="True"
-                                   Padding="{TemplateBinding Padding}" />
-                        <TextBlock x:Name="tbmarquee" TextTrimming="CharacterEllipsis" 
-                                   Width="{TemplateBinding Width}" SnapsToDevicePixels="True"
-                                   Text="{Binding MovieTitleText,FallbackValue='-Movie Title-'}" 
-                                   Padding="{TemplateBinding Padding}"/>
-                    </StackPanel>
-                    <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding ElementName=tbx,Path=Visibility}" Value="Visible" >
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="tbmarquee"/>
-                        </DataTrigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+    
+    <Style TargetType="{x:Type rmc:MediaController}">
+        <Style.Triggers>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Value="False"  Property="util:MediaControlExtension.IsMouseOverMediaElement"/>
+                    <Condition Value="True"  Property="util:MediaControlExtension.CanAnimateControl"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.EnterActions>
+                    <BeginStoryboard x:Name="Current1">
+                        <Storyboard>
+                            <Storyboard>
+                                <DoubleAnimation Duration="0:0:1"  To="0" Storyboard.TargetProperty="Opacity"/>
+
+                            </Storyboard>
+                            <ObjectAnimationUsingKeyFrames BeginTime="0:0:1" Duration="0:0:0.2" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0">
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <Visibility >Hidden</Visibility>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </MultiTrigger.EnterActions>
+                <MultiTrigger.ExitActions>
+                    <RemoveStoryboard BeginStoryboardName="Current1"/>
+                </MultiTrigger.ExitActions>
+            </MultiTrigger>
+
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="util:MediaControlExtension.IsMouseOverMediaElement" Value="True"/>
+                    <Condition Value="True"  Property="util:MediaControlExtension.CanAnimateControl"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.EnterActions>
+                    <BeginStoryboard x:Name="Current2">
+                        <Storyboard>
+                            <Storyboard>
+                                <DoubleAnimation Duration="0:0:1" To="1" Storyboard.TargetProperty="Opacity"/>
+
+                            </Storyboard>
+                            <ObjectAnimationUsingKeyFrames BeginTime="0:0:1" Duration="0:0:0.2" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0">
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <Visibility>Visible</Visibility>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </MultiTrigger.EnterActions>
+                <MultiTrigger.ExitActions>
+                    <RemoveStoryboard BeginStoryboardName="Current2"/>
+                </MultiTrigger.ExitActions>
+            </MultiTrigger>
+
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Value="False"  Property="util:MediaControlExtension.IsMouseOverMediaElement"/>
+                    <Condition Value="False"  Property="util:MediaControlExtension.CanAnimateControl"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.EnterActions>
+                    <BeginStoryboard x:Name="Current3">
+                        <Storyboard>
+                            <Storyboard>
+                                <DoubleAnimation Duration="0:0:1"  To="0" Storyboard.TargetProperty="Opacity"/>
+
+                            </Storyboard>
+                            <ObjectAnimationUsingKeyFrames BeginTime="0:0:1" Duration="0:0:0.2" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0">
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <Visibility >Collapsed</Visibility>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+
+                    </BeginStoryboard>
+                </MultiTrigger.EnterActions>
+                <MultiTrigger.ExitActions>
+                    <RemoveStoryboard BeginStoryboardName="Current3"/>
+                </MultiTrigger.ExitActions>
+            </MultiTrigger>
+
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Value="True"  Property="util:MediaControlExtension.IsMouseOverMediaElement"/>
+                    <Condition Value="False"  Property="util:MediaControlExtension.CanAnimateControl"/>
+                </MultiTrigger.Conditions>
+                <MultiTrigger.EnterActions>
+                    <BeginStoryboard x:Name="Current4">
+                        <Storyboard>
+                            <Storyboard>
+                                <DoubleAnimation Duration="0:0:1" To="1" Storyboard.TargetProperty="Opacity"/>
+
+                            </Storyboard>
+                            <ObjectAnimationUsingKeyFrames BeginTime="0:0:1" Duration="0:0:0.2" Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0">
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <Visibility >Visible</Visibility>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+
+                        </Storyboard>
+                    </BeginStoryboard>
+                </MultiTrigger.EnterActions>
+                <MultiTrigger.ExitActions>
+                    <RemoveStoryboard BeginStoryboardName="Current4"/>
+                </MultiTrigger.ExitActions>
+            </MultiTrigger>
+
+        </Style.Triggers>
     </Style>
 
-    <Style TargetType="{x:Type local:VolumeControl}">
-        <Setter Property="TextBlock.FontSize" Value="16"/>
-        <Setter Property="TextBlock.FontWeight" Value="Bold"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:VolumeControl}">
-                    <StackPanel Height="{TemplateBinding Height}" Orientation="Vertical" Opacity="{TemplateBinding Opacity}"
-                               Width="{TemplateBinding Width}" HorizontalAlignment="Center" 
-                                VerticalAlignment="Center">
-                        <DockPanel x:Name="textonly" Background="Transparent" Width="120" >
-                            <TextBlock x:Name="tb" Opacity="0.7" Padding="5"  SnapsToDevicePixels="True"
-                                       Text="{Binding ElementName=volslider,Path=Value, Converter={StaticResource VolumeTextConverter}}"/>
-                        </DockPanel>
-                        <DockPanel x:Name="showbtn" Visibility="Collapsed" Width="120" 
-                                   Background="Transparent">
-                            <!--<Button Command="{Binding Mute,Mode=TwoWay}" DockPanel.Dock="Right" Width="24" Style="{StaticResource ContentContainer}">
-                                <Image Opacity=".7" x:Name="contentPresenter"
-                                       Margin="2" Uid="sound-icone-4732-32.png" />
-                            </Button>-->
-                            <Slider Margin="2" Style="{StaticResource VolumeSliderStyle}" Value="100" 
-                                    x:Name="volslider" Maximum="200" Cursor="Hand"
-                                    SmallChange="0.1"/>
-                        </DockPanel>
-                    </StackPanel>
-
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Visibility" TargetName="showbtn" Value="Visible"/>
-                            <Setter Property="TextBlock.FontSize" Value="12"/>
-                            <Setter Property="TextBlock.TextAlignment" TargetName="tb" Value="Center"/>
-                        </Trigger>
-                        <!--<Trigger Property="IsMouseOver" Value="True">
-                            <Trigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="textonly" Duration="0:0:0.2" To="0" 
-                                                         Storyboard.TargetProperty="Width" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.EnterActions>
-                            <Trigger.ExitActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="textonly" Duration="0:0:0.2" To="120" 
-                                                         Storyboard.TargetProperty="Width" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.ExitActions>-->
-                            <!--<Setter TargetName="textonly" Property="Visibility" Value="Collapsed"/>
-                        </Trigger>-->
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style TargetType="{x:Type util:ProgressSlider}">
-        <Setter Property="AutoToolTipPrecision" Value="2"/>
-        <Setter Property="ToolTipService.BetweenShowDelay" Value="0"/>
-        <Setter Property="ToolTipService.InitialShowDelay" Value="0"/>
-        <Setter Property="ToolTipService.ShowDuration" Value="20000"/>
-        <Setter Property="IsEnabled" Value="True"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
-    </Style>
-
-   
 
 
 

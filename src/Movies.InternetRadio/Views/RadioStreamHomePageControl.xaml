@@ -4,8 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Movies.InternetRadio.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" Background="Black">
+             mc:Ignorable="d" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+             FocusManager.FocusedElement="{Binding ElementName=MediaPlayerElementRegion,Path=Content}"
+             BorderThickness="2" Margin="0,0,5,0" BorderBrush="{DynamicResource Theme.HighlightColor}"
+             d:DesignHeight="300" d:DesignWidth="300" Background="Black" MaxWidth="600">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -14,28 +16,59 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <DockPanel MaxHeight="200">
-        <Button  Width="30" DockPanel.Dock="Right" ToolTip="Close"  
-                 Height="30" VerticalAlignment="Top" Command="{Binding CloseMediaControl}" 
-                 HorizontalAlignment="Right" Margin="5">
-            <Button.Style>
-                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource CloseStyle}">
-                    <Setter Property="Background" Value="Transparent"/>
-                    <Setter Property="Foreground" Value="White"/>
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Background" Value="Red"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-        </Button>
-        <DockPanel Background="Black">
-            <ContentControl DockPanel.Dock="Left" HorizontalAlignment="Right" Content="{Binding RadioControl}"/>
-            <Grid>
+    <Grid MaxHeight="250">
+        <DockPanel Background="{DynamicResource Theme.Background}" LastChildFill="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid DockPanel.Dock="Top" HorizontalAlignment="Left" MaxHeight="150">
                 <ContentControl HorizontalAlignment="Right" Content="{Binding RadioStationDetails }"/>
                 <ContentControl x:Name="MediaControlRegion" Visibility="Hidden"/>
             </Grid>
+            <DockPanel DockPanel.Dock="Bottom">
+                <ContentControl x:Name="MediaPlayerElementRegion" Content="{Binding MediaPlayerElement}"/>
+            </DockPanel>
+            <WrapPanel Height="30" DockPanel.Dock="Bottom" TextBlock.Foreground="{DynamicResource Theme.Foreground}" Margin="10,0,00,0" Orientation="Horizontal" 
+                           VerticalAlignment="Center" HorizontalAlignment="Left" >
+                <WrapPanel.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Padding" Value="3"/>
+                        <Setter Property="FontSize" Value="14"/>
+                        <Setter Property="Margin" Value="0,0,0,0"/>
+                        <Setter Property="FontWeight" Value="SemiBold"/>
+                    </Style>
+                    <Style TargetType="Border">
+                        <Setter Property="BorderThickness" Value="0,0,0,0"/>
+                        <Setter Property="Margin" Value="1,02,0,0"/>
+                    </Style>
+                </WrapPanel.Resources>
+                <Border BorderBrush="Gray"  >
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding CurrentRadioStation.BitRate,StringFormat=BitRate: {0} kbps}"/>
+                    </StackPanel>
+                </Border>
+                <Border BorderBrush="Gray">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding CurrentRadioStation.AudioFormat,StringFormat=Format: {0}}"/>
+                    </StackPanel>
+                </Border>
+                <!--<Border BorderBrush="Gray" BorderThickness="1">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Sample rate: " Background="#FF008DC0"/>
+                    <TextBlock Text="44KHz"/>
+                </StackPanel>
+            </Border>-->
+                <Border BorderBrush="Gray"  >
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding CurrentRadioStation.Channels,StringFormat=CH: {0}}"/>
+                    </StackPanel>
+                </Border>
+
+            </WrapPanel>
+            
         </DockPanel>
-    </DockPanel>
+        <Button  Width="30" DockPanel.Dock="Right" ToolTip="Close"  
+                 Height="30" VerticalAlignment="Top" Command="{Binding CloseMediaControl}" 
+                 HorizontalAlignment="Right" Margin="5" Style="{StaticResource CloseButtonStyle}">
+        </Button>
+
+        <local:FavoriteButtonToggle HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5,10,70,5"/>
+    </Grid>
 </UserControl>

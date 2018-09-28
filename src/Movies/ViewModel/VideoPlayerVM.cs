@@ -3,12 +3,14 @@ using Common.Util;
 using MahApps.Metro.Controls;
 using MahApps.Metro.IconPacks;
 using Microsoft.Practices.Prism.Commands;
+using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Prism.ViewModel;
 using Microsoft.Practices.ServiceLocation;
 using Movies.Models.Interfaces;
 using Movies.Models.Model;
 using Movies.MoviesInterfaces;
 using Movies.Services;
+using Movies.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,67 +23,78 @@ using VideoComponent.BaseClass;
 
 namespace RealMediaControl.ViewModel
 {
-    public class VideoPlayerVM:NotificationObject
+    public class ShellWindowService:NotificationObject, IShellWindowService
     {
-        private Visibility windowscontrol;
         IApplicationService ApplicationService;
-        private double windowsheight;
-        private Visibility _Sliderthumb;
+        private IRegionManager RegionManager;
+        IDictionary<string, Object> _views;
+        private object currentview;
 
-        public Visibility WindowsControl
+        public object CurrentView
         {
-            get { return windowscontrol; }
-            set { windowscontrol = value; RaisePropertyChanged(() => this.WindowsControl); }
-        }
-     
-        public double WindowsHeight
-        {
-            get { return windowsheight; }
-            set { windowsheight = value; RaisePropertyChanged(() => this.WindowsHeight); }
-        }
-        
-        public Visibility Sliderthumb
-        {
-            get { return _Sliderthumb; }
-            set
-            {
-                _Sliderthumb = value;
-                this.RaisePropertyChanged(() => this.Sliderthumb);
-            }
+            get { return currentview; }
         }
 
-        public string Subtitletext { get; set; }
-
-        public void SetST(string sub)
+        public ShellWindowService(IApplicationService applicationService, IRegionManager regionManager)
         {
-            Subtitletext = sub;
-            this.RaisePropertyChanged(() => this.Subtitletext);
-            Sliderthumb = Visibility.Collapsed;
-        }
-        
-        public VideoPlayerVM(IApplicationService applicationService)
-        {
-            WindowsControl = Visibility.Visible;
             this.ApplicationService = applicationService;
+            this.RegionManager = regionManager;
+            _views = new Dictionary<string, object>();
+            this.AddView(new MainShellView(), typeof(MainShellView).Name);
         }
         
-        public void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            CommandActions CommandAction = new CommandActions(ApplicationService);
-            CommandAction.RegisterCommands();
-            (IShell as Window).Closing += VideoPlayerVM_Closing;
-        }
         
         private void VideoPlayerVM_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             ApplicationService.SaveFiles();
         }
 
-        private IShell IShell
+        public object GetView(string ViewName)
+        {
+            object view = null;
+            _views.TryGetValue(ViewName, out view);
+            return view;
+        }
+
+        public void OnWindowsLoaded()
+        {
+            CommandActions CommandAction = new CommandActions(ApplicationService);
+            CommandAction.RegisterCommands();
+            (ShellWindow as Window).Closing += VideoPlayerVM_Closing;
+        }
+
+        public void AddView(object view, string uniqueName)
+        {
+            if (!_views.ContainsKey(uniqueName))
+            {
+                _views.Add(uniqueName, view);
+                UpdateCurrentView();
+            }
+        }
+
+        public void RemoveView(object view)
+        {
+          //  _views.Remove(view);
+        }
+
+        public void RemoveView(string ViewName)
+        {
+            _views.Remove(ViewName);
+
+            UpdateCurrentView();
+        }
+
+        private void UpdateCurrentView()
+        {
+            currentview = _views.LastOrDefault().Value;
+            RaisePropertyChanged(() => this.CurrentView);
+        }
+
+        public MetroWindow ShellWindow
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<IShell>();
+                return ServiceLocator.Current.GetInstance<IShellWindow>() as MetroWindow;
             }
         }
     }

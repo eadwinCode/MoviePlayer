@@ -7,10 +7,11 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.Serialization;
+using System.Windows;
 
 namespace Movies.Models.Model
 {
-    public class VideoFolder : IFolder, INotifyPropertyChanged, IDisposable
+    public class VideoFolder :  IFolder, INotifyPropertyChanged, IDisposable
     {
         private int childcount;
         private string filepath;
@@ -102,9 +103,14 @@ namespace Movies.Models.Model
             get { return Directory.Name; }
         }
 
-        public string CreationDate
+        //public string CreationDate
+        //{
+        //    get { return this.FileInfo.CreationTime.Date.ToString("MM/dd/yy"); }
+        //}
+
+        public DateTime CreationDate
         {
-            get { return this.FileInfo.CreationTime.Date.ToString("MM/dd/yy"); }
+            get { return FileInfo.CreationTime; }
         }
 
         public ObservableCollection<VideoFolder> OtherFiles
@@ -144,10 +150,9 @@ namespace Movies.Models.Model
             }
         }
 
-        public virtual FileType FileType
+        public virtual GroupCatergory FileType
         {
-            get;
-            set;
+            get { return GroupCatergory.Grouped; }
         }
         
         public string FileName

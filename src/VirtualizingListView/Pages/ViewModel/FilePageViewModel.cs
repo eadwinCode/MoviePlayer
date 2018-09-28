@@ -18,6 +18,7 @@ using VirtualizingListView.Pages.Util;
 using Microsoft.Practices.ServiceLocation;
 using PresentationExtension.InterFaces;
 using System.Windows.Threading;
+using System.Linq;
 
 namespace VirtualizingListView.Pages.ViewModel
 
@@ -49,6 +50,7 @@ namespace VirtualizingListView.Pages.ViewModel
                 return ServiceLocator.Current.GetInstance<IApplicationService>();
             }
         }
+
         IFileLoaderCompletion LoaderCompletion
         {
             get
@@ -56,14 +58,16 @@ namespace VirtualizingListView.Pages.ViewModel
                 return ServiceLocator.Current.GetInstance<IFileLoaderCompletion>();
             }
         }
-        IFileLoader fileLoader
+
+        IFileLoader FileLoader
         {
             get
             {
                 return ServiceLocator.Current.GetInstance<IFileLoader>();
             }
         }
-        IOpenFileCaller openFileCaller
+
+        IOpenFileCaller OpenFileCaller
         {
             get
             {
@@ -221,7 +225,7 @@ namespace VirtualizingListView.Pages.ViewModel
         private VideoFolder GetVideoFolder(VideoFolder obj)
         {
             if (obj.HasCompleteLoad) return obj;
-            return fileLoader.LoadParentFiles(obj, ActiveSortType);
+            return FileLoader.LoadParentFiles(obj, ActiveSortType);
         }
 
         private void UpdateViewCollection()
@@ -263,7 +267,7 @@ namespace VirtualizingListView.Pages.ViewModel
         {
             if (CurrentVideoFolder == null || CurrentVideoFolder.SortedBy == ActiveSortType) return;
 
-            CurrentVideoFolder = fileLoader.SortList(ActiveSortType, CurrentVideoFolder);
+            CurrentVideoFolder = FileLoader.SortList(ActiveSortType, CurrentVideoFolder);
             RaisePropertyChanged(() => this.VideoItemViewCollection);
         }
 
@@ -272,12 +276,12 @@ namespace VirtualizingListView.Pages.ViewModel
             VideoFolder videoFolder = (VideoFolder)obj;
             if (videoFolder.Exists)
             {
-                if (videoFolder.FileType == FileType.Folder)
+                if (videoFolder.FileType == GroupCatergory.Grouped)
                 {
                     this.navigationService.Navigate(new FilePageView(this.navigationService), obj);
                 }
                 else
-                    openFileCaller.Open(videoFolder as IVideoData);
+                    OpenFileCaller.Open(videoFolder as IPlayable, CurrentVideoFolder.OtherFiles.OfType<IPlayable>());
             }
             else
             {

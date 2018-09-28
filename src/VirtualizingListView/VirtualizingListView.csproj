@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -109,7 +109,6 @@
     <Compile Include="NavigationConverter.cs" />
     <Compile Include="OtherFiles\CustomItemProvider.cs" />
     <Compile Include="OtherFiles\DoubleClick.cs" />
-    <Compile Include="OtherFiles\GroupSort.cs" />
     <Compile Include="OtherFiles\HeaderImageConverter.cs" />
     <Compile Include="OtherFiles\itemListSelector.cs" />
     <Compile Include="OtherFiles\MoreTemplateSelector.cs" />
@@ -155,6 +154,7 @@
     <Compile Include="View\PageNavigator.xaml.cs">
       <DependentUpon>PageNavigator.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\PageNavigatorHost.cs" />
     <Compile Include="VirtualizingCollection.cs" />
     <Compile Include="VirtualPanel\VirtualStackPanel.cs" />
     <Compile Include="VirtualPanel\VirtualWrapPanel.cs" />

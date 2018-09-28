@@ -17,7 +17,7 @@ namespace VirtualizingListView
         {
             VideoFolder itm = item as VideoFolder;
             if (itm == null) return item as DataTemplate;
-            if (itm.FileType == FileType.Folder)
+            if (itm.FileType == GroupCatergory.Grouped)
             {
                 return ((FrameworkElement)container).FindResource("FolderSmallTemplate") as DataTemplate;
             }

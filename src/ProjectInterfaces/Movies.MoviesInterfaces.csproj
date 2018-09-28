@@ -33,6 +33,9 @@
     <Reference Include="Delimon.Win32.IO">
       <HintPath>..\Libraries\Delimon.Win32.IO.dll</HintPath>
     </Reference>
+    <Reference Include="MahApps.Metro">
+      <HintPath>..\Libraries\MahApps.Metro.1.6.0\lib\net40\MahApps.Metro.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\Libraries\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
@@ -78,10 +81,6 @@
     <ProjectReference Include="..\Movies.Enums\Movies.Enums.csproj">
       <Project>{0824A682-F34D-456B-8B0B-22FF40FEAE33}</Project>
       <Name>Movies.Enums</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Movies.MediaService\Movies.MediaService.csproj">
-      <Project>{b6faa2de-b0a4-4db9-9532-e6059788598a}</Project>
-      <Name>Movies.MediaService</Name>
     </ProjectReference>
     <ProjectReference Include="..\Movies.Models\Movies.Models.csproj">
       <Project>{12CE1E5D-1E2D-4FE8-8084-B5E334CD54CD}</Project>

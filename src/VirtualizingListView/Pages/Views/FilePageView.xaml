@@ -13,8 +13,7 @@
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/VirtualizingListView;component/Resources/ViewStyle.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/VirtualizingListView;component/Resources/Items.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/VirtualizingListView;component/Themes/Generic.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <Style x:Key="lvStyle" TargetType="{x:Type ListView}">
@@ -137,7 +136,10 @@
                             </TransformGroup>
                         </Path.RenderTransform>
                     </Path>
-                    <TextBlock Text="{Binding CurrentVideoFolder.Name}" VerticalAlignment="Center"   TextTrimming="CharacterEllipsis" FontSize="22" Padding="5" FontWeight="Light" Foreground="{DynamicResource Theme.Foreground}"/>
+                    <TextBlock Text="{Binding CurrentVideoFolder.Name}"
+                               VerticalAlignment="Center"   TextTrimming="CharacterEllipsis" 
+                               FontSize="22" Padding="5" FontWeight="Light"
+                               Foreground="{DynamicResource Theme.Foreground}"/>
             </DockPanel>
         </Border>
             <DockPanel DockPanel.Dock="Top"  
@@ -156,7 +158,8 @@
                                    Padding="3" Foreground="{DynamicResource Theme.HighlightColor}"
                                    FontSize="15" Cursor="Hand"/>
                         <presentationlib:ContextButton.ShowContextOnClick>
-                            <ContextMenu ClipToBounds="True" ContextMenuService.ShowOnDisabled="True"  ContextMenuService.HasDropShadow="True" StaysOpen="True" >
+                            <ContextMenu ClipToBounds="True" ContextMenuService.ShowOnDisabled="True" 
+                                         ContextMenuService.HasDropShadow="True" StaysOpen="False" >
                                 <ContextMenu.Template>
                                     <ControlTemplate>
                                         <ListView Background="Black" Width="145"  
@@ -190,7 +193,8 @@
                     <TextBlock Text="{Binding ActiveViewType,UpdateSourceTrigger=PropertyChanged}" 
                                Padding="3" Foreground="{DynamicResource Theme.HighlightColor}" FontSize="15" Cursor="Hand"/>
                         <presentationlib:ContextButton.ShowContextOnClick>
-                        <ContextMenu ClipToBounds="True" ContextMenuService.ShowOnDisabled="True"  ContextMenuService.HasDropShadow="True" StaysOpen="True" >
+                        <ContextMenu ClipToBounds="True" ContextMenuService.ShowOnDisabled="True"  
+                                     ContextMenuService.HasDropShadow="True" StaysOpen="True">
                             <ContextMenu.Template>
                                 <ControlTemplate>
                                     <ListView Background="Black" Width="145"  

@@ -1,4 +1,4 @@
-﻿using Delimon.Win32.IO;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             using Delimon.Win32.IO;
 using Microsoft.Practices.ServiceLocation;
 using Movies.Models.Interfaces;
 using Movies.Models.Model;
@@ -12,7 +12,7 @@ using Common.ApplicationCommands;
 namespace Movies.Models.Model
 {
 
-    public class VideoFolderChild : VideoFolder, IVideoData, IComparable<VideoFolderChild>,IEquatable<VideoFolderChild>
+    public class VideoFolderChild : VideoFolder, IVideoData,IPlayable, IComparable<VideoFolderChild>,IEquatable<VideoFolderChild>
     {
         private string duration = ApplicationDummyMessage.DurationNotYetLoaded;
         private ObservableCollection<string> subpath;
@@ -52,6 +52,11 @@ namespace Movies.Models.Model
         public VideoFolderChild(IFolder ParentDir, FileInfo fileinfo)
             : this(ParentDir, fileinfo.FullName)
         {
+        }
+
+        public override GroupCatergory FileType
+        {
+            get { return GroupCatergory.Child; }
         }
 
         public double Progress
@@ -108,7 +113,7 @@ namespace Movies.Models.Model
         {
             get
             {
-                if (this.FileType == FileType.Folder)
+                if (this.FileType == GroupCatergory.Grouped)
                 {
                     return Visibility.Collapsed;  
                 }
@@ -220,7 +225,7 @@ namespace Movies.Models.Model
             {
                 return this.Name.CompareTo(other.Name);
             }
-            else if (this.FileType == FileType.Folder)
+            else if (this.FileType == GroupCatergory.Grouped)
             {
                 return -1;
             }
@@ -293,6 +298,11 @@ namespace Movies.Models.Model
             RaisePropertyChangedEvent("Duration");
         }
 
+        public void SetProgress()
+        {
+            this.LastPlayedPoisition.ProgressLastSeen = this.progress;
+        }
+
         public string TooltipMessage{
             get
             {
@@ -323,6 +333,10 @@ namespace Movies.Models.Model
                 UpdateProperties();
             }
         }
-        
+
+        public Uri Url
+        {
+            get { return new Uri(FilePath); }
+        }
     }
-}
+}                                                                                                                                                                                                                                         

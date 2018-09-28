@@ -1,0 +1,16 @@
+﻿<modelUtil:MovieBase x:Class="Movies.InternetRadio.Views.EditStationGroup"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:modelUtil="clr-namespace:Movies.Models.Model;assembly=Movies.Models"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Movies.InternetRadio.Views"
+             mc:Ignorable="d" Foreground="White"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <DockPanel VerticalAlignment="Top" Margin="5">
+        <DockPanel TextBlock.FontSize="13">
+            <TextBlock Text="Enter group Name:" DockPanel.Dock="Top" Padding="3"/>
+            <TextBox FontSize="14" FontWeight="DemiBold" Text="{Binding CurrentRadioStation.RadioName}" Padding="2"/>
+        </DockPanel>
+    </DockPanel>
+</modelUtil:MovieBase>

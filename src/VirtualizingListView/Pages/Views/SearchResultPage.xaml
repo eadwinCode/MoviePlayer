@@ -11,15 +11,12 @@
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/VirtualizingListView;component/Resources/ViewStyle.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/VirtualizingListView;component/Resources/Items.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/VirtualizingListView;component/Themes/Generic.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-       
-        <xv:GroupSort x:Key="GroupSort" />
 
-        <CollectionViewSource x:Key="SearchResultVideoData" Source="{Binding SearchResults}">
+            <CollectionViewSource x:Key="SearchResultVideoData" Source="{Binding SearchResults}">
             <CollectionViewSource.GroupDescriptions>
-                <PropertyGroupDescription  Converter="{StaticResource GroupSort}" />
+                <PropertyGroupDescription  Converter="{DynamicResource GroupSort}" />
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
         </ResourceDictionary>

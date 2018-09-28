@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using VideoPlayerControl.ViewModel;
+using MovieHub.MediaPlayerElement.ViewModel;
 
 namespace VideoPlayerView.Util
 {

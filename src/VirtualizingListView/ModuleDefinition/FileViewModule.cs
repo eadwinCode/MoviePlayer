@@ -29,9 +29,9 @@ namespace VirtualizingListView.ModuleDefinition
 
         private void RegisterServices()
         {
-            this.unityContainer.RegisterType<IPageNavigatorHost, FileView>(new ContainerControlledLifetimeManager());
-            FileView fileView = unityContainer.Resolve<IPageNavigatorHost>() as FileView;
-            this.unityContainer.RegisterInstance(fileView.PageNavigator);
+            this.unityContainer.RegisterType<IPageNavigatorHost, PageNavigatorHost>(new ContainerControlledLifetimeManager());
+            PageNavigatorHost pagenavigatorhost = unityContainer.Resolve<IPageNavigatorHost>() as PageNavigatorHost;
+            this.unityContainer.RegisterInstance(pagenavigatorhost.PageNavigator);
             this.regionManager.RegisterViewWithRegion(ApplicationRegion.MAINREGION,
                 ()=>unityContainer.Resolve<IPageNavigatorHost>());
             

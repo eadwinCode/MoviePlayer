@@ -27,7 +27,7 @@ namespace Movies.MoviePlaylistManager.Views
         IMediaControllerViewModel MediaControllerViewModel;
         private bool IsRegisteredCommand;
 
-        public PlaylistView(IMediaControllerViewModel IMediaControllerViewModel, IPlaylistManagerViewModel playlistManagerViewModel)
+        public PlaylistView(IMediaControllerViewModel IMediaControllerViewModel, IPlaylistManager playlistManagerViewModel)
         {
             InitializeComponent();
             this.DataContext = playlistManagerViewModel;
@@ -37,7 +37,7 @@ namespace Movies.MoviePlaylistManager.Views
 
         void PlaylistView_Loaded(object sender, RoutedEventArgs e)
         {
-            var datacontext = this.DataContext as PlaylistManagerViewModel;
+            var datacontext = this.DataContext as PlaylistManager;
             datacontext.PlaylistViewLoaded();
         }
 
@@ -45,7 +45,7 @@ namespace Movies.MoviePlaylistManager.Views
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var vm = this.DataContext as PlaylistManagerViewModel;
+            var vm = this.DataContext as PlaylistManager;
             if (OnPlaylistClose != null)
             {
                 OnPlaylistClose.Invoke(sender, null);
@@ -72,7 +72,7 @@ namespace Movies.MoviePlaylistManager.Views
                     {
                         if (item.FileType == FileType.File)
                         {
-                            (this.DataContext as PlaylistManagerViewModel).Add(item);
+                            (this.DataContext as PlaylistManager).Add(item);
                             if (!hasfiles)
                             {
                                 hasfiles = true;
@@ -87,7 +87,7 @@ namespace Movies.MoviePlaylistManager.Views
                 }
                 else
                 {
-                    (this.DataContext as PlaylistManagerViewModel).Add(vf);
+                    (this.DataContext as PlaylistManager).Add(vf);
                 }
             }
         }
@@ -99,7 +99,7 @@ namespace Movies.MoviePlaylistManager.Views
             if (Keyboard.IsKeyDown(Key.LeftCtrl) ||
                 Keyboard.IsKeyDown(Key.RightCtrl))
             {
-                (MediaControllerViewModel.IVideoElement.IVideoPlayerController as UserControl).Focus();
+                (MediaControllerViewModel.IVideoElement.MediaController as UserControl).Focus();
                 return;
             }
            (MediaControllerViewModel.IVideoElement as Window).Focus();
@@ -108,8 +108,6 @@ namespace Movies.MoviePlaylistManager.Views
         protected override void OnKeyDown(KeyEventArgs e)
         {
             base.OnKeyDown(e);
-            
-            
         }
 
         protected override void OnMouseDoubleClick(MouseButtonEventArgs e)

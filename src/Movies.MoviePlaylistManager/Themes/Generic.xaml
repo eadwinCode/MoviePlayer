@@ -73,4 +73,180 @@
 
         </DataTemplate.Triggers>
     </DataTemplate>
+
+    <ControlTemplate x:Key="PlaylistControl" TargetType="local:MoviesPlaylistManager">
+        <Border Background="Transparent"  BorderBrush="#FF364E6F" BorderThickness="1,0,0,0">
+            <DockPanel LastChildFill="True">
+
+                <DockPanel Margin="0" Background="SeaGreen" Height="35" DockPanel.Dock="Top" Grid.Row="0" LastChildFill="True">
+                    <Button DockPanel.Dock="Right"  Width="30" ToolTip="Close Playlist" Command="{x:Static local:MoviesPlaylistManager.ClosePlaylistDialog }">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource CloseStyle}">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="Focusable" Value="False"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="true">
+                                        <Setter Property="Background" Value="Red"/>
+                                        <Setter Property="TextBlock.Foreground" Value="White"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    
+                    <Button ToolTip="Clear Playlist" DockPanel.Dock="Right" 
+                            Content="Clear Playlist" Margin="1,0,10,0" Height="20" x:Name="claerplaylist" 
+                            Command="{x:Static local:MoviesPlaylistManager.ClearPlaylist}">
+                        <Button.Style>
+                            <Style TargetType="Button" >
+                                <Setter Property="Focusable" Value="False"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border CornerRadius="16" SnapsToDevicePixels="True" x:Name="border"  Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                                                <!--Source="/VirtualizingListView;component/Resources/Images/clear.png"-->
+                                                <Image Opacity=".7" x:Name="contentPresenter" Uid="clear.png"  />
+
+                                            </Border>
+
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsDefaulted" Value="true">
+                                                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                                </Trigger>
+                                                <Trigger Property="IsMouseOver" Value="true">
+                                                    <Setter Property="Opacity" TargetName="contentPresenter" Value="1"/>
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="true">
+                                                    <Setter Property="LayoutTransform" >
+                                                        <Setter.Value>
+                                                            <ScaleTransform ScaleX=".9" ScaleY="0.9"/>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                                                </Trigger>
+                                                <Trigger Property="IsEnabled" Value="false">
+                                                    <Setter Property="Opacity" TargetName="contentPresenter" Value=".3"/>
+                                                    <!--<Setter Property="Background" TargetName="border" Value="#FF18170D"/>
+                                                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>-->
+                                                    <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
+                    <Button DockPanel.Dock="Right" ToolTip="Save Playlist" 
+                        Height="20" Margin="0,0,5,0" Command="{x:Static local:MoviesPlaylistManager.EnableSaveDialog}">
+                        <Button.Style>
+                            <Style TargetType="Button" >
+                                <Setter Property="Focusable" Value="False"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border CornerRadius="16" SnapsToDevicePixels="True" x:Name="border"  Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                                                <!--Source="/VirtualizingListView;component/Resources/Images/save-file-option.png"-->
+                                                <Image Opacity=".7" Margin="2" 
+                                                   Uid="save-file-option.png" x:Name="contentPresenter"  />
+
+                                            </Border>
+
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsDefaulted" Value="true">
+                                                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                                </Trigger>
+                                                <Trigger Property="IsMouseOver" Value="true">
+                                                    <Setter Property="Opacity" TargetName="contentPresenter" Value="1"/>
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="true">
+                                                    <Setter Property="LayoutTransform" >
+                                                        <Setter.Value>
+                                                            <ScaleTransform ScaleX=".9" ScaleY="0.9"/>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                                                </Trigger>
+                                                <Trigger Property="IsEnabled" Value="false">
+                                                    <Setter Property="Opacity" TargetName="contentPresenter" Value=".3"/>
+                                                    <!--<Setter Property="Background" TargetName="border" Value="#FF18170D"/>
+                                                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>-->
+                                                    <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
+                    <DockPanel Background="Transparent"  TextBlock.Foreground="White">
+                        <!--<TextBlock Text="PlayList - " Foreground="White" Padding="5"/>-->
+
+                        <TextBlock Text="*" HorizontalAlignment="Left" Background="Transparent"
+                               DockPanel.Dock="Right" Height="25" FontSize="24" FontWeight="Bold" 
+                               Opacity="0">
+                            <TextBlock.Style>
+                                <Style >
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding HasChanges}" Value="true">
+                                            <DataTrigger.EnterActions>
+                                                <BeginStoryboard >
+                                                    <Storyboard>
+                                                        <DoubleAnimation Duration="0:0:0.2" To="1" Storyboard.TargetProperty="Opacity"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </DataTrigger.EnterActions>
+                                            <DataTrigger.ExitActions>
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation Duration="0:0:0.2" To="0" Storyboard.TargetProperty="Opacity"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </DataTrigger.ExitActions>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <TextBlock Background="Transparent"  Text="{Binding PlaylistName}" Padding="5"  
+                                   FontStyle="Italic" TextTrimming="CharacterEllipsis"/>
+                    </DockPanel>
+                </DockPanel>
+
+                <StackPanel DockPanel.Dock="Top"  Orientation="Horizontal" HorizontalAlignment="Right" Margin="3">
+                    <TextBlock Text="Sort by:" Padding="3" VerticalAlignment="Center" Foreground="White"/>
+                    <Button Content="{Binding SortedName,FallbackValue=-Custom-}" Width="80" Margin="0,0,10,0" Height="25"  Click="Button_Click_1" Style="{StaticResource MoviesButton}">
+                        <Button.ContextMenu>
+                            <ContextMenu Placement="Bottom">
+                                <MenuItem Header="Date" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}" 
+                                      Command="{x:Static local:MoviesPlaylistManager.DateSortCommand}"/>
+                                <Separator/>
+                                <MenuItem Header="Name" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"
+                                      Command="{x:Static local:MoviesPlaylistManager.NameSortCommand}"/>
+                                <Separator/>
+                                <MenuItem Header="Extension" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"
+                                      Command="{x:Static local:MoviesPlaylistManager.ExtSortCommand}"/>
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
+                </StackPanel>
+
+                <ListView Margin="2" Grid.Row="2" SelectionMode="Single" 
+                          Style="{StaticResource CustomlistViewControl}"
+                          BorderBrush="Transparent" BorderThickness="0" 
+                          ItemsSource="{Binding PlayListCollection}" 
+                          ItemTemplate="{StaticResource PLayListTemplate}" 
+                          ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          ItemContainerStyle="{StaticResource CustomContainerStyle}"
+                          Background="Transparent">
+                </ListView>
+
+            </DockPanel>
+        </Border>
+    </ControlTemplate>
 </ResourceDictionary>

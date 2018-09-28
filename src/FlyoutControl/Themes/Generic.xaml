@@ -78,7 +78,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:Flyout}">
-                    <DockPanel>
+                    <DockPanel x:Name="FlyoutPanel">
                         <DockPanel DockPanel.Dock="Left">
                             <StackPanel x:Name="SubItemPanel" DockPanel.Dock="Left"
                                         Background="Transparent"

@@ -1,0 +1,122 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+     xmlns:plylistmanager="clr-namespace:Movies.MoviePlaylistManager.Views;assembly=Movies.MoviePlaylistManager"
+    xmlns:util="clr-namespace:Common.Util;assembly=Common"
+    xmlns:local="clr-namespace:MovieHub.MediaPlayerElement">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MovieHub.MediaPlayerElement;component/Themes/MovieControlTemplate.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    
+    <ContextMenu x:Key="MediaPlayerElementContextMenu">
+        <MenuItem Header="TopMost" IsCheckable="True"
+                          Command="{x:Static  local:MovieControl.TopMost}">
+        </MenuItem>
+        <MenuItem Header="Allow AutoResize" IsCheckable="True" IsChecked="True"
+                          Command="{x:Static local:MovieControl.ResizeMediaAlways}"/>
+
+        <MenuItem Header="UseLargeControlView" IsCheckable="True" IsChecked="False"
+                          Command="{x:Static local:MovieControl.ControlViewChangeCommand}"/>
+
+        <MenuItem Header="Close MediaPlayer" IsCheckable="False"
+                          Command="{x:Static local:MovieControl.CloseMediaWindow}"/>
+    </ContextMenu>
+
+    <ControlTemplate x:Key="DefaultPlayerTemplate" TargetType="local:MediaPlayerElement">
+        <Grid Background="{TemplateBinding Background}" ContextMenuService.IsEnabled="{Binding IsMediaContextMenuEnabled, RelativeSource={RelativeSource AncestorType=local:MediaPlayerElement}}" 
+                          ContextMenu="{StaticResource MediaPlayerElementContextMenu}">
+            <DockPanel>
+                <DockPanel LastChildFill="True" Grid.Column="0">
+                    <Grid>
+                        <ContentControl x:Name="MediaElementRegion" 
+                                                Grid.Column="1" AllowDrop="True"  
+                                                Margin="0,0,0,0" />
+                        <DockPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
+                            <ContentControl x:Name="PlaylistRegion" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                            Grid.Column="1" DockPanel.Dock="Top" Margin="10,0,5,0" Visibility="Visible"/>
+                            <ContentControl x:Name="MediaControlRegion" 
+                                                VerticalAlignment="Bottom"/>
+                        </DockPanel>
+                        <!--<Button DockPanel.Dock="Right"  Width="40" Height="30"  
+                                            Visibility="{Binding IsCloseButtonVisible, 
+                                        RelativeSource={RelativeSource AncestorType=local:MediaPlayerElement},Converter={StaticResource BooleanToVisibilityConverter}}"  
+                                            HorizontalAlignment="Right" ToolTip="Close"   VerticalAlignment="Top" 
+                                           >
+                                        <Button.Style>
+                                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource CloseStyle}">
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Setter Property="Foreground" Value="White"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="true">
+                                                        <Setter Property="Background" Value="Red"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>-->
+                    </Grid>
+                </DockPanel>
+            </DockPanel>
+            <Button VerticalAlignment="Top" HorizontalAlignment="Left" 
+                                Width="100" Height="100" 
+                                Visibility="{Binding IsCloseButtonVisible, 
+                                        RelativeSource={RelativeSource AncestorType=local:MediaPlayerElement},Converter={StaticResource BooleanToVisibilityConverter}}"  
+                                Command="{x:Static local:MovieControl.CloseMediaWindow}" 
+                                BorderThickness="0" BorderBrush="Transparent" 
+                                Style="{StaticResource zerobtnstyle}" />
+            <ContentControl x:Name="ContentDockRegion"  Grid.Column="1"   Visibility="Visible"
+                                    DockPanel.Dock="Right" Margin="0,0,0,0" />
+        </Grid>
+        <ControlTemplate.Resources>
+
+        </ControlTemplate.Resources>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="MiniPlayerTemplate" TargetType="local:MediaPlayerElement">
+        <Grid Background="{TemplateBinding Background}" ContextMenuService.IsEnabled="{Binding IsMediaContextMenuEnabled, RelativeSource={RelativeSource AncestorType=local:MediaPlayerElement}}" 
+                          ContextMenu="{StaticResource MediaPlayerElementContextMenu}">
+            <DockPanel>
+                <DockPanel LastChildFill="True" Grid.Column="0">
+                    <DockPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
+                            <ContentControl x:Name="PlaylistRegion" Visibility="Collapsed" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Grid.Column="1" 
+                                            DockPanel.Dock="Top" Margin="10,0,5,0" />
+                            <ContentControl x:Name="MediaControlRegion" 
+                                                VerticalAlignment="Bottom"/>
+                        </DockPanel>
+                        <ContentControl x:Name="MediaElementRegion" 
+                                                Grid.Column="1" AllowDrop="True"  
+                                                Margin="0,0,0,0" />
+                </DockPanel>
+            </DockPanel>
+            <Button VerticalAlignment="Top" HorizontalAlignment="Left" 
+                                Width="100" Height="100" 
+                                Visibility="{Binding IsCloseButtonVisible, 
+                                        RelativeSource={RelativeSource AncestorType=local:MediaPlayerElement},Converter={StaticResource BooleanToVisibilityConverter}}"  
+                                Command="{x:Static local:MovieControl.CloseMediaWindow}" 
+                                BorderThickness="0" BorderBrush="Transparent" 
+                                Style="{StaticResource zerobtnstyle}" />
+            <Grid Visibility="Collapsed" DockPanel.Dock="Right">
+                <ContentControl x:Name="ContentDockRegion"  Grid.Column="1"  
+                                     Margin="0,0,0,0"/>
+            </Grid>
+            
+        </Grid>
+        <ControlTemplate.Resources>
+
+        </ControlTemplate.Resources>
+    </ControlTemplate>
+    
+    <Style TargetType="{ x:Type local:MediaPlayerElement}">
+        <Setter Property="Background" Value="Black"/>
+        <Setter Property="Template" Value="{StaticResource DefaultPlayerTemplate}"/>
+
+        <!--<Style.Triggers>
+            <Trigger Property="local:MediaPlayerElement.MediaPlayerView" Value="MiniMediaPanel">
+                <Setter Property="Template" Value="{StaticResource MiniPlayerTemplate}"/>
+            </Trigger>
+        </Style.Triggers>-->
+    </Style>
+
+
+   
+</ResourceDictionary>

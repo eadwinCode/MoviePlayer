@@ -1,7 +1,7 @@
 ﻿using Microsoft.Practices.Prism.ViewModel;
 using Microsoft.Practices.ServiceLocation;
-using Movies.MediaService.Interfaces;
-using Movies.MediaService.Models;
+using MovieHub.MediaPlayerElement.Interfaces;
+using MovieHub.MediaPlayerElement.Models;
 using Movies.MoviesInterfaces;
 using System;
 using System.Collections.Generic;
@@ -14,9 +14,11 @@ namespace VideoPlayerControl.ViewModel
     public class MediaMenuViewModel:NotificationObject
     {
         MediaMenu MediaMenu;
+        IMediaPlayerService MediaPlayerService;
 
-        public MediaMenuViewModel()
+        public MediaMenuViewModel(IMediaPlayerService mediaplayerservice)
         {
+            this.MediaPlayerService = mediaplayerservice;
             MediaPlayerService.OnSubItemAdded += MediaPlayerService_SubItemChanged;
         }
 
@@ -65,13 +67,6 @@ namespace VideoPlayerControl.ViewModel
             get
             {
                 return (MediaPlayerService.SubtitleManagement.SubtitleList);
-            }
-        }
-        IMediaPlayerService MediaPlayerService
-        {
-            get
-            {
-                return FilePlayerManager.MediaPlayerService;
             }
         }
 

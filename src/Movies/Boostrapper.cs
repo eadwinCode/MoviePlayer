@@ -15,6 +15,7 @@ using Microsoft.Practices.Prism.Logging;
 using PresentationExtension.EventManager;
 using PresentationExtension.InterFaces;
 using Movies.Themes.Service;
+using RealMediaControl.ViewModel;
 
 namespace RealMediaControl
 {
@@ -50,7 +51,8 @@ namespace RealMediaControl
 
         protected override void ConfigureContainer()
         {
-            this.Container.RegisterType<IShell, MainView>(new ContainerControlledLifetimeManager());
+            this.Container.RegisterType<IShellWindowService, ShellWindowService>(new ContainerControlledLifetimeManager());
+            this.Container.RegisterType<IShellWindow, MainView>(new ContainerControlledLifetimeManager());
             base.ConfigureContainer();
             this.Container.RegisterType<IEventManager, MovieEventManager>(new ContainerControlledLifetimeManager());
         }
@@ -64,7 +66,7 @@ namespace RealMediaControl
             thememodule.Initialize();
             base.InitializeModules();
             
-            var shell = this.Container.Resolve<IShell>() as MainView;
+            var shell = this.Container.Resolve<IShellWindow>() as MainView;
             shell.Dispatcher.BeginInvoke((Action)delegate
             {
                 //shell.Show();

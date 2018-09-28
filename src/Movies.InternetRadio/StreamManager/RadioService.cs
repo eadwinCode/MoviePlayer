@@ -1,4 +1,5 @@
-﻿using Movies.InternetRadio.ViewModels;
+﻿using Microsoft.Practices.ServiceLocation;
+using Movies.InternetRadio.ViewModels;
 using Movies.InternetRadio.Views;
 using Movies.Models.Model;
 using Movies.MoviesInterfaces;
@@ -7,25 +8,39 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using VideoPlayerView;
+using System.Windows;
 
 namespace Movies.InternetRadio.StreamManager
 {
-    public class RadioService : IRadioService
+    internal class RadioService : IRadioService
     {
-        RadioStreamingElementViewModel radioStreamingElement;
+        RadioPlayer radioplayer;
         private bool isradioon = false;
         IPlayFile fileplayermanager;
         IMainPage radiohomepage;
+        internal IDispatcherService _idispatcherService;
 
         public bool IsRadioOn { get { return isradioon; } }
         public IPlayFile FileplayerManager { get { return fileplayermanager; } }
         public IMainPage RadioHomepage { get { return radiohomepage; } }
-        
-        public RadioService(IPlayFile fileplayermanager)
+
+        private IShellWindow IShell
+        {
+            get { return ServiceLocator.Current.GetInstance<IShellWindow>(); }
+        }
+
+        public RadioService(IPlayFile fileplayermanager,IDispatcherService dispatcherService)
         {
             this.fileplayermanager = fileplayermanager;
             radiohomepage = new RadioHomepage();
+            _idispatcherService = dispatcherService;
+
+            (IShell as Window).Closing += RadioService_Closing;
+        }
+
+        private void RadioService_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            ShutdownRadio();
         }
 
         public void PlayRadio(RadioModel radioModel)
@@ -34,24 +49,24 @@ namespace Movies.InternetRadio.StreamManager
                 FileplayerManager.ShutDownMediaPlayer();
 
             InitRadioPlayer();
-            radioStreamingElement.PlayStation(radioModel);
+            radioplayer.PlayStation(radioModel);
             isradioon = true;
         }
 
         private void InitRadioPlayer()
         {
-            if(radioStreamingElement == null)
+            if(radioplayer == null)
             {
-                radioStreamingElement = new RadioStreamingElementViewModel();
-                radioStreamingElement.HostViewInHomePage();
+                radioplayer = new RadioPlayer();
+                radioplayer.HostViewInHomePage();
             }
         }
 
         public void ShutdownRadio()
         {
-            if (radioStreamingElement != null)
-                radioStreamingElement.Shutdown();
-            radioStreamingElement = null;
+            if (radioplayer != null)
+                radioplayer.Shutdown();
+            radioplayer = null;
             isradioon = false;
         }
     }

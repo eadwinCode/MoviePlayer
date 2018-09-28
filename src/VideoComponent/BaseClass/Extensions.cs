@@ -9,11 +9,11 @@ namespace VideoComponent.BaseClass
     public static class Extensions
     {
 
-        public static void AddRange<T>(this ObservableCollection<T> oc, IEnumerable<T> collection)
-        {
-            if (collection == null) { throw new ArgumentNullException("collection"); }
-            foreach (var i in collection) { oc.Add(i); }
-        }
+        //public static void AddRange<T>(this ObservableCollection<T> oc, IEnumerable<T> collection)
+        //{
+        //    if (collection == null) { throw new ArgumentNullException("collection"); }
+        //    foreach (var i in collection) { oc.Add(i); }
+        //}
 
         public static void Sort<T>(this ObservableCollection<T> observable) where T : IComparable<T>, IEquatable<T>
         {

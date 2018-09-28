@@ -21,188 +21,8 @@ using System.Windows.Threading;
 
 namespace Movies.MoviePlaylistManager.ViewModel
 {
-    public partial class PlaylistManagerViewModel : NotificationObject, IHasChanges, IPlaylistManagerViewModel
+    public partial class PlaylistManager : NotificationObject, IHasChanges, IPlaylistManager
     {
-        private bool hasSubcribed = false;
-        private PlaylistModel currentplaylist;
-        public PlaylistModel CurrentPlaylist
-        {
-            get { return currentplaylist; }
-            set
-            {
-                if (currentplaylist != null)
-                {
-                    currentplaylist.SetIsActive(false);
-                    currentplaylist.PropertyChanged -= Currentplaylist_PropertyChanged;
-                    hasSubcribed = false;
-                    if (HasChanges && MessageBox.Show("Do you wish to save changes in " +
-                    currentplaylist.PlaylistName + " ?",
-                    currentplaylist.PlaylistName, MessageBoxButton.OKCancel)
-                    == MessageBoxResult.OK)
-                    {
-                        this.UpdateList();
-                    }
-                }
-                currentplaylist = value;
-                if (!hasSubcribed && currentplaylist != null)
-                {
-                    currentplaylist.PropertyChanged += Currentplaylist_PropertyChanged;
-                    haschanges = true;
-                }
-                RaisePropertyChanged(() => this.PlaylistName);
-                HasChanges = false;
-            }
-        }
-
-
-        private bool issavedialogenable = false;
-
-        public bool IsSaveDialogEnable
-        {
-            get { return issavedialogenable; }
-            set { issavedialogenable = value; RaisePropertyChanged(() => this.IsSaveDialogEnable); }
-        }
-
-        ObservableCollection<VideoFolder> _playlist
-            = new ObservableCollection<VideoFolder>();
-        public ObservableCollection<VideoFolder> PlayListCollection
-        {
-            get { return _playlist; }
-            set
-            {
-                _playlist = value;
-                if (value != null && CurrentPlaylist != null)
-                {
-                    MediaControllerViewModel.GetVideoItem((VideoFolderChild)value.First(), true);
-                }
-                this.RaisePropertyChanged(() => this.PlayListCollection);
-            }
-        }
-
-        private bool _canNext;
-        private bool _canPrevious;
-        private VideoFolderChild NowPlaying;
-        private DelegateCommand clearplaylist;
-        public DelegateCommand ClearPlaylist
-        {
-            get
-            {
-                if (clearplaylist == null)
-                {
-                    clearplaylist = new DelegateCommand(() =>
-                    {
-                        Clear();
-                    });
-                }
-                return clearplaylist;
-            }
-        }
-        private void Currentplaylist_PropertyChanged(object sender, 
-            System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            RaisePropertyChanged(() => this.PlaylistName);
-        }
-
-        private void Clear()
-        {
-            if (CurrentPlaylist != null)
-            {
-                if (HasChanges)
-                {
-                    if (MessageBox.Show("Do you wish to save changes in " +
-                    CurrentPlaylist.PlaylistName + " ?",
-                    CurrentPlaylist.PlaylistName, MessageBoxButton.OKCancel)
-                    == MessageBoxResult.OK)
-                    {
-                        this.UpdateList();
-                    }
-                }
-
-            }
-            CurrentPlaylist = null;
-            PlayListCollection.Clear();
-            //foreach (var item in PlayList)
-            //{
-            //    if (item == MediaControllerVM.MediaControllerInstance.CurrentVideoItem) continue;
-            //    PlayList.Remove(item);
-            //}
-        }
-
-        private DelegateCommand enablesavedialog;
-        public DelegateCommand EnableSaveDialog
-        {
-            get
-            {
-                if (enablesavedialog == null)
-                {
-                    enablesavedialog = new DelegateCommand(() =>
-                    {
-                        if (CurrentPlaylist != null && HasChanges)
-                        {
-                            this.UpdateList();
-                        }
-                        else if (CurrentPlaylist == null && PlayListCollection.Count > 0)
-                        {
-                            SavePlaylistDialog savePlaylistDialog = new SavePlaylistDialog();
-                            savePlaylistDialog.ShowDialog();
-                        }
-                    });
-                }
-                return enablesavedialog;
-            }
-        }
-
-        //private DelegateCommand saveplaylist;
-        //public DelegateCommand SavePlaylist
-        //{
-        //    get
-        //    {
-        //        if (saveplaylist == null)
-        //        {
-        //            saveplaylist = new DelegateCommand(() =>
-        //            {
-        //                SavePlaylistAction();
-
-        //                IsSaveDialogEnable = false;
-        //            },CanSavelist);
-        //        }
-        //        return saveplaylist;
-        //    }
-        //}
-
-        //private bool CanSavelist()
-        //{
-        //    return TempPlaylistName != null || TempPlaylistName != string.Empty;
-        //}
-
-        public void PlayFromAList(PlaylistModel plm)
-        {
-            Clear();
-            CurrentPlaylist = plm;
-            IsLoading = true;
-            currentplaylist.SetIsActive(true);
-            DispatcherService.ExecuteTimerAction(() => {
-                Task.Factory.StartNew(() =>
-                {
-                    return GetObservableCollection(plm);
-                    //list = FileLoader.FileLoaderInstance.SortList(SortType.Name, list);
-                }).ContinueWith(t => {
-                    this.PlayListCollection = t.Result;
-                    IsLoading = false;
-                }, TaskScheduler.FromCurrentSynchronizationContext());
-            }, 2000);
-            
-        }
-
-        private void InitFinishCollection()
-        {
-            DispatcherService.ExecuteTimerAction(() => {
-            BackgroundService.Execute(() => {
-                LoaderCompletion.FinishCollectionLoadProcess(PlayListCollection,null);
-            }, "Getting playlist metadata...", () => { });
-            }, 5000);
-        }
-
         private ObservableCollection<VideoFolder> GetObservableCollection(PlaylistModel plm)
         {
             var padlock = new object();
@@ -229,80 +49,12 @@ namespace Movies.MoviePlaylistManager.ViewModel
             return list;
         }
 
-        //private DelegateCommand disablelistdialog;
-        //public DelegateCommand DisableListDialog
-        //{
-        //    get
-        //    {
-        //        if (disablelistdialog == null)
-        //        {
-        //            disablelistdialog = new DelegateCommand(() =>
-        //            {
-        //                IsSaveDialogEnable = false;
-        //            });
-        //        }
-        //        return disablelistdialog;
-        //    }
-        //}
-
-        public PlaylistManagerViewModel()
+        private bool CanOkAction()
         {
-            this.SortedName = "--No Sort--";
+            return TempPlaylistName != string.Empty;
         }
 
-        public void PlaylistViewLoaded()
-        {
-            if (MediaControllerViewModel != null)
-            {
-                MediaControllerViewModel.CurrentVideoItemChangedEvent += UpdateNowPlaying;
-            }
-        }
-
-        public bool CanNext
-        {
-            get
-            {
-                if (MediaControllerViewModel.RepeatMode == RepeatMode.Repeat)
-                {
-                    _canNext = true;
-                    return _canNext;
-                }
-                _canNext = _playlist.Count > 1 && NowPlayingIndex + 1 != _playlist.Count ? true : false;
-
-                return _canNext;
-            }
-        }
-
-        public int NowPlayingIndex
-        {
-            get
-            {
-                return _playlist.IndexOf(NowPlaying);
-            }
-        }
-
-        public bool CanPrevious
-        {
-            get
-            {
-                if (MediaControllerViewModel.RepeatMode == RepeatMode.Repeat)
-                {
-                    _canPrevious = true;
-                    return _canPrevious;
-                }
-                _canPrevious = (_playlist.Count > 1 && NowPlayingIndex - 1 >= 0) ? true : false;
-
-                return _canPrevious;
-            }
-        }
-        private bool haschanges = false;
-        public bool HasChanges
-        {
-            get { return haschanges; }
-            set { haschanges = value; RaisePropertyChanged(() => this.HasChanges); }
-        }
-
-        public VideoFolderChild GetNextItem()
+        public IPlayable GetNextItem()
         {
             int curreentpos = NowPlayingIndex;
             if (MediaControllerViewModel.RepeatMode == RepeatMode.RepeatOnce)
@@ -319,13 +71,13 @@ namespace Movies.MoviePlaylistManager.ViewModel
                         finalpos = 0;
                     }
                 }
-                var NowPlaying = (VideoFolderChild)PlayListCollection[finalpos];
+                var NowPlaying = PlayListCollection[finalpos];
                 return NowPlaying;
             }
             return null;
         }
 
-        public VideoFolderChild GetPreviousItem()
+        public IPlayable GetPreviousItem()
         {
             int curreentpos = NowPlayingIndex;
             if (CanPrevious)
@@ -338,10 +90,29 @@ namespace Movies.MoviePlaylistManager.ViewModel
                         finalpos = PlayListCollection.Count - 1;
                     }
                 }
-                var NowPlaying = (VideoFolderChild)PlayListCollection[finalpos];
+                var NowPlaying = PlayListCollection[finalpos];
                 return NowPlaying;
             }
             return null;
+        }
+
+        public PlaylistModel NewCreatePlaylist()
+        {
+            PlaylistModel ipl = new PlaylistModel
+            {
+                PlaylistName = this.TempPlaylistName
+            };
+            foreach (var item in PlayListCollection)
+            {
+                //ipl.Add(item.Directory.FullName);
+            }
+            TempPlaylistName = null;
+            return ipl as PlaylistModel;
+        }
+
+        public object GetPlaylistView(IMediaControllerViewModel mediaControllerViewModel)
+        {
+            return new PlaylistView(mediaControllerViewModel, this);
         }
 
         public string WhatsPreviousItem()
@@ -373,109 +144,124 @@ namespace Movies.MoviePlaylistManager.ViewModel
                         finalpos = 0;
                     }
                 }
-                return (PlayListCollection[finalpos] as VideoFolderChild).MediaTitle;
+              //  return (PlayListCollection[finalpos]).MediaTitle;
             }
             return null;
         }
 
+        public PlaylistManager()
+        {
+            this.SortedName = "--No Sort--";
+            //WindowsBindingCollection.Add(new CommandBinding(VideoPlayerCommands.PlayList,
+            //    PlayList_executed));
 
-        //public void PlayIndexChanged(ref VideoFolderChild obj)
-        //{
-        //    this.NowPlaying = obj;
-        //}
+            //WindowsBindingCollection.Add(new CommandBinding(VideoPlayerCommands.RemovefromPlayList,
+            //   RemovefromPlayList_executed));
+            //WindowsBindingCollection.Add(new CommandBinding(VideoPlayerCommands.Play, Play_executed));
+
+        }
+
+        public void PlaylistViewLoaded()
+        {
+            if (MediaControllerViewModel != null)
+            {
+                MediaControllerViewModel.CurrentVideoItemChangedEvent += UpdateNowPlaying;
+            }
+        }
+        
+        private void SortFunction(SortType sortType)
+        {
+            if (IsLoading) return;
+
+            SortedName = sortType.ToString();
+            //Task.Factory.StartNew(() => FileLoader.SortList(sortType, _playlist)).ContinueWith(t => {
+            //    _playlist = t.Result;
+            //    RaisePropertyChanged(() => this.PlayListCollection);
+            //}, TaskScheduler.FromCurrentSynchronizationContext());
+        }
+        
+        private void Currentplaylist_PropertyChanged(object sender,
+            System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            RaisePropertyChanged(() => this.PlaylistName);
+        }
+
+        private void Clear()
+        {
+            if (CurrentPlaylist != null)
+            {
+                if (HasChanges)
+                {
+                    if (MessageBox.Show("Do you wish to save changes in " +
+                    CurrentPlaylist.PlaylistName + " ?",
+                    CurrentPlaylist.PlaylistName, MessageBoxButton.OKCancel)
+                    == MessageBoxResult.OK)
+                    {
+                        this.UpdateList();
+                    }
+                }
+
+            }
+            CurrentPlaylist = null;
+            PlayListCollection.Clear();
+            //foreach (var item in PlayList)
+            //{
+            //    if (item == MediaControllerVM.MediaControllerInstance.CurrentVideoItem) continue;
+            //    PlayList.Remove(item);
+            //}
+        }
 
         public void UpdateNowPlaying(object obj, bool frompl)
         {
-            if (NowPlaying == null && !frompl || !this.PlayListCollection.Contains(obj))
-            {
-                if (CurrentPlaylist != null && HasChanges) { SavePlaylistAction(); }
-                CurrentPlaylist = null;
-                this.NowPlaying = (VideoFolderChild)obj;
-                VideoFolder parent = (VideoFolder)NowPlaying.ParentDirectory;
-                PlayListCollection = new ObservableCollection<VideoFolder>();
-                _playlist.AddRange(parent.OtherFiles.Where(x => x.FileType == FileType.File).ToList());
+            //if (NowPlaying == null && !frompl || !this.PlayListCollection.Contains(obj))
+            //{
+            //    if (CurrentPlaylist != null && HasChanges) { SavePlaylistAction(); }
+            //    CurrentPlaylist = null;
+            //    this.NowPlaying = (VideoFolderChild)obj;
+            //    VideoFolder parent = (VideoFolder)NowPlaying.ParentDirectory;
+            //    PlayListCollection = new ObservableCollection<VideoFolder>();
+            //    _playlist.AddRange(parent.OtherFiles.Where(x => x.FileType == FileType.File).ToList());
 
-            }
-            else
-            {
-                this.NowPlaying = (VideoFolderChild)obj;
-            }
+            //}
+            //else
+            //{
+            //    this.NowPlaying = (VideoFolderChild)obj;
+            //}
         }
 
         public void Add(VideoFolder vfc)
         {
-            if (!this.PlayListCollection.Contains(vfc))
-            {
-                this.PlayListCollection.Add(vfc);
-                HasChanges = true;
-            }
+            //if (!this.PlayListCollection.Contains(vfc))
+            //{
+            //    this.PlayListCollection.Add(vfc);
+            //    HasChanges = true;
+            //}
         }
 
         public void Add(IEnumerable<VideoFolder> EnumerableVfc)
         {
             IsLoading = true;
-            this.PlayListCollection.AddRange(EnumerableVfc);
+            //this.PlayListCollection.AddRange(EnumerableVfc);
             InitFinishCollection();
         }
 
         public void Remove(VideoFolder vfc)
         {
-            if (this.PlayListCollection.Contains(vfc))
-            {
-                this.PlayListCollection.Remove(vfc);
-                HasChanges = true;
-            }
+            //if (this.PlayListCollection.Contains(vfc))
+            //{
+            //    this.PlayListCollection.Remove(vfc);
+            //    HasChanges = true;
+            //}
         }
-
-        public string PlaylistName
-        {
-            get
-            {
-                if (CurrentPlaylist == null)
-                {
-                    return "UnSaved Playlist";
-                }
-                return CurrentPlaylist.PlaylistName;
-            }
-        }
-
-        private string tempplaylistname;
-        public string TempPlaylistName
-        {
-            get
-            {
-                return tempplaylistname;
-            }
-            set
-            {
-                tempplaylistname = value;
-                OkCommand.RaiseCanExecuteChanged();
-                RaisePropertyChanged(() => this.TempPlaylistName);
-            }
-        }
-
-        public PlaylistModel NewCreatePlaylist()
-        {
-            PlaylistModel ipl = new PlaylistModel
-            {
-                PlaylistName = this.TempPlaylistName
-            };
-            foreach (var item in PlayListCollection)
-            {
-                ipl.Add(item.Directory.FullName);
-            }
-            TempPlaylistName = null;
-            return ipl as PlaylistModel;
-        }
-
+        
         public void UpdateList()
         {
             if (currentplaylist == null) return;
             currentplaylist.Clear();
-            foreach (var item in PlayListCollection)
-            {
-                currentplaylist.Add(item.Directory.FullName);
-            }
+            //foreach (var item in PlayListCollection)
+            //{
+            //    currentplaylist.Add(item.Directory.FullName);
+            //}
             HasChanges = false;
         }
 
@@ -492,12 +278,7 @@ namespace Movies.MoviePlaylistManager.ViewModel
             }
             RaisePropertyChanged(() => this.PlaylistName);
         }
-
-        public object GetPlaylistView(IMediaControllerViewModel mediaControllerViewModel)
-        {
-            return new PlaylistView(mediaControllerViewModel, this);
-        }
-
+        
         public void PlayFromTemperalList(IVideoData playFile, IEnumerable<VideoFolderChild> TemperalList)
         {
             Clear();
@@ -506,8 +287,36 @@ namespace Movies.MoviePlaylistManager.ViewModel
                 currentplaylist.SetIsActive(true);
                 CurrentPlaylist = null;
             }
-            PlayListCollection = new ObservableCollection<VideoFolder>(TemperalList);
-            MediaControllerViewModel.GetVideoItem((VideoFolderChild)playFile, true);
+            //PlayListCollection = new ObservableCollection<VideoFolder>(TemperalList);
+            //MediaControllerViewModel.GetVideoItem((VideoFolderChild)playFile, true);
+        }
+
+        public void PlayFromAList(PlaylistModel plm)
+        {
+            //Clear();
+            //CurrentPlaylist = plm;
+            //IsLoading = true;
+            //currentplaylist.SetIsActive(true);
+            //DispatcherService.ExecuteTimerAction(() => {
+            //    Task.Factory.StartNew(() =>
+            //    {
+            //        return GetObservableCollection(plm);
+            //        //list = FileLoader.FileLoaderInstance.SortList(SortType.Name, list);
+            //    }).ContinueWith(t => {
+            //        this.PlayListCollection = t.Result;
+            //        IsLoading = false;
+            //    }, TaskScheduler.FromCurrentSynchronizationContext());
+            //}, 2000);
+
+        }
+
+        private void InitFinishCollection()
+        {
+            DispatcherService.ExecuteTimerAction(() => {
+                BackgroundService.Execute(() => {
+                   // LoaderCompletion.FinishCollectionLoadProcess(PlayListCollection, null);
+                }, "Getting playlist metadata...", () => { });
+            }, 5000);
         }
     }
 }

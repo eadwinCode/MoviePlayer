@@ -4,8 +4,11 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:xv ="clr-namespace:VirtualizingListView"
                     >
-    <xv:GroupSort x:Key="GroupSort" />
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Movies.GlobalResources;component/Themes/Generic.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    
     <CollectionViewSource x:Key="myVideoData" Source="{Binding VideoItemViewCollection}">
         <CollectionViewSource.GroupDescriptions>
             <PropertyGroupDescription  Converter="{StaticResource GroupSort}" />

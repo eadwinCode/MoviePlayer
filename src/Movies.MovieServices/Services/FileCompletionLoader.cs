@@ -111,7 +111,7 @@ namespace Movies.MovieServices.Services
 
         private void SearchSubtitleFile(VideoFolder item)
         {
-            if (item.FileType == FileType.Folder) return;
+            if (item.FileType == GroupCatergory.Grouped) return;
             if ((item as VideoFolderChild).HasSearchSubtitleFile) return;
             if (files == null)
                 files = filecommonhelper.GetSubtitleFiles(item.ParentDirectory.Directory);
@@ -131,7 +131,7 @@ namespace Movies.MovieServices.Services
 
         private void LoadOtherFileDetails(VideoFolder item, Dispatcher dispatcherunit)
         {
-            if (item.FileType == FileType.Folder)
+            if (item.FileType == GroupCatergory.Grouped)
             {
                 if (item.HasCompleteLoad) return;
                 var task = Task.Factory.StartNew(() => GetItems(item))

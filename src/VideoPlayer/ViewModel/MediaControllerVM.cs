@@ -10,14 +10,15 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Threading;
-using Movies.MediaService.Interfaces;
+using MovieHub.MediaPlayerElement.Interfaces;
 using System.Collections.Generic;
-using Movies.MediaService.Models;
+using MovieHub.MediaPlayerElement.Models;
 using System.Windows.Controls.Primitives;
+using Microsoft.Practices.Prism.ViewModel;
 
 namespace VideoPlayerControl.ViewModel
 {
-    public partial class MediaControllerViewModel : INotifyPropertyChanged, IMediaControllerViewModel
+    public partial class MediaControllerViewModel : NotificationObject, IMediaControllerViewModel
     {
         private bool HasSubcribed = false;
         private VideoFolderChild currentvideoitem;
@@ -27,6 +28,8 @@ namespace VideoPlayerControl.ViewModel
         private DelegateCommand mute;
         private string playtext;
         private DelegateCommand _next;
+        private DelegateCommand _setlastSeen;
+        private DelegateCommand _closelastSeen;
         private DelegateCommand _prev;
         public DelegateCommand<Popup> showmenucommand;
         private bool isplaying;
@@ -66,12 +69,31 @@ namespace VideoPlayerControl.ViewModel
         public bool IsDragging { get { return isdragging; } set { isdragging = value; } }
         public ExecuteCommand CurrentVideoItemChangedEvent { get; set; }
         public DispatcherTimer PositionSlideTimerTooltip { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
+        
         public event EventHandler SubtitleChanged;
         public VolumeState VolumeState { get{return volumestate;} set{volumestate = value;}} 
-        public DelegateCommand CloseLastSeenCommand { get; private set; }
-        public DelegateCommand SetLastSeenCommand { get; private set; }
+        public DelegateCommand CloseLastSeenCommand
+        {
+            get
+            {
+                if (_closelastSeen == null)
+                {
+                    _closelastSeen = new DelegateCommand(CloseLastSeenAction);
+                }
+                return _closelastSeen;
+            }
+        }
+        public DelegateCommand SetLastSeenCommand
+        {
+            get
+            {
+                if (_setlastSeen == null)
+                {
+                    _setlastSeen = new DelegateCommand(SetLastSeenAction);
+                }
+                return _setlastSeen;
+            }
+        }
         public bool IsRewindOrFastForward { get; set; }
         
 
@@ -100,8 +122,7 @@ namespace VideoPlayerControl.ViewModel
                 {
                     tofullscreenbtn = new DelegateCommand(() =>
                     {
-                        (((SubtitleMediaController)IVideoPlayer).DataContext as VideoPlayerVM)
-                        .FullScreenAction();
+                        this.FullScreenAction();
                     });
                 }
                 return tofullscreenbtn;
@@ -139,24 +160,24 @@ namespace VideoPlayerControl.ViewModel
         public bool HaslastSeen
         {
             get { return haslastseen; }
-            set { haslastseen = value; OnPropertyChanged("HaslastSeen"); }
+            set { haslastseen = value; RaisePropertyChanged(() => this.HaslastSeen); }
         }
 
         public TimeSpan LastSeenTime
         {
             get { return lastseentime; }
-            set { lastseentime = value; OnPropertyChanged("LastSeenTime"); }
+            set { lastseentime = value; RaisePropertyChanged(() => this.LastSeenTime); }
         }
 
         public RepeatMode RepeatMode
         {
             get { return repeatmode; }
-            set { repeatmode = value; OnPropertyChanged("RepeatMode"); }
+            set { repeatmode = value; RaisePropertyChanged(() => this.RepeatMode); }
         }
 
-        public IMovieTitle_Tab IMovieTitle_Tab
+        public IMovieTitleBar IMovieTitle_Tab
         {
-            get { return (IVideoPlayer.MediaController as IControllerView).MovieTitle_Tab; }
+            get { return (IMediaControllerView).MovieTitle_Tab; }
         }
 
         public Slider DragPositionSlider
@@ -174,7 +195,7 @@ namespace VideoPlayerControl.ViewModel
 
         public Slider VolumeSlider
         {
-            get { return VolumeControl.CurrentVolumeSlider; }
+            get { return VolumeControl.VolumeSlider; }
         }
 
         public DelegateCommand PlayBtn
@@ -230,14 +251,14 @@ namespace VideoPlayerControl.ViewModel
             get { return playtext; }
             set
             {
-                playtext = value; OnPropertyChanged("PlayText");
+                playtext = value; RaisePropertyChanged(()=>this.PlayText);
             }
         }
 
         public bool IsPlaying
         {
             get { return isplaying; }
-            set { isplaying = value; OnPropertyChanged("IsPlaying"); }
+            set { isplaying = value; RaisePropertyChanged(() => this.IsPlaying); }
         }
 
         public bool IsMouseControlOver
@@ -249,7 +270,7 @@ namespace VideoPlayerControl.ViewModel
             set
             {
                 ismousecontrolover = value;
-                OnPropertyChanged("IsMouseControlOver");
+                RaisePropertyChanged(() => this.IsMouseControlOver);
             }
         }
 
@@ -258,18 +279,11 @@ namespace VideoPlayerControl.ViewModel
             get { return cananimate; }
             set
             {
-                cananimate = value; OnPropertyChanged("CanAnimate");
+                cananimate = value; RaisePropertyChanged(() => this.CanAnimate);
                 //PositioSliderInit(HasSubcribed); 
             }
         }
-
-        public IMediaController IVideoPlayer
-        {
-            get
-            {
-                return IVideoElement.IVideoPlayerController;
-            }
-        }
+        
 
         public IVideoElement IVideoElement
         {

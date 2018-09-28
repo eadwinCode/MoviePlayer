@@ -49,7 +49,7 @@ namespace Movies.PlaylistCollectionView.RenameDialog
             if (OnFinished != null)
                 OnFinished.Invoke(this, new RoutedEventArgs());
 
-            IPageNavigatorHost.DockControl.Content = null;
+            IPageNavigatorHost.RemoveView(typeof(RenameDialogControl).Name);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -57,7 +57,7 @@ namespace Movies.PlaylistCollectionView.RenameDialog
             iscancel = true;
             if (OnFinished != null)
                 OnFinished.Invoke(this, null);
-            IPageNavigatorHost.DockControl.Content = null;
+            IPageNavigatorHost.RemoveView(typeof(RenameDialogControl).Name);
         }
 
         private void RenameDialog_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -72,7 +72,7 @@ namespace Movies.PlaylistCollectionView.RenameDialog
 
         public void ShowDialog()
         {
-            IPageNavigatorHost.DockControl.Content = this;
+            IPageNavigatorHost.AddView(this, typeof(RenameDialogControl).Name);
         }
 
         private IPageNavigatorHost IPageNavigatorHost

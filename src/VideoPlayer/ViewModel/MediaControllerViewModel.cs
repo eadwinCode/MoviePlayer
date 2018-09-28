@@ -18,14 +18,7 @@ namespace VideoPlayerControl.ViewModel
     public partial class MediaControllerViewModel
     {
         public bool IsfetchingRepeatItemAsync { get; private set; }
-
-        public MediaControllerViewModel()
-        {
-            //  PlayListManager.Current.SetController(this);
-            SetLastSeenCommand = new DelegateCommand(SetLastSeenAction);
-            CloseLastSeenCommand = new DelegateCommand(CloseLastSeenAction);
-        }
-
+        
         private void RepeatBtnAction()
         {
             if (RepeatMode == RepeatMode.NoRepeat)
@@ -110,6 +103,12 @@ namespace VideoPlayerControl.ViewModel
                 MediaPlayerService.OnMediaStopped += (VlcMediaPlayer_Stoped);
                 MediaPlayerService.OnStateChanged += (MediaPlayer_StateChanged);
 
+                (IMediaControllerView as UserControl).MouseLeave += Mediacontrol_MouseLeave;
+                (IMediaControllerView as UserControl).MouseEnter += Mediacontrol_MouseEnter;
+                (IVideoElement as Window).MouseMove += ParentGrid_MouseMove;
+                MediaPlayerService.MouseMove += ParentGrid_MouseMove;
+                MediaPlayerService.OnMediaOpened += MediaPlayerService_OnMediaOpened;
+
                 HasSubcribed = true;
             }
         }
@@ -170,12 +169,7 @@ namespace VideoPlayerControl.ViewModel
             {
                 ApplicationService.SavedLastSeenCollection.Add((PlayedFiles)CurrentVideoItem.LastPlayedPoisition);
             }
-
-            //if (MediaPlayerService.State == MovieMediaState.Stopped)
-            //{
-            //    Stop();
-            //    PlayBackAction(MediaPlayerService.State.ToString());
-            //}
+            
             CurrentVideoItem.IsActive = false;
             if (IsDirectoryChanged)
             {
@@ -299,21 +293,21 @@ namespace VideoPlayerControl.ViewModel
             PlayAction();
         }
 
-        private void MediaControllerVM_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            if (IVideoElement == null || !(IVideoElement as Window).IsLoaded) return;
-            Panel panel = (IVideoPlayer.MediaController as IControllerView).GroupedControls;
-            if ((IVideoElement as Window).ActualWidth < 600 ||
-                (IVideoPlayer as UserControl).ActualWidth < 600)
-            {
-                panel.SetValue(DockPanel.DockProperty, Dock.Bottom);
-            }
-            else
-            {
-                panel.SetValue(DockPanel.DockProperty, Dock.Right);
-            }
+        //private void MediaControllerVM_SizeChanged(object sender, SizeChangedEventArgs e)
+        //{
+        //    if (IVideoElement == null || !(IVideoElement as Window).IsLoaded) return;
+        //    Panel panel = (IVideoPlayer.MediaController as IControllerView).GroupedControls;
+        //    if ((IVideoElement as Window).ActualWidth < 600 ||
+        //        (IVideoPlayer as UserControl).ActualWidth < 600)
+        //    {
+        //        panel.SetValue(DockPanel.DockProperty, Dock.Bottom);
+        //    }
+        //    else
+        //    {
+        //        panel.SetValue(DockPanel.DockProperty, Dock.Right);
+        //    }
 
-        }
+        //}
 
         private void _nextbtn_ToolTipOpening(object sender, ToolTipEventArgs e)
         {
@@ -341,22 +335,14 @@ namespace VideoPlayerControl.ViewModel
             TimeChangeAction();
         }
 
-        public void TimeChangeAction()
-        {
-            if (!IsDragging)
-            {
-                DragPositionSlider.Value = MediaPlayerService.CurrentTimer.TotalSeconds;
-                CurrentVideoItem.Progress = Math.Round((double.Parse(DragPositionSlider.Value.ToString()) / double.Parse(MediaPlayerService.Duration.TotalSeconds.ToString()) * 100), 2);
-                //(sender as VlcPlayer).VlcMediaPlayer.SetFullScreen();
-                Console.WriteLine("-----FPS @ {0}----------", MediaPlayerService.FPS);
-            }
-        }
+        
 
         private void VlcMediaPlayer_EncounteredError(object sender, EventArgs e)
         {
             DragPositionSlider.IsEnabled = false;
             PlayBackAction("Failed to Play", "Stop");
             CloseMediaPlayer();
+            ResetVisibilityAnimationAsyn();
             throw new Exception(MediaPlayerService.MediaError);
         }
 
@@ -378,7 +364,9 @@ namespace VideoPlayerControl.ViewModel
                     DispatcherService.ExecuteTimerAction(() => StartRepeatAction(), 50);
                 }
                 FilePlayerManager.VideoElement.ContentDockRegion.Content = null;
+                ResetVisibilityAnimation();
             }));
+
         }
 
         void MediaPlayer_OnSubItemAdded(object sender, EventArgs e)
@@ -439,7 +427,7 @@ namespace VideoPlayerControl.ViewModel
 
                 CommandManager.InvalidateRequerySuggested();
 
-                ((IVideoPlayer as SubtitleMediaController).DataContext as VideoPlayerVM).VisibilityAnimation();
+                VisibilityAnimation();
                 DragPositionSlider.IsEnabled = true;
                 MediaPlayerService.Play();
                 CommonHelper.SetPlayerTitle("Playing",
@@ -449,6 +437,14 @@ namespace VideoPlayerControl.ViewModel
 
         }
 
+        public void TimeChangeAction()
+        {
+            if (!IsDragging)
+            {
+                DragPositionSlider.Value = MediaPlayerService.CurrentTimer.TotalSeconds;
+                CurrentVideoItem.Progress = Math.Round((double.Parse(DragPositionSlider.Value.ToString()) / double.Parse(MediaPlayerService.Duration.TotalSeconds.ToString()) * 100), 2);
+            }
+        }
 
         #region Volume Slider
         private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -483,7 +479,7 @@ namespace VideoPlayerControl.ViewModel
         {
             if (IsPlaying)
             {
-                MovieTitle_Tab.SetIsMouseDown(Border, true);
+                MovieTitleBar.SetIsMouseDown(Border, true);
                 IsMouseControlOver = true;
             }
         }
@@ -493,7 +489,7 @@ namespace VideoPlayerControl.ViewModel
             if (IsPlaying)
             {
                 IsMouseControlOver = false;
-                MovieTitle_Tab.SetIsMouseDown(Border, false);
+                MovieTitleBar.SetIsMouseDown(Border, false);
                 //MovieTitle_Tab.IsMouseMediaControlOver = false;
             }
         }
@@ -517,7 +513,7 @@ namespace VideoPlayerControl.ViewModel
 
         public void PlayAction(bool igonreMediaState = false)
         {
-            if(igonreMediaState)
+            if (igonreMediaState)
             {
                 MediaPlayerService.Play();
                 PlayText = "Pause";
@@ -553,15 +549,7 @@ namespace VideoPlayerControl.ViewModel
 
         public void MediaController_Loaded(object sender, RoutedEventArgs e)
         {
-            PositionSlideTimerTooltipStop();
-            DragPositionSlider.IsEnabled = false;
-            if ((IVideoElement as Window).IsLoaded)
-            {
-                (IVideoElement as Window).SizeChanged += MediaControllerVM_SizeChanged;
-                (IVideoPlayer as UserControl).SizeChanged += MediaControllerVM_SizeChanged;
-            }
-
-            Init();
+            Loaded();
         }
 
         public void SetSubtitle(string filepath)
@@ -622,7 +610,7 @@ namespace VideoPlayerControl.ViewModel
 
         public void CloseMediaPlayer(bool wndClose = false)
         {
-            IVideoElement.IVideoPlayerController.CommandBindings.Clear();
+            IVideoElement.CommandBindings.Clear();
             MediaPlayStopAction();
             Unsubscribe();
             HasSubcribed = false;
@@ -636,16 +624,10 @@ namespace VideoPlayerControl.ViewModel
                 FilePlayerManager.PlaylistManagerViewModel.CurrentPlaylist.SetIsActive(false);
             }
             currentvideoitem = null;
+            movieController = null;
+            IMediaControllerView = null;
         }
-
-        protected void OnPropertyChanged(string PropertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(PropertyName));
-            }
-        }
-
+             
         public void GetVideoItem(VideoFolderChild obj, bool frompl = false)
         {
             if (!MediaPlayerService.HasStopped)
@@ -654,5 +636,7 @@ namespace VideoPlayerControl.ViewModel
             FilePlayerManager.VideoElement.ContentDockRegion.Content = null;
             NewVideoAction(obj, frompl);
         }
+
+
     }
 }

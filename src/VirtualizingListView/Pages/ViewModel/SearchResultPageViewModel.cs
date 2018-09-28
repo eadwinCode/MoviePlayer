@@ -111,12 +111,12 @@ namespace VirtualizingListView.Pages.ViewModel
         private void OpenFolderCommandAction(object obj)
         {
             VideoFolder videoFolder = (VideoFolder)obj;
-            if (videoFolder.FileType == FileType.Folder)
+            if (videoFolder.FileType == GroupCatergory.Grouped)
             {
                 this.navigationService.Navigate(new FilePageView(this.navigationService), obj);
             }
             else
-                openFileCaller.Open(videoFolder as IVideoData,searchresults.OfType<VideoFolderChild>());
+                openFileCaller.Open(videoFolder as IPlayable,searchresults.OfType<IPlayable>());
         }
         
         IBackgroundService BackgroundService

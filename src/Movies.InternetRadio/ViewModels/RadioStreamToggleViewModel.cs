@@ -38,7 +38,7 @@ namespace Movies.InternetRadio.ViewModels
             set { radiostream = value; this.RaisePropertyChanged(() => this.RadioStream); }
         }
 
-        public RadioStreamToggleViewModel()
+        internal RadioStreamToggleViewModel()
         {
             InitHamBurgerMenu();
         }

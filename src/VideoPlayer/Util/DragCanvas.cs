@@ -379,9 +379,9 @@ namespace WPF.JoshSmith.Controls
             {
                 return;
             }
-            if (OriginalSender is MovieTitle_Tab)
+            if (OriginalSender is MovieTitleBar)
             {
-                var tab = OriginalSender as MovieTitle_Tab;
+                var tab = OriginalSender as MovieTitleBar;
                 tab.IsCanvasDrag = false;
             }
           

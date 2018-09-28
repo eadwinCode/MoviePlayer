@@ -18,9 +18,9 @@ namespace VideoPlayerControl
     {
         private Slider CurrentSlider;
 
-        public IMovieTitle_Tab MovieTitle_Tab { get { return this.MovieBoard; } }
+        public IMovieTitleBar MovieTitle_Tab { get { return this.MovieBoard; } }
 
-        public Panel GroupedControls { get { return this.GroupControl; } }
+        //public Panel GroupedControls { get { return this.GroupControl; } }
 
         public VolumeControl VolumeControl
         {
@@ -30,15 +30,14 @@ namespace VideoPlayerControl
             }
         }
 
-        public MediaController(IMediaControllerViewModel mediaControllerViewModel)
+        internal MediaController(MediaControllerViewModel mediacontrollerviewmodel)
         {
             InitializeComponent();
-            this.DataContext = mediaControllerViewModel;
-            this.Loaded +=FilePlayerManager.MediaControllerViewModel.MediaController_Loaded;
 
-           FilePlayerManager.MediaControllerViewModel.PositionSlideTimerTooltip = new DispatcherTimer(DispatcherPriority.Background);
-           FilePlayerManager.MediaControllerViewModel.PositionSlideTimerTooltip.Tick += positionSlideTimerTooltip_Tick;
-           FilePlayerManager.MediaControllerViewModel.PositionSlideTimerTooltip.Interval = TimeSpan.FromMilliseconds(100);
+             this.DataContext = mediacontrollerviewmodel;
+            mediacontrollerviewmodel. PositionSlideTimerTooltip = new DispatcherTimer(DispatcherPriority.Background);
+            mediacontrollerviewmodel.PositionSlideTimerTooltip.Tick += PositionSlideTimerTooltip_Tick;
+            mediacontrollerviewmodel.PositionSlideTimerTooltip.Interval = TimeSpan.FromMilliseconds(100);
         }
 
         private void PlNext_MouseEnter(object sender, MouseEventArgs e)
@@ -96,7 +95,7 @@ namespace VideoPlayerControl
             }
         }
 
-        void positionSlideTimerTooltip_Tick(object sender, EventArgs e)
+        void PositionSlideTimerTooltip_Tick(object sender, EventArgs e)
         {
             if (CurrentSlider == null)
             {
@@ -107,24 +106,22 @@ namespace VideoPlayerControl
             UpdateText(x, ratio, TimeSpan.FromSeconds(Math.Round((ratio *
                 CurrentSlider.Maximum), 10)).ToString(@"hh\:mm\:ss"));
         }
-
         
-
         private void UpdateText(double x, double ratio, string p)
         {
             double nn = 0;
 
             MovieTitle_Tab.MovieText = "Seeking/ " + p;
 
-            if (x < 0)
-            {
-                nn = 0;
-            }
-            else if (x > CurrentSlider.ActualWidth)
-            {
-                nn = CurrentSlider.ActualWidth;
-            }
-            else { nn = x; }
+            //if (x < 0)
+            //{
+            //    nn = 0;
+            //}
+            //else if (x > CurrentSlider.ActualWidth)
+            //{
+            //    nn = CurrentSlider.ActualWidth;
+            //}
+            //else { nn = x; }
         }
 
         private void DragCom()
@@ -161,9 +158,7 @@ namespace VideoPlayerControl
             }
 
         }
-
-
-
+        
         private void PositionSlider_MouseMove(object sender, MouseEventArgs e)
         {
             CurrentSlider = sender as Slider;

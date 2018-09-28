@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ModuleDefinition\MoviePlaylistManagerModule.cs" />
+    <Compile Include="MoviesPlaylistManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

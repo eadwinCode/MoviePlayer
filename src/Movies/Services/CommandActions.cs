@@ -147,11 +147,11 @@ namespace Movies.Services
             }
         }
 
-        private IShell IShell
+        private IShellWindow IShell
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<IShell>();
+                return ServiceLocator.Current.GetInstance<IShellWindow>();
             }
         }
 

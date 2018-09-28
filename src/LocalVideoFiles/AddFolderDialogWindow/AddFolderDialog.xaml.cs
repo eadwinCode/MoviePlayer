@@ -21,12 +21,13 @@ namespace LocalVideoFiles.AddFolderDialogWindow
         {
             if (OnFinished != null)
                 OnFinished.Invoke(this, null);
-            IPageNavigatorHost.DockControl.Content = null;
+
+            IPageNavigatorHost.RemoveView(typeof(AddFolderDialog).Name);
         }
 
         public void ShowDialog()
         {
-            IPageNavigatorHost.DockControl.Content = this;
+            IPageNavigatorHost.AddView(this,typeof(AddFolderDialog).Name);
         }
 
         private IPageNavigatorHost IPageNavigatorHost

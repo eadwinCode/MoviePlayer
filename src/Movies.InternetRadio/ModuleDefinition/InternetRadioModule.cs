@@ -22,6 +22,7 @@ namespace Movies.InternetRadio.ModuleDefinition
             this.regionManager = regionManager;
             this.unityContainer = unityContainer;
         }
+
         public void Initialize()
         {
             RegisterServices();
@@ -31,6 +32,7 @@ namespace Movies.InternetRadio.ModuleDefinition
         private void RegisterServices()
         {
             this.unityContainer.RegisterType<IRadioService, RadioService>(new ContainerControlledLifetimeManager());
+            this.unityContainer.RegisterType<IRadioDataService, RadioDataService>(new ContainerControlledLifetimeManager()); 
         }
 
         private void RegisterViews()

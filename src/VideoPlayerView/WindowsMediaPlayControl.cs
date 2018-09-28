@@ -15,13 +15,7 @@ namespace MediaControl
         private int playstate;
         // private int timerstate;
 
-        private IPlaylistManagerViewModel PlayListManager
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<IPlayFile>().PlaylistManagerViewModel;
-            }
-        }
+        
         private IApplicationService IApplicationService 
         {
             get
@@ -124,7 +118,7 @@ namespace MediaControl
         {
             InitWndSize();
             //this.Text = CommonHelper.SetPlayerTitle("Playing", CurrentVideoItem.Directory.FullName);
-            PlayListManager.UpdateNowPlaying(CurrentVideoItem,false);
+            //PlayListManager.UpdateNowPlaying(CurrentVideoItem,false);
             playstate = 1;
         }
 
@@ -137,22 +131,22 @@ namespace MediaControl
         private void Previous()
         {
             SavePlayed();
-            if (PlayListManager.CanPrevious)
-            {
-                CurrentVideoItem = PlayListManager.GetPreviousItem();
-                axWindowsMediaPlayer1.URL = (CurrentVideoItem.Directory.FullName);
-            }
+            //if (PlayListManager.CanPrevious)
+            //{
+            //    CurrentVideoItem = PlayListManager.GetPreviousItem();
+            //    axWindowsMediaPlayer1.URL = (CurrentVideoItem.Directory.FullName);
+            //}
            
         }
 
         private void Next()
         {
             SavePlayed();
-            if (PlayListManager.CanNext)
-            {
-                CurrentVideoItem = PlayListManager.GetNextItem();
-                axWindowsMediaPlayer1.URL = (CurrentVideoItem.Directory.FullName);
-            }
+            //if (PlayListManager.CanNext)
+            //{
+            //    CurrentVideoItem = PlayListManager.GetNextItem();
+            //    axWindowsMediaPlayer1.URL = (CurrentVideoItem.Directory.FullName);
+            //}
         }
 
         private void SavePlayed()

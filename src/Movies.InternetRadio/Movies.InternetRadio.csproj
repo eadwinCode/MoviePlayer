@@ -63,17 +63,37 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ItemSizeChangeHandler.cs" />
+    <Compile Include="RadioPlayer.cs" />
+    <Compile Include="Interfaces\IRadioDataService.cs" />
+    <Compile Include="StreamManager\RadioDataService.cs" />
     <Compile Include="Util\ImagePathConverter.cs" />
     <Compile Include="Util\NetworkConnectionStatus.cs" />
     <Compile Include="Util\NewStationAgrs.cs" />
     <Compile Include="ModuleDefinition\InternetRadioModule.cs" />
     <Compile Include="StreamManager\RadioService.cs" />
+    <Compile Include="Util\RadioStationTemplateTYpe.cs" />
     <Compile Include="ViewModels\EditOrAddRadioStreamViewModel.cs" />
+    <Compile Include="Interfaces\IRadioPageService.cs" />
+    <Compile Include="ViewModels\RadioFavoritePageViewModel.cs" />
     <Compile Include="ViewModels\RadioHomePage.cs" />
-    <Compile Include="ViewModels\RadioStreamingElementViewModel.cs" />
     <Compile Include="ViewModels\RadioStreamToggleViewModel.cs" />
+    <Compile Include="ViewModels\RadioViewPageViewModel.cs" />
+    <Compile Include="Views\EditStationGroup.xaml.cs">
+      <DependentUpon>EditStationGroup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditStation.xaml.cs">
+      <DependentUpon>EditStation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\EditOrAddRadioStreamView.xaml.cs">
       <DependentUpon>EditOrAddRadioStreamView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\IEditStation.cs" />
+    <Compile Include="Views\FavoriteButtonToggle.xaml.cs">
+      <DependentUpon>FavoriteButtonToggle.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RadioFavoritePage.xaml.cs">
+      <DependentUpon>RadioFavoritePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RadioHomepage.xaml.cs">
       <DependentUpon>RadioHomepage.xaml</DependentUpon>
@@ -84,14 +104,11 @@
     <Compile Include="Views\RadioStreamHomePageControl.xaml.cs">
       <DependentUpon>RadioStreamHomePageControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\RadioStreamingControl.xaml.cs">
-      <DependentUpon>RadioStreamingControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\RadioStreamingElement.xaml.cs">
-      <DependentUpon>RadioStreamingElement.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\RadioStreamToggle.xaml.cs">
       <DependentUpon>RadioStreamToggle.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RadioViewPage.xaml.cs">
+      <DependentUpon>RadioViewPage.xaml</DependentUpon>
     </Compile>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -100,7 +117,23 @@
     <Compile Include="CustomControl1.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\EditStationGroup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EditStation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\EditOrAddRadioStreamView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FavoriteButtonToggle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RadioFavoritePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -116,15 +149,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\RadioStreamingControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\RadioStreamingElement.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\RadioStreamToggle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RadioViewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -158,6 +187,10 @@
       <Project>{291d89e4-5436-4e99-a402-322d10f2ed0c}</Project>
       <Name>Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MovieHub.MediaPlayerElement\MovieHub.MediaPlayerElement.csproj">
+      <Project>{E3E88727-8E4A-4B69-A9B2-A9085A76AB92}</Project>
+      <Name>MovieHub.MediaPlayerElement</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Movies.Enums\Movies.Enums.csproj">
       <Project>{0824A682-F34D-456B-8B0B-22FF40FEAE33}</Project>
       <Name>Movies.Enums</Name>
@@ -166,13 +199,13 @@
       <Project>{1370a208-da8b-43ee-8cbb-a18d7992a8dc}</Project>
       <Name>Movies.GlobalResources</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Movies.MediaService\Movies.MediaService.csproj">
-      <Project>{b6faa2de-b0a4-4db9-9532-e6059788598a}</Project>
-      <Name>Movies.MediaService</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Movies.Models\Movies.Models.csproj">
       <Project>{12CE1E5D-1E2D-4FE8-8084-B5E334CD54CD}</Project>
       <Name>Movies.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Movies.MovieServices\Movies.MovieServices.csproj">
+      <Project>{3614548a-9254-42c5-a414-9cc1f76f4c33}</Project>
+      <Name>Movies.MovieServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\PresentationExtension\PresentationExtension.csproj">
       <Project>{b622321d-0980-42df-9165-79341bf7e64e}</Project>
@@ -181,10 +214,6 @@
     <ProjectReference Include="..\ProjectInterfaces\Movies.MoviesInterfaces.csproj">
       <Project>{2D97DA0A-18BE-48A1-B4FC-78B0B3CEB6C8}</Project>
       <Name>Movies.MoviesInterfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\VideoPlayer\VideoPlayerControl.csproj">
-      <Project>{e657ac6b-5b19-4b9f-bf5e-96822234dfdd}</Project>
-      <Name>VideoPlayerControl</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

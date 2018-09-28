@@ -12,8 +12,9 @@ namespace Common.ApplicationCommands
         public const string SUBMENUITEMSREGION = "SubMenuItemsRegion"; 
         public const string SHELLPLAYLISTREGION = "ShellPlaylistRegion"; 
         public const string SHELLSEARCHREGION = "ShellSearchRegion"; 
-        public const string SHELLRADIOREGION = "ShellRadioRegion";
+        public const string SHELLRADIOREGION = "ShellRadioRegion"; 
         public const string SHELLTHEMEREGION = "ShellThemeRegion"; 
+        public const string SHELLWINDOWREGION = "ShellWindowRegion";
     }
 
     public class ApplicationDummyMessage

@@ -76,8 +76,6 @@ namespace VirtualizingListView.ViewModel
             GoForwardCommand = new RoutedUICommand();
             ((UserControl)pageNavigator).CommandBindings.Add(new CommandBinding(GoBackCommand, GoBackCommand_Execute, GoBackCommand_CanExecute));
             ((UserControl)pageNavigator).CommandBindings.Add(new CommandBinding(GoForwardCommand, GoForwardCommand_Execute, GoForwardCommand_CanExecute));
-
-           
         }
 
         

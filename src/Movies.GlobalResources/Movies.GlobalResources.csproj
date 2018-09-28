@@ -333,5 +333,9 @@
   <ItemGroup>
     <Resource Include="Images\musica-searcher24.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\closeRed.png" />
+    <Resource Include="Images\closewhite.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

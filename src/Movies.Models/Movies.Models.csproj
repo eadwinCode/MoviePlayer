@@ -46,6 +46,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -57,12 +58,21 @@
     <Compile Include="Interfaces\IApplicationModelService.cs" />
     <Compile Include="Interfaces\IBackgroundService.cs" />
     <Compile Include="Interfaces\IMovieFolderModel.cs" />
+    <Compile Include="Interfaces\IPlayablecs.cs" />
     <Compile Include="Interfaces\IPlayedFiles.cs" />
+    <Compile Include="Interfaces\IRadioCollection.cs" />
+    <Compile Include="Interfaces\IRadioModelGroup.cs" />
     <Compile Include="Interfaces\ModelInteerfaces.cs" />
+    <Compile Include="Model\DummyIMediaPlayabeLastSeen.cs" />
+    <Compile Include="Model\DummyPlayableFile.cs" />
+    <Compile Include="Interfaces\IRadioModel.cs" />
+    <Compile Include="Model\MovieBase.cs" />
     <Compile Include="Model\MoviePathModel.cs" />
     <Compile Include="Model\NewFolderModel.cs" />
     <Compile Include="Model\PlayedFiles.cs" />
     <Compile Include="Model\PlaylistModel.cs" />
+    <Compile Include="Model\RadioFavorites.cs" />
+    <Compile Include="Model\RadioGroup.cs" />
     <Compile Include="Model\RadioModel.cs" />
     <Compile Include="Model\SavedLastSeenCollection.cs" />
     <Compile Include="Model\SavedPlaylist.cs" />
@@ -83,10 +93,6 @@
     <ProjectReference Include="..\Movies.Enums\Movies.Enums.csproj">
       <Project>{0824A682-F34D-456B-8B0B-22FF40FEAE33}</Project>
       <Name>Movies.Enums</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PresentationExtension\PresentationExtension.csproj">
-      <Project>{b622321d-0980-42df-9165-79341bf7e64e}</Project>
-      <Name>PresentationExtension</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

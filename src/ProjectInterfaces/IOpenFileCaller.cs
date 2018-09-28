@@ -7,6 +7,6 @@ namespace Movies.MoviesInterfaces
     public interface IOpenFileCaller
     {
         void Open(IVideoData videoFolder);
-        void Open(IVideoData videoFolder,IEnumerable<VideoFolderChild> movielist);
+        void Open(IPlayable videoFolder,IEnumerable<IPlayable> movielist);
     }
 }

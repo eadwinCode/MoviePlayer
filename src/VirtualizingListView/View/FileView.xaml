@@ -12,8 +12,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/VirtualizingListView;component/Resources/ViewStyle.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/VirtualizingListView;component/Resources/Items.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/VirtualizingListView;component/Themes/Generic.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -91,91 +90,13 @@
                             </Style>
                         </Button.Style>
                     </Button>
-                    <!--<Button Width="50" Height="20" Margin="1" 
-                            HorizontalAlignment="Right" 
-                            VerticalAlignment="Top"  
-                            Command="{Binding GoForwardCommand}">
-                        <Button.Style>
-                            <Style TargetType="Button" >
-                                <Setter Property="Focusable" Value="False"/>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="Button">
-                                            
-                                            <Border CornerRadius="16" SnapsToDevicePixels="True" 
-                                                    x:Name="border"  Width="{TemplateBinding Width}" 
-                                                    Height="{TemplateBinding Height}">
-
-                                                <Path  
-                                                    Fill="{DynamicResource Theme.HighlightColor}" Height="30"
-                                                    x:Name="contentPresenter" VerticalAlignment="Center"
-                                                    StrokeThickness=".5" Stroke="Black" 
-                                                    Data="M12,8V4L20,12L12,20V16H4V8H12Z"  >
-                                                    <Path.RenderTransform>
-                                                        <TransformGroup>
-                                                            <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
-                                                            <RotateTransform />
-                                                        </TransformGroup>
-                                                    </Path.RenderTransform>
-                                                </Path>
-
-                                            </Border>
-
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsDefaulted" Value="true">
-                                                    <Setter Property="BorderBrush" TargetName="border" 
-                                                            Value="{DynamicResource {x:Static 
-                                                        SystemColors.HighlightBrushKey}}"/>
-                                                </Trigger>
-                                                <Trigger Property="IsMouseOver" Value="true">
-                                                    <Setter Property="Opacity" TargetName="contentPresenter" 
-                                                            Value="1"/>
-                                                </Trigger>
-                                                <Trigger Property="IsPressed" Value="true">
-                                                    <Setter Property="LayoutTransform" >
-                                                        <Setter.Value>
-                                                            <ScaleTransform ScaleX=".98" ScaleY="0.98"/>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                    <Setter Property="BorderBrush" TargetName="border" 
-                                                            Value="{StaticResource Button.Pressed.Border}"/>
-                                                </Trigger>
-                                                <Trigger Property="IsEnabled" Value="false">
-                                                    <Setter Property="Visibility" 
-                                                            TargetName="contentPresenter"
-                                                            Value="Collapsed"/>
-                                                    -->
-                    <!--<Setter Property="Background" TargetName="border" Value="#FF18170D"/>
-                                                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>-->
-                    <!--
-                                                    <Setter Property="TextElement.Foreground" 
-                                                            TargetName="contentPresenter" 
-                                                            Value="{StaticResource 
-                                                        Button.Disabled.Foreground}"/>
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </Button.Style>
-                    </Button>-->
                 </StackPanel>
             </DockPanel>
             <Grid x:Name="ListPanel" Grid.Row="1" DockPanel.Dock="Top" >
-                <local:PageNavigator x:Name="pagenavigator" Grid.Column="2"/>
+                <ContentControl x:Name="pageNavigator" Content="{Binding PageNavigator}"/>
+                <!--<local:PageNavigator x:Name="pagenavigator" Grid.Column="2"/>-->
             </Grid>
         </Grid>
-        <ContentControl x:Name="DialogDock"></ContentControl>
+        <ContentControl x:Name="DialogDock" Content="{Binding PageNavigatorContentHost}"></ContentControl>
     </Grid>
 </UserControl>
-<!--<StackPanel Margin="3"  prism:RegionManager.RegionName="PageNavigatorRegion"
-                        IsEnabled="{Binding IsOnSearchPage, Converter={StaticResource BooleanInversion}}"
-                        HorizontalAlignment="Right" 
-                        
-                        Orientation="Horizontal">
-
-
-
-
-</StackPanel>-->

@@ -10,7 +10,6 @@ using Movies.MoviesInterfaces;
 using Movies.Enums;
 using Meta.Vlc.Wpf;
 using System.Windows.Threading;
-using Movies.MediaService.Interfaces;
 
 namespace Movies.MoviesInterfaces
 {
@@ -25,13 +24,12 @@ namespace Movies.MoviesInterfaces
         ExecuteCommand CurrentVideoItemChangedEvent { get; set; }
         Slider DragPositionSlider { get; }
         bool HaslastSeen { get; set; }
-        IMovieTitle_Tab IMovieTitle_Tab { get; }
+        IMovieTitleBar IMovieTitle_Tab { get; }
         bool IsDragging { get; set; }
         bool IsMouseControlOver { get; set; }
         bool IsPlaying { get; set; }
         bool IsRewindOrFastForward { get; set; }
         IVideoElement IVideoElement { get; }
-        IMediaController IVideoPlayer { get; }
         TimeSpan LastSeenTime { get; set; }
         MovieMediaState MediaState { get; }
         DelegateCommand Mute { get; set; }
@@ -53,8 +51,9 @@ namespace Movies.MoviesInterfaces
         bool CanNext();
         bool CanPlay();
         bool CanPrev();
-        void CloseMediaPlayer(bool wndClose = false);
         double GetMousePointer(Control obj);
+        IControllerView GetControllerView();
+        void CloseMediaPlayer(bool wndClose = false);
         void GetVideoItem(VideoFolderChild obj, bool frompl = false);
         void MainControl_MouseLeave(object sender, MouseEventArgs e);
         void MediaController_Loaded(object sender, RoutedEventArgs e);
@@ -66,15 +65,16 @@ namespace Movies.MoviesInterfaces
         void PrevPlayAction();
         void SetSubtitle(string filepath);
         void TimeChangeAction();
+        object GetControllerNewView();
     }
 
 
-    public interface IMovieTitle_Tab
+    public interface IMovieTitleBar
     {
         bool IsCanvasDrag { get; set; }
         bool IsTextTrimmed { get; set; }
         double MarqueeTimeInSeconds { get; set; }
-        string MovieText { get; set; }
+        string SecondMovieText { get; set; }
         string MovieTitleText { get; set; }
         Visibility ShowOtherText { get; }
         TextBlock TextMovieTitle { get; }
@@ -86,10 +86,11 @@ namespace Movies.MoviesInterfaces
     {
         CommandBindingCollection CommandBindings { get; }
         IPlaylistViewMediaPlayerView PlayListView { get; }
-        IMediaController IVideoPlayerController { get; }
         //UIElement WindowsTab { get; }
         //UIElement WindowsTabDock { get; }
         // VlcPlayer MediaPlayer { get; }
+        IControllerView MediaController { get; }
+
         ContentControl ContentDockRegion { get; }
         UIElement ParentGrid { get; }
         string Title { get; set; }
@@ -98,23 +99,22 @@ namespace Movies.MoviesInterfaces
 
     public interface IControllerView
     {
-        IMovieTitle_Tab MovieTitle_Tab { get; }
-        Panel GroupedControls { get; }
+        IMovieTitleBar MovieTitle_Tab { get; }
+       // Panel GroupedControls { get; }
         //VolumeControl VolumeControl { get; }
     }
 
 
 
-    public interface IMediaController
-    {
-        CommandBindingCollection CommandBindings { get; }
+    //public interface IMediaController
+    //{
+    //    CommandBindingCollection CommandBindings { get; }
 
-        // MediaUriElement MediaPlayer { get; }
-        //Canvas CanvasEnvironment { get; }
-        //ISubtitle Subtitle { get; }
-        IControllerView MediaController { get; }
-        event EventHandler ScreenSettingsChanged;
-    }
+    //    // MediaUriElement MediaPlayer { get; }
+    //    //Canvas CanvasEnvironment { get; }
+    //    //ISubtitle Subtitle { get; }
+    //    event EventHandler ScreenSettingsChanged;
+    //}
 
    
 }

@@ -1,4 +1,7 @@
 ﻿using Microsoft.Practices.Prism.Commands;
+using Microsoft.Practices.ServiceLocation;
+using PresentationExtension.CommonEvent;
+using PresentationExtension.InterFaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +13,13 @@ using System.Windows.Media.Animation;
 
 namespace FlyoutControl
 {
+    [TemplatePart(Name = "FlyoutPanel", Type = typeof(Panel))]
     public class Flyout : UserControl
     {
+        IEventManager EventManager
+        {
+            get {return ServiceLocator.Current.GetInstance<IEventManager>(); }
+        }
         static Flyout()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Flyout), new FrameworkPropertyMetadata(typeof(Flyout)));
@@ -83,9 +91,7 @@ namespace FlyoutControl
 
         private void Flyout_Loaded(object sender, RoutedEventArgs e)
         {
-            if (FlyoutState == FlyoutState.None)
-                this.FlyoutState = FlyoutState.Closed;
-            ShowSubMenuHandler();
+           
         }
 
         private void InitializeComponent()
@@ -95,6 +101,7 @@ namespace FlyoutControl
 
         private void ShowSubMenuHandler()
         {
+            EventManager.GetEvent<IsFlyoutBusy>().Publish(true);
             string StoryboardName;
             if(FlyoutState == FlyoutState.Closed)
             {
@@ -105,6 +112,8 @@ namespace FlyoutControl
                     {
                         FlyoutState = FlyoutState.Opened;
                         IsOpen = true;
+                        EventManager.GetEvent<IsFlyoutBusy>().Publish(false);
+
                         //MouseOverButton.Visibility = Visibility.Collapsed;
                     });
                 //StoryboardName = "sbShowLeftMenu";
@@ -130,6 +139,8 @@ namespace FlyoutControl
                         this.Padding = new Thickness(0);
                         IsOpen = false;
                         TextItemPanel.Width = 15;
+                        EventManager.GetEvent<IsFlyoutBusy>().Publish(false);
+
                     });
                 //StoryboardName = "sbHideLeftMenu";
               //  FlyoutState = FlyoutState.Closed;
@@ -153,8 +164,10 @@ namespace FlyoutControl
             TextItemPanel = (Grid)this.Template.FindName("Txtbxpanel", this);
             this.Resources = this.Template.Resources;
             this.MouseOverButton = (Button)this.Template.FindName("MouseOverButton", this);
-            //MouseOverButton.MouseEnter += MouseOverButton_MouseEnter;
-            //SubMenuItem.MouseLeave += SubMenuItem_MouseLeave;
+
+            if (FlyoutState == FlyoutState.None)
+                this.FlyoutState = FlyoutState.Closed;
+            ShowSubMenuHandler();
         }
 
         private void SubMenuItem_MouseLeave(object sender, MouseEventArgs e)

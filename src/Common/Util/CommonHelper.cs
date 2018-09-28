@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Common.Util
 {
@@ -17,6 +19,13 @@ namespace Common.Util
             minute = (int)(p % 3600) / 60;
             seconds = (int)((p % 3600) % 60);
             return string.Format("{0:00}:{1:00}:{2:00}", hour, minute, seconds);
+        }
+
+        public static double GetMousePointer(Control obj)
+        {
+            var x = Mouse.GetPosition(obj).X;
+            var ratio = x / obj.ActualWidth;
+            return ratio;
         }
 
         public static string SetPlayerTitle(string heading, string p)

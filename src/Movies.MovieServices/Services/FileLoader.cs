@@ -1,5 +1,6 @@
 ﻿using Common.ApplicationCommands;
 using Delimon.Win32.IO;
+using Microsoft.Practices.Prism;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.WindowsAPICodePack.Shell;
 using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
@@ -90,7 +91,7 @@ namespace Movies.MovieServices.Services
                     {
 
                         var temp = s;
-                        if (temp.FileType == FileType.Folder)
+                        if (temp.FileType == GroupCatergory.Grouped)
                         {
                             var task = Task.Factory.StartNew(() =>
                             {
@@ -157,7 +158,7 @@ namespace Movies.MovieServices.Services
                 try
                 {
                     var temp = s.OtherFiles[i];
-                    if (temp.FileType == FileType.Folder)
+                    if (temp.FileType == GroupCatergory.Grouped)
                     {
                         temp.IsLoading = true;
                         GetSubFolderItems(temp);
@@ -201,7 +202,7 @@ namespace Movies.MovieServices.Services
                 try
                 {
                     var temp = k;
-                    if (temp.FileType == FileType.Folder)
+                    if (temp.FileType == GroupCatergory.Grouped)
                     {
                         temp.IsLoading = true;
                         GetSubFolderItems(temp);
@@ -297,11 +298,7 @@ namespace Movies.MovieServices.Services
 
         private static VideoFolder LoadDirInfo(VideoFolder parent, DirectoryInfo directoryInfo)
         {
-            VideoFolder vd = new VideoFolder(parent,directoryInfo.FullName)
-            {
-                FileType = FileType.Folder
-            };
-            return vd;
+            return new VideoFolder(parent, directoryInfo.FullName); ;
         }
 
         public VideoFolder SortList(SortType sorttype, VideoFolder parent)
@@ -409,7 +406,7 @@ namespace Movies.MovieServices.Services
             return Toparent;
         }
 
-        public VideoFolder LoadChildrenFiles(DirectoryInfo directoryInfo, bool newpath = false)
+        public VideoFolderChild LoadChildrenFiles(DirectoryInfo directoryInfo, bool newpath = false)
         {
             VideoFolder vf = null;
             MovieDataSource.DataSource.TryGetValue(directoryInfo.FullName, out vf);
@@ -428,15 +425,14 @@ namespace Movies.MovieServices.Services
                 return vfc;
             }
            
-            return vf;
+            return (VideoFolderChild)vf;
         }
 
         public VideoFolderChild CreateVideoFolderChild(IFolder Parentdir,FileInfo fileInfo)
         {
             VideoFolderChild vfc = new VideoFolderChild(Parentdir, fileInfo)
             {
-                FileSize = filecommonhelper.FileSizeConverter(fileInfo.Length),
-                FileType = FileType.File
+                FileSize = filecommonhelper.FileSizeConverter(fileInfo.Length)
             };
             vfc.OnFileNameChangedChanged += ParentDir_OnFileNameChangedChanged;
             SetLastSeen(vfc);
@@ -457,7 +453,6 @@ namespace Movies.MovieServices.Services
 
         public void GetRootDetails(SortType sorttype, ref VideoFolder ParentDir)
         {
-            ParentDir.FileType = FileType.Folder;
             ParentDir = SortList(sorttype, ParentDir);
         }
 
@@ -511,10 +506,10 @@ namespace Movies.MovieServices.Services
                     VideoFolder item = itemsSource[i];
                     if (item == null) continue;
 
-                    if (item.FileType == FileType.Folder && item.ParentDirectory != null)
+                    if (item.FileType == GroupCatergory.Grouped && item.ParentDirectory != null)
                         continue;
 
-                    if (item.FileType == FileType.Folder)
+                    if (item.FileType == GroupCatergory.Grouped)
                     {
                         var task = Task.Factory.StartNew(() =>
                         {
@@ -568,7 +563,7 @@ namespace Movies.MovieServices.Services
                 {
                     VideoFolder item = itemsSource[i];
                     if (item == null) continue;
-                    if (item.FileType == FileType.Folder)
+                    if (item.FileType == GroupCatergory.Grouped)
                     {
                         IDictionary<string, VideoFolder> items = GetAllFiles(item.OtherFiles, item);
                         foreach (var subitem in items)
@@ -602,11 +597,11 @@ namespace Movies.MovieServices.Services
             if (existingVideoFolder == null) return;
             switch (existingVideoFolder.FileType)
             {
-                case FileType.Folder:
+                case GroupCatergory.Grouped:
                     MovieDataSource.InitFileLoading();
 
                     break;
-                case FileType.File:
+                case GroupCatergory.Child:
                     if (MovieDataSource.DataSource.ContainsKey(existingVideoFolder.FullName))
                         MovieDataSource.DataSource.Remove(existingVideoFolder.FullName);
                     break;
@@ -615,10 +610,6 @@ namespace Movies.MovieServices.Services
             }
             
         }
-
-        public ObservableCollection<VideoFolder> SortList(SortType sorttype, ObservableCollection<VideoFolder> list)
-        {
-            return GetSortService.SortList(sorttype, list);
-        }
+        
     }
 }

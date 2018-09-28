@@ -55,6 +55,21 @@ namespace Movies.Models.Model
             ApplicationModelService.SavedLastSeenCollection.Remove(this);
         }
 
+        public void Add()
+        {
+            ApplicationModelService.SavedLastSeenCollection.Add(this);
+        }
+
+        public void Save()
+        {
+            ApplicationModelService.SaveLastSeenFile();
+        }
+
+        public static ILastSeen CreateDummyFile()
+        {
+            return new PlayedFiles();
+        }
+
         private IApplicationModelService ApplicationModelService
         {
             get

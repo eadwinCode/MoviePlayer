@@ -20,31 +20,9 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Border Background="Transparent"  BorderBrush="#FF364E6F" BorderThickness="1,0,0,0">
-        <DockPanel LastChildFill="True" >
-            <!--<Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="*"/>
-                
-            </Grid.RowDefinitions>-->
-            <StackPanel DockPanel.Dock="Top"  Orientation="Horizontal" HorizontalAlignment="Right">
-                <TextBlock Text="Sort by:" Padding="3" VerticalAlignment="Center" Foreground="White"/>
-                <Button Content="{Binding SortedName,FallbackValue=-Custom-}" Width="80" Margin="0,0,10,0" Height="25"  Click="Button_Click_1" Style="{StaticResource MoviesButton}">
-                    <Button.ContextMenu>
-                        <ContextMenu Placement="Bottom">
-                            <MenuItem Header="Date" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}" 
-                                      Command="{Binding DateSortCommand}"/>
-                            <Separator/>
-                            <MenuItem Header="Name" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"
-                                      Command="{Binding NameSortCommand}"/>
-                            <Separator/>
-                            <MenuItem Header="Extension" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"
-                                      Command="{Binding ExtSortCommand}"/>
-                        </ContextMenu>
-                    </Button.ContextMenu>
-                </Button>
-            </StackPanel>
-            <DockPanel Margin="2" Background="Transparent"  DockPanel.Dock="Bottom" Grid.Row="0" LastChildFill="True">
+        <DockPanel LastChildFill="True">
+
+            <DockPanel Margin="0" Background="SeaGreen" Height="35" DockPanel.Dock="Top" Grid.Row="0" LastChildFill="True">
                 <Button DockPanel.Dock="Right"  Width="30" ToolTip="Close Playlist" Click="Button_Click">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}" BasedOn="{StaticResource CloseStyle}">
@@ -60,7 +38,7 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                 <Button ToolTip="Clear Playlist" DockPanel.Dock="Right" 
+                <Button ToolTip="Clear Playlist" DockPanel.Dock="Right" 
                          Content="Clear Playlist" Margin="1,0,10,0" Height="20" 
                          x:Name="claerplaylist" 
                          Command="{Binding ClearPlaylist}">
@@ -104,6 +82,7 @@
                         </Style>
                     </Button.Style>
                 </Button>
+                
                 <Button DockPanel.Dock="Right" ToolTip="Save Playlist" 
                         Height="20" Margin="0,0,5,0" Command="{Binding EnableSaveDialog}">
                     <Button.Style>
@@ -147,7 +126,7 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                
+
                 <DockPanel Background="Transparent"  TextBlock.Foreground="White">
                     <!--<TextBlock Text="PlayList - " Foreground="White" Padding="5"/>-->
 
@@ -155,40 +134,51 @@
                                DockPanel.Dock="Right" Height="25" FontSize="24" FontWeight="Bold" 
                                Opacity="0">
                         <TextBlock.Style>
-                    <Style >
-                        <Style.Triggers>
+                            <Style >
+                                <Style.Triggers>
                                     <DataTrigger Binding="{Binding HasChanges}" Value="true">
-                                <DataTrigger.EnterActions>
-                                    <BeginStoryboard >
-                                        <Storyboard>
-                                            <DoubleAnimation Duration="0:0:0.2" To="1" Storyboard.TargetProperty="Opacity"/>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </DataTrigger.EnterActions>
-                                <DataTrigger.ExitActions>
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                             <DoubleAnimation Duration="0:0:0.2" To="0" Storyboard.TargetProperty="Opacity"/>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </DataTrigger.ExitActions>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBlock.Style>
+                                        <DataTrigger.EnterActions>
+                                            <BeginStoryboard >
+                                                <Storyboard>
+                                                    <DoubleAnimation Duration="0:0:0.2" To="1" Storyboard.TargetProperty="Opacity"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.EnterActions>
+                                        <DataTrigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Duration="0:0:0.2" To="0" Storyboard.TargetProperty="Opacity"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.ExitActions>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
                     </TextBlock>
                     <TextBlock Background="Transparent"  Text="{Binding PlaylistName}" Padding="5"  FontStyle="Italic"
                                TextTrimming="CharacterEllipsis"/>
                 </DockPanel>
             </DockPanel>
-           
-            <!--<StackPanel Background="Black" Grid.Row="1" Orientation="Horizontal" >
-               
-                --><!--byname,extension,date-->
-                <!--Combox selectall,invert selection-->
-                <!--<Button Width="50" Content="S/O" Margin="1" Height="20"/>-->
-                <!--save/open  --><!--
-            </StackPanel>-->
+
+            <StackPanel DockPanel.Dock="Top"  Orientation="Horizontal" HorizontalAlignment="Right" Margin="3">
+                <TextBlock Text="Sort by:" Padding="3" VerticalAlignment="Center" Foreground="White"/>
+                <Button Content="{Binding SortedName,FallbackValue=-Custom-}" Width="80" Margin="0,0,10,0" Height="25"  Click="Button_Click_1" Style="{StaticResource MoviesButton}">
+                    <Button.ContextMenu>
+                        <ContextMenu Placement="Bottom">
+                            <MenuItem Header="Date" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}" 
+                                      Command="{Binding DateSortCommand}"/>
+                            <Separator/>
+                            <MenuItem Header="Name" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"
+                                      Command="{Binding NameSortCommand}"/>
+                            <Separator/>
+                            <MenuItem Header="Extension" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"
+                                      Command="{Binding ExtSortCommand}"/>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+            </StackPanel>
+            
             <ListView Margin="2" Grid.Row="2" SelectionMode="Single" 
                       Style="{StaticResource CustomlistViewControl}"
                       BorderBrush="Transparent" BorderThickness="0" 

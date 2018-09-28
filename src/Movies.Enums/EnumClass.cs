@@ -1,10 +1,17 @@
 ﻿namespace Movies.Enums
 {
-    public enum FileType
+    public enum GroupCatergory
     {
-        Folder,
-        File
+        Grouped,
+        Child
     };
+
+    public enum Channel
+    {
+        Stereo,
+        Mono
+    };
+
 
     public enum SubtitleType
     {
@@ -12,10 +19,17 @@
         HardCoded
     };
 
-    public enum VolumeState
+    public enum SCREENSETTINGS
     {
-        Muted,
-        Active
+        Normal,
+        Fullscreen
+    };
+
+   
+    public enum VolumeState : int
+    {
+        Active,
+        Muted
     };
 
     public enum DestroyTime

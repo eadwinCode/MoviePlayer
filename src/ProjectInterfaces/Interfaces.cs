@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Navigation;
 using System.Windows.Threading;
 using System.Collections.ObjectModel;
+using MahApps.Metro.Controls;
 
 namespace Movies.MoviesInterfaces
 {
@@ -61,7 +62,27 @@ namespace Movies.MoviesInterfaces
         void BeginInvokeDispatchAction(Dispatcher customDispatcher, Action action);
         void ExecuteTimerAction(Action callback, long millisecond);
     }
-    
+
+    public interface INavigatorService
+    {
+        NavigationService NavigationService { get; }
+        Frame Host { get; }
+        ContentControl DockControl { get; }
+    }
+
+    public interface IPageNavigatorHost : IMultiViewHost
+    {
+        INavigatorService PageNavigator { get; }
+        
+    }
+
+    public interface IMultiViewHost
+    {
+        object GetView(string ViewName);
+        void AddView(object view, string uniqueName);
+        void RemoveView(string ViewName);
+    }
+
     public interface ISearchControl
     {
         string CustomPropertyName { get; set; }
@@ -87,14 +108,7 @@ namespace Movies.MoviesInterfaces
         void LoadAllFolders(ObservableCollection<MovieFolderModel> removedFolder = null);
         void InitFileLoading();
     }
-
-    public interface INavigatorService
-    {
-        NavigationService NavigationService { get; }
-        Frame Host { get; }
-        ContentControl DockControl { get; }
-    }
-   
+    
 
     public interface ITreeViewer
     {
@@ -102,23 +116,23 @@ namespace Movies.MoviesInterfaces
         UserControl MoviesPLaylist { get; }
     }
     
-    public interface IShell
+    public interface IShellWindow
     {
         CommandBindingCollection CommandBindings { get; }
     }
 
-    public interface IPageNavigatorHost
+    public interface IShellWindowService : IMultiViewHost
     {
-        INavigatorService PageNavigator { get; }
-        ContentControl DockControl { get; }
+        MetroWindow ShellWindow { get; }
+        void OnWindowsLoaded();
     }
+   
+
     public interface IHasChanges
     {
         bool HasChanges { get; set; }
     }
-
     
-
     public interface IFileExplorer
     {
         ListView FileExplorerListView { get; }
@@ -145,7 +159,6 @@ namespace Movies.MoviesInterfaces
         bool LoadPlaylistFile();
         bool LoadTreeViewFile();
         void SaveFiles();
-        bool SaveLastSeenFile();
         bool SavePlaylistFiles();
         bool SaveMovieFolders();
     }

@@ -12,57 +12,56 @@ using VideoPlayerControl.View;
 
 namespace VideoPlayerControl.ViewModel
 {
-    public partial class VideoPlayerVM
+    public partial class MediaControllerViewModel
     {
         private void RegisterCommands()
         {
            // ICommandBindings.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.FileExplorer, FileExplorer_executed));
             IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.PlayList,
                 PlayList_executed));
-            IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.Mute, 
-                Mute_executed));
-            IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.Next, 
-                Next_executed,Next_enabled));
-            IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.PausePlay,
-                PausePlay_executed,PausePlay_enabled));
-            IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.Previous,
-                Previous_executed, Previous_enabled));
-            IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.Stop, 
-                Stop_executed,CommandEnabled));
-            IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.VolDown,
-                VolDown_executed, Vol_enabled));
-            IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.VolUp, 
-                VolUp_executed,Vol_enabled));
+            //IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.Mute, 
+            //    Mute_executed));
+            //IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.Next, 
+            //    Next_executed,Next_enabled));
+            //IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.PausePlay,
+            //    PausePlay_executed,PausePlay_enabled));
+            //IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.Previous,
+            //    Previous_executed, Previous_enabled));
+            //IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.Stop, 
+            //    Stop_executed,CommandEnabled));
+            //IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.VolDown,
+            //    VolDown_executed, Vol_enabled));
+            //IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.VolUp, 
+            //    VolUp_executed,Vol_enabled));
             // IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.AddtoPlayList, AddtoPlayList_executed));
             IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.RemovefromPlayList,
                 RemovefromPlayList_executed));
             IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.Play ,Play_executed));
-            IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.TopMost,
-                TopMost_executed));
+            //IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.TopMost,
+            //    TopMost_executed));
 
 
-            IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.FullScreen,
-                FullScreen_executed));//, FullScreen_enabled));
-            IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.Rewind, 
-                Rewind_executed, Rewind_enabled));
-            IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.ShiftRewind,
-                ShiftRewind_executed, Rewind_enabled));
+            //IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.FullScreen,
+            //    FullScreen_executed));//, FullScreen_enabled));
+            //IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.Rewind, 
+            //    Rewind_executed, Rewind_enabled));
+            //IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.ShiftRewind,
+            //    ShiftRewind_executed, Rewind_enabled));
 
-            //IMediaController.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.SelectedSub, 
-            //    SelectedSub_executed));
-            IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.FastForward, 
-                FastForward_executed, Rewind_enabled));
-            IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.ShiftFastForward,
-               ShiftFastForward_executed, Rewind_enabled));
+            ////IMediaController.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.SelectedSub, 
+            ////    SelectedSub_executed));
+            //IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.FastForward, 
+            //    FastForward_executed, Rewind_enabled));
+            //IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.ShiftFastForward,
+            //   ShiftFastForward_executed, Rewind_enabled));
 
-            IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.AddSubFile, BrowerSubFile));
+            //IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.AddSubFile, BrowerSubFile));
 
-            IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.ResizeMediaAlways,
-              ResizeMediaAlways_executed));
+            //IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.ResizeMediaAlways,
+            //  ResizeMediaAlways_executed));
 
-            IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.ToggleMediaMenu,
-              ToggleMediaMenu_executed,ToggleMediaMenu_enabled));
-            // IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.MinimizeMediaCtrl, MinimizeMediaCtrl_executed));
+            //IVideoElement.CommandBindings.Add(new CommandBinding(VideoPlayerCommands.ToggleMediaMenu,
+            //  ToggleMediaMenu_executed,ToggleMediaMenu_enabled));
         }
 
         private void ToggleMediaMenu_enabled(object sender, CanExecuteRoutedEventArgs e)
@@ -103,14 +102,14 @@ namespace VideoPlayerControl.ViewModel
         {
             ReWindFastForward();
             MediaPlayerService.CurrentTimer += TimeSpan.FromMilliseconds(1500);
-            MediaControllerViewModel.TimeChangeAction();
+            TimeChangeAction();
         }
 
         private void ShiftRewind_executed(object sender, ExecutedRoutedEventArgs e)
         {
             ReWindFastForward();
             MediaPlayerService.CurrentTimer -= TimeSpan.FromMilliseconds(1500);
-            MediaControllerViewModel.TimeChangeAction();
+            TimeChangeAction();
         }
 
         private void DisableSubtitle_enabled(object sender, CanExecuteRoutedEventArgs e)
@@ -127,7 +126,7 @@ namespace VideoPlayerControl.ViewModel
         {
             ReWindFastForward();
             MediaPlayerService.CurrentTimer += TimeSpan.FromMilliseconds(10000);
-            MediaControllerViewModel.TimeChangeAction();
+            TimeChangeAction();
             if (e.OriginalSource is Button)
             {
                 RestoreMediaState();
@@ -148,31 +147,12 @@ namespace VideoPlayerControl.ViewModel
         {
             ReWindFastForward();
             MediaPlayerService.CurrentTimer -= TimeSpan.FromMilliseconds(10000);
-            MediaControllerViewModel.TimeChangeAction();
+            TimeChangeAction();
             if (e.OriginalSource is Button)
             {
                 RestoreMediaState();
             }
             //IVideoPlayer.MediaPlayer.Play();
-        }
-                        
-        private void MinimizeMediaCtrl_executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (screensetting == SCREENSETTINGS.Normal)
-            {
-                FullScreenSettings();
-               IsFullScreenMode = true;
-                (IMediaController as SubtitleMediaController).
-                    OnScreenSettingsChanged(new object[] { null });
-            }
-            else
-            {
-                IsFullScreenMode = false;
-                NormalScreenSettings();
-                (IMediaController as SubtitleMediaController).
-                    OnScreenSettingsChanged(new object[] { null });
-            }
-            
         }
                
         private void FullScreen_executed(object sender, ExecutedRoutedEventArgs e)
@@ -211,13 +191,13 @@ namespace VideoPlayerControl.ViewModel
         private void VolUp_executed(object sender, ExecutedRoutedEventArgs e)
         {
             ResetVisibilityAnimation();
-            VolumeControl.CurrentVolumeSlider.Value += 10;
+            VolumeSlider.Value += 10;
         }
 
         private void VolDown_executed(object sender, ExecutedRoutedEventArgs e)
         {
             ResetVisibilityAnimation();
-            VolumeControl.CurrentVolumeSlider.Value -= 10;
+            VolumeSlider.Value -= 10;
         }
 
         private void Vol_enabled(object sender, CanExecuteRoutedEventArgs e)
@@ -245,7 +225,7 @@ namespace VideoPlayerControl.ViewModel
             if (FilePlayerManager.MediaControllerViewModel.IsfetchingRepeatItemAsync || !FilePlayerManager.MediaPlayerService.HasLoadedMedia)
                 e.CanExecute = false;
 
-            e.CanExecute = MediaControllerViewModel.CanPrev();
+            e.CanExecute = CanPrev();
         }
         
         private void PausePlay_executed(object sender, ExecutedRoutedEventArgs e)
@@ -274,7 +254,7 @@ namespace VideoPlayerControl.ViewModel
             if (FilePlayerManager.MediaControllerViewModel.IsfetchingRepeatItemAsync || !FilePlayerManager.MediaPlayerService.HasLoadedMedia)
                 e.CanExecute = false;
             else
-                e.CanExecute = MediaControllerViewModel.CanNext();
+                e.CanExecute = CanNext();
         }
         
         private void Mute_executed(object sender, ExecutedRoutedEventArgs e)
@@ -296,13 +276,11 @@ namespace VideoPlayerControl.ViewModel
           
         private void ReWindFastForward()
         {
-            if (!MediaControllerViewModel.IsRewindOrFastForward)
+            if (!IsRewindOrFastForward)
             {
-                MediaControllerViewModel.IsRewindOrFastForward = true;
-                //if (MediaControllerViewModel.MediaState == MovieMediaState.Playing)
-                //    MediaPlayerService.Pause();
+                IsRewindOrFastForward = true;
 
-                if (MediaControllerViewModel.VolumeState == VolumeState.Active)
+                if (VolumeState == VolumeState.Active)
                 {
                     MediaPlayerService.IsMute = true;
                 }
@@ -311,12 +289,8 @@ namespace VideoPlayerControl.ViewModel
             }
         }
 
-        public void RestoreMediaState()
+        public void RestoreMediaState() 
         {
-            //IVideoElement.MediaPlayer.ScrubbingEnabled = false;
-            //if (FilePlayerManager.MediaControllerViewModel.MediaState == MovieMediaState.Playing)
-            //    MediaPlayerService.Play();
-
            FilePlayerManager.MediaControllerViewModel.IsRewindOrFastForward = false;
             if (FilePlayerManager.MediaControllerViewModel.VolumeState
                 == VolumeState.Active)
@@ -328,21 +302,24 @@ namespace VideoPlayerControl.ViewModel
         public void FullScreenAction()
         {
             if (!IsFullScreenMode)
-            {
-                ((SubtitleMediaController)IMediaController).OnScreenSettingsChanged(
-                                new object[] { SCREENSETTINGS.Fullscreen, SCREENSETTINGS.Fullscreen });
-                IsFullScreenMode = true;
-                (((SubtitleMediaController)IMediaController).DataContext as VideoPlayerVM).FullScreenSettings();
-            }
+                ScreenSetting = SCREENSETTINGS.Fullscreen;
             else
-                RestoreScreen();
+                ScreenSetting = SCREENSETTINGS.Normal;
+
         }
 
         public void Loaded()
         {
             Isloaded = true;
-            //IVideoElement.WindowsTab.MouseEnter += WindowsTab_MouseEnter;
-            //IVideoElement.WindowsTab.MouseLeave += WindowsTab_MouseLeave;
+            PositionSlideTimerTooltipStop();
+            DragPositionSlider.IsEnabled = false;
+
+            Init();
+
+            MousemoveTimer.Interval = TimeSpan.FromMilliseconds(1200);
+            MousemoveTimer.Tick += MousemoveTimer_Tick;
+            this.MousemoveTimer.Stop();
+            RegisterCommands();
         }
 
     }

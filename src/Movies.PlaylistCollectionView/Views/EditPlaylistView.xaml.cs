@@ -41,13 +41,12 @@ namespace Movies.PlaylistCollectionView.Views
 
         private void CloseView()
         {
-            PageNavigatorHost.DockControl.Content = null;
+            PageNavigatorHost.RemoveView(typeof(EditPlaylistView).Name);
         }
 
         public void ShowDialog()
         {
-            if (PageNavigatorHost.DockControl.Content == null)
-                PageNavigatorHost.DockControl.Content = this;
+            PageNavigatorHost.AddView(this,typeof(EditPlaylistView).Name);
         }
 
         IPageNavigatorHost PageNavigatorHost

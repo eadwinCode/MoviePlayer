@@ -30,7 +30,7 @@ namespace VideoComponent.BaseClass
             if (videodata == null)
                 return;
 
-            if (ToolTip.ToString() == "Loading.." && videodata.FileType != FileType.Folder)
+            if (ToolTip.ToString() == "Loading.." && videodata.FileType != GroupCatergory.Grouped)
             {
 
                 string path = videodata.FilePath;
@@ -85,7 +85,7 @@ namespace VideoComponent.BaseClass
             if (videodata == null)
                 return;
 
-            if (videodata.FileType != FileType.Folder)
+            if (videodata.FileType != GroupCatergory.Grouped)
             {
                 this.ToolTip = "Loading..";
             }

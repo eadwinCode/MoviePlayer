@@ -13,23 +13,117 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Movies.InternetRadio;component/Themes/Generic.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Page.Resources>
-    <Grid x:Name="_parent">
-        <DockPanel>
-            <Border DockPanel.Dock="Bottom" BorderBrush="{DynamicResource Theme.HighlightColor}" 
-                    Padding="2" BorderThickness="0,0.5,0,0">
-                <ContentControl   VerticalAlignment="Bottom" x:Name="MediaControlRegion" />
-            </Border>
-            <DockPanel>
-                <DockPanel DockPanel.Dock="Top">
-                    <Button Command="{Binding EditorAditRadioStation}" Style="{StaticResource dialogbtn}" VerticalAlignment="Center" 
-                            DockPanel.Dock="Right" Margin="5" Padding="2" Width="80">
-                        <TextBlock Text="Add" 
+
+            <Style TargetType="{x:Type Button}" x:Key="HomePageButton">
+                <Setter Property="BorderThickness" Value="2"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Margin" Value="4"/>
+                <Setter Property="Height" Value="60"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource Theme.MovieFile}"/>
+                <Setter Property="Width" Value="{Binding Source={StaticResource ItemSizeHandler}, Path=ItemControlWidth}"/>
+                <Setter Property="Template" >
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="2"
+                                    Padding="{TemplateBinding Padding}" BorderThickness="{TemplateBinding BorderThickness}">
+                                <DockPanel   TextBlock.Foreground="{DynamicResource Theme.Foreground}" LastChildFill="True" TextBlock.FontStyle="Italic">
+                                    <Border Grid.Column="0" Width="70" DockPanel.Dock="Left" Margin="2,0,0,0">
+                                        <Grid HorizontalAlignment="Left" >
+                                            <Path  Fill="{DynamicResource Theme.MovieFile}" x:Name="path" HorizontalAlignment="Center" 
+                                                   StrokeThickness=".5" Data="M12,10C13.1,10 14,10.9 14,12C14,13.1 13.1,14 12,14C10.9,14 10,13.1 10,12C10,10.9 10.9,10 12,10M12,22C10.05,22 8.22,21.44 6.69,20.47L10,15.47C10.6,15.81 11.28,16 12,16C12.72,16 13.4,15.81 14,15.47L17.31,20.47C15.78,21.44 13.95,22 12,22M2,12C2,7.86 4.5,4.3 8.11,2.78L10.34,8.36C8.96,9 8,10.38 8,12H2M16,12C16,10.38 15.04,9 13.66,8.36L15.89,2.78C19.5,4.3 22,7.86 22,12H16Z"  >
+                                                <Path.LayoutTransform>
+                                                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                                </Path.LayoutTransform>
+                                            </Path>
+                                        </Grid>
+
+                                    </Border>
+
+                                    <Border Grid.Row="1"  x:Name="footer"  VerticalAlignment="Center">
+                                        <Grid  Margin="2,0" Background="Transparent" >
+                                            <DockPanel Grid.Row="0"  Margin="2,0" >
+                                                <TextBlock ToolTip="{Binding Content.TooltipMessage,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" 
+                                                           ToolTipService.InitialShowDelay="1500"
+                                                           Text="{Binding Content.RadioName,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"  
+                                                           TextWrapping="Wrap" FontSize="15"   
+                                                           TextTrimming="CharacterEllipsis"/>
+                                            </DockPanel>
+                                        </Grid>
+                                    </Border>
+                                </DockPanel>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="BorderBrush" Value="#FF337AD5"/>
+                                    <Setter TargetName="path" Property="Fill" Value="#FF337AD5"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="true">
+                                    <Setter Property="LayoutTransform" >
+                                        <Setter.Value>
+                                            <ScaleTransform ScaleX=".99" ScaleY="0.99"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            
+            <Style TargetType="{x:Type Button}" x:Key="HomePageBtn">
+                <Setter Property="BorderThickness" Value="2"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Margin" Value="4"/>
+                <Setter Property="Height" Value="60"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource Theme.MovieFile}"/>
+                <Setter Property="Width" Value="{Binding Source={StaticResource ItemSizeHandler}, Path=ItemControlWidth}"/>
+                <Setter Property="Template" >
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="2"
+                                    Padding="{TemplateBinding Padding}" BorderThickness="{TemplateBinding BorderThickness}">
+                                <DockPanel   TextBlock.Foreground="{DynamicResource Theme.Foreground}" LastChildFill="True" TextBlock.FontStyle="Italic">
+                                    <Border Grid.Column="0" Width="70" DockPanel.Dock="Left" Margin="2,0,0,0">
+                                        <Grid HorizontalAlignment="Left" >
+                                            <Path  Fill="{DynamicResource Theme.MovieFile}" x:Name="path" HorizontalAlignment="Center" 
+                                                   StrokeThickness=".5" Data="M12,10C13.1,10 14,10.9 14,12C14,13.1 13.1,14 12,14C10.9,14 10,13.1 10,12C10,10.9 10.9,10 12,10M12,22C10.05,22 8.22,21.44 6.69,20.47L10,15.47C10.6,15.81 11.28,16 12,16C12.72,16 13.4,15.81 14,15.47L17.31,20.47C15.78,21.44 13.95,22 12,22M2,12C2,7.86 4.5,4.3 8.11,2.78L10.34,8.36C8.96,9 8,10.38 8,12H2M16,12C16,10.38 15.04,9 13.66,8.36L15.89,2.78C19.5,4.3 22,7.86 22,12H16Z"  >
+                                                <Path.LayoutTransform>
+                                                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                                </Path.LayoutTransform>
+                                            </Path>
+                                        </Grid>
+
+                                    </Border>
+
+                                    <Border Grid.Row="1"  x:Name="footer"  VerticalAlignment="Center">
+                                        <Grid  Margin="2,0" Background="Transparent" >
+                                            <DockPanel Grid.Row="0"  Margin="2,0" >
+                                                <TextBlock Text="Add a Group" 
                                        HorizontalAlignment="Center" Padding="5" ToolTip="Add Radio Station"
                                        VerticalAlignment="Center" FontWeight="DemiBold"
                                        FontSize="15" Foreground="OldLace"/>
-                    </Button>
+                                            </DockPanel>
+                                        </Grid>
+                                    </Border>
+                                </DockPanel>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="BorderBrush" Value="#FF337AD5"/>
+                                    <Setter TargetName="path" Property="Fill" Value="#FF337AD5"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </Page.Resources>
+    
+    <Grid x:Name="_parent">
+        <DockPanel>
+            <DockPanel>
+                <DockPanel DockPanel.Dock="Top">
                     <DockPanel>
                         <Path DockPanel.Dock="Left"/>
                         <TextBlock Text="Radio Stations" 
@@ -38,18 +132,35 @@
                                FontWeight="Medium" />
                     </DockPanel>
                 </DockPanel>
-                <ListView Style="{StaticResource listViewControl}"  BorderBrush="Transparent" 
-                          BorderThickness="0"  x:Name="collections"
-                          ScrollViewer.VerticalScrollBarVisibility="Auto" 
-                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                          Background="Transparent"
-                          ItemsSource="{Binding RadioModelCollection}"
-                          ItemTemplate="{StaticResource RadioStationTemplate}"
-                          ItemContainerStyle="{StaticResource CustomContainerStyle}"
-                          Grid.RowSpan="2" >
+                <WrapPanel SizeChanged="Collections_SizeChanged" DockPanel.Dock="Top"  Margin="10,5,0,2" >
+                    <Button DockPanel.Dock="Left" Style="{StaticResource HomePageButton}"  Command="{Binding OpenHomePageCommand}"
+                              Content="{Binding CountryRadioGroup}"        CommandParameter="{Binding  CountryRadioGroup}"/>
+                    <Button DockPanel.Dock="Left" Style="{StaticResource HomePageButton}" Command="{Binding OpenHomePageCommand}"
+                                   Content="{Binding StyleRadioGroup}"     CommandParameter="{Binding  StyleRadioGroup}"/>
+                    <Button DockPanel.Dock="Left" Style="{StaticResource HomePageButton}" Command="{Binding OpenFavoritePageCommand}"
+                                     Content="{Binding FavoriteRadioGroup}"   CommandParameter="{Binding  FavoriteRadioGroup}"/>
+                    <Button Command="{Binding AddStationGroup}" Style="{StaticResource HomePageBtn}" VerticalAlignment="Center" 
+                            DockPanel.Dock="Right" Margin="5" Padding="2" >
+                    </Button>
+                </WrapPanel>
+                <ItemsControl Style="{StaticResource lvStyle1}"  
+                              BorderBrush="Transparent" Margin="10,5,0,2"
+                              BorderThickness="0"  x:Name="collections"
+                              ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                              Background="Transparent"
+                              SizeChanged="Collections_SizeChanged"
+                              ItemsSource="{Binding RadioModelCollection}"
+                              ItemTemplateSelector="{StaticResource DataTemplateSelector}"
+                              Grid.RowSpan="2" >
 
-                </ListView>
+                </ItemsControl>
         </DockPanel>
         </DockPanel>
+        <Border HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,5,0" 
+                BorderBrush="{DynamicResource Theme.HighlightColor}" 
+                BorderThickness="2">
+            <ContentControl   VerticalAlignment="Bottom" x:Name="MediaControlRegion" />
+        </Border>
     </Grid>
 </Page>

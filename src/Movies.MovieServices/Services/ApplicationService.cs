@@ -15,6 +15,7 @@ namespace Movies.MovieServices.Services
         private const string PlaylistFolderName = "PlaylistFolder";
         private const string LastSeenFolderName = "LastSeen";
         private const string LastSeenFileName = "LastPlayed.sxc";
+        private const string RadioFileName = "ghdrad.sxc";
 
         private static string AppName = Path.GetFileNameWithoutExtension(AppDomain.
             CurrentDomain.FriendlyName);
@@ -26,6 +27,7 @@ namespace Movies.MovieServices.Services
        
         public SavedPlaylistCollection AppPlaylist { get; private set; }
         public SavedLastSeenCollection SavedLastSeenCollection { get; private set; }
+        public SavedRadioCollection SavedRadioCollection { get; private set; }
         static string[] delimeter = { " " };
 
         private IDictionary<string,string> formats = new Dictionary<string, string>()
@@ -52,6 +54,7 @@ namespace Movies.MovieServices.Services
             AppPlaylist = new SavedPlaylistCollection();
             SavedLastSeenCollection = new SavedLastSeenCollection();
             AppSettings = new Settings();
+            SavedRadioCollection = new SavedRadioCollection();
 
             if (AppName.Contains(".vshost"))
             {
@@ -65,6 +68,24 @@ namespace Movies.MovieServices.Services
             LoadTreeViewFile();
             LoadPlaylistFile();
             LoadLastSeenFile();
+            LoadRadioFiles();
+        }
+
+        private void LoadRadioFiles()
+        {
+            string path = FileExistOrCreate(@"\" + Settings + @"\" + RadioFileName);
+            if (path != null)
+            {
+                string jsonfile = File.ReadAllText(path);
+                object radios = JsonConvert.DeserializeObject<SavedRadioCollection>(jsonfile, new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.Objects
+                });
+                if (radios != null)
+                {
+                    SavedRadioCollection = (SavedRadioCollection)radios;
+                }
+            }
         }
 
         public void LoadLastSeenFile()
@@ -183,6 +204,27 @@ namespace Movies.MovieServices.Services
             SaveMovieFolders();
             SavePlaylistFiles();
             SaveLastSeenFile();
+            SaveRadioData();
+        }
+
+        private bool SaveRadioData()
+        {
+            try
+            {
+                var typeBind = new IMovieRadioSeriationBinder("Movies.MovieServices.Services");
+                string path = FileExistOrCreate(@"\" + Settings + @"\" + RadioFileName, true);
+                string json = JsonConvert.SerializeObject(SavedRadioCollection, Formatting.Indented,new JsonSerializerSettings {
+                    TypeNameHandling = TypeNameHandling.Objects,
+                    TypeNameAssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple
+
+                });
+                File.WriteAllText(path, json);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public bool SaveMovieFolders()

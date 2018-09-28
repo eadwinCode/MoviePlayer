@@ -12,11 +12,11 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/VideoComponent;component/Themes/Generic.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/Movies.GlobalResources;component/Themes/Generic.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <local:DoubleClick x:Key="ClickAction" />
     <local:ItemListSelector x:Key="VDataTemplateSelector"/>
+    
     <ObjectDataProvider x:Key="SortByEnum" MethodName="GetValues"
                         ObjectType="{x:Type sys:Enum}">
         <ObjectDataProvider.MethodParameters>
@@ -262,7 +262,7 @@
                                     TextWrapping="Wrap"  TextTrimming="CharacterEllipsis" Grid.Row="0"  Margin="2,0"  />
                         <TextBlock  Grid.Row="1" Text="{Binding Duration}" 
                                     HorizontalAlignment="Left" FontSize="10" TextTrimming="CharacterEllipsis" Margin="3,3,0,0"/>
-                        <TextBlock  Grid.Row="1" Text="{Binding CreationDate}" HorizontalAlignment="Right" 
+                        <TextBlock  Grid.Row="1" Text="{Binding CreationDate,ConverterCulture='en-US',StringFormat=\{0:d\}}" HorizontalAlignment="Right" 
                                     FontSize="10" Margin="0,3,3,0" Padding="0,0,0,0" />
                         <ProgressBar Grid.Row="3" Value="{Binding Progress}" Maximum="100" 
                                      Visibility="{Binding PlayedVisible}" 
@@ -371,7 +371,7 @@
                                    TextWrapping="Wrap"  TextTrimming="CharacterEllipsis" Grid.Row="0" ToolTipService.InitialShowDelay="1500"
                                ToolTip="{Binding FullName,UpdateSourceTrigger=PropertyChanged}"    />
 
-                        <TextBlock  Grid.Row="1" Text="{Binding CreationDate}" 
+                        <TextBlock  Grid.Row="1" Text="{Binding CreationDate,ConverterCulture='en-US',StringFormat=\{0:d\}}" 
                                     HorizontalAlignment="Right" 
                                     FontSize="10" Margin="0,0,3,2" 
                                     Padding="0,0,0,0" />
@@ -412,7 +412,7 @@
                             IsEnabled="{Binding IsLoading,Converter={StaticResource BooleanInversion}}"
                             Margin="4" x:Name="main"
                             Style="{StaticResource ContentContainer}"
-                            BorderBrush="Transparent" BorderThickness="0"
+                            BorderBrush="{DynamicResource Theme.MovieFile}" BorderThickness="0"
                             presentationCmd:VideoItemDoubleClick.DoubleClickCommand="{Binding 
             DataContext.OpenFolderCommand,RelativeSource={RelativeSource AncestorType=Page,Mode=FindAncestor}}"
                             presentationCmd:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding 
@@ -490,7 +490,7 @@
                                         FontSize="10" Margin="3,3,0,0"/>-->
                         </StackPanel>
 
-                        <TextBlock  Grid.Row="1" Text="{Binding CreationDate}" 
+                        <TextBlock  Grid.Row="1" Text="{Binding CreationDate,ConverterCulture='en-US',StringFormat=\{0:d\}}" 
                                     HorizontalAlignment="Right" FontSize="10" 
                                     Margin="0,3,3,0" Padding="0,0,0,0" />
                     </Grid>
@@ -555,8 +555,8 @@
                                FontSize="10" 
                                VerticalAlignment="Center" />
                     </Border>
-                    <TextBlock  Grid.Row="1" Text="{Binding CreationDate}"  FontSize="10" 
-                                    Margin="0,3,3,0" Padding="0,0,0,0"
+                    <TextBlock  Grid.Row="1" Text="{Binding CreationDate,ConverterCulture='en-US',StringFormat=\{0:d\}}"  FontSize="10" 
+                                Margin="0,3,3,0" Padding="0,0,0,0"
                                VerticalAlignment="Bottom"/>
 
                     <loadingvisual:LoadingIndicator 

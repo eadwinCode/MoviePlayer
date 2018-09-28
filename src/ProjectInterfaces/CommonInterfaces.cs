@@ -10,7 +10,6 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Movies.MediaService.Interfaces;
 using System.Windows.Threading;
 
 namespace Movies.MoviesInterfaces
@@ -42,10 +41,6 @@ namespace Movies.MoviesInterfaces
     
     public interface IPlayFile
     {
-        IVideoElement VideoElement { get; }
-        IMediaPlayerService MediaPlayerService { get; }
-        IPlaylistManagerViewModel PlaylistManagerViewModel { get; }
-        IMediaControllerViewModel MediaControllerViewModel { get; }
         bool IsPlayingMedia { get; }
         void ShutDownMediaPlayer();
         void PlayFileInit(IVideoData obj);
@@ -55,7 +50,7 @@ namespace Movies.MoviesInterfaces
         void AddFiletoPlayList(IFolder obj);
         void WMPPlayFileInit(IFolder vfc);
         void PlayFileFromPlayList(PlaylistModel playlistModel);
-        void PlayFileInit(IVideoData playFile, IEnumerable<VideoFolderChild> TemperalList);
+        void PlayFileInit(IPlayable playFile, IEnumerable<IPlayable> TemperalList);
         void PrepareVideoElement();
     }
 
@@ -81,7 +76,7 @@ namespace Movies.MoviesInterfaces
         VideoFolder GetFolderItems(VideoFolder item);
         void GetRootDetails(SortType sorttype, ref VideoFolder ParentDir);
         void InitGetAllFiles(ObservableCollection<VideoFolder> itemsSource);
-        VideoFolder LoadChildrenFiles(DirectoryInfo directoryInfo, bool newpath = false);
+        VideoFolderChild LoadChildrenFiles(DirectoryInfo directoryInfo, bool newpath = false);
         ObservableCollection<VideoFolder> LoadChildrenFiles(VideoFolder Parentdir, bool newpath = false);
         ObservableCollection<VideoFolder> LoadChildrenFiles(VideoFolder Parentdir, IList<FileInfo> files, bool newpath = false);
         VideoFolder LoadParentFiles(VideoFolder Parentdir, IList<DirectoryInfo> SubDirectory, IList<FileInfo> SubFiles, SortType sorttype);
@@ -89,7 +84,6 @@ namespace Movies.MoviesInterfaces
         VideoFolder LoadParentFiles(VideoFolder Parentdir, IList<FileInfo> SubFiles, SortType sorttype);
         VideoFolder LoadParentFiles(VideoFolder ParentDir, SortType sorttype);
         void RemoveFromDataSource(VideoFolder existingVideoFolder);
-        ObservableCollection<VideoFolder> SortList(SortType sorttype, ObservableCollection<VideoFolder> list);
         VideoFolder SortList(SortType sorttype, VideoFolder parent);
         VideoFolderChild CreateVideoFolderChild(IFolder Parentdir, FileInfo fileInfo);
         void SetLastSeen(VideoFolderChild videoFolderChild);

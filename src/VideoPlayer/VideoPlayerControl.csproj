@@ -83,11 +83,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomControl1.cs" />
+    <Compile Include="CustomControls\MediaSlider.cs" />
+    <Compile Include="MediaPlayerControl.cs" />
+    <Compile Include="MediaPlayerControlEvents.cs" />
+    <Compile Include="MovieController.cs" />
     <Compile Include="Util\DragCanvas.cs" />
     <Compile Include="Interfaces\IControllerView.cs" />
     <Compile Include="Util\MarqueeTextBlock.cs" />
     <Compile Include="Util\MouseDownHelper.cs" />
-    <Compile Include="Util\MovieTitle_Tab.cs" />
+    <Compile Include="CustomControls\MovieTitle_Tab.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -104,6 +108,7 @@
     <Compile Include="Util\TextConverter.cs" />
     <Compile Include="Util\TrackListConverter.cs" />
     <Compile Include="Util\ViewConverter.cs" />
+    <Compile Include="ViewModel\IMediaControllerViewModel2.cs" />
     <Compile Include="ViewModel\MediaControllerViewModel.cs" />
     <Compile Include="ViewModel\MediaControllerVM.cs" />
     <Compile Include="ViewModel\MediaMenuViewModel.cs" />
@@ -115,10 +120,7 @@
     <Compile Include="View\MediaMenu.xaml.cs">
       <DependentUpon>MediaMenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\SubtitleMediaController.xaml.cs">
-      <DependentUpon>SubtitleMediaController.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Util\VolumeControl.cs" />
+    <Compile Include="CustomControls\VolumeControl.cs" />
     <Compile Include="Util\VolumeTextConverter.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -131,9 +133,17 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Themes\ControllerStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\MovieControlTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MediaController.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -142,10 +152,6 @@
     <Page Include="View\MediaMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\SubtitleMediaController.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

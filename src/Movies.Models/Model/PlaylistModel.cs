@@ -77,7 +77,7 @@ namespace Movies.Models.Model
     {
         public string FilePath { get; set; }
         public string FileName { get; set; }
-
+        public Uri UriPath { get; set; }
         public Pathlist(string filepath)
         {
             FilePath = filepath;
@@ -89,6 +89,16 @@ namespace Movies.Models.Model
 
         }
 
+        public static Pathlist Parse(IPlayable playable)
+        {
+            var pathlist = new Pathlist() { UriPath = playable.Url, FileName = playable.MediaTitle };
+            ILocaFilePlayable locaFilePlayable = playable as ILocaFilePlayable;
+            if (locaFilePlayable != null)
+                pathlist.FilePath = locaFilePlayable.FilePath;
+
+            return pathlist;
+        }
+        
         public override bool Equals(object obj)
         {
             if (obj != null && (obj is Pathlist))

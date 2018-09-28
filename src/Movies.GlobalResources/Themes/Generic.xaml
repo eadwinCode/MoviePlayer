@@ -12,7 +12,7 @@
     
     <presentationConvter:ThumbnailImageSource x:Key="ImageSource"/>
     <presentationConvter:ThumbNailConverter x:Key="ThumbnailConverter"/>
-
+    <presentationConvter:GroupSort x:Key="GroupSort" />
     <presentationConvter:ActiveItemConverter x:Key="ActiveItemSelector"/>
     <presentationConvter:TextContexter x:Key="TextContexter"/>
 
@@ -35,7 +35,7 @@
                 TileMode="Tile" Stretch="None" 
                 ViewportUnits="Absolute" Opacity="0.3"/>
 
-    <Style x:Key="CustomlistViewControl" TargetType="{x:Type ListView}">
+    <Style x:Key="CustomlistViewControl" TargetType="{x:Type ItemsControl}">
         <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True"/>
         <Setter Property="VirtualizingStackPanel.VirtualizationMode" Value="Recycling"/>
         <Setter Property="Background" Value="Transparent"/>
@@ -43,7 +43,7 @@
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="ListView">
+                <ControlTemplate TargetType="ItemsControl">
                     <ScrollViewer >
                         <Border BorderBrush="{TemplateBinding BorderBrush}" 
                                 Background="{TemplateBinding Background}" 
@@ -203,7 +203,7 @@
         </Setter>-->
     </Style>
 
-    <Style x:Key="ZeroContainerStyle" TargetType="ListViewItem">
+    <Style x:Key="ZeroContainerStyle" TargetType="ListBoxItem">
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="Background" Value="Transparent"/>
         <!--<Setter Property="HorizontalContentAlignment" Value="Stretch"/>-->
@@ -221,6 +221,30 @@
                             <Setter Property="TextBlock.Foreground" Value="White"/>
                             <Setter  Property="TextBlock.FontWeight" Value="Bold"/>
                         </Trigger>-->
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ZeroContainerWithHoverStyle" TargetType="ListViewItem">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Padding" Value="2"/>
+        <!--<Setter Property="HorizontalContentAlignment" Value="Stretch"/>-->
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                    <Border x:Name="container" BorderThickness="1" BorderBrush="Transparent" Padding="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}" Margin="{TemplateBinding Margin}" >
+                        <ContentPresenter HorizontalAlignment="Stretch" SnapsToDevicePixels="True"
+                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="container" Property="BorderBrush" Value="DodgerBlue"/>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -327,6 +351,98 @@
         </Setter>
     </Style>
 
+    <Style TargetType="Button" x:Key="CloseButtonStyle">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border CornerRadius="16" SnapsToDevicePixels="True" x:Name="border" 
+                            Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                        <Border Opacity=".7" x:Name="contentPresenter" Background="Transparent" >
+                            <Grid HorizontalAlignment="Center"   
+                                                  VerticalAlignment="Center"  >
+                                <Path Fill="{DynamicResource Theme.HighlightColor}" Stroke="{DynamicResource Theme.Foreground}" StrokeThickness=".7" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                                  SnapsToDevicePixels="True" Data="M19,3H16.3H7.7H5C3.9,3 3,3.9 3,5V7.7V16.4V19C3,20.1 3.9,21 5,21H7.7H16.4H19C20.1,21 21,20.1 21,19V16.3V7.7V5C21,3.9 20.1,3 19,3M15.6,17L12,13.4L8.4,17L7,15.6L10.6,12L7,8.4L8.4,7L12,10.6L15.6,7L17,8.4L13.4,12L17,15.6L15.6,17Z">
+                                    <Path.LayoutTransform>
+                                        <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
+                                    </Path.LayoutTransform>
+                                </Path>
+                            </Grid>
+                        </Border>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsDefaulted" Value="true">
+                            <Setter Property="BorderBrush" TargetName="border" 
+                                    Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                        </Trigger>
+
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Opacity" TargetName="contentPresenter" Value="1"/>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="LayoutTransform" >
+                                <Setter.Value>
+                                    <ScaleTransform ScaleX=".99" ScaleY="0.99"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" TargetName="contentPresenter" Value=".3"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style TargetType="Button" x:Key="CloseButtonStyleWhite">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border CornerRadius="16" SnapsToDevicePixels="True" x:Name="border" 
+                            Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                        <Border Opacity=".7" x:Name="contentPresenter" Background="Transparent" >
+                            <Grid HorizontalAlignment="Center"   
+                                                  VerticalAlignment="Center"  >
+                                <Path Fill="WhiteSmoke"  StrokeThickness=".7" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                                  SnapsToDevicePixels="True" Data="M19,3H16.3H7.7H5C3.9,3 3,3.9 3,5V7.7V16.4V19C3,20.1 3.9,21 5,21H7.7H16.4H19C20.1,21 21,20.1 21,19V16.3V7.7V5C21,3.9 20.1,3 19,3M15.6,17L12,13.4L8.4,17L7,15.6L10.6,12L7,8.4L8.4,7L12,10.6L15.6,7L17,8.4L13.4,12L17,15.6L15.6,17Z">
+                                    <Path.LayoutTransform>
+                                        <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
+                                    </Path.LayoutTransform>
+                                </Path>
+                            </Grid>
+                        </Border>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsDefaulted" Value="true">
+                            <Setter Property="BorderBrush" TargetName="border" 
+                                    Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                        </Trigger>
+
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Opacity" TargetName="contentPresenter" Value="1"/>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="LayoutTransform" >
+                                <Setter.Value>
+                                    <ScaleTransform ScaleX=".99" ScaleY="0.99"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" TargetName="contentPresenter" Value=".3"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="VerticalBevelGrip" TargetType="{x:Type GridSplitter}">
         <Setter Property="Background" >
             <Setter.Value>
@@ -359,7 +475,8 @@
         <Setter Property="Template" >
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" Padding="{TemplateBinding Padding}" BorderThickness="{TemplateBinding BorderThickness}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="2"
+                            Padding="{TemplateBinding Padding}" BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
                             <!--<Thumb HorizontalAlignment="Stretch" Padding="1" 
                                    Background="Transparent" 
@@ -388,17 +505,30 @@
                             <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         </Grid>
                     </Border>
-                    <!--<ControlTemplate.Triggers>
+                    <ControlTemplate.Triggers>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter  Property="Background" Value="Red">
-                                -->
-                    <!--<Setter.Value>
-                                    <ImageBrush ImageSource="Images/check-1-icon.png" TileMode="Tile"   Stretch="None" ViewportUnits="Absolute" Opacity="0.2"/>
-                                </Setter.Value>-->
-                    <!--
+                            <Setter Property="LayoutTransform" >
+                                <Setter.Value>
+                                    <ScaleTransform ScaleX=".99" ScaleY="0.99"/>
+                                </Setter.Value>
                             </Setter>
                         </Trigger>
-                    </ControlTemplate.Triggers>-->
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="PlaylistContentContainer">
+        <Setter Property="Template" >
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="3,0,3,0" BorderBrush="{TemplateBinding BorderBrush}" 
+                            Padding="{TemplateBinding Padding}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        </Grid>
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -939,7 +1069,8 @@
         </Setter>
     </Style>
 
-    <Style x:Key="lvStyle1" TargetType="{x:Type ListView}" BasedOn="{StaticResource CustomlistViewControl}">
+    <Style x:Key="lvStyle1" TargetType="{x:Type ItemsControl}" 
+           BasedOn="{StaticResource CustomlistViewControl}">
         <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True"/>
         <Setter Property="VirtualizingStackPanel.VirtualizationMode" Value="Recycling"/>
         <Setter Property="Background" Value="Transparent"/>
@@ -960,8 +1091,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-   
 
     <Style x:Key="HomePlaylistViewControl" TargetType="{x:Type ListView}">
         <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True"/>
@@ -1006,4 +1135,5 @@
         </Setter>
     </Style>
 
+    
 </ResourceDictionary>

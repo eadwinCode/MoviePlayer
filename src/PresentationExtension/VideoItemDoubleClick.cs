@@ -16,17 +16,9 @@ namespace PresentationExtension
         private static void CommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as Control;
-
-            if (control is Button)
-            {
-                (control as Button).Click += VideoItemDoubleClick_Click; ;
-            }
-            else
-                control.MouseDoubleClick += control_MouseDoubleClick;
+            control.MouseDoubleClick += control_MouseDoubleClick;
         }
-
-       
-
+        
         public static ICommand GetDoubleClickCommand(DependencyObject obj)
         {
             return (ICommand)obj.GetValue(DoubleClickCommand);

@@ -1,4 +1,4 @@
-﻿using MediaControl;
+using MediaControl;
 using System;
 using System.Windows;
 using Microsoft.Practices.ServiceLocation;
@@ -6,39 +6,25 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Movies.MoviesInterfaces;
-using Meta.Vlc;
 using Movies.Models.Model;
 using Movies.Models.Interfaces;
-using Common.Util;
-using Movies.MoviePlaylistManager.ViewModel;
-using VideoPlayerControl.ViewModel;
 using System.Windows.Controls;
-using Movies.MediaService.Interfaces;
-using Movies.MediaService.Service;
 using System.Collections.Generic;
 using System.Windows.Threading;
+using MovieHub.MediaPlayerElement.Interfaces;
+using System.Collections.ObjectModel;
+using VideoPlayerView;
 
 namespace VideoPlayerView.FilePlayer
 {
     public partial class PlayFile : IPlayFile
     {
-        private static IVideoElement _videoelement;
+        private static MediaPlayerWindow _videoelement;
         private WindowsMediaPlayControl WindowsMediaPlayer;
         private bool HasScubscribed;
         private bool isplayingMedia = false;
-        private WindowState ShellState = WindowState.Normal;
         private object padlock = new object();
-
-        IMediaControllerViewModel mediaControllerViewModel;
-        public IMediaControllerViewModel MediaControllerViewModel
-        {
-            get
-            {
-                if (mediaControllerViewModel == null)
-                    mediaControllerViewModel = new MediaControllerViewModel();
-                return mediaControllerViewModel;
-            }
-        }
+        
         IFileLoaderCompletion LoaderCompletion
         {
             get
@@ -54,35 +40,13 @@ namespace VideoPlayerView.FilePlayer
                 return ServiceLocator.Current.GetInstance<IRadioService>();
             }
         }
-
-        IPlaylistManagerViewModel iplaylistmanagerviewmodel;
-        public IPlaylistManagerViewModel PlaylistManagerViewModel
-        {
-            get
-            {
-                if (iplaylistmanagerviewmodel == null)
-                    iplaylistmanagerviewmodel = new PlaylistManagerViewModel();
-                return iplaylistmanagerviewmodel;
-            }
-        }
-
-        IMediaPlayerService imediaservice;
-        public IMediaPlayerService MediaPlayerService
-        {
-            get
-            {
-                if (imediaservice == null) { 
-                    imediaservice = new MediaPlayerService();
-                }
-                return imediaservice;
-            }
-        }
-
-        public IVideoElement VideoElement { get { return _videoelement; } }
         
-        private IShell IShell
+
+        public MediaPlayerWindow VideoElement { get { return _videoelement; } }
+        
+        private IShellWindow IShell
         {
-            get { return ServiceLocator.Current.GetInstance<IShell>(); }
+            get { return ServiceLocator.Current.GetInstance<IShellWindow>(); }
         }
 
         public bool IsPlayingMedia { get { return isplayingMedia; } }
@@ -99,17 +63,13 @@ namespace VideoPlayerView.FilePlayer
         {
             if (_videoelement != null)
             {
-                (_videoelement as Window).Close();
+                (_videoelement).Close();
+               // _videoelement = null;
             }
 
             if (WindowsMediaPlayer != null)
             {
                 WindowsMediaPlayer.Close();
-            }
-            if (Win32Api.SetThreadExecutionState(Win32Api.ES_CONTINUOUS) == null)
-            {
-                // try XP variant as well just to make sure 
-                Win32Api.SetThreadExecutionState(Win32Api.ES_CONTINUOUS);
             }
         }
 
@@ -117,10 +77,9 @@ namespace VideoPlayerView.FilePlayer
         {
             (IShell as Window).Closing += PlayFile_Closing1;
             HasScubscribed = true;
-            ShellState = (IShell as Window).WindowState;
         }
 
-        private void InitPlayerView(object obj = null)
+        private void InitPlayerView()
         {
             try
             {
@@ -128,21 +87,24 @@ namespace VideoPlayerView.FilePlayer
                     RadioServicecs.ShutdownRadio();
                 if (_videoelement == null)
                 {
-                    _videoelement = new VideoElement();
-                    (_videoelement as Window).Closing += PlayFile_Closing;
-                    (_videoelement as Window).Closed += PlayFile_Closed;
+                    _videoelement = new MediaPlayerWindow();
+
+                    VideoElement.Unloaded += (s, e) => {
+                        if(_videoelement.CanUnload)
+                           _videoelement = null;
+                    };
                 }
 
                 if (WindowsMediaPlayer != null)
                 {
                     WindowsMediaPlayer.Close();
                 }
-            (_videoelement as Window).Show();
-                if (obj != null)
-                {
-                    LoadFiletoPlayer(obj);
-                }
+            (_videoelement).Show();
                 isplayingMedia = true;
+                if (!HasScubscribed)
+                {
+                    Subscribe();
+                }
             }
             catch (Exception)
             {
@@ -152,9 +114,30 @@ namespace VideoPlayerView.FilePlayer
 
         }
 
+        private void InitPlayerView(IPlayable item, IEnumerable<IPlayable> enumerable)
+        {
+            InitPlayerView();
+            if (item != null && enumerable != null)
+            {
+                _videoelement.LoadMediaFile(item, enumerable);
+                return;
+            }
+            if(item != null)
+                _videoelement.LoadMediaFile(item);
+        }
+
+        private void InitPlayerView(PlaylistModel plm)
+        {
+            InitPlayerView();
+            if (plm != null)
+            {
+                _videoelement.LoadMediaFile(plm);
+            }
+        }
+
         private void LoadFiletoPlayer(object obj)
         {
-            mediaControllerViewModel.GetVideoItem((VideoFolderChild)obj);
+            VideoElement.LoadMediaFile((IPlayable)obj);
         }
 
         private void InitWMPView(object obj)
@@ -164,6 +147,7 @@ namespace VideoPlayerView.FilePlayer
             {
                 if (RadioServicecs.IsRadioOn)
                     RadioServicecs.ShutdownRadio();
+
                 if (WindowsMediaPlayer == null)
                 {
                     WindowsMediaPlayer = new WindowsMediaPlayControl();
@@ -172,12 +156,15 @@ namespace VideoPlayerView.FilePlayer
 
                 if (_videoelement != null)
                 {
-                    (_videoelement as Window).Close();
+                    (_videoelement).Close();
                 }
                 WindowsMediaPlayer.OpenFile((VideoFolderChild)obj);
                 WindowsMediaPlayer.Show();
                 isplayingMedia = true;
-
+                if (!HasScubscribed)
+                {
+                    Subscribe();
+                }
             }
             catch (Exception) { throw; }
             #endregion
@@ -188,8 +175,6 @@ namespace VideoPlayerView.FilePlayer
             WindowsMediaPlayer = null;
             CloseLibraries();
             isplayingMedia = false;
-
-            (IShell as Window).WindowState = ShellState;
         }
         
         private void PlayFile_Closed(object sender, EventArgs e)
@@ -212,73 +197,48 @@ namespace VideoPlayerView.FilePlayer
         {
             try
             {
-                mediaControllerViewModel.CloseMediaPlayer(true);
+               // mediaControllerViewModel.CloseMediaPlayer(true);
                 _videoelement = null;
                 isplayingMedia = false;
                 CloseLibraries();
-                (IShell as Window).WindowState = ShellState;
+               // (IShell as Window).WindowState = ShellState;
             }
             catch (Exception) { }
         }
 
         private void CloseLibraries()
         {
-            iplaylistmanagerviewmodel = null;
-            mediaControllerViewModel = null;
-            imediaservice = null;
+
         }
 
         public void PlayFileFromPlayList(PlaylistModel plm)
         {
-            InitPlayerView();
-            MediaControlExtension.SetFileexpVisiblity(VideoElement.PlayListView as UIElement,
-                Visibility.Visible);
-
-            PlaylistManagerViewModel.PlayFromAList(plm);
-            (IShell as Window).WindowState = WindowState.Minimized;
+            InitPlayerView(plm);
         }
 
         public void PlayFileInit(IVideoData obj)
         {
-            InitPlayerView(obj);
-
-            if (!HasScubscribed)
-            {
-                Subscribe();
-            }
-            (IShell as Window).WindowState = WindowState.Minimized;
+            InitPlayerView();
+            LoadFiletoPlayer(obj);
+            Subscribe();
         }
 
-        public void PlayFileInit(IVideoData obj,IEnumerable<VideoFolderChild> enumerable)
+        public void PlayFileInit(IPlayable obj,IEnumerable<IPlayable> enumerable)
         {
-            InitPlayerView();
-            MediaControlExtension.SetFileexpVisiblity(VideoElement.PlayListView as UIElement,
-                Visibility.Visible);
-
-            PlaylistManagerViewModel.PlayFromTemperalList(obj,enumerable);
-            (IShell as Window).WindowState = WindowState.Minimized;
+            InitPlayerView(obj,enumerable);
         }
 
         public void AddFiletoPlayList(IVideoData obj)
         {
             InitPlayerView();
-            MediaControlExtension.SetFileexpVisiblity(VideoElement.PlayListView as UIElement,
-                Visibility.Visible);
-
             VideoFolderChild vfc = (VideoFolderChild)obj;
-
-            PlaylistManagerViewModel.Add(vfc);
+            _videoelement.AddToPlaylist(vfc);
         }
 
         public void WMPPlayFileInit(IVideoData vfc)
         {
             InitWMPView(vfc);
-
-            if (!HasScubscribed)
-            {
-                Subscribe();
-            }
-
+            
             (IShell as Window).WindowState = WindowState.Minimized;
         }
 
@@ -287,7 +247,7 @@ namespace VideoPlayerView.FilePlayer
             lock (padlock)
             {
                 VideoFolder videoFolder = obj as VideoFolder;
-                var item = videoFolder.OtherFiles.FirstOrDefault(x => x is VideoFolderChild);
+                VideoFolderChild item = (VideoFolderChild)videoFolder.OtherFiles.FirstOrDefault(x => x is VideoFolderChild);
                 if (item != null)
                 {
                     var task = Task.Factory.StartNew(() =>
@@ -295,13 +255,7 @@ namespace VideoPlayerView.FilePlayer
                         LoaderCompletion.FinishCollectionLoadProcess(videoFolder.OtherFiles,null);
                     }).ContinueWith(t => { }, TaskScheduler.FromCurrentSynchronizationContext());
 
-                    InitPlayerView(item);
-                    PlaylistManagerViewModel.PlayListCollection = new System.Collections.ObjectModel.ObservableCollection<VideoFolder>(videoFolder.OtherFiles.Where(x => x is VideoFolderChild));
-                    if (!HasScubscribed)
-                    {
-                        Subscribe();
-                    }
-                (IShell as Window).WindowState = WindowState.Minimized;
+                    InitPlayerView(item, videoFolder.OtherFiles.OfType<IPlayable>());
                 }
             }
 
@@ -316,10 +270,9 @@ namespace VideoPlayerView.FilePlayer
                 if (item != null)
                 {
                     InitPlayerView();
-                    MediaControlExtension.
-                        SetFileexpVisiblity(VideoElement.PlayListView as UIElement,Visibility.Visible);
                     VideoFolder vf = (VideoFolder)obj;
-                    PlaylistManagerViewModel.Add(vf.OtherFiles.Where(x => x is VideoFolderChild));
+                    IEnumerable<IPlayable> playables = vf.OtherFiles.OfType<IPlayable>();
+                    _videoelement.AddRangeToPlaylist(playables);
                 }
 
             }
@@ -329,16 +282,16 @@ namespace VideoPlayerView.FilePlayer
         /// </summary>
         public void PrepareVideoElement()
         {
-            _videoelement = new VideoElement();
-            (_videoelement as Window).Width = 20;
-            (_videoelement as Window).Height = 20;
-            (_videoelement as Window).WindowState = WindowState.Normal;
-            (_videoelement as Window).Show();
-            (_videoelement as Window).CommandBindings.Clear();
-            (_videoelement as Window).Close();
+            //_videoelement = new VideoElement();
+            //(_videoelement as Window).Width = 20;
+            //(_videoelement as Window).Height = 20;
+            //(_videoelement as Window).WindowState = WindowState.Normal;
+            //(_videoelement as Window).Show();
+            //(_videoelement as Window).CommandBindings.Clear();
+            //(_videoelement as Window).Close();
 
-            CloseLibraries();
-            _videoelement = null;
+            //CloseLibraries();
+            //_videoelement = null;
         }
 
         public void WMPPlayFileInit(IFolder vfc)
@@ -346,4 +299,4 @@ namespace VideoPlayerView.FilePlayer
 
         }
     }
-}
+}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     

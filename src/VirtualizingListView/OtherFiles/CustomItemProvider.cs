@@ -134,7 +134,7 @@ namespace VirtualizingListView.OtherFiles
 
         private void SearchSubtitleFile(VideoFolder item)
         {
-            if (item.FileType == FileType.Folder) return;
+            if (item.FileType == GroupCatergory.Grouped) return;
             if ((item as VideoFolderChild).HasSearchSubtitleFile) return;
 
             Dispatcher.BeginInvoke(new Action(delegate
@@ -164,7 +164,7 @@ namespace VirtualizingListView.OtherFiles
         {
             Dispatcher.Invoke(new Action(delegate
             {
-                if (item.FileType == FileType.Folder)
+                if (item.FileType == GroupCatergory.Grouped)
                 {
                     //item = GetItems(item);
                     Task.Factory.StartNew(() => GetItems(item))

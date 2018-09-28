@@ -3,12 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:flyout="clr-namespace:FlyoutControl;assembly=FlyoutControl"
         xmlns:prism="http://www.codeplex.com/prism"
+        xmlns:sw="clr-namespace:WpfStyleableWindow.StyleableWindow;assembly=Common"
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         Title="Movie Hub" x:Name="_mainView" 
         NonActiveWindowTitleBrush="{DynamicResource Theme.WindowsTile}"
         WindowTitleBrush="{DynamicResource Theme.WindowsTile}"
         FontSize="13" 
-        Background="{DynamicResource Theme.Background}"
+        Background="Black"
         BorderBrush="Black"
         NonActiveBorderBrush="Black"
         ResizeMode="CanResizeWithGrip" 
@@ -18,6 +19,7 @@
         TitleCaps="False"
         TitlebarHeight="45"
         MinHeight="300"
+        FocusManager.FocusedElement="{Binding ElementName=ContentRegion,Path=Content}"
         HorizontalContentAlignment="Stretch" >
     
     <!--<mah:MetroWindow.Background>
@@ -54,85 +56,9 @@
     </mah:MetroWindow.RightWindowCommands>
     <Window.Resources>
     </Window.Resources>
-    <!--<VideoList:VideoComponentList/>-->
-    <DockPanel>
-        
-        <Border BorderBrush="{DynamicResource Theme.HighlightColor}" Height="40"
-                Grid.Row="2" IsEnabled="{Binding HasAction, Converter={StaticResource BooleanInversion}}"
-                BorderThickness="0,1,0,0"
-                Visibility="Visible" VerticalAlignment="Bottom"
-                DockPanel.Dock="Bottom">
-            <DockPanel Grid.Column="0">
-                <StatusBar Background="{DynamicResource Theme.Background}">
-                    <ContentControl prism:RegionManager.RegionName="StatusBarRegion"/>
-                </StatusBar>
-                <!--<TextBlock Text="Status Message" Foreground="{DynamicResource Theme.Foreground}" FontSize="15" FontWeight="Regular" Padding="5" VerticalAlignment="Center" Opacity=".7"/>-->
-                <!--<ProgressBar Margin="2" VerticalAlignment="Stretch"  LargeChange="0"  Foreground="White"  
-                             Value="{Binding LoadingProgress}" 
-                             Style="{DynamicResource loadingprogressbar}" />-->
-
-            </DockPanel>
-        </Border>
-        <!--<VideoList:FileView Grid.Row="2" x:Name="pagenavigatorhost" VerticalAlignment="Stretch" />-->
-        <flyout:Flyout Background="{DynamicResource Theme.Background}">
-            <flyout:Flyout.SubMenuItem>
-                <flyout:SubMenuItem>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="30"/>
-                        </Grid.RowDefinitions>
-
-                        <Button Content="close" DockPanel.Dock="Right" Grid.Row="0"
-                                ToolTip="Close this Panel" HorizontalAlignment="Right"  Margin="4" 
-                                        Command="{x:Static flyout:Flyout.SubMenuToggleCommand}">
-                            <Button.Style>
-                                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource CloseStyle}">
-                                    <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="Foreground" Value="{DynamicResource Theme.Foreground}"/>
-                                    <Setter Property="Focusable" Value="False"/>
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="true">
-                                            <Setter Property="Background" Value="{DynamicResource Theme.HighlightColor}"/>
-                                            <Setter Property="Foreground" Value="{DynamicResource Theme.Foreground}"/>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>
-                        <!--Header Items-->
-                        <DockPanel Grid.Row="1" Margin="5,10,5,10" Background="Transparent">
-                            <ContentControl  DockPanel.Dock="Right" HorizontalAlignment="Right"
-                                    prism:RegionManager.RegionName="ShellSearchRegion" 
-                                    Margin="4" Width="35" Height="30"/>
-
-                            <TextBlock Padding="5" Text="Movie Hub Explorer" FontWeight="Light" FontSize="20"
-                                       Foreground="{DynamicResource Theme.Foreground}"/>
-                        </DockPanel>
-
-                        <!--Body Items-->
-                        <StackPanel Grid.Row="2" VerticalAlignment="Top">
-                            <ItemsControl prism:RegionManager.RegionName="SubMenuItemsRegion" DockPanel.Dock="Top"/>
-                            <ContentControl prism:RegionManager.RegionName="ShellRadioRegion" DockPanel.Dock="Top"/>
-                            <ContentControl prism:RegionManager.RegionName="ShellPlaylistRegion" DockPanel.Dock="Top"/>
-                            <Separator Height=".5" Width="150" HorizontalAlignment="Left" Padding="5"/>
-                            <ContentControl prism:RegionManager.RegionName="ShellThemeRegion" DockPanel.Dock="Top"/>
-                        </StackPanel>
-
-                        <!--footer Items-->
-                        <DockPanel Grid.Row="3" Background="Transparent">
-                            <TextBlock Text="Copyright 2018" Padding="5" Foreground="{DynamicResource Theme.Foreground}"/>
-                        </DockPanel>
-                    </Grid>
-
-                </flyout:SubMenuItem>
-            </flyout:Flyout.SubMenuItem>
-            <ContentControl prism:RegionManager.RegionName="MainRegion"/>
-        </flyout:Flyout>
-    </DockPanel>
-
-  
+    <!--<VideoList:VideoComponentList/> prism:RegionManager.RegionName="ShellWindowRegion"-->
+    <Grid sw:WindowDragBehavior.LeftMouseButtonDrag="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}">
+        <ContentControl x:Name="ContentRegion"  Content="{Binding CurrentView}"/>
+    </Grid>
 
 </mah:MetroWindow>

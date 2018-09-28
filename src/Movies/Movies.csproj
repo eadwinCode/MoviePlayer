@@ -2,6 +2,20 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <StartupObject>Movies.App</StartupObject>
+    <PublishUrl>C:\Users\EadwinToochos\Desktop\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -16,21 +30,7 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
-    <PublishUrl>C:\Users\EadwinToochos\Desktop\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -44,6 +44,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -115,6 +116,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Views\MainShellView.xaml.cs">
+      <DependentUpon>MainShellView.xaml</DependentUpon>
+    </Compile>
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -129,6 +133,10 @@
       <DependentUpon>SplashScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\VideoPlayerVM.cs" />
+    <Page Include="Views\MainShellView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Boostrapper.cs" />
@@ -206,6 +214,10 @@
       <Project>{9368132d-33f8-4149-8733-3bf90715f887}</Project>
       <Name>Meta.Vlc - .Net 4.0</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MovieHub.MediaPlayerElement\MovieHub.MediaPlayerElement.csproj">
+      <Project>{e3e88727-8e4a-4b69-a9b2-a9085a76ab92}</Project>
+      <Name>MovieHub.MediaPlayerElement</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Movies.Enums\Movies.Enums.csproj">
       <Project>{0824a682-f34d-456b-8b0b-22ff40feae33}</Project>
       <Name>Movies.Enums</Name>
@@ -218,20 +230,12 @@
       <Project>{09792bf0-34a2-4c28-ac5a-3825065cef1d}</Project>
       <Name>Movies.InternetRadio</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Movies.MediaService\Movies.MediaService.csproj">
-      <Project>{b6faa2de-b0a4-4db9-9532-e6059788598a}</Project>
-      <Name>Movies.MediaService</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Movies.Models\Movies.Models.csproj">
       <Project>{12ce1e5d-1e2d-4fe8-8084-b5e334cd54cd}</Project>
       <Name>Movies.Models</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Movies.MoviePlaylistManager\Movies.MoviePlaylistManager.csproj">
-      <Project>{6d034b32-531f-4ddb-9402-6c0d72b29953}</Project>
-      <Name>Movies.MoviePlaylistManager</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Movies.MovieServices\Movies.MovieServices.csproj">
-      <Project>{35e7785e-9050-462d-8275-9282502824d1}</Project>
+      <Project>{3614548a-9254-42c5-a414-9cc1f76f4c33}</Project>
       <Name>Movies.MovieServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\Movies.MusicProject\Movies.MusicProject.csproj">
@@ -273,10 +277,6 @@
     <ProjectReference Include="..\VideoPlayerView\VideoPlayerView.csproj">
       <Project>{964f2df9-2bab-4b2a-a7bb-5a5404c6c24c}</Project>
       <Name>VideoPlayerView</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\VideoPlayer\VideoPlayerControl.csproj">
-      <Project>{e657ac6b-5b19-4b9f-bf5e-96822234dfdd}</Project>
-      <Name>VideoPlayerControl</Name>
     </ProjectReference>
     <ProjectReference Include="..\VirtualizingListView\VirtualizingListView.csproj">
       <Project>{3f23b0dc-e93f-45c4-98fe-9e1e4d9de1e7}</Project>

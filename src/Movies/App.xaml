@@ -10,8 +10,9 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Movies.GlobalResources;component/Themes/Generic.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Movies;component/Resources/Styles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Movies;component/Resources/WindowsStyle.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Movies.Themes;component/Themes/Hybrid.xaml"/>
-
+                <ResourceDictionary Source="pack://application:,,,/MovieHub.MediaPlayerElement;component/Themes/Generic.xaml"/>
                 <!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
