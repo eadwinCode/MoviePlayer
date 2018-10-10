@@ -301,32 +301,25 @@
                                                     Command="{x:Static local:MovieControl.RepeatCommand}" >
                                     </Button>
 
-                                    <Button  Width="20" Margin="6" ToolTip="FullScreen"
-                                                     Style="{StaticResource ControlButtonStyle}"
+                                    <Button  Width="20" Margin="5,0,5,5" ToolTip="FullScreen"
+                                                     Style="{StaticResource FullScreenToggle}"
                                                      Visibility="{Binding IsFullScreenToggleEnabled,
                                                  RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                             Converter={StaticResource BooleanToVisibilityConverter}}"
                                                      x:Name="FulBtn" Command="{x:Static local:MovieControl.FullScreen}"
                                                      DockPanel.Dock="Left">
-                                        <Image Opacity=".7"  Uid="fullscreen.png" />
                                     </Button>
                                 </DockPanel>
 
-                                <Button Width="30"  VerticalAlignment="Center" DockPanel.Dock="Right" 
-                                                Style="{StaticResource ControlButtonStyle}"
+                                <Button Width="18"  VerticalAlignment="Center" DockPanel.Dock="Right" 
+                                                Style="{StaticResource ControlMaxMinButtonStyle}"
                                                 Command="{x:Static local:MovieControl.MinimizeControlCommand}" Foreground="White" 
-                                                Height="30" Margin="0,0,0,5"
+                                                Height="18" Margin="5,5,5,5"
                                                 Visibility="{Binding IsMinimizeControlButtonEnabled,
                                              RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                         Converter={StaticResource BooleanToVisibilityConverter}}"
                                                CommandParameter="{StaticResource optionsPop}"
-                                                BorderThickness="0" ToolTip="Close MediaPlayer">
-                                    <Path Fill="DodgerBlue"  HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                                  SnapsToDevicePixels="True" Data="M19,3H16.3H7.7H5C3.9,3 3,3.9 3,5V7.7V16.4V19C3,20.1 3.9,21 5,21H7.7H16.4H19C20.1,21 21,20.1 21,19V16.3V7.7V5C21,3.9 20.1,3 19,3M15.6,17L12,13.4L8.4,17L7,15.6L10.6,12L7,8.4L8.4,7L12,10.6L15.6,7L17,8.4L13.4,12L17,15.6L15.6,17Z">
-                                        <Path.LayoutTransform>
-                                            <ScaleTransform ScaleX="1" ScaleY="1"/>
-                                        </Path.LayoutTransform>
-                                    </Path>
+                                                BorderThickness="0" >
                                 </Button>
 
                                 <Button Width="30"  VerticalAlignment="Center" DockPanel.Dock="Right" 
@@ -434,7 +427,22 @@
                         </Button>
                     </StackPanel>
                 </DockPanel>
-
+                
+                <customControl:MediaSlider ToolTipService.InitialShowDelay="0" DockPanel.Dock="Top"                 
+                                           ToolTipService.BetweenShowDelay="0" ToolTipService.ShowDuration="20000" 
+                                           AutoToolTipPrecision="2" Margin="10,0,10,0" x:Name="Part_MediaSlider"
+                                           Visibility="{Binding IsMediaSliderEnabled,
+                                            RelativeSource={RelativeSource AncestorType=local:MovieControl},
+                                            Converter={StaticResource BooleanToVisibilityConverter}}"
+                                           Style="{StaticResource MiniTemplate}"
+                                           Value="{Binding CurrentMediaTime,
+                                                RelativeSource={RelativeSource AncestorType=local:MovieControl},
+                                                UpdateSourceTrigger=PropertyChanged}"
+                                           Maximum="{Binding MediaDuration,
+                                                RelativeSource={RelativeSource AncestorType=local:MovieControl},
+                                                UpdateSourceTrigger=PropertyChanged}" 
+                                           Minimum="0" />
+                
                 <Border BorderThickness="2" Padding="4,0,0,2" MinHeight="45" Height="50" x:Name="Part_ParentRoot"
                         TextBlock.Foreground="White" Background="Transparent">
                     <DockPanel  Background="Transparent" Grid.Column="0">
@@ -520,32 +528,25 @@
                                                 Command="{x:Static local:MovieControl.RepeatCommand}" Margin="6">
                                 </Button>
 
-                                <Button  Width="20"  ToolTip="FullScreen" VerticalAlignment="Center" Margin="6"
-                                                 Style="{StaticResource ControlButtonStyle}"
+                                <Button  Width="24"  ToolTip="FullScreen" VerticalAlignment="Center" Height="25" Margin="0,2,5,5"
+                                                 Style="{StaticResource FullScreenToggle}"
                                                  Visibility="{Binding IsFullScreenToggleEnabled,
                                              RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                         Converter={StaticResource BooleanToVisibilityConverter}}"
                                                  x:Name="FulBtn" Command="{x:Static local:MovieControl.FullScreen}"
                                                  DockPanel.Dock="Left">
-                                    <Image Opacity=".7" Uid="fullscreen.png" />
                                 </Button>
                             </DockPanel>
-                            
-                            <Button Width="30"  VerticalAlignment="Center" DockPanel.Dock="Right" 
-                                                Style="{StaticResource ControlButtonStyle}"
+
+                            <Button Width="18"  VerticalAlignment="Center" DockPanel.Dock="Right" 
+                                                Style="{StaticResource ControlMaxMinButtonStyle}"
                                                 Command="{x:Static local:MovieControl.MinimizeControlCommand}" Foreground="White" 
-                                                Height="30" Margin="0,0,0,5"
+                                                Height="18" Margin="5,5,10,5"
                                                 Visibility="{Binding IsMinimizeControlButtonEnabled,
                                              RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                         Converter={StaticResource BooleanToVisibilityConverter}}"
                                                CommandParameter="{StaticResource optionsPop}"
-                                                BorderThickness="0" ToolTip="Close MediaPlayer">
-                                <Path Fill="DodgerBlue"  HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                                  SnapsToDevicePixels="True" Data="M19,3H16.3H7.7H5C3.9,3 3,3.9 3,5V7.7V16.4V19C3,20.1 3.9,21 5,21H7.7H16.4H19C20.1,21 21,20.1 21,19V16.3V7.7V5C21,3.9 20.1,3 19,3M15.6,17L12,13.4L8.4,17L7,15.6L10.6,12L7,8.4L8.4,7L12,10.6L15.6,7L17,8.4L13.4,12L17,15.6L15.6,17Z">
-                                    <Path.LayoutTransform>
-                                        <ScaleTransform ScaleX="1" ScaleY="1"/>
-                                    </Path.LayoutTransform>
-                                </Path>
+                                                BorderThickness="0" >
                             </Button>
                             
                             <Button Width="30"  VerticalAlignment="Center" DockPanel.Dock="Right" 
@@ -602,22 +603,7 @@
                                 </StackPanel>
                                 <y:MovieTitleBar Padding="2" Grid.Row="1" x:Name="Part_MovieBoard" />
                             </DockPanel>
-                            <customControl:MediaSlider ToolTipService.InitialShowDelay="0" 
-                                                               ToolTipService.BetweenShowDelay="0"
-                                                               ToolTipService.ShowDuration="20000" 
-                                                               AutoToolTipPrecision="2" 
-                                                               x:Name="Part_MediaSlider"
-                                                               Visibility="{Binding IsMediaSliderEnabled,
-                                            RelativeSource={RelativeSource AncestorType=local:MovieControl},
-                                            Converter={StaticResource BooleanToVisibilityConverter}}"
-                                                               Style="{StaticResource MiniTemplate}"
-                                                               Value="{Binding CurrentMediaTime,
-                                                RelativeSource={RelativeSource AncestorType=local:MovieControl},
-                                                UpdateSourceTrigger=PropertyChanged}"
-                                                               Maximum="{Binding MediaDuration,
-                                                RelativeSource={RelativeSource AncestorType=local:MovieControl},
-                                                UpdateSourceTrigger=PropertyChanged}" 
-                                                               Minimum="0" />
+                            
                         </DockPanel>
                     </DockPanel>
                 </Border>
@@ -745,21 +731,15 @@
                                 </Button>-->
                             </DockPanel>
 
-                            <Button Width="30"  VerticalAlignment="Center" DockPanel.Dock="Right" 
-                                                Style="{StaticResource ControlButtonStyle}"
+                            <Button Width="18"  VerticalAlignment="Center" DockPanel.Dock="Right" 
+                                                Style="{StaticResource ControlMaxMinButtonStyle}"
                                                 Command="{x:Static local:MovieControl.MinimizeControlCommand}" Foreground="White" 
-                                                Height="30" Margin="0,0,0,5"
+                                                Height="18" Margin="5,5,5,5"
                                                 Visibility="{Binding IsMinimizeControlButtonEnabled,
                                              RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                         Converter={StaticResource BooleanToVisibilityConverter}}"
                                                CommandParameter="{StaticResource optionsPop}"
-                                                BorderThickness="0" ToolTip="Close MediaPlayer">
-                                <Path Fill="DodgerBlue"  HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                                  SnapsToDevicePixels="True" Data="M19,3H16.3H7.7H5C3.9,3 3,3.9 3,5V7.7V16.4V19C3,20.1 3.9,21 5,21H7.7H16.4H19C20.1,21 21,20.1 21,19V16.3V7.7V5C21,3.9 20.1,3 19,3M15.6,17L12,13.4L8.4,17L7,15.6L10.6,12L7,8.4L8.4,7L12,10.6L15.6,7L17,8.4L13.4,12L17,15.6L15.6,17Z">
-                                    <Path.LayoutTransform>
-                                        <ScaleTransform ScaleX="1" ScaleY="1"/>
-                                    </Path.LayoutTransform>
-                                </Path>
+                                                BorderThickness="0" >
                             </Button>
 
                             <y:VolumeControl HorizontalAlignment="Center" Margin="5,00,0,0"

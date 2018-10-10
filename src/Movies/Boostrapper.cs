@@ -16,6 +16,7 @@ using PresentationExtension.EventManager;
 using PresentationExtension.InterFaces;
 using Movies.Themes.Service;
 using RealMediaControl.ViewModel;
+using FlyoutControl.PageNagivatorService;
 
 namespace RealMediaControl
 {
@@ -64,8 +65,13 @@ namespace RealMediaControl
 
             IModule thememodule = Container.Resolve<ThemeModule>();
             thememodule.Initialize();
+            Container.RegisterType<IPageNavigatorHost, PageNavigatorHost>(new ContainerControlledLifetimeManager());
+
             base.InitializeModules();
-            
+
+            PageNavigatorHost pagenavigatorhost = Container.Resolve<IPageNavigatorHost>() as PageNavigatorHost;
+            this.Container.RegisterInstance(pagenavigatorhost.PageNavigator);
+
             var shell = this.Container.Resolve<IShellWindow>() as MainView;
             shell.Dispatcher.BeginInvoke((Action)delegate
             {

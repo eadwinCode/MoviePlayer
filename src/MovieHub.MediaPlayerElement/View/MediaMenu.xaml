@@ -65,7 +65,7 @@
                         <TextBlock Text="Subtitle" DockPanel.Dock="Top" Padding="3"/>
                         <Menu DockPanel.Dock="Top" >
                             <MenuItem Header="Add Subtitle File"  IsCheckable="False"
-                                  Command="{x:Static cmd:VideoPlayerCommands.AddSubFile}"/>
+                                  Command="{Binding AddSubFileCommand}"/>
                         </Menu>
                         <Menu ItemsSource="{Binding SubtitleTitleCollection,UpdateSourceTrigger=PropertyChanged}"/>
                     </DockPanel>

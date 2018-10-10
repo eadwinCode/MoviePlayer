@@ -39,10 +39,9 @@ namespace Movies.MoviesInterfaces
         ViewType ViewType { get; set; }
     }
     
-    public interface IPlayFile
+    public interface IPlayFile : IMediaPlayerHost
     {
         bool IsPlayingMedia { get; }
-        void ShutDownMediaPlayer();
         void PlayFileInit(IVideoData obj);
         void AddFiletoPlayList(IVideoData obj);
         void WMPPlayFileInit(IVideoData vfc);
@@ -52,6 +51,17 @@ namespace Movies.MoviesInterfaces
         void PlayFileFromPlayList(PlaylistModel playlistModel);
         void PlayFileInit(IPlayable playFile, IEnumerable<IPlayable> TemperalList);
         void PrepareVideoElement();
+    }
+
+    public interface IMediaPlayerHost
+    {
+        void ShutDown();
+    }
+
+    public interface IMediaPlayerHostCollection : IEnumerable<IMediaPlayerHost>
+    {
+        void Add(IMediaPlayerHost mediaPlayerHost);
+        void Remove(IMediaPlayerHost mediaPlayerHost);
     }
 
     public interface ICollectionViewModel

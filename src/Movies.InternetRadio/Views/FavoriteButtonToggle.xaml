@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Movies.InternetRadio.Views"
-             
+             xmlns:radioPlayer ="clr-namespace:Movies.InternetRadio"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
@@ -24,7 +24,7 @@
                                 <DockPanel   TextBlock.Foreground="{DynamicResource Theme.Foreground}" LastChildFill="True">
                                     <Border>
                                         <Grid HorizontalAlignment="Center" VerticalAlignment="Center" >
-                                            <Path x:Name="star" Stroke="{DynamicResource Theme.MovieFile}" 
+                                            <Path x:Name="star" Fill="{DynamicResource Theme.HighlightColor}" Stroke="{DynamicResource Theme.HighlightColor}" 
                                                   Data="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"/>
                                         </Grid>
                                     </Border>
@@ -50,6 +50,6 @@
     </UserControl.Resources>
     <Button Background="Transparent" BorderThickness="0" Content="{Binding CurrentRadioStation}"
                         CommandParameter="{Binding CurrentRadioStation}" Style="{DynamicResource togglebtn}"
-                        Command="{Binding StarCommand}">
+                        Command="{x:Static radioPlayer:RadioPlayer.StarCommand}">
     </Button>
-</UserControl>
+</UserControl> 

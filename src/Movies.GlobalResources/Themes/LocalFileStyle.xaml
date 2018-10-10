@@ -263,7 +263,7 @@
                                         ViewportUnits="Absolute" Opacity="0.3"/>
                             </Border.Background>
                             <TextBlock Text="{Binding FolderChildCount, UpdateSourceTrigger=PropertyChanged}" 
-                                       TextAlignment="Center" Margin="2,2,3,2"  VerticalAlignment="Center" />
+                                       TextAlignment="Center" Padding="5" FontSize="11" VerticalAlignment="Center" />
                         </Border>
                         <controls:LoadingIndicator 
                             HorizontalAlignment="Center" Style="{DynamicResource LoadingIndicatorWaveStyleKey}"
@@ -285,7 +285,7 @@
                     </Grid>
                     <Grid Height="60" VerticalAlignment="Bottom" Opacity=".8"  
                           x:Name="footer" Grid.Row="1" Panel.ZIndex="-8">
-                        <TextBlock Margin="2" FontSize="15"    
+                        <TextBlock Margin="2" FontSize="13"    
                                    TextAlignment="Center"
                                    Text="{Binding FileName,UpdateSourceTrigger=PropertyChanged}" 
                                    VerticalAlignment="Top"

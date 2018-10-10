@@ -3,6 +3,7 @@ using LocalVideoFiles.Views;
 using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Unity;
+using Movies.MoviesInterfaces;
 
 namespace VirtualizingListView.ModuleDefinition
 {
@@ -35,8 +36,9 @@ namespace VirtualizingListView.ModuleDefinition
 
         private void RegisterViews()
         {
-            this.regionManager.RegisterViewWithRegion(ApplicationRegion.SUBMENUITEMSREGION, 
-                typeof(VideoFolderView));
+            unityContainer.Resolve<IShellWindowService>().RegisterMenu(new VideoFolderMenu());
+            //this.regionManager.RegisterViewWithRegion(ApplicationRegion.SUBMENUITEMSREGION, 
+            //    typeof(VideoFolderView));
         }
     }
 }

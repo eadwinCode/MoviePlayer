@@ -133,6 +133,10 @@ namespace Movies.MovieServices.Services
                     return true;
                 }
             }
+            catch(System.IO.IOException ioex)
+            {
+
+            }
             catch (Exception ex)
             {
                 //MessageBox.Show(ex.Message, ex.TargetSite.Name);

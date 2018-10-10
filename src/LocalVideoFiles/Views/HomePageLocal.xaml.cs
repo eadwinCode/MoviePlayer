@@ -1,4 +1,6 @@
 ﻿using LocalVideoFiles.ViewModels;
+using Movies.Models.Interfaces;
+using Movies.MoviesInterfaces;
 using PresentationExtension.InterFaces;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,15 +13,9 @@ namespace LocalVideoFiles.Views
     /// </summary>
     public partial class HomePageLocal : Page,IMainPage
     {
-        //private static HomePlaylistView stplaylistcontrol;
-        //public static HomePlaylistView PlaylistControl
-        //{
-        //    get { return stplaylistcontrol; }
-        //}
-
-        public bool HasController { get { return WindowCommandButton != null; } }
-
         public ContentControl Docker { get { return HomePageDock; } }
+
+        public IMenuFlyout FlyoutMenu { get; set; }
 
         private IWindowsCommandButton WindowCommandButton;
 
@@ -43,12 +39,6 @@ namespace LocalVideoFiles.Views
         {
             ScrollViewer scv = (ScrollViewer)sender;
             scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
-            e.Handled = true;
-        }
-
-        public void SetController(IWindowsCommandButton controller)
-        {
-            this.WindowCommandButton = controller;
         }
     }
 }

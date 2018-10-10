@@ -3,7 +3,6 @@ using Movies.MoviesInterfaces;
 using PresentationExtension;
 using System.Windows;
 using System.Windows.Controls;
-using VirtualizingListView.ViewModel;
 
 namespace VirtualizingListView.View
 {

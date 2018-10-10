@@ -72,6 +72,34 @@ namespace Movies.InternetRadio.ViewModels
             this.CurrentRadioGroup = iradiogroup;
             (sender as Frame).NavigationService.LoadCompleted -= NavigationService_LoadCompleted;
             LoadData();
+            iradiogroup.RadioStations.CollectionChanged += RadioStations_CollectionChanged;
+        }
+
+        private void RadioStations_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
+                    foreach (Guid key in e.NewItems)
+                    {
+                        RadioModelCollection.Add(IRadioDataService.GetRadioObjectFromKey(key));
+                    }
+                    break;
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
+                    foreach (Guid key in e.OldItems)
+                    {
+                        RadioModelCollection.Remove(IRadioDataService.GetRadioObjectFromKey(key));
+                    }
+                    break;
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Replace:
+                    break;
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Move:
+                    break;
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void ClearAllHandler()
@@ -96,7 +124,9 @@ namespace Movies.InternetRadio.ViewModels
 
         public void Add(IMoviesRadio moviesRadio)
         {
-            if (!RadioModelCollection.Contains(moviesRadio))
+            var iradioModel = moviesRadio as IRadioModel;
+
+            if (iradioModel != null && !RadioModelCollection.Contains(moviesRadio))
             {
                 IRadioDataService.AddRadio(CurrentRadioGroup, moviesRadio);
                 CurrentRadioGroup.AddStation(moviesRadio.Key);
@@ -105,8 +135,13 @@ namespace Movies.InternetRadio.ViewModels
 
         public void Remove(IMoviesRadio moviesRadio)
         {
-            RadioModelCollection.Remove(moviesRadio);
-            CurrentRadioGroup.RemoveStation(moviesRadio.Key);
+            var iradioModel = moviesRadio as IRadioModel;
+            if (iradioModel != null)
+            {
+                RadioModelCollection.Remove(moviesRadio);
+                CurrentRadioGroup.RemoveStation(moviesRadio.Key);
+                iradioModel.IsFavorite = !iradioModel.IsFavorite;
+            }
         }
     }
 }

@@ -65,22 +65,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ModuleDefinition\RemovableStorageModule.cs" />
-    <Compile Include="ViewModels\RemovableStorageViewModel.cs" />
     <Compile Include="ViewModels\UsbDriveViewModel.cs" />
-    <Compile Include="Views\RemovableStorageView.xaml.cs">
-      <DependentUpon>RemovableStorageView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\UsbDrivePage.xaml.cs">
       <DependentUpon>UsbDrivePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UsbNoFolder.xaml.cs">
       <DependentUpon>UsbNoFolder.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\RemovableStorageFilesMenu.xaml.cs">
+      <DependentUpon>RemovableStorageFilesMenu.xaml</DependentUpon>
+    </Compile>
     <Page Include="Themes\Generic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\RemovableStorageView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -89,6 +84,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UsbNoFolder.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\RemovableStorageFilesMenu.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -123,6 +122,10 @@
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{291D89E4-5436-4E99-A402-322D10F2ED0C}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlyoutControl\FlyoutControl.csproj">
+      <Project>{4abbc7e5-63de-4017-a048-4035d249ddfc}</Project>
+      <Name>FlyoutControl</Name>
     </ProjectReference>
     <ProjectReference Include="..\Movies.Models\Movies.Models.csproj">
       <Project>{12CE1E5D-1E2D-4FE8-8084-B5E334CD54CD}</Project>

@@ -618,6 +618,7 @@ namespace MovieHub.MediaPlayerElement
             MediaSlider.PreviewMouseMove += MediaSlider_MouseMove;
             MediaSlider.MouseDown += MediaSlider_MouseDown;
             MediaSlider.PreviewMouseDown += MediaSlider_MouseDown;
+            VolumeControl.VolumeControlValueChanged -= VolumeControl_VolumeControlValueChanged;
             VolumeControl.VolumeControlValueChanged += VolumeControl_VolumeControlValueChanged;
         }
 

@@ -41,7 +41,6 @@ namespace VideoPlayerView.FilePlayer
             }
         }
         
-
         public MediaPlayerWindow VideoElement { get { return _videoelement; } }
         
         private IShellWindow IShell
@@ -50,21 +49,13 @@ namespace VideoPlayerView.FilePlayer
         }
 
         public bool IsPlayingMedia { get { return isplayingMedia; } }
-    }
 
-    public partial class PlayFile
-    {
-        private void PlayFile_Closing1(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            ShutDownMediaPlayer();
-        }
-
-        public void ShutDownMediaPlayer()
+        public void ShutDown()
         {
             if (_videoelement != null)
             {
                 (_videoelement).Close();
-               // _videoelement = null;
+                // _videoelement = null;
             }
 
             if (WindowsMediaPlayer != null)
@@ -72,10 +63,12 @@ namespace VideoPlayerView.FilePlayer
                 WindowsMediaPlayer.Close();
             }
         }
+    }
 
+    public partial class PlayFile
+    {
         private void Subscribe()
         {
-            (IShell as Window).Closing += PlayFile_Closing1;
             HasScubscribed = true;
         }
 
@@ -84,7 +77,7 @@ namespace VideoPlayerView.FilePlayer
             try
             {
                 if (RadioServicecs.IsRadioOn)
-                    RadioServicecs.ShutdownRadio();
+                    RadioServicecs.ShutDown();
                 if (_videoelement == null)
                 {
                     _videoelement = new MediaPlayerWindow();
@@ -146,7 +139,7 @@ namespace VideoPlayerView.FilePlayer
             try
             {
                 if (RadioServicecs.IsRadioOn)
-                    RadioServicecs.ShutdownRadio();
+                    RadioServicecs.ShutDown();
 
                 if (WindowsMediaPlayer == null)
                 {
@@ -282,16 +275,16 @@ namespace VideoPlayerView.FilePlayer
         /// </summary>
         public void PrepareVideoElement()
         {
-            //_videoelement = new VideoElement();
-            //(_videoelement as Window).Width = 20;
-            //(_videoelement as Window).Height = 20;
-            //(_videoelement as Window).WindowState = WindowState.Normal;
-            //(_videoelement as Window).Show();
-            //(_videoelement as Window).CommandBindings.Clear();
-            //(_videoelement as Window).Close();
-
-            //CloseLibraries();
-            //_videoelement = null;
+            var Ipagenavigator = ServiceLocator.Current.GetInstance<IPageNavigatorHost>();
+            MediaPlayerWindow mediaPlayerWindow = new MediaPlayerWindow();
+            Ipagenavigator.AddView(mediaPlayerWindow, typeof(MediaPlayerWindow).Name);
+            mediaPlayerWindow.Visibility = Visibility.Hidden;
+            mediaPlayerWindow.Loaded += (s, e) => {
+                Ipagenavigator.RemoveView(typeof(MediaPlayerWindow).Name);
+                mediaPlayerWindow.MediaPlayerElement.Dispose();
+                mediaPlayerWindow = null;
+            };
+           
         }
 
         public void WMPPlayFileInit(IFolder vfc)

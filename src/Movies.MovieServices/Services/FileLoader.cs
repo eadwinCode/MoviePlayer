@@ -15,7 +15,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using VideoComponent.BaseClass;
 
 namespace Movies.MovieServices.Services
 {
@@ -91,31 +90,34 @@ namespace Movies.MovieServices.Services
                     {
 
                         var temp = s;
-                        if (temp.FileType == GroupCatergory.Grouped)
+                        if (s != null)
                         {
-                            var task = Task.Factory.StartNew(() =>
+                            if (temp.FileType == GroupCatergory.Grouped)
                             {
-                                temp.IsLoading = true;
-                                GetFolderItemsExtended(temp);
-                                temp.IsLoading = false;
-                            });
-                            taskcount++;
-                            AddTask(Tasks, task, padlock);
-                        }
-                        //else
-                        //{
-                        //    var task = Task.Factory.StartNew(() =>
-                        //    {
-                        //        RunShellFunction(temp as VideoFolderChild);
-                        //    });
-                        //    taskcount++;
-                        //    AddTask(Tasks, task, padlock);
-                        //}
-                        if (taskcount % 5 == 0 && taskcount != 0)
-                        {
-                            Task.WaitAll(Tasks.ToArray());
-                            taskcount = 0;
-                            Tasks.Clear();
+                                var task = Task.Factory.StartNew(() =>
+                                {
+                                    temp.IsLoading = true;
+                                    GetFolderItemsExtended(temp);
+                                    temp.IsLoading = false;
+                                });
+                                taskcount++;
+                                AddTask(Tasks, task, padlock);
+                            }
+                            //else
+                            //{
+                            //    var task = Task.Factory.StartNew(() =>
+                            //    {
+                            //        RunShellFunction(temp as VideoFolderChild);
+                            //    });
+                            //    taskcount++;
+                            //    AddTask(Tasks, task, padlock);
+                            //}
+                            if (taskcount % 5 == 0 && taskcount != 0)
+                            {
+                                Task.WaitAll(Tasks.ToArray());
+                                taskcount = 0;
+                                Tasks.Clear();
+                            }
                         }
                     });
                 }
@@ -158,6 +160,8 @@ namespace Movies.MovieServices.Services
                 try
                 {
                     var temp = s.OtherFiles[i];
+                    if (temp == null)
+                        continue;
                     if (temp.FileType == GroupCatergory.Grouped)
                     {
                         temp.IsLoading = true;
@@ -201,12 +205,15 @@ namespace Movies.MovieServices.Services
             {
                 try
                 {
-                    var temp = k;
-                    if (temp.FileType == GroupCatergory.Grouped)
+                    if (k != null)
                     {
-                        temp.IsLoading = true;
-                        GetSubFolderItems(temp);
-                        temp.IsLoading = false;
+                        var temp = k;
+                        if (temp.FileType == GroupCatergory.Grouped)
+                        {
+                            temp.IsLoading = true;
+                            GetSubFolderItems(temp);
+                            temp.IsLoading = false;
+                        }
                     }
                     //else
                     //{

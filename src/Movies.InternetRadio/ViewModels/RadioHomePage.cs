@@ -56,7 +56,12 @@ namespace Movies.InternetRadio.ViewModels
         private  DelegateCommand<IRadioGroup> openhomepagecommand; 
         private  DelegateCommand<IRadioGroup> openfavoritepagecommand; 
         private static RoutedCommand deletestationgroup;
-        private NavigationService HomePageNavigationService;
+
+        private INavigatorService NavigatorService
+        {
+            get { return ServiceLocator.Current.GetInstance<INavigatorService>(); }
+        }
+
         private IRadioGroup currentRadioGroup;
 
         public IRadioGroup CurrentRadioGroup
@@ -136,8 +141,7 @@ namespace Movies.InternetRadio.ViewModels
         {
             get { return openfavoritepagecommand; }
         }
-
-
+        
         public static RoutedCommand DeleteStationGroup
         {
             get { return deletestationgroup; }
@@ -162,7 +166,7 @@ namespace Movies.InternetRadio.ViewModels
         {
             CommandManager.RegisterClassCommandBinding(typeof(Page),(new CommandBinding(openfoldercommand, OpenFile_Executed)));
             CommandManager.RegisterClassCommandBinding(typeof(Page),(new CommandBinding(CheckFavoriteItemCommand, CheckFavoriteItemCommand_Executed)));
-            CommandManager.RegisterClassCommandBinding(typeof(Page),(new CommandBinding(editoraditradiostation, EditFile_Executed)));
+            CommandManager.RegisterClassCommandBinding(typeof(Page),(new CommandBinding(editoraditradiostation, EditFile_Executed, DeleteFile_Enabled)));
             CommandManager.RegisterClassCommandBinding(typeof(Page), (new CommandBinding(showradiostationdetails, ShowDetails_Executed)));
             CommandManager.RegisterClassCommandBinding(typeof(Page), (new CommandBinding(deletestationgroup, DeleteFile_Executed,DeleteFile_Enabled)));
         }
@@ -223,16 +227,27 @@ namespace Movies.InternetRadio.ViewModels
             openhomepagecommand = new DelegateCommand<IRadioGroup>(OpenHomePageAction);
             openfavoritepagecommand = new DelegateCommand<IRadioGroup>(OpenFavoritePageAction);
             RadioModelCollection = new ObservableCollection<IMoviesRadio>();
-            CurrentRadioGroup = IRadioDataService.GetHomeGroup("Home-Radio Station");
-            CountryRadioGroup = IRadioDataService.GetHomeGroup("RadioStation-Country");
-            StyleRadioGroup = IRadioDataService.GetHomeGroup("RadioStation-Styles");
-            FavoriteRadioGroup  = IRadioDataService.GetHomeGroup("RadioStation-Favorites");
             _currentInstance = this;
+
+            ReadyRadioData();
+        }
+
+        private void ReadyRadioData()
+        {
+            var radioDataService = IRadioDataService as RadioDataService;
+
+            if (IRadioDataService.Count() < 5)
+                radioDataService.LoadDefaultRadioData();
+            
+            CurrentRadioGroup = radioDataService.GetHomeGroup("Home-Radio Station");
+            CountryRadioGroup = radioDataService.GetHomeGroup("RadioStation-Country");
+            StyleRadioGroup = radioDataService.GetHomeGroup("RadioStation-Styles");
+            FavoriteRadioGroup = radioDataService.GetHomeGroup("RadioStation-Favorites");
         }
 
         private void OpenFavoritePageAction(IRadioGroup obj)
         {
-            HomePageNavigationService.Navigate(new RadioFavoritePage(HomePageNavigationService), obj);
+            NavigatorService.NavigatePage(new RadioFavoritePage(NavigatorService.NavigationService), obj);
         }
 
         private void LoadPageData()
@@ -295,7 +310,6 @@ namespace Movies.InternetRadio.ViewModels
         internal void Onloaded(object sender)
         {
             Page page = sender as Page;
-            this.HomePageNavigationService = page.NavigationService;
             if(radioModelCollection.Count == 0)
                 LoadPageData();
         }
@@ -309,7 +323,7 @@ namespace Movies.InternetRadio.ViewModels
         {
             if (obj.FileType == Enums.GroupCatergory.Grouped)
             {
-                HomePageNavigationService.Navigate(new RadioViewPage(HomePageNavigationService), obj);
+                NavigatorService.NavigatePage(new RadioViewPage(NavigatorService.NavigationService), obj);
                 return;
             }
             IRadioService.PlayRadio(obj as RadioModel);
@@ -317,7 +331,7 @@ namespace Movies.InternetRadio.ViewModels
 
         private void OpenHomePageAction(IRadioGroup obj)
         {
-            HomePageNavigationService.Navigate(new RadioViewPage(HomePageNavigationService), obj);
+            NavigatorService.NavigatePage(new RadioViewPage(NavigatorService.NavigationService), obj);
         }
 
         private void AddStationAction()

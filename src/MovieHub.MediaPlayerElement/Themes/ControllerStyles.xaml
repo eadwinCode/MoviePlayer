@@ -54,6 +54,102 @@
         </Setter>
     </Style>
 
+    <Style x:Key="FullScreenToggle" TargetType="Button" BasedOn="{StaticResource ControlButtonStyle}">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border CornerRadius="16" SnapsToDevicePixels="True" x:Name="border" 
+                            Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                        <Border Opacity=".7" x:Name="contentPresenter" Background="Transparent" ToolTip="FullScreen" >
+                            <Grid >
+                                <Path x:Name="pathImg" Stroke="White" HorizontalAlignment="Center" StrokeThickness="2.5"
+                                      Data="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"  
+                                      VerticalAlignment="Center" >
+                                    <Path.LayoutTransform>
+                                        <ScaleTransform ScaleX=".9" ScaleY=".75"/>
+                                    </Path.LayoutTransform>
+                                </Path>
+                            </Grid>
+                        </Border>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding WindowFullScreenState,RelativeSource={RelativeSource AncestorType=MediaElement:MediaPlayerElement}}" Value="FullScreen">
+                            <Setter Property="Data" TargetName="pathImg" Value="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/>
+                            <Setter Property="ToolTip" TargetName="contentPresenter" Value="Restore"/>
+                            <Setter Property="LayoutTransform" >
+                                <Setter.Value>
+                                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                        <Trigger Property="IsDefaulted" Value="true">
+                            <Setter Property="BorderBrush" TargetName="border" 
+                                    Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                        </Trigger>
+
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Opacity" TargetName="contentPresenter" Value="1"/>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="LayoutTransform" >
+                                <Setter.Value>
+                                    <ScaleTransform ScaleX=".99" ScaleY="0.99"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" TargetName="contentPresenter" Value=".3"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Button" x:Key="ControlMaxMinButtonStyle" >
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border  SnapsToDevicePixels="True" x:Name="border" Width="{TemplateBinding Width}" 
+                             Height="{TemplateBinding Height}">
+                        <Image x:Name="contentPresenter" Margin="0" SnapsToDevicePixels="True"
+                               Uid="minimize.png" Opacity=".7" ToolTip="Minimize Video" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding MediaPlayerViewType,RelativeSource={RelativeSource AncestorType=MediaElement:MediaPlayerElement}}" Value="MiniMediaPanel">
+                            <Setter Property="Image.Uid" TargetName="contentPresenter" Value="maximize.png"/>
+                            <Setter Property="ToolTip" TargetName="contentPresenter" Value="Maximize Video"/>
+                        </DataTrigger>
+                        <Trigger Property="IsDefaulted" Value="true">
+                            <Setter Property="BorderBrush" TargetName="border" 
+                                    Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Opacity" Value="1"  TargetName="contentPresenter"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="LayoutTransform" TargetName="contentPresenter">
+                                <Setter.Value>
+                                    <ScaleTransform ScaleX=".99" ScaleY="0.999"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Image.Uid" TargetName="contentPresenter" 
+                                    Value="minimize.png"/>
+                            <Setter Property="Opacity" TargetName="contentPresenter" Value=".3"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="Button" x:Key="PauseorPlayControlButtonStyle" >
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="Template">

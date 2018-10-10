@@ -71,7 +71,7 @@
     <Compile Include="EventManager\SubscriptionTokenBase.cs" />
     <Compile Include="InterFaces\IEventManager.cs" />
     <Compile Include="EventManager\MovieEventManager.cs" />
-    <Compile Include="InterFaces\PresentationExtensionInfaces.cs" />
+    <Compile Include="PreviewClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -107,6 +107,10 @@
     <ProjectReference Include="..\Movies.Models\Movies.Models.csproj">
       <Project>{12CE1E5D-1E2D-4FE8-8084-B5E334CD54CD}</Project>
       <Name>Movies.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProjectInterfaces\Movies.MoviesInterfaces.csproj">
+      <Project>{2d97da0a-18be-48a1-b4fc-78b0b3ceb6c8}</Project>
+      <Name>Movies.MoviesInterfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

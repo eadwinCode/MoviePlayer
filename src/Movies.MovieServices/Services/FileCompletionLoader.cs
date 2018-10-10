@@ -14,7 +14,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Threading;
-using VideoComponent.BaseClass;
 
 namespace Movies.MovieServices.Services
 {

@@ -47,6 +47,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -57,12 +58,15 @@
   <ItemGroup>
     <Compile Include="Interfaces\IApplicationModelService.cs" />
     <Compile Include="Interfaces\IBackgroundService.cs" />
+    <Compile Include="Interfaces\IMenuFlyout.cs" />
     <Compile Include="Interfaces\IMovieFolderModel.cs" />
     <Compile Include="Interfaces\IPlayablecs.cs" />
     <Compile Include="Interfaces\IPlayedFiles.cs" />
     <Compile Include="Interfaces\IRadioCollection.cs" />
     <Compile Include="Interfaces\IRadioModelGroup.cs" />
     <Compile Include="Interfaces\ModelInteerfaces.cs" />
+    <Compile Include="Model\DefaultRadioGroup.cs" />
+    <Compile Include="Model\DefaultRadioModel.cs" />
     <Compile Include="Model\DummyIMediaPlayabeLastSeen.cs" />
     <Compile Include="Model\DummyPlayableFile.cs" />
     <Compile Include="Interfaces\IRadioModel.cs" />

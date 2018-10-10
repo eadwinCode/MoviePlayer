@@ -44,7 +44,7 @@ namespace Movies.MovieServices.ModuleDefinition
             this.unityContainer.RegisterType<IDispatcherService, DispatcherService>(new ContainerControlledLifetimeManager());
             this.unityContainer.RegisterType<IOpenFileCaller, OpenFileCaller>();
             this.unityContainer.RegisterType<ISortService, SortService>();
-
+            this.unityContainer.RegisterType<IMediaPlayerHostCollection, MediaPlayerHostCollection>(new ContainerControlledLifetimeManager());
             applicationService.CreateFolder();
             applicationService.LoadFiles();
         }

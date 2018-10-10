@@ -1,26 +1,17 @@
 ﻿<mah:MetroWindow x:Class="Movies.MainView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:flyout="clr-namespace:FlyoutControl;assembly=FlyoutControl"
-        xmlns:prism="http://www.codeplex.com/prism"
-        xmlns:sw="clr-namespace:WpfStyleableWindow.StyleableWindow;assembly=Common"
-        xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        Title="Movie Hub" x:Name="_mainView" 
-        NonActiveWindowTitleBrush="{DynamicResource Theme.WindowsTile}"
-        WindowTitleBrush="{DynamicResource Theme.WindowsTile}"
-        FontSize="13" 
-        Background="Black"
-        BorderBrush="Black"
-        NonActiveBorderBrush="Black"
-        ResizeMode="CanResizeWithGrip" 
-        WindowState="Maximized" 
-        WindowStartupLocation="Manual" 
-        MinWidth="500" 
-        TitleCaps="False"
-        TitlebarHeight="45"
-        MinHeight="300"
-        FocusManager.FocusedElement="{Binding ElementName=ContentRegion,Path=Content}"
-        HorizontalContentAlignment="Stretch" >
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:flyout="clr-namespace:FlyoutControl;assembly=FlyoutControl"
+                 xmlns:prism="http://www.codeplex.com/prism"
+                 xmlns:sw="clr-namespace:WpfStyleableWindow.StyleableWindow;assembly=Common"
+                 xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                 Title="Movie Hub" x:Name="_mainView" HorizontalContentAlignment="Stretch"
+                 NonActiveWindowTitleBrush="{DynamicResource Theme.WindowsTile}"
+                 WindowTitleBrush="{DynamicResource Theme.WindowsTile}" FontSize="13" 
+                 Background="Black" BorderBrush="{DynamicResource Theme.HighlightColor}" NonActiveBorderBrush="Black"
+                 ResizeMode="CanResizeWithGrip" WindowState="Maximized" WindowStartupLocation="Manual" 
+                 MinWidth="500" TitleCaps="False" TitlebarHeight="45" MinHeight="300"
+                 FocusManager.FocusedElement="{Binding ElementName=ContentRegion,Path=Content}">
     
     <!--<mah:MetroWindow.Background>
         <ImageBrush ImageSource="eminem-recovery-cover-album.jpg" TileMode="None"   Stretch="UniformToFill" ViewportUnits="RelativeToBoundingBox" />
@@ -29,7 +20,7 @@
         <DataTemplate>
             <DockPanel>
                 <Path/>
-                <TextBlock Text="{Binding}" Opacity=".7" 
+                <TextBlock Text="{Binding}" Opacity=".8" 
                            FontSize="15" VerticalAlignment="Center" 
                            Padding="5" FontWeight="Regular" />
                 
@@ -39,21 +30,15 @@
 
     <mah:MetroWindow.IconTemplate>
         <DataTemplate>
-            <Image x:Name="contentPresenter" Margin="3" Width="30" 
-                   SnapsToDevicePixels="True"
-                   Uid="video-player.png"  />
+            <Image x:Name="contentPresenter" Margin="0" Width="30" SnapsToDevicePixels="True" Uid="video-player.png"/>
         </DataTemplate>
     </mah:MetroWindow.IconTemplate>
-    <mah:MetroWindow.RightWindowCommands>
+    <!--<mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands>
             <Button Content="Settings" FontWeight="Regular" FontSize="13"/>
-            <!--<Button Content="Red Theme" x:Name="red" Click="Red_Click" FontWeight="Regular" FontSize="13"/>
-            <Button Content="White Theme" x:Name="white" 
-                    Click="White_Click" FontWeight="Regular" FontSize="13"/>
-            <Button Content="Hybrid Theme" x:Name="hybrid"
-                    Click="Hybrid_Click" FontWeight="Regular" FontSize="13"/>-->
+          
         </mah:WindowCommands>
-    </mah:MetroWindow.RightWindowCommands>
+    </mah:MetroWindow.RightWindowCommands>-->
     <Window.Resources>
     </Window.Resources>
     <!--<VideoList:VideoComponentList/> prism:RegionManager.RegionName="ShellWindowRegion"-->

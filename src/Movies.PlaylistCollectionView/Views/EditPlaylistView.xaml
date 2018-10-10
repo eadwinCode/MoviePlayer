@@ -63,7 +63,7 @@
             HorizontalAlignment="Center"  CornerRadius="5" BorderThickness=".8"
             BorderBrush="{DynamicResource Theme.HighlightColor}">
         <DockPanel>
-            <Border Padding="3" DockPanel.Dock="Top" CornerRadius="5" Background="{DynamicResource Theme.HighlightColor}">
+            <Border Padding="3" DockPanel.Dock="Top" CornerRadius="0" Background="{DynamicResource Theme.HighlightColor}">
                 <TextBlock Text="{Binding CurrentPlaylist.PlaylistName}" Opacity=".7" Foreground="White" Padding="5" FontSize="15" FontWeight="Regular"/>
             </Border>
             <Border Padding="6">

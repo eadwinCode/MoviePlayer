@@ -61,7 +61,10 @@ namespace PresentationExtension
             if (this.dragStartPoint.HasValue)
             {
                 Point newPosition = e.GetPosition(this);
-                if (((newPosition.X - this.dragStartPoint.Value.X) >= 5 || (newPosition.X - this.dragStartPoint.Value.X) <= -5) || (newPosition.Y -this.dragStartPoint.Value.Y >= 5 || newPosition.Y - this.dragStartPoint.Value.Y <= -5))
+                if (((newPosition.X - this.dragStartPoint.Value.X) >= 5 || 
+                    (newPosition.X - this.dragStartPoint.Value.X) <= -5) ||
+                    (newPosition.Y -this.dragStartPoint.Value.Y >= 5 || 
+                    newPosition.Y - this.dragStartPoint.Value.Y <= -5))
                 {
                     DragDrop.DoDragDrop(this, this.DataContext, DragDropEffects.Copy);
                     e.Handled = true;

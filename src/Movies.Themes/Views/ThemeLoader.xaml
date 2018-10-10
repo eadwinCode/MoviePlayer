@@ -51,8 +51,8 @@
         </ResourceDictionary>
     </UserControl.Resources>
     
-    <ItemsControl Margin="5"
-              BorderBrush="Transparent" BorderThickness="0" 
+    <ItemsControl Margin="5,10,0,0" Padding="0,5,0,0"
+              BorderBrush="{DynamicResource Theme.Foreground}" BorderThickness="0,.5,0,0" 
               ItemsSource="{Binding ThemeModels}" 
               ItemTemplate="{StaticResource ThemeTemplate}" 
               ScrollViewer.VerticalScrollBarVisibility="Disabled" 

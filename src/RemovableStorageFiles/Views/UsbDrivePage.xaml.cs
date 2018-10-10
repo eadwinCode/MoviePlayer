@@ -1,4 +1,5 @@
-﻿using Movies.MoviesInterfaces;
+﻿using Movies.Models.Interfaces;
+using Movies.MoviesInterfaces;
 using PresentationExtension.InterFaces;
 using RemovableStorageFiles.ViewModels;
 using System.Windows;
@@ -13,6 +14,8 @@ namespace RemovableStorageFiles.Views
     {
         public bool HasController { get { return WindowCommandButton != null; } }
         public ContentControl Docker { get { return HomePageDock; } }
+
+        public IMenuFlyout FlyoutMenu { get ; set; }
 
         private IWindowsCommandButton WindowCommandButton;
         public UsbDrivePage()

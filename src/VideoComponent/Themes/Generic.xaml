@@ -144,13 +144,24 @@
         </Setter>
     </Style>
 
-    <Style  x:Key="{x:Type Base:PreviewClass}" TargetType="{x:Type Base:PreviewClass}">
+    <Style TargetType="{x:Type Base:PreviewClass}">
         <Style.Resources>
             <Style x:Key="{x:Type ToolTip}" TargetType="{x:Type ToolTip}">
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="BorderBrush" Value="Transparent"/>
                 <Setter Property="HasDropShadow" Value="False"/>
+                <Setter Property="Template" >
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <Border Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"
+                                    Background="{TemplateBinding Background}">
+                                <ContentPresenter/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
             </Style>
+          
         </Style.Resources>
 
 

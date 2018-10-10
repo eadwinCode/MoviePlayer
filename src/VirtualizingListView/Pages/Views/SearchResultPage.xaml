@@ -16,7 +16,7 @@
 
             <CollectionViewSource x:Key="SearchResultVideoData" Source="{Binding SearchResults}">
             <CollectionViewSource.GroupDescriptions>
-                <PropertyGroupDescription  Converter="{DynamicResource GroupSort}" />
+                <PropertyGroupDescription  Converter="{StaticResource GroupSort}" />
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
         </ResourceDictionary>

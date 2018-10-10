@@ -6,10 +6,9 @@ using System.Text;
 
 namespace Movies.MoviesInterfaces
 {
-    public interface IRadioService
+    public interface IRadioService : IMediaPlayerHost
     {
         bool IsRadioOn { get; }
-        void ShutdownRadio();
         IPlayFile FileplayerManager { get; }
         void PlayRadio(RadioModel radioModel);
     }

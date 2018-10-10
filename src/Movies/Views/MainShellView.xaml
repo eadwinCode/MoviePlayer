@@ -20,23 +20,36 @@
                 <!--<TextBlock Text="Status Message" Foreground="{DynamicResource Theme.Foreground}" FontSize="15" FontWeight="Regular" Padding="5" VerticalAlignment="Center" Opacity=".7"/>-->
                 <!--<ProgressBar Margin="2" VerticalAlignment="Stretch"  LargeChange="0"  Foreground="White"  
                              Value="{Binding LoadingProgress}" 
-                             Style="{DynamicResource loadingprogressbar}" />-->
-
+                             Style="{DynamicResource loadingprogressbar}" 
+                />-->
             </DockPanel>
         </Border>
-        <!--<VideoList:FileView Grid.Row="2" x:Name="pagenavigatorhost" VerticalAlignment="Stretch" />-->
-        <flyout:Flyout Background="{DynamicResource Theme.Background}">
-            <flyout:Flyout.SubMenuItem>
-                <flyout:SubMenuItem>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="30"/>
-                        </Grid.RowDefinitions>
+        <!--<VideoList:FileView Grid.Row="2" prism:RegionManager.RegionName="SubMenuItemsRegion" Background="{DynamicResource Theme.Background}" SubMenuHiddenContent x:Name="pagenavigatorhost" VerticalAlignment="Stretch" />-->
+        <flyout:Flyout Background="Transparent">
+            <flyout:Flyout.FlyoutMenu>
+                <flyout:FlyoutMenu ItemsSource="{Binding FlyoutSubMenuItem}" SelectionIndicatorColor="{DynamicResource Theme.Foreground}" MenuItemForeground="{DynamicResource Theme.Foreground}" MenuIconColor="{DynamicResource Theme.Foreground}">
+                    <flyout:FlyoutMenu.MenuTopSection>
+                        <DockPanel Grid.Row="1" Margin="5,10,5,0" Background="Transparent">
+                            <ContentControl  DockPanel.Dock="Right" HorizontalAlignment="Stretch"
+                                    prism:RegionManager.RegionName="ShellSearchRegion" 
+                                    Margin="2,0,0,2" Width="38" Height="30"/>
 
-                        <Button Content="close" DockPanel.Dock="Right" Grid.Row="0"
+                            <TextBlock Padding="5" Text="Movie Hub Explorer" VerticalAlignment="Center" FontWeight="Light" FontSize="20"
+                                       Foreground="{DynamicResource Theme.Foreground}"/>
+                        </DockPanel>
+                    </flyout:FlyoutMenu.MenuTopSection>
+                </flyout:FlyoutMenu>
+               
+            </flyout:Flyout.FlyoutMenu>
+            <flyout:Flyout.SubMenuHiddenContent>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
+
+                    <!--<Button Content="close" DockPanel.Dock="Right" Grid.Row="0"
                                 ToolTip="Close this Panel" HorizontalAlignment="Right"  Margin="4" 
                                         Command="{x:Static flyout:Flyout.SubMenuToggleCommand}">
                             <Button.Style>
@@ -52,34 +65,27 @@
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
-                        </Button>
-                        <!--Header Items-->
-                        <DockPanel Grid.Row="1" Margin="5,10,5,10" Background="Transparent">
-                            <ContentControl  DockPanel.Dock="Right" HorizontalAlignment="Right"
-                                    prism:RegionManager.RegionName="ShellSearchRegion" 
-                                    Margin="4" Width="35" Height="30"/>
+                        </Button>-->
 
-                            <TextBlock Padding="5" Text="Movie Hub Explorer" FontWeight="Light" FontSize="20"
-                                       Foreground="{DynamicResource Theme.Foreground}"/>
-                        </DockPanel>
+                    <!--Header Items-->
+                    
 
-                        <!--Body Items-->
-                        <StackPanel Grid.Row="2" VerticalAlignment="Top">
-                            <ItemsControl prism:RegionManager.RegionName="SubMenuItemsRegion" DockPanel.Dock="Top"/>
-                            <ContentControl prism:RegionManager.RegionName="ShellRadioRegion" DockPanel.Dock="Top"/>
-                            <ContentControl prism:RegionManager.RegionName="ShellPlaylistRegion" DockPanel.Dock="Top"/>
-                            <Separator Height=".5" Width="150" HorizontalAlignment="Left" Padding="5"/>
-                            <ContentControl prism:RegionManager.RegionName="ShellThemeRegion" DockPanel.Dock="Top"/>
-                        </StackPanel>
+                    <!--Body Items-->
+                    <ContentControl Grid.Row="1" VerticalAlignment="Top" prism:RegionManager.RegionName="ShellThemeRegion" DockPanel.Dock="Top"/>
+                    <!--<StackPanel >
+                        <ItemsControl prism:RegionManager.RegionName="SubMenuItemsRegion" DockPanel.Dock="Top"/>
+                        <ContentControl prism:RegionManager.RegionName="ShellRadioRegion" DockPanel.Dock="Top"/>
+                        <ContentControl prism:RegionManager.RegionName="ShellPlaylistRegion" DockPanel.Dock="Top"/>
+                        <Separator Height=".5" Width="150" HorizontalAlignment="Left" Padding="5"/>
+                        
+                    </StackPanel>-->
 
-                        <!--footer Items-->
-                        <DockPanel Grid.Row="3" Background="Transparent">
-                            <TextBlock Text="Copyright 2018" Padding="5" Foreground="{DynamicResource Theme.Foreground}"/>
-                        </DockPanel>
-                    </Grid>
-
-                </flyout:SubMenuItem>
-            </flyout:Flyout.SubMenuItem>
+                    <!--footer Items-->
+                    <DockPanel Grid.Row="3" Background="Transparent">
+                        <TextBlock Text="Copyright 2018" Padding="5" Foreground="{DynamicResource Theme.Foreground}"/>
+                    </DockPanel>
+                </Grid>
+            </flyout:Flyout.SubMenuHiddenContent>
             <ContentControl prism:RegionManager.RegionName="MainRegion"/>
         </flyout:Flyout>
     </DockPanel>

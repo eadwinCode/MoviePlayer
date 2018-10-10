@@ -38,7 +38,8 @@ namespace Movies.PlaylistCollectionView.Views
 
         public ContentControl Docker { get { return null; } }
 
-       
+        public IMenuFlyout FlyoutMenu { get; set ; }
+
         public void SetController(IWindowsCommandButton controller)
         {
             this.controller = controller;

@@ -29,7 +29,9 @@ namespace VideoPlayerView.ModuleDefinition
 
         private void RegisterServices()
         {
-            this.unityContainer.RegisterType<IPlayFile, PlayFile>(new ContainerControlledLifetimeManager());
+            PlayFile playFile = new PlayFile();
+            this.unityContainer.RegisterInstance<IPlayFile>(playFile);
+            this.unityContainer.Resolve<IMediaPlayerHostCollection>().Add(playFile);
         }
 
         private void RegisterViews()

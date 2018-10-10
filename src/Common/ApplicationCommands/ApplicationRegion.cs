@@ -16,7 +16,10 @@ namespace Common.ApplicationCommands
         public const string SHELLTHEMEREGION = "ShellThemeRegion"; 
         public const string SHELLWINDOWREGION = "ShellWindowRegion";
     }
-
+    public static class ApplicationConstants
+    {
+        public const string SHELLWINDOWTITLE = "Movie Hub";
+    }
     public class ApplicationDummyMessage
     {
         public const string DurationNotYetLoaded = "- Media duration not yet downloaded -";

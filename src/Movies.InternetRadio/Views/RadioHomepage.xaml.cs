@@ -1,4 +1,6 @@
 ﻿using Movies.InternetRadio.ViewModels;
+using Movies.Models.Interfaces;
+using Movies.MoviesInterfaces;
 using PresentationExtension.InterFaces;
 using System;
 using System.Collections.Generic;
@@ -22,9 +24,7 @@ namespace Movies.InternetRadio.Views
     public partial class RadioHomepage : Page,IMainPage
     {
         ContentControl HomePageDock;
-        private IWindowsCommandButton WindowCommandButton;
 
-        
         public RadioHomepage()
         {
             InitializeComponent();
@@ -33,14 +33,9 @@ namespace Movies.InternetRadio.Views
             this.Loaded += (s, e) => { (DataContext as RadioHomePageService).Onloaded(s); };
         }
 
-        public bool HasController { get { return WindowCommandButton != null; } }
-
         public ContentControl Docker { get { return HomePageDock; } }
 
-        public void SetController(IWindowsCommandButton controller)
-        {
-            this.WindowCommandButton = controller;
-        }
+        public IMenuFlyout FlyoutMenu { get; set; }
 
         private void InitDialogDocker()
         {

@@ -90,7 +90,7 @@ namespace Movies.StatusService.ViewModels
         private IStatusMessage GetStatusMessage()
         {
             IStatusMessage statusMessage  = null;
-            DispatcherService.InvokeDispatchAction(() => { statusMessage =  Messages.LastOrDefault(); });
+            DispatcherService.InvokeDispatchAction(() => { statusMessage = StatusMessageManager.MessageCollection.Values.LastOrDefault(); });
             return statusMessage;
         }
         

@@ -1,25 +1,16 @@
-﻿using Common.ApplicationCommands;
-using Common.Util;
+﻿using FlyoutControl;
 using MahApps.Metro.Controls;
-using MahApps.Metro.IconPacks;
-using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Prism.ViewModel;
 using Microsoft.Practices.ServiceLocation;
-using Movies.Models.Interfaces;
-using Movies.Models.Model;
 using Movies.MoviesInterfaces;
 using Movies.Services;
 using Movies.Views;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media.Animation;
-using VideoComponent.BaseClass;
 
 namespace RealMediaControl.ViewModel
 {
@@ -35,17 +26,31 @@ namespace RealMediaControl.ViewModel
             get { return currentview; }
         }
 
+        private IList<FlyoutSubMenuItem> flyoutsubmenuitem;
+
+        public IList<FlyoutSubMenuItem> FlyoutSubMenuItem
+        {
+            get { return flyoutsubmenuitem; }
+        }
+
+
         public ShellWindowService(IApplicationService applicationService, IRegionManager regionManager)
         {
             this.ApplicationService = applicationService;
             this.RegionManager = regionManager;
             _views = new Dictionary<string, object>();
+            flyoutsubmenuitem = new ObservableCollection<FlyoutSubMenuItem>();
             this.AddView(new MainShellView(), typeof(MainShellView).Name);
         }
         
         
         private void VideoPlayerVM_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            var imediaHost = ServiceLocator.Current.GetInstance<IMediaPlayerHostCollection>();
+            foreach (var item in imediaHost)
+            {
+                item.ShutDown();
+            }
             ApplicationService.SaveFiles();
         }
 
@@ -88,6 +93,27 @@ namespace RealMediaControl.ViewModel
         {
             currentview = _views.LastOrDefault().Value;
             RaisePropertyChanged(() => this.CurrentView);
+        }
+
+        public void RegisterMenu(object flyoutSubMenuItem)
+        {
+            FlyoutSubMenuItem item = flyoutSubMenuItem as FlyoutSubMenuItem;
+            if(item != null)
+            {
+                flyoutsubmenuitem.Add(item);
+            }
+        }
+
+        public void RegisterMenuAt(object flyoutSubMenuItem, int Position)
+        {
+            FlyoutSubMenuItem item = flyoutSubMenuItem as FlyoutSubMenuItem;
+            if (item != null)
+            {
+                int index = Position;
+                if (Position > 0)
+                    index = Position - 1;
+                flyoutsubmenuitem.Insert(index, item);
+            }
         }
 
         public MetroWindow ShellWindow

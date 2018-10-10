@@ -1,4 +1,5 @@
-﻿using Movies.MoviesInterfaces;
+﻿using Movies.Models.Interfaces;
+using Movies.MoviesInterfaces;
 using PresentationExtension.InterFaces;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,7 @@ namespace VirtualizingListView.Pages.Views
         public bool HasController { get { return WindowCommandButton != null; } }
         public ContentControl Docker { get { return null; } }
 
+        public IMenuFlyout FlyoutMenu { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public MediaServerPage()
         {

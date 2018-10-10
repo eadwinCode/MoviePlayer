@@ -19,7 +19,6 @@ using System.Windows.Threading;
 using VideoComponent.BaseClass;
 using VirtualizingListView.Model;
 using VirtualizingListView.Pages.ViewModel;
-using VirtualizingListView.ViewModel;
 
 namespace VirtualizingListView.OtherFiles
 {

@@ -75,6 +75,9 @@
     <Compile Include="Views\HomePlaylistButton.xaml.cs">
       <DependentUpon>HomePlaylistButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\HomePlaylistMenu.xaml.cs">
+      <DependentUpon>HomePlaylistMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\HomePlaylistView.xaml.cs">
       <DependentUpon>HomePlaylistView.xaml</DependentUpon>
     </Compile>
@@ -91,6 +94,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\HomePlaylistButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\HomePlaylistMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -126,6 +133,10 @@
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{291D89E4-5436-4E99-A402-322D10F2ED0C}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlyoutControl\FlyoutControl.csproj">
+      <Project>{4abbc7e5-63de-4017-a048-4035d249ddfc}</Project>
+      <Name>FlyoutControl</Name>
     </ProjectReference>
     <ProjectReference Include="..\Movies.GlobalResources\Movies.GlobalResources.csproj">
       <Project>{1370a208-da8b-43ee-8cbb-a18d7992a8dc}</Project>

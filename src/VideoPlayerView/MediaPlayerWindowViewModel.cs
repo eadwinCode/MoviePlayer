@@ -1,4 +1,5 @@
-﻿using Delimon.Win32.IO;
+﻿using Common.ApplicationCommands;
+using Delimon.Win32.IO;
 using MahApps.Metro.Controls;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.ViewModel;
@@ -36,6 +37,7 @@ namespace VideoPlayerView
                 return ServiceLocator.Current.GetInstance<IShellWindowService>();
             }
         }
+
         IPageNavigatorHost PageNavigatorHost
         {
             get
@@ -43,6 +45,7 @@ namespace VideoPlayerView
                 return ServiceLocator.Current.GetInstance<IPageNavigatorHost>();
             }
         }
+
         private MetroWindow GetWindow
         {
             get { return ShellWindowService.ShellWindow; }
@@ -75,8 +78,7 @@ namespace VideoPlayerView
             get { return ismediaplayerwindowenabled; }
             set { ismediaplayerwindowenabled = value; RaisePropertyChanged(() => this.IsMediaPlayerWindowEnabled); }
         }
-
-
+        
         internal bool CanUnload { get; private set; }
 
         public MediaPlayerWindow()
@@ -105,7 +107,8 @@ namespace VideoPlayerView
 
         private void HookupEvents()
         {
-            MediaPlayerElement.IsCloseButtonVisible = true;
+            MediaPlayerElement.IsCloseButtonVisible = false;
+            MediaPlayerElement.CanEscapeKeyCloseMedia = true;
             MediaPlayerElement.MovieControl.IsMinimizeControlButtonEnabled = true;
             this.MediaPlayerElement.AllowMediaPlayerAutoDispose = false;
             MediaPlayerElement.SetWindowTopMostProperty += MediaPlayerElement_SetWindowTopMostProperty;
@@ -138,6 +141,7 @@ namespace VideoPlayerView
 
             ShellWindowService.AddView(this, typeof(MediaPlayerWindow).Name);
             IsMediaPlayerWindowEnabled = false;
+            MediaPlayerElement.CanEscapeKeyCloseMedia = true;
 
             this.Width = double.NaN;
             this.Height = double.NaN;
@@ -152,6 +156,7 @@ namespace VideoPlayerView
             IsMediaPlayerWindowEnabled = true;
             ShellWindowService.RemoveView(typeof(MediaPlayerWindow).Name);
             PageNavigatorHost.AddView(this,typeof(MediaPlayerWindow).Name);
+            MediaPlayerElement.CanEscapeKeyCloseMedia = false;
 
             this.Width = 600;
             this.Height = 300;
@@ -166,7 +171,7 @@ namespace VideoPlayerView
         
         private void ClosePlayerActionFromPage()
         {
-            this.GetWindow.Title = "Movie Hub";
+            this.GetWindow.Title = ApplicationConstants.SHELLWINDOWTITLE;
             CanUnload = true;
 
             PageNavigatorHost.RemoveView(typeof(MediaPlayerWindow).Name);
@@ -177,7 +182,7 @@ namespace VideoPlayerView
 
         private void ClosePlayerAction()
         {
-            this.GetWindow.Title = "Movie Hub";
+            this.GetWindow.Title = ApplicationConstants.SHELLWINDOWTITLE;
             FullScreenAction(WindowFullScreenState.Normal);
             CanUnload = true;
 
@@ -248,7 +253,7 @@ namespace VideoPlayerView
 
         public void SetSubtitle(string filepath)
         {
-            MediaPlayerElement.MediaPlayerService.SubtitleManagement.SetSubtitle(filepath);
+            MediaPlayerElement.MediaPlayerServices.SubtitleManagement.SetSubtitle(filepath);
         }
 
         public void LoadMediaFile(IPlayable playablefile)

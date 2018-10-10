@@ -53,13 +53,45 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="PageNagivatorService\PageNavigatorHostView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\FlyoutMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\FlyoutSubMenuItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic - Copy.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\ListBoxStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ToggleButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Flyout - Copy.dsd" />
     <Compile Include="Flyout.cs" />
+    <Compile Include="FlyoutMenu.cs" />
+    <Compile Include="FlyoutSubMenuItem.cs" />
+    <Compile Include="PageNagivatorService\PageNavigator.cs" />
+    <Compile Include="PageNagivatorService\PageNavigatorHost.cs" />
+    <Compile Include="PageNagivatorService\PageNavigatorHostView.xaml.cs">
+      <DependentUpon>PageNavigatorHostView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -84,9 +116,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Movies.Models\Movies.Models.csproj">
+      <Project>{12CE1E5D-1E2D-4FE8-8084-B5E334CD54CD}</Project>
+      <Name>Movies.Models</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PresentationExtension\PresentationExtension.csproj">
       <Project>{b622321d-0980-42df-9165-79341bf7e64e}</Project>
       <Name>PresentationExtension</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProjectInterfaces\Movies.MoviesInterfaces.csproj">
+      <Project>{2D97DA0A-18BE-48A1-B4FC-78B0B3CEB6C8}</Project>
+      <Name>Movies.MoviesInterfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

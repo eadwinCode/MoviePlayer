@@ -4,6 +4,5 @@
     xmlns:local="clr-namespace:VirtualizingListView">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/VirtualizingListView;component/Resources/ViewStyle.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/VirtualizingListView;component/Resources/Items.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

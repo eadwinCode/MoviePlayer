@@ -78,6 +78,9 @@
     <Compile Include="Views\HomePageLocalNoFolder.xaml.cs">
       <DependentUpon>HomePageLocalNoFolder.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\VideoFolderMenu.xaml.cs">
+      <DependentUpon>VideoFolderMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\VideoFolderView.xaml.cs">
       <DependentUpon>VideoFolderView.xaml</DependentUpon>
     </Compile>
@@ -100,6 +103,10 @@
     <Page Include="Views\HomePageLocalNoFolder.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\VideoFolderMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\VideoFolderView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -136,6 +143,10 @@
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{291D89E4-5436-4E99-A402-322D10F2ED0C}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlyoutControl\FlyoutControl.csproj">
+      <Project>{4abbc7e5-63de-4017-a048-4035d249ddfc}</Project>
+      <Name>FlyoutControl</Name>
     </ProjectReference>
     <ProjectReference Include="..\Movies.GlobalResources\Movies.GlobalResources.csproj">
       <Project>{1370a208-da8b-43ee-8cbb-a18d7992a8dc}</Project>

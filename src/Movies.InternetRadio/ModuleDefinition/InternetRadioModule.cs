@@ -31,14 +31,17 @@ namespace Movies.InternetRadio.ModuleDefinition
 
         private void RegisterServices()
         {
+            this.unityContainer.RegisterType<IRadioDataService, RadioDataService>(new ContainerControlledLifetimeManager());
             this.unityContainer.RegisterType<IRadioService, RadioService>(new ContainerControlledLifetimeManager());
-            this.unityContainer.RegisterType<IRadioDataService, RadioDataService>(new ContainerControlledLifetimeManager()); 
+            this.unityContainer.Resolve<IMediaPlayerHostCollection>().Add(unityContainer.Resolve<IRadioService>());
         }
 
         private void RegisterViews()
         {
-            this.regionManager.RegisterViewWithRegion(ApplicationRegion.SHELLRADIOREGION,
-                typeof(RadioStreamToggle));
+            unityContainer.Resolve<IShellWindowService>().RegisterMenuAt(new RadioPageMenu(),3);
+
+            //this.regionManager.RegisterViewWithRegion(ApplicationRegion.SHELLRADIOREGION,
+            //    typeof(RadioStreamToggle));
         }
     }
 }

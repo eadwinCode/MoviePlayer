@@ -66,6 +66,7 @@
     <Compile Include="ItemSizeChangeHandler.cs" />
     <Compile Include="RadioPlayer.cs" />
     <Compile Include="Interfaces\IRadioDataService.cs" />
+    <EmbeddedResource Include="StreamManager\DefaultRadioData.xds" />
     <Compile Include="StreamManager\RadioDataService.cs" />
     <Compile Include="Util\ImagePathConverter.cs" />
     <Compile Include="Util\NetworkConnectionStatus.cs" />
@@ -98,14 +99,14 @@
     <Compile Include="Views\RadioHomepage.xaml.cs">
       <DependentUpon>RadioHomepage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\RadioPageMenu.xaml.cs">
+      <DependentUpon>RadioPageMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\RadioStationDetails.xaml.cs">
       <DependentUpon>RadioStationDetails.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RadioStreamHomePageControl.xaml.cs">
       <DependentUpon>RadioStreamHomePageControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\RadioStreamToggle.xaml.cs">
-      <DependentUpon>RadioStreamToggle.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RadioViewPage.xaml.cs">
       <DependentUpon>RadioViewPage.xaml</DependentUpon>
@@ -141,15 +142,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\RadioPageMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\RadioStationDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\RadioStreamHomePageControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\RadioStreamToggle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -186,6 +187,10 @@
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{291d89e4-5436-4e99-a402-322d10f2ed0c}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlyoutControl\FlyoutControl.csproj">
+      <Project>{4abbc7e5-63de-4017-a048-4035d249ddfc}</Project>
+      <Name>FlyoutControl</Name>
     </ProjectReference>
     <ProjectReference Include="..\MovieHub.MediaPlayerElement\MovieHub.MediaPlayerElement.csproj">
       <Project>{E3E88727-8E4A-4B69-A9B2-A9085A76AB92}</Project>

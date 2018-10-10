@@ -2,13 +2,13 @@
 using Movies.Enums;
 using Movies.Models.Interfaces;
 using Movies.Models.Model;
+using Movies.MovieServices.Util;
 using Movies.MoviesInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using VideoComponent.BaseClass;
 
 namespace Movies.MovieServices.Services
 {

@@ -22,7 +22,7 @@ namespace Movies.InternetRadio.StreamManager
 
         public bool IsRadioOn { get { return isradioon; } }
         public IPlayFile FileplayerManager { get { return fileplayermanager; } }
-        public IMainPage RadioHomepage { get { return radiohomepage; } }
+        public IMainPage RadioHomepage { get { return radiohomepage; } internal set { radiohomepage = value; } }
 
         private IShellWindow IShell
         {
@@ -32,21 +32,15 @@ namespace Movies.InternetRadio.StreamManager
         public RadioService(IPlayFile fileplayermanager,IDispatcherService dispatcherService)
         {
             this.fileplayermanager = fileplayermanager;
-            radiohomepage = new RadioHomepage();
             _idispatcherService = dispatcherService;
-
-            (IShell as Window).Closing += RadioService_Closing;
+            RadioHomepage = new RadioHomepage();
         }
-
-        private void RadioService_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            ShutdownRadio();
-        }
+        
 
         public void PlayRadio(RadioModel radioModel)
         {
             if (FileplayerManager.IsPlayingMedia)
-                FileplayerManager.ShutDownMediaPlayer();
+                FileplayerManager.ShutDown();
 
             InitRadioPlayer();
             radioplayer.PlayStation(radioModel);
@@ -61,8 +55,8 @@ namespace Movies.InternetRadio.StreamManager
                 radioplayer.HostViewInHomePage();
             }
         }
-
-        public void ShutdownRadio()
+        
+        public void ShutDown()
         {
             if (radioplayer != null)
                 radioplayer.Shutdown();

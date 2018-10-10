@@ -28,7 +28,6 @@ namespace Movies.InternetRadio.ViewModels
         private  DelegateCommand addstationgroup;
         private  DelegateCommand addradiostation;
         private  DelegateCommand importdatacommand;
-        private DelegateCommand<IMoviesRadio> deletestationgroup;
         private bool isloading;
         private ObservableCollection<IMoviesRadio> radioModelCollection;
         IRadioDataService IRadioDataService
@@ -169,7 +168,6 @@ namespace Movies.InternetRadio.ViewModels
             {
                 RadioModelCollection = t.Result;
                 IsLoading = false;
-
             }, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
@@ -202,6 +200,15 @@ namespace Movies.InternetRadio.ViewModels
         public void Remove(IMoviesRadio moviesRadio)
         {
             RadioModelCollection.Remove(moviesRadio);
+            if (moviesRadio is IRadioGroup)
+            {
+                var group = (moviesRadio as IRadioGroup);
+                var collections = new List<Guid>((moviesRadio as IRadioGroup).RadioStations);
+                foreach (var item in collections)
+                {
+                    IRadioDataService.RemoveRadio(group, item);
+                }
+            }
             IRadioDataService.RemoveRadio(CurrentRadioGroup, moviesRadio.Key);
         }
     }

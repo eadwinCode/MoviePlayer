@@ -143,18 +143,13 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="VideoItemViewCollection.cs" />
-    <Compile Include="ViewModel\FileViewViewModel.cs" />
-    <Compile Include="ViewModel\PageNavigatorViewModel.cs" />
     <Compile Include="View\FileView.xaml.cs">
       <DependentUpon>FileView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MediaServerView.xaml.cs">
       <DependentUpon>MediaServerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\PageNavigator.xaml.cs">
-      <DependentUpon>PageNavigator.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\PageNavigatorHost.cs" />
+    <Compile Include="View\PageEventHost.cs" />
     <Compile Include="VirtualizingCollection.cs" />
     <Compile Include="VirtualPanel\VirtualStackPanel.cs" />
     <Compile Include="VirtualPanel\VirtualWrapPanel.cs" />
@@ -203,10 +198,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\MediaServerView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\PageNavigator.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -262,6 +253,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Util\" />
+    <Folder Include="ViewModel\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

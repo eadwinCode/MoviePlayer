@@ -26,7 +26,7 @@
                     <TextBlock DockPanel.Dock="Top" FontSize="15" Foreground="White" Padding="3" Text="Playlist Name:"/>
                     <TextBox AcceptsTab="False" x:Name="RenameText" Padding="3" FontSize="15"  DockPanel.Dock="Top" 
                              Text="{Binding TempPlaylistName,UpdateSourceTrigger=PropertyChanged}" 
-                             Margin="0,5,0,5"  />
+                             Margin="0,5,2,5"  />
 
                     <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" 
                                 HorizontalAlignment="Right" 
@@ -38,7 +38,7 @@
                             <TextBlock Text="Ok" Padding="3"
                                     HorizontalAlignment="Center" 
                                     VerticalAlignment="Center" FontWeight="DemiBold"
-                                    FontSize="15" Foreground="OldLace"/>
+                                    FontSize="13" Foreground="OldLace"/>
                         </Button>
                         <Button Style="{StaticResource dialogbtn}" 
                                 Margin="2" Click="Button_Click" Width="80" Height="30"
@@ -46,7 +46,7 @@
                             <TextBlock Text="Cancel" 
                                     HorizontalAlignment="Center" 
                                     VerticalAlignment="Center" FontWeight="DemiBold"
-                                    FontSize="15" Foreground="OldLace"/>
+                                    FontSize="13" Foreground="OldLace"/>
                         </Button>
                     </StackPanel>
 

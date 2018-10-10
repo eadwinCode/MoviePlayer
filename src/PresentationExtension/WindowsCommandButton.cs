@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls;
+using Movies.MoviesInterfaces;
 using PresentationExtension.InterFaces;
 using System.Collections.Generic;
 using System.Windows;
@@ -56,10 +57,12 @@ namespace PresentationExtension
         private void GetData()
         {
             HamburgerMenuIconItem = this.DataContext as HamburgerMenuIconItem;
-
-            IMainPage mainPages = HamburgerMenuIconItem.Tag as IMainPage;
-            if (!mainPages.HasController)
-                mainPages.SetController(this);
+            if (HamburgerMenuIconItem != null)
+            {
+                IMainPage mainPages = HamburgerMenuIconItem.Tag as IMainPage;
+                //if (!mainPages.HasController)
+                //    mainPages.SetController(this);
+            }
         }
 
         public WindowCommandButton()

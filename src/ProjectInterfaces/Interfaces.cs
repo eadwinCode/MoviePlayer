@@ -67,13 +67,26 @@ namespace Movies.MoviesInterfaces
     {
         NavigationService NavigationService { get; }
         Frame Host { get; }
-        ContentControl DockControl { get; }
+        void NavigatePage(object page,object pageData = null);
+        void NavigateMainPage(IMainPage mainPage, object pageData = null);
+    }
+
+    public interface IMainPage
+    {
+        IMenuFlyout FlyoutMenu { get; set; }
+        int GetHashCode();
+        NavigationService NavigationService { get; }
+        ContentControl Docker { get; }
+    }
+
+    public interface IWindowsCommandButton
+    {
+        void SetActive(bool setactive, bool loadPage);
     }
 
     public interface IPageNavigatorHost : IMultiViewHost
     {
         INavigatorService PageNavigator { get; }
-        
     }
 
     public interface IMultiViewHost
@@ -125,6 +138,8 @@ namespace Movies.MoviesInterfaces
     {
         MetroWindow ShellWindow { get; }
         void OnWindowsLoaded();
+        void RegisterMenu(object flyoutSubMenuItem);
+        void RegisterMenuAt(object flyoutSubMenuItem,int Position);
     }
    
 

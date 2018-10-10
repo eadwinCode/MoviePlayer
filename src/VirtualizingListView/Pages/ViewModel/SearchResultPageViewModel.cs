@@ -45,7 +45,10 @@ namespace VirtualizingListView.Pages.ViewModel
 
         private string resultText;
         private readonly Dispatcher SearchPageDispatcher;
-        private NavigationService navigationService;
+        private INavigatorService NavigatorService
+        {
+            get { return ServiceLocator.Current.GetInstance<INavigatorService>(); }
+        }
         private DataTemplateSelector mytemplatechange;
         private Style listviewstyle;
 
@@ -69,8 +72,7 @@ namespace VirtualizingListView.Pages.ViewModel
         public SearchResultPageViewModel(NavigationService navigationService,Dispatcher dispatcher)
         {
             this.SearchPageDispatcher = dispatcher;
-            this.navigationService = navigationService;
-            this.navigationService.LoadCompleted += NavigationService_LoadCompleted;
+            navigationService.LoadCompleted += NavigationService_LoadCompleted;
             this.UpdateView(ApplicationService.AppSettings.ViewType);
         }
 
@@ -80,7 +82,7 @@ namespace VirtualizingListView.Pages.ViewModel
             SearchResults = (ObservableCollection<VideoFolder>)searchmodel.Results;
             ResultText = searchmodel.SearchQuery;
             ResultTextInDetail = SearchResults.Count.ToString();
-            navigationService.LoadCompleted -= NavigationService_LoadCompleted;
+            NavigatorService.NavigationService.LoadCompleted -= NavigationService_LoadCompleted;
             OpenFolderCommand = new DelegateCommand<object>(OpenFolderCommandAction);
             UpdateViewCollection();
         }
@@ -113,7 +115,7 @@ namespace VirtualizingListView.Pages.ViewModel
             VideoFolder videoFolder = (VideoFolder)obj;
             if (videoFolder.FileType == GroupCatergory.Grouped)
             {
-                this.navigationService.Navigate(new FilePageView(this.navigationService), obj);
+                this.NavigatorService.NavigatePage(new FilePageView(this.NavigatorService.NavigationService), obj);
             }
             else
                 openFileCaller.Open(videoFolder as IPlayable,searchresults.OfType<IPlayable>());

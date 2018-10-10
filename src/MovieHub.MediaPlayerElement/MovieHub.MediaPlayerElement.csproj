@@ -94,12 +94,15 @@
     <Compile Include="CustomControls\MediaSlider.cs" />
     <Compile Include="CustomControls\MovieTitle_Tab.cs" />
     <Compile Include="CustomControls\VolumeControl.cs" />
+    <Compile Include="Interfaces\IMediaInfo.cs" />
     <Compile Include="Interfaces\IMediaPlayerService.cs" />
     <Compile Include="MediaMenuViewModel.cs" />
     <Compile Include="MediaPlayerElement.cs" />
     <Compile Include="Models\AudioTracksManagement.cs" />
     <Compile Include="Models\ChapterManagement.cs" />
     <Compile Include="Models\MediaBufferingEventArgs.cs" />
+    <Compile Include="Models\MediaInfoChangedEventArgs.cs" />
+    <Compile Include="Models\MediaInformation.cs" />
     <Compile Include="Models\MediaPlayerViewTypeRoutedEventArgs.cs" />
     <Compile Include="Models\MediaSize.cs" />
     <Compile Include="Models\MediaTrackDescription.cs" />

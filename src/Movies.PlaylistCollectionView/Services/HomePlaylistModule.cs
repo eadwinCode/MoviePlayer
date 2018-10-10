@@ -35,7 +35,8 @@ namespace Movies.PlaylistCollectionView.Services
 
         private void RegisterViews()
         {
-            regionManager.RegisterViewWithRegion(ApplicationRegion.SHELLPLAYLISTREGION, typeof(HomePlaylistButton));
+            unityContainer.Resolve<IShellWindowService>().RegisterMenu(new HomePlaylistMenu());
+           // regionManager.RegisterViewWithRegion(ApplicationRegion.SHELLPLAYLISTREGION, typeof(HomePlaylistButton));
         }
     }
 }

@@ -26,59 +26,18 @@
                                FontSize="20" Padding="10" FontWeight="Medium"
                                Text="All Movie Folders"/>
             </Border>
-            <DockPanel>
-                <WrapPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                <DockPanel>
                     <ListView   x:Name="collections" Margin="10,10,2,10"
-                    ScrollViewer.VerticalScrollBarVisibility="Auto" 
-                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                    Background="Transparent" BorderThickness="0"
-                    ItemTemplate="{StaticResource HomeFolderTemplate}"
-                    ItemsPanel="{StaticResource VideoItemsPanel}"
-                    ItemsSource="{Binding AllFoldersList}"
-                    ItemContainerStyle="{StaticResource CustomContainerStyle}"
-                    Grid.RowSpan="2">
+                                ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                Background="Transparent" BorderThickness="0"
+                                ItemTemplate="{StaticResource HomeFolderTemplate}"
+                                ItemsPanel="{StaticResource VideoItemsPanel}"
+                                ItemsSource="{Binding AllFoldersList}"
+                                ItemContainerStyle="{StaticResource CustomContainerStyle}"
+                                Grid.RowSpan="2">
                     </ListView>
-                    <Button Width="140" Height="180" Margin="10,10,10,10" 
-                        DockPanel.Dock="Top" Command="{Binding AddFolderCommand}">
-                        <Button.Style>
-                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource normbtn}">
-                                <Setter Property="Background" Value="Transparent"/>
-                                <Setter Property="BorderThickness" Value="2"/>
-                                    <Setter Property="BorderBrush" 
-                                            Value="{DynamicResource Theme.AddFolderHighlight}"/>
-                                <Setter Property="ToolTip" Value="{x:Null}"/>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type Button}">
-                                            <Border BorderThickness="{TemplateBinding BorderThickness}"                                BorderBrush="{TemplateBinding BorderBrush}"
-                                                x:Name="wrapper" Background="{TemplateBinding Background}" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
-                                                <TextBlock  
-                                                Text="+" x:Name="content"
-                                                HorizontalAlignment="Center" 
-                                                VerticalAlignment="Center" 
-                                                FontSize="40" Foreground="{DynamicResource Theme.Foreground}"/>
-                                            </Border>
-                                            <ControlTemplate.Triggers>
-                                                <MultiTrigger>
-                                                    <MultiTrigger.Conditions>
-                                                        <Condition Property="IsMouseOver" Value="true"/>
-                                                    </MultiTrigger.Conditions>
-                                                    <Setter TargetName="wrapper" 
-                                                            Property="BorderBrush" 
-                                                            Value="{DynamicResource Theme.HighlightColor}"/>
-                                                    <Setter TargetName="content" 
-                                                            Property="Foreground" 
-                                                            Value="{DynamicResource Theme.Foreground}"/>
-                                                </MultiTrigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </Button.Style>
-                    </Button>
-                </WrapPanel>
-                <!--<VirtualizingView:HomePlaylistView x:Name="playlistcontrol" 
+                    <!--<VirtualizingView:HomePlaylistView x:Name="playlistcontrol" 
                                                IsEnabled="{Binding IsAllDataLoaded,
                     Converter={StaticResource BooleanInversion}}"/>-->
             </DockPanel>
@@ -86,8 +45,42 @@
        
         </DockPanel>
         </ScrollViewer>
+        <Button Width="40" Height="40" Margin="10,10,10,10" VerticalAlignment="Bottom" ToolTip="Add Movie Folders" HorizontalAlignment="Right" Command="{Binding AddFolderCommand}">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource normbtn}">
+                    <Setter Property="Background" Value="{DynamicResource Theme.HighlightColor}"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource Theme.AddFolderHighlight}"/>
+                    <Setter Property="ToolTip" Value="{x:Null}"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border BorderThickness="{TemplateBinding BorderThickness}"                                
+                                                        BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="3"
+                                                        x:Name="wrapper" Background="{TemplateBinding Background}" 
+                                                        Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                                    <TextBlock  Text="+" x:Name="content" Opacity=".7"
+                                                HorizontalAlignment="Center" 
+                                                VerticalAlignment="Center" 
+                                                FontSize="40" Foreground="{DynamicResource Theme.Foreground}"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="IsMouseOver" Value="true"/>
+                                        </MultiTrigger.Conditions>
+                                        <Setter TargetName="content" 
+                                                            Property="Opacity" 
+                                                            Value="1"/>
+                                    </MultiTrigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
         <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="HomePageDock"/>
-
     </Grid>
     
 </Page>

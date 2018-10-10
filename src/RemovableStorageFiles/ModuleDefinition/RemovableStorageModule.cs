@@ -40,8 +40,9 @@ namespace VirtualizingListView.ModuleDefinition
 
         private void RegisterViews()
         {
-            this.regionManager.RegisterViewWithRegion(ApplicationRegion.SUBMENUITEMSREGION, 
-                typeof(RemovableStorageView));
+            unityContainer.Resolve<IShellWindowService>().RegisterMenu(new RemovableStorageFilesMenu());
+            //this.regionManager.RegisterViewWithRegion(ApplicationRegion.SUBMENUITEMSREGION, 
+            //    typeof(RemovableStorageView));
         }
     }
 }

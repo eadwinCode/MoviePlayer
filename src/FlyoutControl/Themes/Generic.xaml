@@ -3,7 +3,10 @@
     xmlns:PresentationOptions="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:FlyoutControl">
-    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/FlyoutControl;component/Themes/FlyoutMenu.xaml"/>
+        <ResourceDictionary Source="/FlyoutControl;component/Themes/FlyoutSubMenuItem.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
     <Style TargetType="{x:Type local:SubMenuItem}">
         <Setter Property="Template">
             <Setter.Value>
@@ -78,74 +81,18 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:Flyout}">
-                    <DockPanel x:Name="FlyoutPanel">
-                        <DockPanel DockPanel.Dock="Left">
-                            <StackPanel x:Name="SubItemPanel" DockPanel.Dock="Left"
-                                        Background="Transparent"
-                                        Margin="-250,0,0,0"
-                                        Orientation="Horizontal">
-                                <Border BorderThickness="0,0,0.5,0" BorderBrush="{DynamicResource Theme.HighlightColor}" 
-                                        Padding="3">
-                                    <DockPanel Width="250" Background="Transparent">
-                                        <!--<DockPanel DockPanel.Dock="Top">
-                                    <Button Style="{StaticResource FlyoutBtn}" ToolTip="Hide Panel"
-                                            DockPanel.Dock="Right" Command="{Binding ShowSubMenuItem}">
-                                        <Path Opacity="0.7" Fill="Black"
-                                              Data=""
-                                              SnapsToDevicePixels="True"/>
-                                    </Button>
-                                    <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=local:Flyout}, Path=SubMenuItem.Title}"
-                                               FontSize="13"
-                                               Padding="3" FontWeight="Regular"/>
-                                    </DockPanel>-->
-                                        <ContentPresenter 
-                                            Content="{Binding RelativeSource={RelativeSource AncestorType=local:Flyout}, Path=SubMenuItem}"/>
-                                    </DockPanel>
-                                </Border>
-
-                                <Border Margin="0,20,0,20">
-                                    <Grid x:Name="Txtbxpanel" Width="15">
-                                        <!--<StackPanel Width="35" VerticalAlignment="Center" 
-                                            HorizontalAlignment="Center">
-                                            <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=local:Flyout}, Path=SubMenuItem.Title}"
-                                                   TextAlignment="Center" FlowDirection="LeftToRight" FontSize="20"
-                                                   FontWeight="Regular">
-                                                <TextBlock.LayoutTransform>
-                                                    <RotateTransform Angle="90"/>
-                                                </TextBlock.LayoutTransform>
-                                            </TextBlock>
-                                        </StackPanel>-->
-                                        <Button Style="{StaticResource zeroBorderFlyoutBtn}" 
-                                                Background="{DynamicResource Theme.HighlightColor}"
-                                                Command="{x:Static local:Flyout.SubMenuToggleCommand}"
-                                                ToolTip="Show Panel" BorderThickness="0">
-                                            <Path Opacity=".7" Fill="Black" 
-                                                  Data=""
-                                                  SnapsToDevicePixels="True"/>
-                                        </Button>
-                                    </Grid>
-                                </Border>
-                                
-                            </StackPanel>
-                            <!--<Button x:Name="MouseOverButton" Background="Transparent" 
-                                    HorizontalAlignment="Stretch" Width="10"
-                                    VerticalAlignment="Stretch" 
-                                    Style="{StaticResource FlyoutBtn}"/>-->
-                        </DockPanel>
-                        
-                        <ContentPresenter/>
-                    </DockPanel>
                     <ControlTemplate.Resources>
-                        <ResourceDictionary>
-                            <Storyboard x:Key="sbShowLeftMenu" PresentationOptions:Freeze="False" >
-                                <ThicknessAnimation Storyboard.TargetProperty="Margin" From="-255,0,0,0" To="0,0,0,0" DecelerationRatio=".9" Duration="0:0:.5"/>
-                            </Storyboard>
-
-                            <Storyboard x:Key="sbHideLeftMenu" PresentationOptions:Freeze="False">
-                                <ThicknessAnimation Storyboard.TargetProperty="Margin"  From="0,0,0,0" To="-255,0,0,0" AccelerationRatio=".9" Duration="0:0:.5"/>
-                            </Storyboard>
-                        </ResourceDictionary>
+                        <Style TargetType="local:FlyoutMenu">
+                            <Setter Property="SubMenuHiddenContent" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:Flyout}}, Path=SubMenuHiddenContent}"/>
+                        </Style>
                     </ControlTemplate.Resources>
+                    <DockPanel x:Name="FlyoutPanel">
+                        <Border DockPanel.Dock="Left" HorizontalAlignment="Left" BorderThickness="0,0,0.5,0" BorderBrush="{DynamicResource Theme.HighlightColor}" 
+                                        Padding="3">
+                            <ContentPresenter Content="{TemplateBinding FlyoutMenu}"/>
+                        </Border>
+                        <ContentPresenter Content="{TemplateBinding FlyContent}"/>
+                    </DockPanel>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

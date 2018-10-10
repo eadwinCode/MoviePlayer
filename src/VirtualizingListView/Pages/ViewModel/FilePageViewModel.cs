@@ -1,24 +1,22 @@
-﻿using Common.Util;
-using MahApps.Metro.Controls;
+﻿using MahApps.Metro.Controls;
 using MahApps.Metro.IconPacks;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.ViewModel;
+using Microsoft.Practices.ServiceLocation;
+using Movies.Enums;
 using Movies.Models.Interfaces;
 using Movies.Models.Model;
 using Movies.MoviesInterfaces;
-using Movies.Enums;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
-using VideoComponent.BaseClass;
-using VirtualizingListView.Pages.Util;
-using Microsoft.Practices.ServiceLocation;
-using PresentationExtension.InterFaces;
 using System.Windows.Threading;
-using System.Linq;
+using VirtualizingListView.Pages.Util;
 
 namespace VirtualizingListView.Pages.ViewModel
 
@@ -26,7 +24,6 @@ namespace VirtualizingListView.Pages.ViewModel
     public class FilePageViewModel : NotificationObject, IFilePageViewModel
     {
         private readonly Dispatcher FilePageDispatcher;
-        private NavigationService navigationService;
         private VideoFolder currentvideofolder;
         private MovieItemProvider ItemProvider;
         private bool isloading;
@@ -34,6 +31,11 @@ namespace VirtualizingListView.Pages.ViewModel
         private Style listviewstyle;
         private HamburgerMenuIconItem hamburgermenuicon;
         private object Padlock = new object();
+
+        private INavigatorService NavigatorService
+        {
+            get { return ServiceLocator.Current.GetInstance<INavigatorService>(); }
+        }
 
         IBackgroundService BackgroundService
         {
@@ -168,8 +170,7 @@ namespace VirtualizingListView.Pages.ViewModel
         public FilePageViewModel(NavigationService navigationService, Dispatcher dispatcher)
         {
             this.FilePageDispatcher = dispatcher;
-            this.navigationService = navigationService;
-            this.navigationService.LoadCompleted += NavigationService_LoadCompleted;
+            navigationService.LoadCompleted += NavigationService_LoadCompleted;
             OpenFolderCommand = new DelegateCommand<object>(OpenFolderCommandAction);
             activeType = ApplicationService.AppSettings.ViewType;
             UpdateView(this.ActiveViewType);
@@ -183,17 +184,19 @@ namespace VirtualizingListView.Pages.ViewModel
                 Label = videoFolder.Name,
                 Icon = new PackIconMaterial() { Kind = PackIconMaterialKind.FolderOpen }
             };
+            this.IsLoading = true;
 
             BackgroundService.Execute(() =>
             {
-                this.IsLoading = true;
+                Thread.Sleep(1000);
                 GetVideoFolder(videoFolder);
-            }, String.Format("Updating files in {0}", videoFolder.Name), () => {
+            }, String.Format("Updating files in {0}", videoFolder.Name), () =>
+            {
                 this.IsLoading = false;
                 OnDataLoaded(videoFolder);
             });
-            
-            navigationService.LoadCompleted -= NavigationService_LoadCompleted;
+
+            NavigatorService.NavigationService.LoadCompleted -= NavigationService_LoadCompleted;
         }
 
         private bool TemplateToggleAction()
@@ -237,13 +240,12 @@ namespace VirtualizingListView.Pages.ViewModel
             dispatcherTimer.Tick += (s, e) =>
             {
                 dispatcherTimer.Stop();
-
                 if (VideoItemViewCollection == null) return;
+                this.IsLoading = true;
                 BackgroundService.Execute(() =>
                 {
                     lock (Padlock)
                     {
-                        this.IsLoading = true;
                         LoaderCompletion.FinishCollectionLoadProcess(VideoItemViewCollection, FilePageDispatcher);
                     }
                 }, String.Format("Checking and updating files info in {0}", CurrentVideoFolder.Name), () => {
@@ -278,17 +280,17 @@ namespace VirtualizingListView.Pages.ViewModel
             {
                 if (videoFolder.FileType == GroupCatergory.Grouped)
                 {
-                    this.navigationService.Navigate(new FilePageView(this.navigationService), obj);
+                    this.NavigatorService.NavigatePage(new FilePageView(this.NavigatorService.NavigationService), obj);
                 }
                 else
                     OpenFileCaller.Open(videoFolder as IPlayable, CurrentVideoFolder.OtherFiles.OfType<IPlayable>());
             }
             else
             {
-                while (this.navigationService.CanGoBack)
+                while (this.NavigatorService.NavigationService.CanGoBack)
                 {
-                    if (navigationService.Content is IMainPage) break;
-                    this.navigationService.GoBack();
+                    if (NavigatorService.NavigationService.Content is IMainPage) break;
+                    this.NavigatorService.NavigationService.GoBack();
                 }
             }
         }

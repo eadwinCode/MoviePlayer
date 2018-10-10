@@ -14,7 +14,6 @@ namespace Movies.Models.Model
     {
         private string radioname;
         private ObservableCollection<Guid> radiostations;
-        private bool canedit = false;
         private DateTime creationdate;
         private Guid radiokey;
 
@@ -31,9 +30,9 @@ namespace Movies.Models.Model
         }
         
 
-        public bool CanEdit
+        public virtual bool CanEdit
         {
-            get { return canedit; }
+            get { return true; }
         }
 
         #region SortItems
@@ -49,7 +48,7 @@ namespace Movies.Models.Model
 
         public DateTime CreationDate { get { return creationdate; } }
 
-        public Guid Key { get { return radiokey; } set { radiokey = value; } }
+        public virtual Guid Key { get { return radiokey; } set { radiokey = value; } }
 
         #endregion
 
@@ -57,8 +56,7 @@ namespace Movies.Models.Model
         {
             RadioStations = new ObservableCollection<Guid>();
             creationdate = DateTime.Now;
-            canedit = false;
-            radiokey = Guid.NewGuid();
+            Key = Guid.NewGuid();
         }
 
         public void AddStation(Guid imoviesradio)
@@ -79,7 +77,7 @@ namespace Movies.Models.Model
         
         public static RadioGroup GetNewRadioStation()
         {
-            return new RadioGroup() { canedit = true, RadioName = " Edit this" };
+            return new RadioGroup() {  RadioName = " Edit this" };
         }
 
         public IMoviesRadio GetNewRadioModel()

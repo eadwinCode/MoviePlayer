@@ -56,7 +56,7 @@
     </DataTemplate>
 
     <ControlTemplate x:Key="PlaylistControl" TargetType="local:MoviesPlaylistManager">
-        <Border Background="#B2000000" BorderBrush="{DynamicResource Theme.HighlightColor}" BorderThickness="2">
+        <Border Background="#B2000000" BorderBrush="{DynamicResource Theme.HighlightColor}" BorderThickness="1">
             <DockPanel LastChildFill="True">
                 <DockPanel Margin="0" Background="{DynamicResource Theme.HighlightColor}" Height="35" DockPanel.Dock="Top" Grid.Row="0" LastChildFill="True">
                     <Button DockPanel.Dock="Right"  Width="30" ToolTip="Close Playlist" Style="{StaticResource ControlButtonStyle}"
@@ -153,7 +153,7 @@
 
     <Style TargetType="local:MoviesPlaylistManager">
         <Setter Property="Width" Value="300"/>
-        <Setter Property="Height" Value="400"/>
+        <Setter Property="MaxHeight" Value="400"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Template" Value="{StaticResource PlaylistControl}"/>

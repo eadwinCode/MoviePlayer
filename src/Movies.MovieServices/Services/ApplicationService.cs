@@ -71,6 +71,24 @@ namespace Movies.MovieServices.Services
             LoadRadioFiles();
         }
 
+        public object LoadRadioFiles(Stream file)
+        {
+            try
+            {
+                StreamReader streamReader = new StreamReader(file);
+                string jsonfile = streamReader.ReadToEnd();
+                object radios = JsonConvert.DeserializeObject<SavedRadioCollection>(jsonfile, new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.Objects
+                });
+                return radios;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         private void LoadRadioFiles()
         {
             string path = FileExistOrCreate(@"\" + Settings + @"\" + RadioFileName);

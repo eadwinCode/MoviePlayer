@@ -1,12 +1,16 @@
 ﻿using Microsoft.Practices.ServiceLocation;
 using Movies.Models.Interfaces;
 using Movies.Models.Model;
+using Movies.MovieServices.Services;
 using Movies.MoviesInterfaces;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Windows;
 
 namespace Movies.InternetRadio.StreamManager
 {
@@ -59,11 +63,25 @@ namespace Movies.InternetRadio.StreamManager
         {
             if (_radioData.ContainsKey(key))
             {
-                _radioData.Remove(key);
+                var item = _radioData[key];
+                if (item is IRadioGroup && item.CanEdit == true)
+                    RemoveRadioGroupItems(item as IRadioGroup);
+
+                if(item.CanEdit)
+                    _radioData.Remove(key);
+
                 radioGroup.RemoveStation(key);
                 return true;
             }
             return false;
+        }
+
+        private void RemoveRadioGroupItems(IRadioGroup radiogroup)
+        {
+            foreach (var item in radiogroup.RadioStations)
+            {
+                RemoveRadio(radiogroup, item);
+            }
         }
 
         public IMoviesRadio GetRadioObjectFromKey(Guid key)
@@ -83,22 +101,62 @@ namespace Movies.InternetRadio.StreamManager
                 {
                     data.Add(radio);
                 }
+                else
+                {
+
+                }
             }
             return data;
         }
 
-        public IRadioGroup GetHomeGroup(string homePageKey)
+        public IEnumerator<KeyValuePair<Guid, IMoviesRadio>> GetEnumerator()
+        {
+            return _radioData.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+        
+        internal IRadioGroup GetHomeGroup(string homePageKey)
         {
             IRadioGroup data = this.GetRadioObjectFromKey(ApplicationService.SavedRadioCollection.RadioHomePageData[homePageKey]) as IRadioGroup;
             if (data == null)
             {
                 string[] delimeter = { "-" };
-                data = RadioGroup.GetNewRadioStation();
+                data = new DefaultRadioGroup();
                 data.RadioName = homePageKey.Split(delimeter, StringSplitOptions.RemoveEmptyEntries)[1];
                 ApplicationService.SavedRadioCollection.RadioHomePageData[homePageKey] = data.Key;
                 _radioData.Add(data.Key, data);
             }
             return data;
         }
+
+        internal void LoadDefaultRadioData()
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            var rssdsd = assembly.GetManifestResourceStream("Movies.InternetRadio.StreamManager.DefaultRadioData.xds");
+            var defaultRadios = (SavedRadioCollection)(ApplicationService as ApplicationService).LoadRadioFiles(rssdsd);
+
+            foreach (var item in defaultRadios.RadioHomePageData)
+            {
+                IRadioGroup radioGroup = GetHomeGroup(item.Key);
+                IRadioGroup itemRadiogroup = defaultRadios.RadioCollection[item.Value] as IRadioGroup;
+                foreach (var stationKey in itemRadiogroup.RadioStations)
+                {
+                    radioGroup.AddStation(stationKey);
+                }
+            }
+
+            foreach (var item in defaultRadios.RadioCollection)
+            {
+                if (defaultRadios.RadioHomePageData.ContainsValue(item.Key))
+                    continue;
+
+                _radioData.Add(item.Key, item.Value);
+            }
+        }
+
     }
 }

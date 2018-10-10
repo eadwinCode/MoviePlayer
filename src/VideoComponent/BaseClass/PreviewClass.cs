@@ -21,7 +21,10 @@ namespace VideoComponent.BaseClass
         //{
         //    _aggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
         //}
+        public PreviewClass()
+        {
 
+        }
 
         protected override void OnToolTipOpening(ToolTipEventArgs e)
         {

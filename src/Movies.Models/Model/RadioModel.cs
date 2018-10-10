@@ -23,7 +23,6 @@ namespace Movies.Models.Model
         private string _audioFormat;
         private string radioname;
         private DateTime creationdate;
-        private bool canedit = true;
         private bool isfavorite = false;
         private string genre;
         private double frequency;
@@ -42,7 +41,7 @@ namespace Movies.Models.Model
             set { frequency = value; }
         }
 
-        public string StationURL
+        public virtual string StationURL
         {
             get
             {
@@ -148,7 +147,7 @@ namespace Movies.Models.Model
             }
         }
 
-        public bool CanEdit { get { return canedit; } }
+        public virtual bool CanEdit { get { return true; } }
 
         #region SortItems
 
@@ -160,7 +159,7 @@ namespace Movies.Models.Model
 
         public DateTime CreationDate { get { return creationdate; } }
 
-        public Guid Key
+        public virtual Guid Key
         {
             get { return radioKey; }
             set
@@ -184,7 +183,7 @@ namespace Movies.Models.Model
 
         public static RadioModel GetRadioModel()
         {
-            return new RadioModel(Guid.NewGuid()) { canedit = true, RadioName = " Edit this"};
+            return new RadioModel(Guid.NewGuid()) { RadioName = " Edit this"};
         }
 
         public override string ToString()

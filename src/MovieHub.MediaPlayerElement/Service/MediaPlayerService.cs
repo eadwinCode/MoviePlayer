@@ -25,6 +25,7 @@ namespace MovieHub.MediaPlayerElement.Service
         private VideoTracksManagement videotracksmanagement; 
         private SubtitleManagement subtitlemanagement;
         private ChapterManagement chaptermanagement;
+        private MediaInformation mediainformation; 
         private MovieMediaState state = MovieMediaState.NothingSpecial;
         private static bool MediaplayerVlclibLoaded = false;
         private static object _lock = new object();
@@ -145,6 +146,25 @@ namespace MovieHub.MediaPlayerElement.Service
         {
             add { AddHandler(BufferingEvent, value); }
             remove { RemoveHandler(BufferingEvent, value); }
+        }
+
+        /// <summary>
+        /// OnMediaInfoChanged is a routed event.
+        /// </summary>
+        public static readonly RoutedEvent OnMediaInfoChangedEvent =
+          EventManager.RegisterRoutedEvent(
+                          "OnMediaInfoChanged",
+                          RoutingStrategy.Bubble,
+                          typeof(EventHandler<MediaInfoChangedEventArgs>),
+                          typeof(MediaPlayerService));
+
+        /// <summary>
+        /// Raised On Media Information Changed.
+        /// </summary>
+        public event EventHandler<MediaInfoChangedEventArgs> OnMediaInfoChanged
+        {
+            add { AddHandler(OnMediaInfoChangedEvent, value); }
+            remove { RemoveHandler(OnMediaInfoChangedEvent, value); }
         }
 
         /// <summary>
@@ -337,6 +357,7 @@ namespace MovieHub.MediaPlayerElement.Service
         
         public ChapterManagement ChapterManagement { get { return chaptermanagement; } }
         
+        public MediaInformation MediaInformation { get { return mediainformation; } }
         public Stretch VideoStretch
         {
             get { return _vlcPlayer.Stretch; }
@@ -401,8 +422,18 @@ namespace MovieHub.MediaPlayerElement.Service
 
             videotracksmanagement = new VideoTracksManagement(_vlcPlayer);
             videotracksmanagement.LoadData();
+
+            mediainformation = new MediaInformation(_vlcPlayer);
+            mediainformation.MediaInfoChanged += Mediainformation_MediaInfoChanged;
+            mediainformation.LoadMediaInfo();
         }
-        
+
+        private void Mediainformation_MediaInfoChanged(object sender, EventArgs e)
+        {
+            //RaiseEvent(new MediaInfoChangedEventArgs(OnMediaInfoChangedEvent, this, sender as MediaInformation));
+            Dispatcher.BeginInvoke((Action)(() => RaiseEvent(new MediaInfoChangedEventArgs(OnMediaInfoChangedEvent, this, sender as MediaInformation))));
+        }
+
         private MovieMediaState GetMediaState()
         {
             switch (_vlcPlayer.VlcMediaPlayer.State)
@@ -518,6 +549,11 @@ namespace MovieHub.MediaPlayerElement.Service
         {
             _vlcPlayer.Play();
         }
+
+        //public void Play(Uri UrlPath)
+        //{
+        //    _vlcPlayer.Play();
+        //}
 
         public void Stop()
         {

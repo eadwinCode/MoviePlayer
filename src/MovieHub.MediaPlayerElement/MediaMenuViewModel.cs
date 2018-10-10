@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using MovieHub.MediaPlayerElement.View;
 using Microsoft.Practices.Prism.Commands;
+using System.IO;
 
 namespace MovieHub.MediaPlayerElement.ViewModel
 {
@@ -29,28 +30,16 @@ namespace MovieHub.MediaPlayerElement.ViewModel
             }
         }
 
+        private DelegateCommand addsubfilecommand;
 
-        internal MediaMenu(MediaPlayerElement mediaPlayerElement)
+        public DelegateCommand AddSubFileCommand
         {
-            this.MediaPlayerElement = mediaPlayerElement;
-            MediaPlayerService = mediaPlayerElement.MediaPlayerService;
-            MediaPlayerService.OnSubItemAdded += MediaPlayerService_SubItemChanged;
-        }
-
-        public void Dispose()
-        {
-            MediaMenuView = null;
-        }
-
-        private void MediaPlayerService_SubItemChanged(object sender, EventArgs e)
-        {
-            RaisePropertyChanged(() => this.SubtitleTitleCollection);
-        }
-        
-        private void CloseViewHandler()
-        {
-            MediaPlayerElement._contentdockregion.Content = null;
-            MediaPlayerElement.Focus();
+            get {
+                if(addsubfilecommand == null)
+                {
+                    addsubfilecommand = new DelegateCommand(AddSubFileAction);
+                }
+                return addsubfilecommand; }
         }
 
         // private List<Stream> audiotracks;
@@ -84,6 +73,29 @@ namespace MovieHub.MediaPlayerElement.ViewModel
                 return (MediaPlayerService.SubtitleManagement.SubtitleList);
             }
         }
+        
+        internal MediaMenu(MediaPlayerElement mediaPlayerElement)
+        {
+            this.MediaPlayerElement = mediaPlayerElement;
+            MediaPlayerService = mediaPlayerElement.MediaPlayerServices;
+            MediaPlayerService.OnSubItemAdded += MediaPlayerService_SubItemChanged;
+        }
+
+        public void Dispose()
+        {
+            MediaMenuView = null;
+        }
+
+        private void MediaPlayerService_SubItemChanged(object sender, EventArgs e)
+        {
+            RaisePropertyChanged(() => this.SubtitleTitleCollection);
+        }
+        
+        private void CloseViewHandler()
+        {
+            MediaPlayerElement._contentdockregion.Content = null;
+            MediaPlayerElement.Focus();
+        }
 
         public void ShowDialog()
         {
@@ -96,6 +108,29 @@ namespace MovieHub.MediaPlayerElement.ViewModel
             }
             MediaPlayerElement._contentdockregion.Content = MediaMenuView;
         }
-        
+
+        private void AddSubFileAction()
+        {
+            var openfiles = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = "All files(*.*)|*.srt;"
+            };
+            if (openfiles.ShowDialog() == true)
+            {
+                AddSubtitleFileAction(new string[] { openfiles.FileName });
+            }
+        }
+
+        private void AddSubtitleFileAction(string[] subfiles)
+        {
+            for (int i = 0; i < subfiles.Length; i++)
+            {
+                FileInfo file = new FileInfo(subfiles[i]);
+                if (file.Extension == ".srt")
+                {
+                    MediaPlayerElement.MediaPlayerServices.SubtitleManagement.SetSubtitle(file.FullName);
+                }
+            }
+        }
     }
 }

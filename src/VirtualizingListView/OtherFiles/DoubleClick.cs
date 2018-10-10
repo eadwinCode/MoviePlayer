@@ -10,7 +10,6 @@ using System.Text;
 using System.Windows.Controls;
 using System.Windows.Input;
 using VirtualizingListView.View;
-using VirtualizingListView.ViewModel;
 
 namespace VirtualizingListView
 {

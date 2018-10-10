@@ -15,7 +15,6 @@ namespace Movies.InternetRadio
     {
         private static ItemSizeChangeHandler itemSizeChangeHandler ;
         private bool ExecuteWhenNecessary = false;
-        private bool Isbusy = false;
         private Size _newSize;
         private static bool IsAnimating;
 
@@ -52,10 +51,11 @@ namespace Movies.InternetRadio
         public void OnSizeChanged(Size NewSize, Size PreviousSize)
         {
             _newSize = NewSize;
-            if (IsAnimating && !ExecuteWhenNecessary)
+            if (!IsAnimating && !ExecuteWhenNecessary)
             {
                 ExecuteWhenNecessary = true;
                 DispatcherService.ExecuteTimerAction(()=> DispatchedResizeItems(_newSize, PreviousSize), 850);
+                IsAnimating = true;
                 return;
             }
             ResizeItems(_newSize, PreviousSize);
@@ -77,6 +77,7 @@ namespace Movies.InternetRadio
                     ItemControlWidth = ItemsWidth;
                 }));
             }
+            IsAnimating = false;
             ExecuteWhenNecessary = false;
         }
 

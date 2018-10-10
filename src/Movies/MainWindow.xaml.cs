@@ -1,4 +1,5 @@
-﻿using Movies.MoviesInterfaces;
+﻿using Common.ApplicationCommands;
+using Movies.MoviesInterfaces;
 using RealMediaControl.ViewModel;
 using System;
 using System.Windows;
@@ -14,6 +15,7 @@ namespace Movies
         public MainView(IShellWindowService ishellwindowservice)
         {
             InitializeComponent();
+            this.Title = ApplicationConstants.SHELLWINDOWTITLE;
             this.DataContext = ishellwindowservice;
             this.Loaded += (s,e) =>ishellwindowservice.OnWindowsLoaded();
         }

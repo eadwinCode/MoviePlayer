@@ -78,12 +78,17 @@
     <Compile Include="Services\MediaFileWatcher.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Services\MediaPlayerHostCollection.cs" />
     <Compile Include="Services\MovieDataStore.cs" />
     <Compile Include="Services\SortService.cs" />
     <Compile Include="Services\TreeViewItemSort.cs" />
     <Compile Include="Threading\Executor.cs" />
     <Compile Include="Threading\Task.cs" />
     <Compile Include="Threading\TaskCollection.cs" />
+    <Compile Include="Util\Extensions.cs" />
+    <Compile Include="Util\SortByDate.cs" />
+    <Compile Include="Util\SortByExtension.cs" />
+    <Compile Include="Util\SortByNames.cs" />
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -133,10 +138,6 @@
     <ProjectReference Include="..\ProjectInterfaces\Movies.MoviesInterfaces.csproj">
       <Project>{2d97da0a-18be-48a1-b4fc-78b0b3ceb6c8}</Project>
       <Name>Movies.MoviesInterfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\VideoComponent\VideoComponent.csproj">
-      <Project>{5e66548f-63d0-4690-aa1c-d09b203e573e}</Project>
-      <Name>VideoComponent</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,6 +1,5 @@
 ﻿using Movies.Models.Model;
 using Movies.MoviesInterfaces;
-using PresentationExtension.InterFaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,7 +16,6 @@ namespace VirtualizingListView.View
         private bool isonsearchpage;
 
         IBackgroundService BackgroundService;
-        IFileLoader FileLoader;
         private object pagenavigatorcontenthost;
         private INavigatorService pagenavigator;
         private IDictionary<string, object> _contents;
@@ -49,11 +47,10 @@ namespace VirtualizingListView.View
             private set { pagenavigatorcontenthost = value; RaisePropertyChanged(() => this.PageNavigatorContentHost); }
         }
 
-        public PageNavigatorHost(IBackgroundService backgroundService, IFileLoader fileLoader)
+        public PageNavigatorHost(IBackgroundService backgroundService)
         {
             this.Content = new FileView() { DataContext = this};
             this.BackgroundService = backgroundService;
-            this.FileLoader = fileLoader;
             pagenavigator = new PageNavigator();
             InitCommands();
             _contents = new Dictionary<string, object>();

@@ -498,12 +498,32 @@ namespace MovieHub.MediaPlayerElement
                     PlayListCollection = new ObservableCollection<IPlayable>(t.Result.OfType<IPlayable>());
                 }, TaskScheduler.FromCurrentSynchronizationContext());
         }
+        
+        private void AdjustHeight()
+        {
+            var playerHeight = mediaPlayer.ActualHeight;
+            if(playerHeight <= 400)
+            {
+                this.MinHeight = this.Height = mediaPlayer.ActualHeight / 2;
+                return;
+            }
+            this.Height = (mediaPlayer.ActualHeight / 3) * 2;
+            
+        }
 
         internal MoviesPlaylistManager(MediaPlayerElement mediaPlayerElement)
         {
             this.mediaPlayer = mediaPlayerElement;
             mediaPlayer.CurrentlyStreamingChangedEvent += CurrentlyStreamingChangedEventDelegate;
             this.Unloaded += MoviesPlaylistManager_Unloaded;
+            mediaPlayer.SizeChanged += MediaPlayer_SizeChanged;
+            this.Height = 0;
+        }
+
+        private void MediaPlayer_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if(mediaPlayer.IsLoaded && GetShowPlaylistView(this) == Visibility.Visible)
+                AdjustHeight();
         }
 
         internal void Add(IPlayable vfc)
@@ -527,6 +547,7 @@ namespace MovieHub.MediaPlayerElement
         {
             if (GetShowPlaylistView(this) == Visibility.Collapsed)
             {
+                AdjustHeight();
                 SetShowPlaylistView(this, Visibility.Visible);
                 return true;
             }
