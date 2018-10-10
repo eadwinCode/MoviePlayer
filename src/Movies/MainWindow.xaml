@@ -5,7 +5,7 @@
                  xmlns:prism="http://www.codeplex.com/prism"
                  xmlns:sw="clr-namespace:WpfStyleableWindow.StyleableWindow;assembly=Common"
                  xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                 Title="Movie Hub" x:Name="_mainView" HorizontalContentAlignment="Stretch"
+                 Title="Media Hub" x:Name="_mainView" HorizontalContentAlignment="Stretch"
                  NonActiveWindowTitleBrush="{DynamicResource Theme.WindowsTile}"
                  WindowTitleBrush="{DynamicResource Theme.WindowsTile}" FontSize="13" 
                  Background="Black" BorderBrush="{DynamicResource Theme.HighlightColor}" NonActiveBorderBrush="Black"

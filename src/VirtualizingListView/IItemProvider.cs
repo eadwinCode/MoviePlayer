@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using VideoComponent.BaseClass;
 using VirtualizingListView.Pages.ViewModel;
 
 namespace VirtualizingListView

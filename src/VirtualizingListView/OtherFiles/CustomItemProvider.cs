@@ -16,7 +16,6 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
-using VideoComponent.BaseClass;
 using VirtualizingListView.Model;
 using VirtualizingListView.Pages.ViewModel;
 

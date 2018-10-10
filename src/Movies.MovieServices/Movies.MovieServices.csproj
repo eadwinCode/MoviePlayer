@@ -1,14 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3614548A-9254-42C5-A414-9CC1F76F4C33}</ProjectGuid>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{750FEF56-0FBF-4FD9-9FA1-21CF6F401F81}</ProjectGuid>
     <OutputType>library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Movies.MovieServices</RootNamespace>
     <AssemblyName>Movies.MovieServices</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -34,8 +37,14 @@
     <Reference Include="Delimon.Win32.IO">
       <HintPath>..\Libraries\Delimon.Win32.IO.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.ComponentModel.Composition.Initialization.Desktop">
+      <HintPath>..\Libraries\Microsoft.ComponentModel.Composition.Initialization.Desktop.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\Libraries\Microsoft.Practices.Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism.Interactivity">
+      <HintPath>..\Libraries\Microsoft.Practices.Prism.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.Prism.UnityExtensions">
       <HintPath>..\Libraries\Microsoft.Practices.Prism.UnityExtensions.dll</HintPath>
@@ -89,10 +98,10 @@
     <Compile Include="Util\SortByDate.cs" />
     <Compile Include="Util\SortByExtension.cs" />
     <Compile Include="Util\SortByNames.cs" />
-    <Page Include="Themes\Generic.xaml">
+    <None Include="Themes\Generic.xaml.f">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ModuleDefinition\MoviesServiceModuleLoader.cs" />
@@ -117,31 +126,36 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
-      <Project>{291d89e4-5436-4e99-a402-322d10f2ed0c}</Project>
+      <Project>{291D89E4-5436-4E99-A402-322D10F2ED0C}</Project>
       <Name>Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Movies.Enums\Movies.Enums.csproj">
-      <Project>{0824a682-f34d-456b-8b0b-22ff40feae33}</Project>
+      <Project>{0824A682-F34D-456B-8B0B-22FF40FEAE33}</Project>
       <Name>Movies.Enums</Name>
     </ProjectReference>
     <ProjectReference Include="..\Movies.Models\Movies.Models.csproj">
-      <Project>{12ce1e5d-1e2d-4fe8-8084-b5e334cd54cd}</Project>
+      <Project>{12CE1E5D-1E2D-4FE8-8084-B5E334CD54CD}</Project>
       <Name>Movies.Models</Name>
     </ProjectReference>
     <ProjectReference Include="..\PresentationExtension\PresentationExtension.csproj">
-      <Project>{b622321d-0980-42df-9165-79341bf7e64e}</Project>
+      <Project>{B622321D-0980-42DF-9165-79341BF7E64E}</Project>
       <Name>PresentationExtension</Name>
     </ProjectReference>
     <ProjectReference Include="..\ProjectInterfaces\Movies.MoviesInterfaces.csproj">
-      <Project>{2d97da0a-18be-48a1-b4fc-78b0b3ceb6c8}</Project>
+      <Project>{2D97DA0A-18BE-48A1-B4FC-78B0B3CEB6C8}</Project>
       <Name>Movies.MoviesInterfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>xcopy /y "$(TargetPath)" "$(SolutionDir)Movies\$(OutDir)Modules\"</PostBuildEvent>
-  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>

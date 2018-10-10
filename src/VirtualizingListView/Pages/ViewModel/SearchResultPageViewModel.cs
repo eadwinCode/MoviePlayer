@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
-using VideoComponent.BaseClass;
 using VirtualizingListView.Pages.Util;
 using System;
 using System.Windows.Threading;

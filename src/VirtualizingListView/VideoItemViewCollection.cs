@@ -3,7 +3,6 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Threading;
 using System.Windows.Controls;
-using VideoComponent;
 using VirtualizingListView.OtherFiles;
 
 namespace VirtualizingListView

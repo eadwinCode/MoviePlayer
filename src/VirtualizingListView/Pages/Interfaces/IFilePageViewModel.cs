@@ -1,7 +1,6 @@
 ﻿using Common.Util;
 using Movies.Models.Model;
 using Movies.Enums;
-using VideoComponent.BaseClass;
 
 namespace VirtualizingListView.Pages.ViewModel
 {

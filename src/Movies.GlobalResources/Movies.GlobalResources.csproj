@@ -81,6 +81,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Movies.MovieServices\Movies.MovieServices.csproj">
+      <Project>{750FEF56-0FBF-4FD9-9FA1-21CF6F401F81}</Project>
+      <Name>Movies.MovieServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PresentationExtension\PresentationExtension.csproj">
       <Project>{b622321d-0980-42df-9165-79341bf7e64e}</Project>
       <Name>PresentationExtension</Name>

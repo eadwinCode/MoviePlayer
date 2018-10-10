@@ -12,7 +12,7 @@ namespace FlyoutControl
         static FlyoutMenu()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(FlyoutMenu), new FrameworkPropertyMetadata(typeof(FlyoutMenu)));
-            EventManager.RegisterClassHandler(typeof(FlyoutMenu), IsSelectedChangedEvent, new RoutedPropertyChangedEventHandler<bool>(OnIsSelectedChanged));
+            EventManager.RegisterClassHandler(typeof(FlyoutSubMenuItem), IsSelectedChangedEvent, new RoutedPropertyChangedEventHandler<bool>(OnIsSelectedChanged));
         }
 
         internal static readonly RoutedEvent IsSelectedChangedEvent = EventManager.RegisterRoutedEvent(
@@ -114,11 +114,10 @@ namespace FlyoutControl
             FlyoutSubMenuItem flyoutSubMenuItem = e.OriginalSource as FlyoutSubMenuItem;
             if (flyoutSubMenuItem != null)
             {
-                FlyoutMenu flyoutMenu = sender as FlyoutMenu;
-                if (flyoutMenu.CurrentSelection == flyoutSubMenuItem)
+                if (_flyoutmenuinstance.CurrentSelection == flyoutSubMenuItem)
                     return;
 
-                flyoutMenu.CurrentSelection = flyoutSubMenuItem;
+                _flyoutmenuinstance.CurrentSelection = flyoutSubMenuItem;
             }
         }
 

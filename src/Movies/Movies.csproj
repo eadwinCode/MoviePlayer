@@ -31,7 +31,8 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
@@ -235,7 +236,7 @@
       <Name>Movies.Models</Name>
     </ProjectReference>
     <ProjectReference Include="..\Movies.MovieServices\Movies.MovieServices.csproj">
-      <Project>{3614548a-9254-42c5-a414-9cc1f76f4c33}</Project>
+      <Project>{750FEF56-0FBF-4FD9-9FA1-21CF6F401F81}</Project>
       <Name>Movies.MovieServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\Movies.MusicProject\Movies.MusicProject.csproj">
@@ -269,10 +270,6 @@
     <ProjectReference Include="..\SearchComponent\SearchComponent.csproj">
       <Project>{3a6fd22c-d7b7-4713-80c6-8742186f8674}</Project>
       <Name>SearchComponent</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\VideoComponent\VideoComponent.csproj">
-      <Project>{5e66548f-63d0-4690-aa1c-d09b203e573e}</Project>
-      <Name>VideoComponent</Name>
     </ProjectReference>
     <ProjectReference Include="..\VideoPlayerView\VideoPlayerView.csproj">
       <Project>{964f2df9-2bab-4b2a-a7bb-5a5404c6c24c}</Project>

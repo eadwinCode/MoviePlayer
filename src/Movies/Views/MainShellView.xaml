@@ -34,7 +34,7 @@
                                     prism:RegionManager.RegionName="ShellSearchRegion" 
                                     Margin="2,0,0,2" Width="38" Height="30"/>
 
-                            <TextBlock Padding="5" Text="Movie Hub Explorer" VerticalAlignment="Center" FontWeight="Light" FontSize="20"
+                            <TextBlock Padding="5" Text="Media Hub Explorer" VerticalAlignment="Center" FontWeight="Light" FontSize="20"
                                        Foreground="{DynamicResource Theme.Foreground}"/>
                         </DockPanel>
                     </flyout:FlyoutMenu.MenuTopSection>

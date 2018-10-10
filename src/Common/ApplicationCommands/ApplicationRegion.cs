@@ -18,7 +18,7 @@ namespace Common.ApplicationCommands
     }
     public static class ApplicationConstants
     {
-        public const string SHELLWINDOWTITLE = "Movie Hub";
+        public const string SHELLWINDOWTITLE = "Media Hub";
     }
     public class ApplicationDummyMessage
     {

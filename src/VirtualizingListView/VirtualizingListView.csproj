@@ -235,10 +235,6 @@
       <Project>{2d97da0a-18be-48a1-b4fc-78b0b3ceb6c8}</Project>
       <Name>Movies.MoviesInterfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\VideoComponent\VideoComponent.csproj">
-      <Project>{5e66548f-63d0-4690-aa1c-d09b203e573e}</Project>
-      <Name>VideoComponent</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="Shell32">
