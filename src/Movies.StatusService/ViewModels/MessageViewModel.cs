@@ -60,14 +60,24 @@ namespace Movies.StatusService.ViewModels
             {
                 lock (_lock)
                 {
-                    return new ObservableCollection<IStatusMessage>(StatusMessageManager.MessageCollection.Values);
+                    try
+                    {
+                        return new ObservableCollection<IStatusMessage>(StatusMessageManager);
+                    }
+                    catch (InvalidOperationException)
+                    {
+
+                        return new ObservableCollection<IStatusMessage>(StatusMessageManager);
+                    }
+                    
                 }
+                //return StatusMessageManager.MessageCollection.Values;
             }
         }
 
         public int MessageCount
         {
-            get { return Messages.Count; }
+            get { return Messages.Count(); }
         }
 
         public Visibility MessageCountVisibility
@@ -82,7 +92,6 @@ namespace Movies.StatusService.ViewModels
                 var incomingmesage = GetStatusMessage();
                 if (incomingmesage == null)
                     return StatusMessageManager.DefaultStatusMessage;
-
                 return incomingmesage;
             }
         }
@@ -90,7 +99,7 @@ namespace Movies.StatusService.ViewModels
         private IStatusMessage GetStatusMessage()
         {
             IStatusMessage statusMessage  = null;
-            DispatcherService.InvokeDispatchAction(() => { statusMessage = StatusMessageManager.MessageCollection.Values.LastOrDefault(); });
+            statusMessage = Messages.LastOrDefault();
             return statusMessage;
         }
         

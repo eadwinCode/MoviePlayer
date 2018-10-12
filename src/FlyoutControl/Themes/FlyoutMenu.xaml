@@ -13,7 +13,6 @@
                     <ControlTemplate.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.MergedDictionaries>
-                                <ResourceDictionary Source="/FlyoutControl;component/Themes/ListBoxStyle.xaml"/>
                                 <ResourceDictionary Source="/FlyoutControl;component/Themes/ToggleButtonStyle.xaml"/>
                             </ResourceDictionary.MergedDictionaries>
                             <Style TargetType="local:FlyoutSubMenuItem">

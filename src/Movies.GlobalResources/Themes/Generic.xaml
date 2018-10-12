@@ -180,28 +180,10 @@
         </Setter>
     </Style>
 
-    <Style x:Key="CustomContainerStyle" TargetType="ListViewItem">
+    <Style x:Key="CustomContainerStyle" TargetType="ListBoxItem">
         <Setter Property="Focusable" Value="False"/>
         <!--<Setter Property="Background" Value="Transparent"/>-->
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-
-        <!--<Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ListViewItem}">
-                    <Border x:Name="container" Background="{TemplateBinding Background}" Margin="{TemplateBinding Margin}" >
-                        <ContentPresenter HorizontalAlignment="Stretch" SnapsToDevicePixels="True"
-                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="container" Property="Background" Value="{StaticResource ImageOutline}"/>
-                            <Setter Property="TextBlock.Foreground" Value="White"/>
-                            <Setter  Property="TextBlock.FontWeight" Value="Bold"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>-->
     </Style>
 
     <Style x:Key="ZeroContainerStyle" TargetType="ListBoxItem">
@@ -211,7 +193,7 @@
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <Border x:Name="container" Background="{TemplateBinding Background}" Margin="{TemplateBinding Margin}" >
                         <ContentPresenter HorizontalAlignment="Stretch" SnapsToDevicePixels="True"
                                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
@@ -277,7 +259,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border  Background="{TemplateBinding Background}"  BorderThickness="{TemplateBinding BorderThickness}"  BorderBrush="{TemplateBinding BorderBrush}" >
+                    <Border  Background="{TemplateBinding Background}"  BorderThickness="{TemplateBinding BorderThickness}"  
+                             BorderBrush="{TemplateBinding BorderBrush}" >
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
                 </ControlTemplate>
@@ -286,35 +269,10 @@
         <Setter Property="Foreground" Value="Yellow" />
     </Style>
 
-    <Style x:Key="HomePageListViewContainerStyle" TargetType="ListViewItem">
+    <Style x:Key="HomePageListViewContainerStyle" TargetType="ListBoxItem">
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-        <!--<Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ListViewItem}">
-                    <Border x:Name="container" Background="{TemplateBinding Background}" Margin="{TemplateBinding Margin}" >
-                        <ContentPresenter HorizontalAlignment="Stretch" SnapsToDevicePixels="True"
-                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding DataContext.IsLoading,
-                              RelativeSource={RelativeSource Self}}"  
-                                     Value="true">
-                            <Setter  Property="TextBlock.FontWeight" Value="UltraBold"/>
-                        </DataTrigger>
-
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="TextBlock.Foreground" 
-                                    Value="{DynamicResource Theme.Foreground}"/>
-                            <Setter  Property="TextBlock.FontWeight" Value="Bold"/>
-                            <Setter Property="Background" Value="#99514949" TargetName="container"/>
-                        </Trigger>
-
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>-->
     </Style>
 
     <Style x:Key="dialogbtn" TargetType="{x:Type Button}" >
@@ -479,40 +437,11 @@
                     <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="2"
                             Padding="{TemplateBinding Padding}" BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
-                            <!--<Thumb HorizontalAlignment="Stretch" Padding="1" 
-                                   Background="Transparent" 
-                                   BorderBrush="Red"
-                                   VerticalAlignment="Stretch" 
-                                   x:Name="DragThumb">
-                                <Thumb.Style>
-                                    <Style TargetType="Thumb">
-                                        <Setter Property="SnapsToDevicePixels" Value="true" />
-                                        <Setter Property="OverridesDefaultStyle" Value="true" />
-                                        <Setter Property="Background" Value="Transparent"/>
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="Thumb">
-                                                    <Border HorizontalAlignment="Stretch" 
-                                                            VerticalAlignment="Stretch" 
-                                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                                            BorderThickness="{TemplateBinding Padding}"
-                                                            Background="{TemplateBinding Background}"/>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </Thumb.Style>
-                            </Thumb>-->
                             <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsPressed" Value="true">
-                            <!--<Setter Property="LayoutTransform" >
-                                <Setter.Value>
-                                    <ScaleTransform ScaleX=".99" ScaleY="0.99"/>
-                                </Setter.Value>
-                            </Setter>-->
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -535,56 +464,18 @@
         </Setter>
     </Style>
 
-    <Style x:Key="listViewControl" TargetType="{x:Type ListView}" 
+    <Style x:Key="listViewControl" TargetType="{x:Type ItemsControl}" 
            BasedOn="{StaticResource CustomlistViewControl }">
         <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True"/>
         <Setter Property="VirtualizingStackPanel.VirtualizationMode" Value="Standard"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
-        <!--<Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="ListView">
-                    <ScrollViewer >
-                        <Border BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}">
-                            <Grid>
-                                <TextBlock x:Name="toberemove" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                           Foreground="Gray" FontStyle="Italic" FontSize="11" Margin="0,3,0,0"  
-                                           Text="No Media File Here"/>
-                                <ItemsPresenter/>
-                            </Grid>
-                        </Border>
-                    </ScrollViewer>
-                    <ControlTemplate.Triggers>
-                        <DataTrigger  Binding="{Binding HasItems, RelativeSource={RelativeSource Self}}" Value="true">
-                            <Setter TargetName="toberemove" Property="Visibility" Value="Collapsed"/>
-                        </DataTrigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>-->
         <Setter Property="ItemsPanel">
             <Setter.Value>
-                <!--<ItemsPanelTemplate>
-                    <WrapPanel Margin="0,2,0,2" Orientation="Horizontal" />
-                    -->
-                <!-- ItemHeight="{Binding Path=ItemSize.Height, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"
-                     ItemWidth="{Binding Path=ItemSize.Width, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"/>-->
-                <!--
-                </ItemsPanelTemplate>-->
                 <ItemsPanelTemplate>
-                    <!--<VirtualPanel:VirtualWrapPanel  IsItemsHost="True" Orientation="Vertical"
-                                            VirtualizingStackPanel.VirtualizationMode="Standard" 
-                                            VirtualizingStackPanel.IsVirtualizing="True"
-                                                     ItemHeight="63"
-                                                     />-->
-
-                    <!--<r:VirtualWrapPanel Orientation="Horizontal" ItemHeight="65" ItemWidth="260" 
-                                        VirtualizingPanel.VirtualizationMode="Recycling" 
-                                            VirtualizingPanel.IsVirtualizing="True" />-->
-                    <VirtualizingStackPanel VirtualizingStackPanel.VirtualizationMode="Standard" VirtualizingStackPanel.IsVirtualizing="True" Margin="0,2,0,2" Orientation="Vertical"  />
-                    <!--ItemHeight="{Binding Path=ItemSize.Height, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"
-                     ItemWidth="{Binding Path=ItemSize.Width, RelativeSource={RelativeSource AncestorType=local:VideoItems}}"/>-->
+                    <VirtualizingStackPanel VirtualizingStackPanel.VirtualizationMode="Recycling" 
+                                            VirtualizingStackPanel.IsVirtualizing="True" Margin="0,2,0,2" Orientation="Vertical"  />
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
@@ -1208,7 +1099,7 @@
                                 <Border Padding="3" DockPanel.Dock="Top" CornerRadius="0" Background="{DynamicResource Theme.HighlightColor}"
                                         Grid.ColumnSpan="2">
                                     <TextBlock Padding="5" TextAlignment="Left" FontWeight="Regular" FontSize="16"
-                                               Foreground="White" VerticalAlignment="Center"
+                                               Foreground="White" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
                                                Text="{TemplateBinding DialogTitle}"/>
                                 </Border>
                                 <Grid DockPanel.Dock="Bottom">

@@ -136,11 +136,17 @@
                             </TransformGroup>
                         </Path.RenderTransform>
                     </Path>
-                    <TextBlock Text="{Binding CurrentVideoFolder.Name}"
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{Binding CurrentVideoFolder.Name}"
                                VerticalAlignment="Center"   TextTrimming="CharacterEllipsis" 
-                               FontSize="22" Padding="5" FontWeight="Light"
+                               FontSize="22" Padding="3" FontWeight="Light"
                                Foreground="{DynamicResource Theme.Foreground}"/>
-            </DockPanel>
+                        <TextBlock Text="{Binding CurrentVideoFolder.FilePath}"  
+                               VerticalAlignment="Center" TextTrimming="CharacterEllipsis" 
+                               FontSize="11" Padding="10,2,5,2" FontWeight="Light" ToolTip="{Binding CurrentVideoFolder.FilePath}"
+                               Foreground="{DynamicResource Theme.Foreground}"/>
+                    </StackPanel>
+                </DockPanel>
         </Border>
             <DockPanel DockPanel.Dock="Top"  
                        Grid.Row="0" Background="Transparent" 

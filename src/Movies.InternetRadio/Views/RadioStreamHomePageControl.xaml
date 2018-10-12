@@ -15,23 +15,31 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Border MaxHeight="250" Background="Black" MaxWidth="600" CornerRadius="3"  BorderThickness="2.5" Margin="0,0,5,5" 
+    <Border MaxHeight="250" Background="Black" MaxWidth="600" CornerRadius="3"  BorderThickness="3" Margin="0,0,5,5" 
             BorderBrush="{DynamicResource Theme.HighlightColor}">
         <DockPanel >
             <DockPanel DockPanel.Dock="Top">
-                <DockPanel DockPanel.Dock="Right" Background="{DynamicResource Theme.Background}" >
-                    <Button  ToolTip="Close" Height="30" DockPanel.Dock="Top" VerticalAlignment="Top" Command="{Binding CloseMediaControl}" 
-                             HorizontalAlignment="Right" Margin="5" Style="{StaticResource CloseButtonStyle}">
-                    </Button>
-
-                    <local:FavoriteButtonToggle Margin="5,5,5,5" VerticalAlignment="Bottom" ToolTip="Toggle Favorite" 
-                                                Background="Transparent" DockPanel.Dock="Right" HorizontalAlignment="Right"
-                                                Panel.ZIndex="30"/>
-                </DockPanel>
-                <StackPanel DockPanel.Dock="Left" Background="{DynamicResource Theme.Background}" 
+                <Border DockPanel.Dock="Top" Background="{DynamicResource Theme.HighlightColor}">
+                    <DockPanel>
+                        <Button  ToolTip="Close" Height="30" DockPanel.Dock="Right" VerticalAlignment="Top" Command="{Binding CloseMediaControl}" 
+                                 HorizontalAlignment="Right" Margin="10,2,4,5" Style="{StaticResource zerobtnstyle}" BorderBrush="Transparent">
+                            <Path Fill="WhiteSmoke"  HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                                  SnapsToDevicePixels="True" Data="M19,3H16.3H7.7H5C3.9,3 3,3.9 3,5V7.7V16.4V19C3,20.1 3.9,21 5,21H7.7H16.4H19C20.1,21 21,20.1 21,19V16.3V7.7V5C21,3.9 20.1,3 19,3M15.6,17L12,13.4L8.4,17L7,15.6L10.6,12L7,8.4L8.4,7L12,10.6L15.6,7L17,8.4L13.4,12L17,15.6L15.6,17Z">
+                                <Path.LayoutTransform>
+                                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                </Path.LayoutTransform>
+                            </Path>
+                        </Button>
+                        <TextBlock DockPanel.Dock="Right" FontSize="15" Padding="5" VerticalAlignment="Center"
+                                   ToolTip="{Binding  MediaInformation.NowPlaying}" 
+                                   Foreground="WhiteSmoke" Text="{Binding MediaInformation.NowPlaying,StringFormat=NowPlaying:{0}}" 
+                                   TextTrimming="WordEllipsis" FontStyle="Normal"/>
+                    </DockPanel>
+                </Border>
+                <StackPanel DockPanel.Dock="Left" 
                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <local:RadioStationDetails/>
-                    <StackPanel  DockPanel.Dock="Bottom" TextBlock.Foreground="{DynamicResource Theme.Foreground}" Margin="10,0,00,0" Orientation="Horizontal" 
+                    <!--<local:RadioStationDetails/>-->
+                    <!--<StackPanel  DockPanel.Dock="Bottom" TextBlock.Foreground="{DynamicResource Theme.Foreground}"  Orientation="Horizontal" 
                            VerticalAlignment="Center" HorizontalAlignment="Left" >
                         <StackPanel.Resources>
                             <Style TargetType="TextBlock">
@@ -44,30 +52,36 @@
                                 <Setter Property="Margin" Value="1,02,0,0"/>
                             </Style>
                         </StackPanel.Resources>
-                        <!--<Border BorderBrush="Gray" BorderThickness="1">
+                        <Border BorderBrush="Gray" BorderThickness="1">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Sample rate: " Background="#FF008DC0"/>
                     <TextBlock Text="44KHz"/>
                 </StackPanel>
-            </Border>-->
+            </Border>
 
-                    </StackPanel>
-                    <Grid  Margin="1">
-                        <TextBlock Background="{DynamicResource Theme.HighlightColor}" Text="{Binding MediaInformation.NowPlaying}" TextTrimming="WordEllipsis"
-                               Foreground="{DynamicResource Theme.Foreground}" Padding="5" FontSize="11" VerticalAlignment="Center"
-                               ToolTip="{Binding Text,RelativeSource={RelativeSource Self}}"
-                               HorizontalAlignment="Center"/>
-                    </Grid>
+                    </StackPanel>-->
+                    <DockPanel DockPanel.Dock="Bottom" Background="Black" Margin="0,5,0,5">
+                        <local:FavoriteButtonToggle Margin="5,0,10,5" VerticalAlignment="Center" ToolTip="Toggle Favorite" 
+                                                    Background="Transparent" DockPanel.Dock="Right" HorizontalAlignment="Right"
+                                                    Panel.ZIndex="30"/>
+                        <ContentControl x:Name="MediaPlayerElementRegion" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+                                        Content="{Binding MediaPlayerElement}"/>
+                    </DockPanel>
+
+                    <DockPanel>
+                        <TextBlock Text="{Binding CurrentRadioStation.StationBio}" FontSize="11" Foreground="White" Padding="3"
+                                   VerticalAlignment="Top" MaxHeight="30" TextTrimming="CharacterEllipsis"
+                                   ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}" TextWrapping="Wrap">
+                           
+                        </TextBlock>
+                    </DockPanel>
                 </StackPanel>
                 
                
             </DockPanel>
-            <DockPanel DockPanel.Dock="Bottom" Background="Black">
-                <ContentControl x:Name="MediaPlayerElementRegion" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
-                                Content="{Binding MediaPlayerElement}"/>
-            </DockPanel>
-           
-           
+            
+            
+
         </DockPanel>
     </Border>
 </UserControl>

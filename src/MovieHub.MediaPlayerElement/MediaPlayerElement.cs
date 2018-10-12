@@ -49,6 +49,7 @@ namespace MovieHub.MediaPlayerElement
         private bool _allowmediaAutodispose = true;
         private bool _allowMediaSizeEventExecute = true;
         private DispatcherTimer _controlAnimationTimer;
+        private static bool IscheckingForRepeating = false;
         private static MediaPlayerElement _current;
         internal IPlayable CurrentStreamingitem
         {
@@ -1101,12 +1102,24 @@ namespace MovieHub.MediaPlayerElement
         {
             ResetControlAnimation();
             PlayableLastSeen.PlayCompletely();
-            if(PlaylistManager != null && MovieControl.RepeatMode != RepeatMode.NoRepeat)
-                MediaPlayerUtil.ExecuteTimerAction(() => StartRepeatAction(), 50);
+
+            CheckForRepeat();
+            
+        }
+
+        private void CheckForRepeat()
+        {
+            if (!IscheckingForRepeating)
+            {
+                IscheckingForRepeating = true;
+                if (PlaylistManager != null && MovieControl.RepeatMode != RepeatMode.NoRepeat)
+                    MediaPlayerUtil.ExecuteTimerAction(() => StartRepeatAction(), 50);
+            }
         }
 
         private void StartRepeatAction()
         {
+            IscheckingForRepeating = false;
             if (MovieControl.RepeatMode == RepeatMode.RepeatOnce)
             {
                 Source(CurrentStreamingitem);

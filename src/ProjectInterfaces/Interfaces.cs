@@ -34,13 +34,12 @@ namespace Movies.MoviesInterfaces
         void RemoveMoviePlaylistItem(PlaylistModel plm);
     }
 
-    public interface IStatusMessageManager
+    public interface IStatusMessageManager : IEnumerable<IStatusMessage>
     {
         IStatusMessage CreateMessage(string message);
         IStatusMessage DefaultStatusMessage { get; }
         IStatusMessage CreateMessage(string message,long destroyTimeInMilliseconds);
         event EventHandler OnMessageCollectionChanged;
-        IDictionary<Guid,IStatusMessage> MessageCollection { get; }
         void DestroyMessage(IStatusMessage statusMessage);
         void DestroyMessage(IStatusMessage statusMessage,DestroyTime UsePredefinedTime);
         void AutomateMessageDestroy(IStatusMessage statusMessage, long miilisecond);

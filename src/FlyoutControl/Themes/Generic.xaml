@@ -83,7 +83,8 @@
                 <ControlTemplate TargetType="{x:Type local:Flyout}">
                     <ControlTemplate.Resources>
                         <Style TargetType="local:FlyoutMenu">
-                            <Setter Property="SubMenuHiddenContent" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:Flyout}}, Path=SubMenuHiddenContent}"/>
+                            <Setter Property="SubMenuHiddenContent"
+                                    Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:Flyout}}, Path=SubMenuHiddenContent}"/>
                         </Style>
                     </ControlTemplate.Resources>
                     <DockPanel x:Name="FlyoutPanel">

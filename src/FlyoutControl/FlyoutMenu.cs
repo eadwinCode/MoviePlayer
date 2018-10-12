@@ -155,7 +155,5 @@ namespace FlyoutControl
             if (currentSelection.IsSelected)
                 currentSelection.IsSelected = false;
         }
-
-
     }
 }

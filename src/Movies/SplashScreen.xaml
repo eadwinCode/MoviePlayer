@@ -10,11 +10,12 @@
         <Border >
             <StackPanel  Margin="4" Orientation="Horizontal" HorizontalAlignment="Center">
                 <Image Uid="video-player.png" 
-                   Grid.Row="0" Width="50" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" IsEnabled="True" Margin="10,0,5,0" />
+                       Grid.Row="0" Width="45" Margin="15" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" IsEnabled="True"
+                       />
                 <TextBlock Text="Media Hub" HorizontalAlignment="Center"
                        VerticalAlignment="Center" 
                        FontSize="60" FontWeight="Bold" Foreground="White" Background="{x:Null}"
-                       Grid.ColumnSpan="2" Height="85" Padding="5"  />
+                       Grid.ColumnSpan="2"  Padding="2"  />
             </StackPanel>
         </Border>
 

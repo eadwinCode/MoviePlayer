@@ -11,6 +11,7 @@
 
     <local:ItemSizeChangeHandler x:Key="ItemSizeHandler" ItemControlWidth="300"/>
     <internetRadioUtil:RadioStationTemplateType x:Key="DataTemplateSelector"/>
+    
     <ContextMenu x:Key="RadioStationContextMenu">
         <MenuItem Header="Play Station" Command="{x:Static internetRadioService:RadioHomePageService.OpenFolderCommand}"
                   CommandParameter="{Binding }">
@@ -34,116 +35,16 @@
         </MenuItem>
     </ContextMenu>
 
-
     <DataTemplate x:Key="RadioStationTemplate">
         <presentationCmd:CustomButton Background="Transparent" ContextMenu="{StaticResource RadioStationContextMenu}"
-                                      Margin="4" x:Name="main"  Height="60" 
-                                      Style="{StaticResource ContentContainer}" Width="{Binding Source={StaticResource ItemSizeHandler}, Path=ItemControlWidth}"
-                                      BorderBrush="{DynamicResource Theme.MovieFile}" BorderThickness="0,0,0,1.5"
+                                      Margin="4" x:Name="main"  Height="55" 
+                                      Style="{StaticResource ContentContainer}" 
+                                      BorderThickness="0,0,0,1.5" BorderBrush="Transparent"
                                       presentationCmd:VideoItemDoubleClick.DoubleClickCommand="{x:Static internetRadioService:RadioHomePageService.OpenFolderCommand}"
                                       presentationCmd:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding 
                         DataContext, RelativeSource={RelativeSource Self}}"
                                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-            <!--<y:VideoData Width="{Binding Source={StaticResource ItemSizeHandler}, Path=ItemControlWidth}">-->
-            <DockPanel  TextBlock.Foreground="{DynamicResource Theme.Foreground}" 
-                    LastChildFill="True"  
-                    TextBlock.FontStyle="Italic"
-                  
-                    VirtualizingStackPanel.VirtualizationMode="Recycling" 
-                    VirtualizingStackPanel.IsVirtualizing="True">
-                <Button DockPanel.Dock="Right" Margin="5" Background="Transparent" BorderThickness="0"
-                        CommandParameter="{Binding}" Style="{StaticResource ContentContainer}"
-                        Command="{x:Static internetRadioService:RadioHomePageService.CheckFavoriteItemCommand}">
-                    <Grid  VerticalAlignment="Center">
-                        <Path x:Name="star" Stroke="{DynamicResource Theme.MovieFile}" Data="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"/>
-                    </Grid>
-                </Button>
-                
-                <Border Grid.Column="0" Height="38"  Background="Transparent"
-                        DockPanel.Dock="Top" VerticalAlignment="Center"
-                        Margin="2,0,0,0">
-                    <DockPanel>
-                    <Grid HorizontalAlignment="Left">
-                            <Path  Fill="{DynamicResource Theme.MovieFile}" Width="40" x:Name="path" VerticalAlignment="Center" Height="35" 
-                               StrokeThickness=".5" Stroke="Black" 
-                               Data="M20,6C21.1,6 22,6.9 22,8V20C22,21.1 21.1,22 20,22H4C2.9,22 2,21.1 2,20V8C2,7.15 2.53,6.42 3.28,6.13L15.71,1L16.47,2.83L8.83,6H20M20,8H4V12H16V10H18V12H20V8M7,14C5.34,14 4,15.34 4,17C4,18.66 5.34,20 7,20C8.66,20 10,18.66 10,17C10,15.34 8.66,14 7,14Z"  >
-                            <Path.RenderTransform>
-                                <TransformGroup>
-                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
-                                    <RotateTransform />
-                                </TransformGroup>
-                            </Path.RenderTransform>
-                        </Path>
-                    </Grid>
-                        <DockPanel>
-                            <DockPanel DockPanel.Dock="Bottom" >
-                                <TextBlock VerticalAlignment="Center" DockPanel.Dock="Bottom" Margin="2" FontSize="10"
-                                       Text="{Binding StationLocation}"  TextTrimming="CharacterEllipsis" />
-                            </DockPanel>
-                            <TextBlock ToolTip="{Binding TooltipMessage}" 
-                                       ToolTipService.InitialShowDelay="1500"
-                                       Text="{Binding RadioName}"  Margin="2"
-                                       VerticalAlignment="Center"   Padding="1"
-                                       TextWrapping="WrapWithOverflow" FontSize="15"   
-                                       TextTrimming="WordEllipsis" />
-                        </DockPanel>
-                       
-                    </DockPanel>
-                </Border>
-               
-                <Border Grid.Row="1" HorizontalAlignment="Center" x:Name="footer">
-                    <Grid Background="Transparent" VerticalAlignment="Center">
-                        <DockPanel  Grid.Row="0">
-                            <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Orientation="Horizontal">
-                                <!--<StackPanel.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="FontWeight" Value="DemiBold"/>
-                                        <Setter Property="Padding" Value="1"/>
-                                        <Setter Property="FontSize" Value="13"/>
-                                    </Style>
-                                </StackPanel.Style>-->
-                               
-                                <TextBlock VerticalAlignment="Center" FontSize="10" 
-                                       DockPanel.Dock="Right" Margin="2"
-                                       Text="{Binding AudioFormat}"/>
-                                <TextBlock VerticalAlignment="Center" 
-                                       DockPanel.Dock="Left" Margin="2" FontSize="10"
-                                       Text="{Binding BitRate,StringFormat={}{0}kbps}" />
-                                <TextBlock VerticalAlignment="Center" Margin="2" FontSize="10"
-                                       DockPanel.Dock="Right" HorizontalAlignment="Left"
-                                       Text="{Binding Channels}"/>
-                            </StackPanel>
-                           
-                        </DockPanel>
-                    </Grid>
-                </Border>
-            </DockPanel>
-            <!--</y:VideoData {Binding StationLocation}>-->
-        </presentationCmd:CustomButton>
-        <DataTemplate.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="main" Property="BorderBrush" Value="#FF337AD5"/>
-            </Trigger>
-            <DataTrigger Binding="{Binding IsActive}" Value="True">
-                <Setter TargetName="main" Property="Background" Value="{DynamicResource Theme.HighlightColor}"/>
-            </DataTrigger>
-
-            <DataTrigger Binding="{Binding IsFavorite}" Value="True">
-                <Setter TargetName="star" Property="Fill" Value="{DynamicResource Theme.MovieFile}"/>
-            </DataTrigger>
-        </DataTemplate.Triggers>
-    </DataTemplate>
-
-    <DataTemplate x:Key="FavoriteRadioStationTemplate">
-        <presentationCmd:CustomButton Background="Transparent" 
-                                      Margin="4" x:Name="main"  Height="60" 
-                                      Style="{StaticResource ContentContainer}" Width="{Binding Source={StaticResource ItemSizeHandler}, Path=ItemControlWidth}"
-                                      BorderBrush="{DynamicResource Theme.MovieFile}" BorderThickness="0,0,0,1.5"
-                                      presentationCmd:VideoItemDoubleClick.DoubleClickCommand="{x:Static internetRadioService:RadioHomePageService.OpenFolderCommand}"
-                                      presentationCmd:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding 
-                        DataContext, RelativeSource={RelativeSource Self}}"
-                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-            <!--<y:VideoData Width="{Binding Source={StaticResource ItemSizeHandler}, Path=ItemControlWidth}">-->
+            <!--<y:VideoData Width="{Binding Source={StaticResource ItemSizeHandler}, Path=ItemControlWidth}"> BorderBrush="{DynamicResource Theme.MovieFile}"-->
             <DockPanel  TextBlock.Foreground="{DynamicResource Theme.Foreground}" 
                     LastChildFill="True"  
                     TextBlock.FontStyle="Italic"
@@ -163,12 +64,11 @@
                         Margin="2,0,0,0">
                     <DockPanel>
                         <Grid HorizontalAlignment="Left">
-                            <Path  Fill="{DynamicResource Theme.MovieFile}" Width="40" x:Name="path" VerticalAlignment="Center" Height="35" 
-                               StrokeThickness=".5" Stroke="Black" 
-                               Data="M20,6C21.1,6 22,6.9 22,8V20C22,21.1 21.1,22 20,22H4C2.9,22 2,21.1 2,20V8C2,7.15 2.53,6.42 3.28,6.13L15.71,1L16.47,2.83L8.83,6H20M20,8H4V12H16V10H18V12H20V8M7,14C5.34,14 4,15.34 4,17C4,18.66 5.34,20 7,20C8.66,20 10,18.66 10,17C10,15.34 8.66,14 7,14Z"  >
+                            <Path Fill="{DynamicResource Theme.MovieFile}" Width="35" x:Name="path" VerticalAlignment="Center" Height="35" StrokeThickness=".5" Stroke="Black" 
+                                  Data="M20,6C21.1,6 22,6.9 22,8V20C22,21.1 21.1,22 20,22H4C2.9,22 2,21.1 2,20V8C2,7.15 2.53,6.42 3.28,6.13L15.71,1L16.47,2.83L8.83,6H20M20,8H4V12H16V10H18V12H20V8M7,14C5.34,14 4,15.34 4,17C4,18.66 5.34,20 7,20C8.66,20 10,18.66 10,17C10,15.34 8.66,14 7,14Z"  >
                                 <Path.RenderTransform>
                                     <TransformGroup>
-                                        <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                                        <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
                                         <RotateTransform />
                                     </TransformGroup>
                                 </Path.RenderTransform>
@@ -176,25 +76,12 @@
                         </Grid>
                         <DockPanel>
                             <DockPanel DockPanel.Dock="Bottom" >
-                                <TextBlock VerticalAlignment="Center" DockPanel.Dock="Bottom" Margin="2" FontSize="10"
-                                       Text="{Binding StationLocation}"  TextTrimming="CharacterEllipsis" />
-                            </DockPanel>
-                            <TextBlock ToolTip="{Binding TooltipMessage}" 
-                                       ToolTipService.InitialShowDelay="1500"
-                                       Text="{Binding RadioName}"  Margin="2"
-                                       VerticalAlignment="Center"   Padding="1"
-                                       TextWrapping="WrapWithOverflow" FontSize="14"   
-                                       TextTrimming="WordEllipsis" />
-                        </DockPanel>
-
-                    </DockPanel>
-                </Border>
-
-                <Border Grid.Row="1" HorizontalAlignment="Center" x:Name="footer">
-                    <Grid Background="Transparent" VerticalAlignment="Center">
-                        <DockPanel  Grid.Row="0">
-                            <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Orientation="Horizontal">
-                                <!--<StackPanel.Style>
+                                <DockPanel>
+                                    <Border Grid.Row="1" HorizontalAlignment="Right" x:Name="footer" DockPanel.Dock="Right">
+                                        <Grid Background="Transparent" VerticalAlignment="Center">
+                                            <DockPanel  Grid.Row="0">
+                                                <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Orientation="Horizontal">
+                                                    <!--<StackPanel.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="FontWeight" Value="DemiBold"/>
                                         <Setter Property="Padding" Value="1"/>
@@ -202,26 +89,147 @@
                                     </Style>
                                 </StackPanel.Style>-->
 
-                                <TextBlock VerticalAlignment="Center" FontSize="10" 
+                                                    <TextBlock VerticalAlignment="Center" FontSize="10" 
                                        DockPanel.Dock="Right" Margin="2"
                                        Text="{Binding AudioFormat}"/>
-                                <TextBlock VerticalAlignment="Center" 
+                                                    <TextBlock VerticalAlignment="Center" 
                                        DockPanel.Dock="Left" Margin="2" FontSize="10"
                                        Text="{Binding BitRate,StringFormat={}{0}kbps}" />
-                                <TextBlock VerticalAlignment="Center" Margin="2" FontSize="10"
+                                                    <TextBlock VerticalAlignment="Center" Margin="2" FontSize="10"
                                        DockPanel.Dock="Right" HorizontalAlignment="Left"
                                        Text="{Binding Channels}"/>
-                            </StackPanel>
+                                                </StackPanel>
 
+                                            </DockPanel>
+                                        </Grid>
+                                    </Border>
+                                    <TextBlock VerticalAlignment="Center" DockPanel.Dock="Bottom" Margin="2" FontSize="10"
+                                       Text="{Binding StationLocation}"  TextTrimming="CharacterEllipsis" />
+
+                                </DockPanel>
+                            </DockPanel>
+                            <TextBlock ToolTip="{Binding TooltipMessage}" 
+                                       ToolTipService.InitialShowDelay="1500"
+                                       Text="{Binding RadioName}"  Margin="2" FontStyle="Normal"
+                                       VerticalAlignment="Center"   Padding="1"
+                                       TextWrapping="WrapWithOverflow" FontSize="15"   
+                                       TextTrimming="WordEllipsis" />
                         </DockPanel>
-                    </Grid>
+
+                    </DockPanel>
                 </Border>
+
             </DockPanel>
             <!--</y:VideoData {Binding StationLocation}>-->
         </presentationCmd:CustomButton>
         <DataTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="main" Property="BorderBrush" Value="#FF337AD5"/>
+                <!--<Setter TargetName="main" Property="BorderBrush" Value="#FF337AD5"/>-->
+                <Setter TargetName="main" Property="Background" Value="{DynamicResource Theme.HighlightColor}"/>
+            </Trigger>
+            <DataTrigger Binding="{Binding IsActive}" Value="True">
+                <Setter TargetName="main" Property="Background" Value="{DynamicResource Theme.HighlightColor}"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding IsFavorite}" Value="True">
+                <Setter TargetName="star" Property="Fill" Value="{DynamicResource Theme.MovieFile}"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate x:Key="FavoriteRadioStationTemplate">
+        <presentationCmd:CustomButton Background="Transparent" 
+                                      Margin="4" x:Name="main"  Height="53" 
+                                      Style="{StaticResource ContentContainer}" 
+                                      BorderThickness="0,0,0,1.5" BorderBrush="Transparent"
+                                      presentationCmd:VideoItemDoubleClick.DoubleClickCommand="{x:Static internetRadioService:RadioHomePageService.OpenFolderCommand}"
+                                      presentationCmd:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding DataContext, RelativeSource={RelativeSource Self}}"
+                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+            <!--<y:VideoData Width="{Binding Source={StaticResource ItemSizeHandler}, Path=ItemControlWidth}">-->
+            <DockPanel  TextBlock.Foreground="{DynamicResource Theme.Foreground}" 
+                    LastChildFill="True"  
+                    TextBlock.FontStyle="Italic"
+                  
+                    VirtualizingStackPanel.VirtualizationMode="Recycling" 
+                    VirtualizingStackPanel.IsVirtualizing="True">
+                <Button DockPanel.Dock="Right" Margin="5" Background="Transparent" BorderThickness="0"
+                        CommandParameter="{Binding}" Style="{StaticResource ContentContainer}"
+                        Command="{x:Static internetRadioService:RadioHomePageService.CheckFavoriteItemCommand}">
+                    <Grid  VerticalAlignment="Center">
+                        <Path x:Name="star" Stroke="{DynamicResource Theme.MovieFile}" 
+                              Data="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"/>
+                    </Grid>
+                </Button>
+
+                <Border Grid.Column="0" Height="38"  Background="Transparent"
+                        DockPanel.Dock="Top" VerticalAlignment="Center"
+                        Margin="2,0,0,0">
+                    <DockPanel>
+                        <Grid HorizontalAlignment="Left">
+                            <Path Fill="{DynamicResource Theme.MovieFile}" Width="35" x:Name="path" VerticalAlignment="Center" Height="35" StrokeThickness=".5" Stroke="Black" 
+                                  Data="M20,6C21.1,6 22,6.9 22,8V20C22,21.1 21.1,22 20,22H4C2.9,22 2,21.1 2,20V8C2,7.15 2.53,6.42 3.28,6.13L15.71,1L16.47,2.83L8.83,6H20M20,8H4V12H16V10H18V12H20V8M7,14C5.34,14 4,15.34 4,17C4,18.66 5.34,20 7,20C8.66,20 10,18.66 10,17C10,15.34 8.66,14 7,14Z"  >
+                                <Path.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
+                                        <RotateTransform />
+                                    </TransformGroup>
+                                </Path.RenderTransform>
+                            </Path>
+                        </Grid>
+                        <DockPanel>
+                            <DockPanel DockPanel.Dock="Bottom" >
+                                <DockPanel>
+                                    <Border Grid.Row="1" HorizontalAlignment="Right" x:Name="footer" DockPanel.Dock="Right">
+                                        <Grid Background="Transparent" VerticalAlignment="Center">
+                                            <DockPanel  Grid.Row="0">
+                                                <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Orientation="Horizontal">
+                                                    <!--<StackPanel.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontWeight" Value="DemiBold"/>
+                                        <Setter Property="Padding" Value="1"/>
+                                        <Setter Property="FontSize" Value="13"/>
+                                    </Style>
+                                </StackPanel.Style>-->
+
+                                                    <TextBlock VerticalAlignment="Center" FontSize="10" 
+                                       DockPanel.Dock="Right" Margin="2"
+                                       Text="{Binding AudioFormat}"/>
+                                                    <TextBlock VerticalAlignment="Center" 
+                                       DockPanel.Dock="Left" Margin="2" FontSize="10"
+                                       Text="{Binding BitRate,StringFormat={}{0}kbps}" />
+                                                    <TextBlock VerticalAlignment="Center" Margin="2" FontSize="10"
+                                       DockPanel.Dock="Right" HorizontalAlignment="Left"
+                                       Text="{Binding Channels}"/>
+                                                </StackPanel>
+
+                                            </DockPanel>
+                                        </Grid>
+                                    </Border>
+                                    <TextBlock VerticalAlignment="Center" DockPanel.Dock="Bottom" Margin="2" FontSize="10"
+                                       Text="{Binding StationLocation}"  TextTrimming="CharacterEllipsis" />
+                                   
+                                </DockPanel>
+                            </DockPanel>
+                            <TextBlock ToolTip="{Binding TooltipMessage}" 
+                                       ToolTipService.InitialShowDelay="1500"
+                                       Text="{Binding RadioName}"  Margin="2" FontStyle="Normal"
+                                       VerticalAlignment="Center"   Padding="1"
+                                       TextWrapping="WrapWithOverflow" FontSize="15"   
+                                       TextTrimming="WordEllipsis" />
+                        </DockPanel>
+
+                    </DockPanel>
+                </Border>
+
+                
+            </DockPanel>
+            <!--</y:VideoData {Binding StationLocation}>-->
+        </presentationCmd:CustomButton>
+        <DataTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <!--<Setter TargetName="main" Property="BorderBrush" Value="#FF337AD5"/>-->
+                <Setter TargetName="main" Property="Background" Value="{DynamicResource Theme.HighlightColor}"/>
+
             </Trigger>
             <DataTrigger Binding="{Binding IsActive}" Value="True">
                 <Setter TargetName="main" Property="Background" Value="{DynamicResource Theme.HighlightColor}"/>
@@ -235,10 +243,9 @@
 
     <DataTemplate x:Key="RadioStationGroupTemplate">
         <presentationCmd:CustomButton Background="Transparent" ContextMenu="{StaticResource RadioStationContextMenu}"
-                                      Margin="4" x:Name="main"  Width="{Binding Source={StaticResource ItemSizeHandler}, Path=ItemControlWidth}"
-                                      Height="45" 
-                                      Style="{StaticResource ContentContainer}"
-                                      BorderBrush="{DynamicResource Theme.MovieFile}" BorderThickness="0,0,0,1.5"
+                                      Margin="4" x:Name="main" 
+                                      Height="45" Style="{StaticResource ContentContainer}" 
+                                      BorderThickness="0,0,0,1.5" BorderBrush="Transparent"
                                       Command="{x:Static internetRadioService:RadioHomePageService.OpenFolderCommand}"
                                       CommandParameter="{Binding  DataContext, RelativeSource={RelativeSource Self}}"
                                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
@@ -248,13 +255,15 @@
                     TextBlock.FontStyle="Italic"
                     VirtualizingStackPanel.VirtualizationMode="Recycling" 
                     VirtualizingStackPanel.IsVirtualizing="True">
-                <Border Grid.Column="0" Width="50" 
+                <Border Grid.Column="0" Width="40" 
                         DockPanel.Dock="Left" 
                         Margin="2,0,0,0">
                     <Grid HorizontalAlignment="Left" Height="30">
                         <Path  Fill="{DynamicResource Theme.MovieFile}" x:Name="path" HorizontalAlignment="Center" 
                                StrokeThickness=".5"
-                               Data="M12,10C13.1,10 14,10.9 14,12C14,12.5 13.82,12.94 13.53,13.29L16.7,22H14.57L12,14.93L9.43,22H7.3L10.47,13.29C10.18,12.94 10,12.5 10,12C10,10.9 10.9,10 12,10M12,8C9.79,8 8,9.79 8,12C8,12.5 8.1,13 8.28,13.46L7.4,15.86C6.53,14.81 6,13.47 6,12C6,8.69 8.69,6 12,6C15.31,6 18,8.69 18,12C18,13.47 17.47,14.81 16.6,15.86L15.72,13.46C15.9,13 16,12.5 16,12C16,9.79 14.21,8 12,8M12,4C7.58,4 4,7.58 4,12C4,14.36 5,16.5 6.64,17.94L5.92,19.94C3.54,18.11 2,15.23 2,12C2,6.48 6.48,2 12,2C17.52,2 22,6.48 22,12C22,15.23 20.46,18.11 18.08,19.94L17.36,17.94C19,16.5 20,14.36 20,12C20,7.58 16.42,4 12,4Z"  >
+                               Data="M10,4H4C2.89,4 2,4.89 2,6V18C2,19.1 2.9,20 4,
+                               20H20C21.1,20 22,19.1 22,18V8C22,6.89 
+                               21.1,6 20,6H12L10,4Z"  >
                             <Path.LayoutTransform>
                                 <ScaleTransform ScaleX="1.3" ScaleY="1.3"/>
                             </Path.LayoutTransform>
@@ -279,8 +288,8 @@
         </presentationCmd:CustomButton>
         <DataTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="main" Property="BorderBrush" Value="#FF337AD5"/>
-                <Setter TargetName="path" Property="Fill" Value="#FF337AD5"/>
+                <Setter TargetName="main" Property="Background" Value="{DynamicResource Theme.HighlightColor}"/>
+                <!--<Setter TargetName="path" Property="Fill" Value="#FF337AD5"/>-->
             </Trigger>
         </DataTemplate.Triggers>
     </DataTemplate>

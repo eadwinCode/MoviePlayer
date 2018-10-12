@@ -638,8 +638,7 @@ namespace MovieHub.MediaPlayerElement
                         finalpos = 0;
                     }
                 }
-                var NowPlaying = PlayListCollection[finalpos];
-                return NowPlaying;
+                return PlayListCollection[finalpos];
             }
             return null;
         }
@@ -656,9 +655,8 @@ namespace MovieHub.MediaPlayerElement
                     {
                         finalpos = PlayListCollection.Count - 1;
                     }
-                }
-                var NowPlaying = PlayListCollection[finalpos];
-                return NowPlaying;
+                } 
+                return PlayListCollection[finalpos];
             }
             return null;
         }

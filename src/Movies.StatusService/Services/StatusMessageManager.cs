@@ -4,6 +4,7 @@ using Movies.StatusService.Models;
 using PresentationExtension.CommonEvent;
 using PresentationExtension.InterFaces;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,7 @@ namespace Movies.StatusService.Services
         private Timer dispatcherTimer;
         int messageCount;
         IStatusMessage defaultstatusmessage = new StatusMessage("Done");
-        public IDictionary<Guid, IStatusMessage> MessageCollection { get { return messageCollection; } }
+        IDictionary<Guid, IStatusMessage> MessageCollection { get { return messageCollection; } }
 
         public IStatusMessage DefaultStatusMessage { get { return defaultstatusmessage; } }
 
@@ -102,6 +103,16 @@ namespace Movies.StatusService.Services
         public void DestroyMessage(IStatusMessage statusMessage, DestroyTime UsePredefinedTime)
         {
             statusMessage.AutomateMessageDestroy(UsePredefinedTime);
+        }
+
+        public IEnumerator<IStatusMessage> GetEnumerator()
+        {
+            return MessageCollection.Values.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 
