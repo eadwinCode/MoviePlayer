@@ -39,7 +39,20 @@ namespace MovieHub.MediaPlayerElement
 
         // Using a DependencyProperty as the backing store for VolumeLevel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty VolumeLevelProperty =
-            DependencyProperty.Register("VolumeLevel", typeof(double), typeof(VolumeControl), new PropertyMetadata(50.0,OnVolumeLevelChanged));
+            DependencyProperty.Register("VolumeLevel", typeof(double), typeof(VolumeControl), new PropertyMetadata(50.0,OnVolumeLevelChanged,OnVolumeLevelCoerceValueCallback));
+
+        private static object OnVolumeLevelCoerceValueCallback(DependencyObject d, object baseValue)
+        {
+            VolumeControl volumeControl = d as VolumeControl;
+            double value = (double)baseValue;
+            if (value < 0)
+                return 0.0;
+
+            if (value > 200)
+                return 200.0;
+
+            return baseValue;
+        }
 
         private static void OnVolumeLevelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

@@ -38,7 +38,7 @@ namespace Movies.InternetRadio.ModuleDefinition
 
         private void RegisterViews()
         {
-            unityContainer.Resolve<IShellWindowService>().RegisterMenuAt(new RadioPageMenu(),3);
+            unityContainer.Resolve<IShellWindowService>().RegisterMenuAt(new RadioPageMenu(),4);
 
             //this.regionManager.RegisterViewWithRegion(ApplicationRegion.SHELLRADIOREGION,
             //    typeof(RadioStreamToggle));

@@ -9,7 +9,7 @@
 
 
     <DataTemplate x:Key="PLayListTemplate">
-        <presentationlib:CustomButton Background="{Binding IsActive, Converter={StaticResource ActiveItemSelector}}" 
+        <presentationlib:CustomButton Background="Transparent" 
                                       x:Name="main" Focusable="False"
                                       Style="{StaticResource PlaylistContentContainer}" Height="30"
                                       BorderBrush="Gray" BorderThickness="1"
@@ -44,14 +44,15 @@
                            ToolTip="{Binding MediaTitle}"
                            Text="{Binding MediaTitle}" 
                            TextTrimming="CharacterEllipsis"  />
-
-
             </DockPanel>
         </presentationlib:CustomButton>
         <DataTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
                 <Setter TargetName="delbtn" Property="Visibility" Value="Visible"/>
             </Trigger>
+            <DataTrigger Binding="{Binding IsActive}" Value="True">
+                <Setter TargetName="main" Property="Background" Value="{DynamicResource Theme.HighlightColor}"/>
+            </DataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>
 

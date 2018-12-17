@@ -3,13 +3,30 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:Common">
     <!--Color="#99FF0000"/>-->
-    <SolidColorBrush x:Key="Theme.HighlightColor" Color="#CC583000"/>
+    <SolidColorBrush x:Key="Theme.HighlightColor" Color="#61000d"/>
     <SolidColorBrush x:Key="Theme.Foreground" Color="White"/>
-    <SolidColorBrush x:Key="Theme.Background" Color="Black"/>
-    <SolidColorBrush x:Key="Theme.FolderColor" Color="#99FF0000"/>
-    <SolidColorBrush x:Key="Theme.WindowsTile" Color="Black"/>
+    <SolidColorBrush x:Key="Theme.FolderColor" Color="#61000d"/>
+    <!--<SolidColorBrush x:Key="Theme.WindowsTile" Color="Black"/>-->
     <SolidColorBrush x:Key="Theme.DeleteColor" Color="Red"/>
     <SolidColorBrush x:Key="Theme.AddFolderHighlight" Color="White"/>
     <SolidColorBrush x:Key="Theme.MovieFile" Color="White"/>
     <SolidColorBrush x:Key="Theme.BackColor" Color="White"/>
+    <SolidColorBrush x:Key="Theme.Background" Color="#0d0f11"/>
+    <SolidColorBrush x:Key="Theme.MouseOver" Opacity=".3" Color="#d2374a"/>
+    <!--<ImageBrush x:Key="Theme.Background" 
+                ImageSource="/Movies.GlobalResources;component/Images/check-1-icon.png" 
+                TileMode="Tile" Stretch="None" ViewportUnits="Absolute" Opacity="0.1"/>-->
+    <ImageBrush x:Key="Theme.WindowsTile" 
+                ImageSource="/Movies.GlobalResources;component/Images/check-1-icon.png" 
+                TileMode="Tile" Stretch="None" ViewportUnits="Absolute" Opacity="0.015"/>
+
+    <ImageBrush x:Key="ImageOutline" ImageSource="/Movies.GlobalResources;component/Images/check-1-icon.png" 
+                TileMode="Tile" Stretch="None" 
+                ViewportUnits="Absolute" Opacity="0.3"/>
+    
+    <!--<ImageBrush x:Key="Theme.MouseOver" 
+                ImageSource="/Movies.GlobalResources;component/Images/check-1-icon.png" 
+                TileMode="Tile" Stretch="None" ViewportUnits="Absolute" Opacity="1"/>-->
+    <SolidColorBrush x:Key="Theme.IsActive" Opacity=".2" Color="#d7ecf4"/>
+    
 </ResourceDictionary>

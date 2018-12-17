@@ -26,19 +26,40 @@ namespace Movies.StatusService.ViewModels
             this.StatusMessageManager = statusMessageManager;
             this.DispatcherService = dispatcherService;
             ShowPopup = new DelegateCommand<Popup>(ShowPopupAction, CanShowPopup);
-            eventManager.GetEvent<StatusMessageChangedEventToken>().Subscribe((o) =>
+            _messages = new ObservableCollection<IStatusMessage>();
+
+            eventManager.GetEvent<StatusMessageCreatedEventToken>().Subscribe((o) =>
             {
-                RaisePropertyChanged(() => this.Messages);
-                RaisePropertyChanged(() => this.IncomingMessage);
-                RaisePropertyChanged(() => this.MessageCount);
-                RaisePropertyChanged(() => this.MessageCountVisibility);
-                ShowPopup.RaiseCanExecuteChanged();
+                dispatcherService.InvokeDispatchAction(() =>
+                {
+                    lock (_lock)
+                    {
+                        Messages.Add(o as IStatusMessage);
+                    }
+                });
+
+                UpdateProperties();
             });
 
-            eventManager.GetEvent<MessageChangedEventToken>().Subscribe((o) =>
+            eventManager.GetEvent<StatusMessageDeletedEventToken>().Subscribe((o) =>
             {
-
+                dispatcherService.InvokeDispatchAction(() =>
+                {
+                    lock (_lock)
+                    {
+                        Messages.Remove(o as IStatusMessage);
+                    }
+                });
+                UpdateProperties();
             });
+        }
+
+        private void UpdateProperties()
+        {
+            RaisePropertyChanged(() => this.IncomingMessage);
+            RaisePropertyChanged(() => this.MessageCount);
+            RaisePropertyChanged(() => this.MessageCountVisibility);
+            ShowPopup.RaiseCanExecuteChanged();
         }
 
         private void ShowPopupAction(Popup obj)
@@ -54,25 +75,28 @@ namespace Movies.StatusService.ViewModels
             return MessageCount > 1;
         }
 
+        ObservableCollection<IStatusMessage> _messages;
         public ObservableCollection<IStatusMessage> Messages
         {
             get
             {
-                lock (_lock)
-                {
-                    try
-                    {
-                        return new ObservableCollection<IStatusMessage>(StatusMessageManager);
-                    }
-                    catch (InvalidOperationException)
-                    {
+                return _messages;
+                //lock (_lock)
+                //{
+                //    try
+                //    {
+                //        return new ObservableCollection<IStatusMessage>(StatusMessageManager);
+                //    }
+                //    catch (InvalidOperationException)
+                //    {
 
-                        return new ObservableCollection<IStatusMessage>(StatusMessageManager);
-                    }
+                //        return new ObservableCollection<IStatusMessage>(StatusMessageManager);
+                //    }
                     
-                }
+                //}
                 //return StatusMessageManager.MessageCollection.Values;
             }
+            protected set { _messages = value; RaisePropertyChanged(() => this.Messages); }
         }
 
         public int MessageCount

@@ -36,7 +36,7 @@ namespace Movies.MovieServices.Services
             { ".mkv","mkv" }, {".mov","mov" },{ ".mp4","mp4" }, {".mpeg","mpeg" },
             { ".mpeg1","mpeg1" }, {".mpeg2", "mpeg2"},{".mpeg4","mpeg4" },{".mpg","mpg" },{".ogg","ogg" },{".rec","rec" },{".rm","rm" }, {".rmvb","rmvb" },
             { ".vob","vob" },{".webm" ,"webm"}
-              };
+        };
         public IDictionary<string, string> Formats
         {
             get { return formats; }

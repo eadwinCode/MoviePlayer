@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Threading;
 using System.Collections.ObjectModel;
 using MahApps.Metro.Controls;
+using Microsoft.Practices.Prism.Commands;
 
 namespace Movies.MoviesInterfaces
 {
@@ -20,6 +21,18 @@ namespace Movies.MoviesInterfaces
     {
         event EventHandler OnFinished;
         void ShowDialog();
+    }
+
+    public interface IFilePageViewModel
+    {
+        SortType ActiveSortType { get; set; }
+        ViewType ActiveViewType { get; set; }
+        VideoFolder CurrentVideoFolder { get; set; }
+        HamburgerMenuIconItem HamburgerMenuIcon { get; set; }
+        bool IsLoading { get; set; }
+        Style ListViewStyle { get; set; }
+        DataTemplateSelector MyTemplateChange { get; }
+        ObservableCollection<VideoFolder> VideoItemViewCollection { get; }
     }
 
     public interface IHomePlaylist

@@ -114,7 +114,6 @@
     <Compile Include="OtherFiles\MoreTemplateSelector.cs" />
     <Compile Include="OtherFiles\SerializeDeserializeHelper.cs" />
     <Compile Include="Pages\Util\MovieItemProvider.cs" />
-    <Compile Include="Pages\Interfaces\IFilePageViewModel.cs" />
     <Compile Include="Pages\ViewModel\SearchResultPageViewModel.cs" />
     <Compile Include="Pages\Views\FilePageView.xaml.cs">
       <DependentUpon>FilePageView.xaml</DependentUpon>
@@ -148,6 +147,12 @@
     </Compile>
     <Compile Include="View\MediaServerView.xaml.cs">
       <DependentUpon>MediaServerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MyVideoPageMenu.xaml.cs">
+      <DependentUpon>MyVideoPageMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MyVidoePage.xaml.cs">
+      <DependentUpon>MyVidoePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\PageEventHost.cs" />
     <Compile Include="VirtualizingCollection.cs" />
@@ -201,11 +206,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\MyVideoPageMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MyVidoePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{291d89e4-5436-4e99-a402-322d10f2ed0c}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlyoutControl\FlyoutControl.csproj">
+      <Project>{4abbc7e5-63de-4017-a048-4035d249ddfc}</Project>
+      <Name>FlyoutControl</Name>
     </ProjectReference>
     <ProjectReference Include="..\Meta.Vlc.Wpf\Meta.Vlc.Wpf - .Net 4.0.csproj">
       <Project>{ed70ad57-1b05-428a-8a30-2cc533daf389}</Project>

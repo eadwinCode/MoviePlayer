@@ -148,6 +148,10 @@
       <Project>{4abbc7e5-63de-4017-a048-4035d249ddfc}</Project>
       <Name>FlyoutControl</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Movies.Enums\Movies.Enums.csproj">
+      <Project>{0824A682-F34D-456B-8B0B-22FF40FEAE33}</Project>
+      <Name>Movies.Enums</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Movies.GlobalResources\Movies.GlobalResources.csproj">
       <Project>{1370a208-da8b-43ee-8cbb-a18d7992a8dc}</Project>
       <Name>Movies.GlobalResources</Name>

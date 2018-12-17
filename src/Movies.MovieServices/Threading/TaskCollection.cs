@@ -8,7 +8,7 @@ namespace Movies.MovieServices.Threading
     public class TaskCollection
     {
         private IDictionary<string, MovieTask> _collection;
-
+        public event EventHandler TasksEnded;
         public TaskCollection()
         {
             _collection = new Dictionary<string, MovieTask>();
@@ -30,6 +30,11 @@ namespace Movies.MovieServices.Threading
             {
                 _collection.Remove(task.GetSubscription());
             }
+            if(_collection.Count == 0 && TasksEnded != null)
+            {
+                TasksEnded.Invoke(this, EventArgs.Empty);
+            }
+
         }
 
         internal int Count()

@@ -9,7 +9,19 @@ namespace Movies.MovieServices.Threading
 {
     public abstract class Executor : IBackgroundService
     {
-        public TaskCollection TaskCollection = new TaskCollection();
+        public TaskCollection TaskCollection { get; }
+
+        public Executor()
+        {
+            TaskCollection = new TaskCollection();
+            TaskCollection.TasksEnded += (s, e) =>
+              {
+                  if (OnTasksEnded != null)
+                      OnTasksEnded.Invoke(this, e);
+              };
+        }
+
+        public event EventHandler OnTasksEnded;
 
         public void Execute()
         {
@@ -67,20 +79,26 @@ namespace Movies.MovieServices.Threading
                 //    Publish(string.Format("{0} processing running.", runningTasks));
                 Console.WriteLine(string.Format("{0} processes running.", runningTasks));
             }
-            TaskCollection.Remove(sender);
+            lock (this)
+            {
+                TaskCollection.Remove(sender);
+
+            }
         }
 
         public void Execute(ITask task)
         {
             //var found = TaskCollection.GetAll().FirstOrDefault(i => i == task);
             //if (found == null) return;
+            (task as MovieTask).Completed += Task_Completed;
+            (task as MovieTask).Started += Task_Started;
             task.Run();
         }
 
         public ITask Execute(Action action, string message = null, Action callback = null)
         {
             var task = InitTask(action, message, callback);
-            task.Run();
+            Execute(task);
             return task;
         }
 

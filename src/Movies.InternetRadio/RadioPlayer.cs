@@ -71,7 +71,10 @@ namespace Movies.InternetRadio
         public RadioModel CurrentRadioStation
         {
             get { return currentradiostation; }
-            internal set { currentradiostation = value; RaisePropertyChanged(() => this.CurrentRadioStation); }
+            internal set { currentradiostation = value;
+                RaisePropertyChanged(() => this.CurrentRadioStation);
+                RaisePropertyChanged(() => this.HasStationBios);
+            }
         }
         
         public RadioStationDetails RadioStationDetails
@@ -91,7 +94,19 @@ namespace Movies.InternetRadio
         public MediaInformation MediaInformation
         {
             get { return _mediainformation; }
-            set { _mediainformation = value; RaisePropertyChanged(() => this.MediaInformation); }
+            set
+            {
+                _mediainformation = value;
+                this.ShellWindowService.ShellWindow.Title = value != null && value.NowPlaying != null ?
+                     string.Format("Now Playing:{0}", value.NowPlaying):
+                    string.Format("{0} - Radio", MediaPlayerElement.MediaTitle);
+                RaisePropertyChanged(() => this.MediaInformation);
+            }
+        }
+
+        public bool HasStationBios
+        {
+            get { return CurrentRadioStation != null && !string.IsNullOrEmpty(CurrentRadioStation.StationBio); }
         }
         
         public DelegateCommand CloseMediaControl

@@ -4,8 +4,10 @@ using Movies.Enums;
 using Movies.Models.Interfaces;
 using Movies.Models.Model;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Windows;
 
@@ -28,6 +30,7 @@ namespace Movies.Models.Model
         private bool hascompleteload;
         public IFileSystemWatcher MediaFileWatcher;
         public virtual event OnFileNameChangedHandler OnFileNameChangedChanged;
+        public event EventHandler OnFileWatcherUpdate;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler ParentDirectoryChanged;
@@ -145,7 +148,7 @@ namespace Movies.Models.Model
         {
             get
             {
-                childcount = OtherFiles == null ? 0 : OtherFiles.Count;
+                childcount = OtherFiles == null ? 0 : OtherFiles.Count();
                 return childcount;
             }
         }
@@ -222,7 +225,7 @@ namespace Movies.Models.Model
             PropertyChanged(this, e);
         }
 
-        public void RefreshFileInfo()
+        public virtual void RefreshFileInfo()
         {
             RaisePropertyChangedEvent("Name");
             RaisePropertyChangedEvent("FileName");
@@ -284,6 +287,33 @@ namespace Movies.Models.Model
         {
             if (MediaFileWatcher != null)
                 MediaFileWatcher.UnloadWatch();
+        }
+
+        public void AddChild(VideoFolder videoFolder,bool fileWatchChanges =false)
+        {
+            this.childrenfiles.Add(videoFolder);
+            if (fileWatchChanges)
+                FileWatcherUpdate();
+        }
+        public void AddRange(IEnumerable<VideoFolder> videoFolders, bool fileWatchChanges = false)
+        {
+            foreach (var item in videoFolders)
+            {
+                AddChild(item,fileWatchChanges);
+            }
+        }
+
+        public void RemoveChild(VideoFolder videoFolder, bool fileWatchChanges = false)
+        {
+            this.childrenfiles.Remove(videoFolder);
+            if (fileWatchChanges)
+                FileWatcherUpdate();
+        }
+
+        public void FileWatcherUpdate()
+        {
+            if (OnFileWatcherUpdate != null)
+                OnFileWatcherUpdate.Invoke(this, EventArgs.Empty);
         }
 
         public void RenameFile(string newFilePath)

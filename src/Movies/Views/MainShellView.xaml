@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:prism="http://www.codeplex.com/prism"
               xmlns:flyout="clr-namespace:FlyoutControl;assembly=FlyoutControl"
-             mc:Ignorable="d" Background="{DynamicResource Theme.Background}"
-             d:DesignHeight="500" d:DesignWidth="600">
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="600" BorderBrush="{DynamicResource Theme.HighlightColor}" BorderThickness="0,1,0,0">
     <DockPanel>
         <Border BorderBrush="{DynamicResource Theme.HighlightColor}" Height="40"
                 Grid.Row="2" IsEnabled="{Binding HasAction, Converter={StaticResource BooleanInversion}}"
@@ -14,7 +14,7 @@
                 Visibility="Visible" VerticalAlignment="Bottom"
                 DockPanel.Dock="Bottom">
             <DockPanel Grid.Column="0">
-                <StatusBar Background="{DynamicResource Theme.Background}">
+                <StatusBar Background="Transparent">
                     <ContentControl prism:RegionManager.RegionName="StatusBarRegion"/>
                 </StatusBar>
                 <!--<TextBlock Text="Status Message" Foreground="{DynamicResource Theme.Foreground}" FontSize="15" FontWeight="Regular" Padding="5" VerticalAlignment="Center" Opacity=".7"/>-->

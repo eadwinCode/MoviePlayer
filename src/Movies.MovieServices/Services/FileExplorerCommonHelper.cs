@@ -97,6 +97,9 @@ namespace Movies.MovieServices.Services
         private void SelectWantedDirectory(DirectoryInfo o,  List<DirectoryInfo> listDir, 
             IDictionary<string, string> formats,object lockd)
         {
+            if (o == null)
+                return;
+
             if (CheckForWantedDir(o, formats))
             {
                 lock (lockd)
@@ -126,7 +129,7 @@ namespace Movies.MovieServices.Services
                 System.IO.DirectoryInfo directoryInfo = new System.IO.DirectoryInfo(dir.FullName);
                 
                 var subdir = directoryInfo.EnumerateFiles("*.*", System.IO.SearchOption.AllDirectories);
-                var finalfilesort = subdir.Where(x => formats.ContainsKey(x.Extension.ToLower())).FirstOrDefault();
+                var finalfilesort = subdir.FirstOrDefault(x => formats.ContainsKey(x.Extension.ToLower()));
 
                 if (finalfilesort != null)
                 {

@@ -81,11 +81,6 @@ namespace Movies.PlaylistCollectionView.ViewModels
         {
             InitializeComponent();
             //GetHomePlaylistView();
-            IEventManager.GetEvent<PlaylistCollectionChangedEventToken>().Subscribe((playlist) =>
-            {
-                AddToPlayList(playlist as IPlaylistModel);
-            });
-            
         }
 
         public void InitializeComponent()

@@ -1,12 +1,14 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <SolidColorBrush x:Key="Theme.HighlightColor" Color="#CC364E6F"/>
+    <SolidColorBrush x:Key="Theme.HighlightColor" Color="#be7955"/>
     <SolidColorBrush x:Key="Theme.Foreground" Color="Black"/>
-    <SolidColorBrush x:Key="Theme.Background" Color="#FFD6DBE9"/>
-    <SolidColorBrush x:Key="Theme.FolderColor" Color="#FF364E6F"/> 
+    <SolidColorBrush x:Key="Theme.Background" Color="#ece3d1"/>
+    <SolidColorBrush x:Key="Theme.FolderColor" Color="#3f3a40"/> 
     <SolidColorBrush x:Key="Theme.AddFolderHighlight" Color="Black"/>
-    <SolidColorBrush x:Key="Theme.WindowsTile" Color="#E5364E6F"/>
+    <SolidColorBrush x:Key="Theme.WindowsTile" Color="#3f3a40"/>
     <SolidColorBrush x:Key="Theme.DeleteColor" Color="DodgerBlue"/> 
     <SolidColorBrush x:Key="Theme.MovieFile" Color="Black"/>
     <SolidColorBrush x:Key="Theme.BackColor" Color="Black"/>
+    <SolidColorBrush x:Key="Theme.MouseOver" Color="#e8c2a5"/>
+    <SolidColorBrush x:Key="Theme.IsActive" Opacity=".2" Color="#3f3a40"/>
 </ResourceDictionary>

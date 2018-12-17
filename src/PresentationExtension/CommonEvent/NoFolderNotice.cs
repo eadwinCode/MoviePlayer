@@ -10,8 +10,8 @@ namespace PresentationExtension.CommonEvent
     public class NoFolderNoticeEventToken : EventToken<bool> { }
     public class FolderItemChangeEventToken : EventToken<bool> { }
     public class NavigateFolderItemToken : EventToken<object> { }
-    public class MessageChangedEventToken : EventToken<object> { }
-    public class StatusMessageChangedEventToken : EventToken<bool> { }
+    public class StatusMessageDeletedEventToken : EventToken<object> { }
+    public class StatusMessageCreatedEventToken : EventToken<object> { }
     public class NavigateNewPage : EventToken<object> { }
     public class NavigateSearchResult : EventToken<object> { }
     public class PlaylistCollectionChangedEventToken : EventToken<object> { }

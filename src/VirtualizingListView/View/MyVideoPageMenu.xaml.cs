@@ -2,8 +2,6 @@
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.ServiceLocation;
 using Movies.MoviesInterfaces;
-using PresentationExtension.CommonEvent;
-using PresentationExtension.InterFaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,21 +16,21 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace LocalVideoFiles.Views
+namespace VirtualizingListView.View
 {
     /// <summary>
-    /// Interaction logic for VideoFolderMenu.xaml
+    /// Interaction logic for MyVideoPageMenu.xaml
     /// </summary>
-    public partial class VideoFolderMenu 
+    public partial class MyVideoPageMenu 
     {
-        public VideoFolderMenu()
+        public MyVideoPageMenu()
         {
             InitializeComponent();
-            this.DataContext = new VideoFolderMenuViewModel();
+            this.DataContext = new MyVideoPageMenuViewModel();
         }
     }
 
-    public class VideoFolderMenuViewModel
+    class MyVideoPageMenuViewModel
     {
         private INavigatorService INavigatorService
         {
@@ -43,12 +41,12 @@ namespace LocalVideoFiles.Views
         }
 
         private DelegateCommand loadpageCommand;
-        private HomePageLocal VideoFolderPage;
+        private MyVidoePage MyVideoFolderPage;
         public DelegateCommand LoadPageCommand
         {
             get
             {
-                if(loadpageCommand == null)
+                if (loadpageCommand == null)
                 {
                     loadpageCommand = new DelegateCommand(LoadPageAction);
                 }
@@ -58,15 +56,15 @@ namespace LocalVideoFiles.Views
 
         public object Icon { get; private set; }
 
-        public VideoFolderMenuViewModel()
+        public MyVideoPageMenuViewModel()
         {
-            Icon = new PackIconMaterial() { Kind = PackIconMaterialKind.FileVideo };
-            VideoFolderPage = new HomePageLocal();
+            Icon = new PackIconMaterial() { Kind = PackIconMaterialKind.Video };
+            MyVideoFolderPage = new MyVidoePage();
         }
 
         private void LoadPageAction()
         {
-            INavigatorService.NavigateMainPage(VideoFolderPage);
+            INavigatorService.NavigateMainPage(MyVideoFolderPage);
         }
     }
 }

@@ -15,6 +15,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using PresentationExtension.CommonEvent;
+using PresentationExtension.InterFaces;
+using Movies.Models.Interfaces;
 
 namespace Movies.PlaylistCollectionView.Views
 {
@@ -33,6 +36,14 @@ namespace Movies.PlaylistCollectionView.Views
 
         public class HomePlaylistMenuViewModel
         {
+            IEventManager IEventManager
+            {
+                get
+                {
+                    return ServiceLocator.Current.GetInstance<IEventManager>();
+                }
+            }
+
             private IHomePlaylist HomePlaylistService
             {
                 get
@@ -67,6 +78,10 @@ namespace Movies.PlaylistCollectionView.Views
             public HomePlaylistMenuViewModel()
             {
                 Icon = new PackIconMaterial() { Kind = PackIconMaterialKind.PlaylistPlay };
+                IEventManager.GetEvent<PlaylistCollectionChangedEventToken>().Subscribe((playlist) =>
+                {
+                    HomePlaylistService.AddToPlayList(playlist as IPlaylistModel);
+                });
             }
 
             private void LoadPageAction()

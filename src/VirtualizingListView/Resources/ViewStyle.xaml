@@ -493,6 +493,9 @@
         </presentationCmd:CustomButton>
 
         <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding IsActive}" Value="True">
+                <Setter TargetName="main" Property="Background" Value="{DynamicResource Theme.IsActive}"/>
+            </DataTrigger>
             <!--<Trigger Property="IsMouseOver" Value="true">
                 <Setter TargetName="main" Property="Background">
                     <Setter.Value>

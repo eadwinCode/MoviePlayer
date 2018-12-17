@@ -286,7 +286,7 @@ namespace Movies.Models.Model
             get { return Progress > 0; }
         }
 
-        public void UpdateProperties()
+        private void UpdateProperties()
         {
             RaisePropertyChangedEvent("CreationDate");
             RaisePropertyChangedEvent("FileExtension");
@@ -296,6 +296,11 @@ namespace Movies.Models.Model
             RaisePropertyChangedEvent("PlayedVisible");
             RaisePropertyChangedEvent("HasProgress");
             RaisePropertyChangedEvent("Duration");
+        }
+
+        public override void RefreshFileInfo()
+        {
+            UpdateProperties();
         }
 
         public void SetProgress()

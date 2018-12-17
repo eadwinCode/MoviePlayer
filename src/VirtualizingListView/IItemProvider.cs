@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Movies.MoviesInterfaces;
+using System.Collections.Generic;
 using VirtualizingListView.Pages.ViewModel;
 
 namespace VirtualizingListView

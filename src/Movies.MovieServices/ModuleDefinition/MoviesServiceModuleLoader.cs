@@ -32,7 +32,7 @@ namespace Movies.MovieServices.ModuleDefinition
         {
             ApplicationService applicationService = new ApplicationService();
 
-            this.unityContainer.RegisterType<IBackgroundService, ExecutorImpl>(new ContainerControlledLifetimeManager());
+            this.unityContainer.RegisterType<IBackgroundService, ExecutorImpl>();
             this.unityContainer.RegisterInstance<IApplicationService>(applicationService);
             this.unityContainer.RegisterInstance<IApplicationModelService>(applicationService);
             bool singleton = ReferenceEquals(unityContainer.Resolve<IApplicationService>(), unityContainer.Resolve<IApplicationModelService>());

@@ -112,12 +112,34 @@ namespace Movies.MovieServices.Services
             DispatcherService.InvokeDispatchAction(new Action(() =>
             {
                 var Mediafolder = ((MediaFileWatcher)sender).MediaFolder;
-                VideoFolder videoFolder = new VideoFolder(fullPath);
-                var existingVideoFolder = Mediafolder.OtherFiles.Where(x => x.Equals(videoFolder)).FirstOrDefault();
-                if (Mediafolder.OtherFiles.Contains(videoFolder))
-                    Mediafolder.OtherFiles.Remove(existingVideoFolder);
-                FileLoader.RemoveFromDataSource(existingVideoFolder);
-                RefreshMediaFolder(sender);
+                VideoFolder videoFolder = null;
+                VideoFolderChild folderChild = null;
+                FileInfo fileInfo = new FileInfo(fullPath);
+
+                if (string.IsNullOrEmpty(fileInfo.Extension))
+                    videoFolder = new VideoFolder(fullPath);
+                else
+                    folderChild = new VideoFolderChild(Mediafolder, fileInfo);
+
+                if(folderChild != null)
+                {
+                    if (Mediafolder.OtherFiles.Contains(folderChild))
+                        Mediafolder.OtherFiles.Remove(folderChild);
+
+                    FileLoader.RemoveFromDataSource(folderChild);
+                    RefreshMediaFolder(sender);
+                    Mediafolder.FileWatcherUpdate();
+                    return;
+                }
+                if(videoFolder != null)
+                {
+                    if (Mediafolder.OtherFiles.Contains(videoFolder))
+                        Mediafolder.OtherFiles.Remove(videoFolder);
+
+                    FileLoader.RemoveFromDataSource(videoFolder);
+                    RefreshMediaFolder(sender);
+                    Mediafolder.FileWatcherUpdate();
+                }
             }));
         }
 
@@ -127,6 +149,11 @@ namespace Movies.MovieServices.Services
             {
                 System.IO.DirectoryInfo directoryInfo = new System.IO.DirectoryInfo(path);
                 var Mediafolder = ((MediaFileWatcher)sender).MediaFolder;
+                FileInfo fileInfo = new FileInfo(path);
+
+                if (!Mediafolder.Directory.ToString().Equals(fileInfo.Directory.ToString()))
+                    return;
+
                 if (directoryInfo.Exists)
                 {
                     var videoFolder = CreateDirectory(Mediafolder,new DirectoryInfo(path));
@@ -137,11 +164,12 @@ namespace Movies.MovieServices.Services
                         return;
                     }
                 }
-                FileInfo fileInfo = new FileInfo(path);
+                
                 if (ApplicationService.Formats.ContainsKey(fileInfo.Extension))
                 {
-                    Mediafolder.OtherFiles.Add(FileLoader.CreateVideoFolderChild(Mediafolder,fileInfo));
-                    FileLoader.SortList(Mediafolder.SortedBy, Mediafolder);
+                    Mediafolder.AddChild(FileLoader.CreateVideoFolderChild(Mediafolder,fileInfo),true);
+                    Mediafolder = FileLoader.SortList(Mediafolder.SortedBy, Mediafolder);
+                    Mediafolder.FileWatcherUpdate();
                 }
             }));
         }

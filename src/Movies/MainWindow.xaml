@@ -6,16 +6,21 @@
                  xmlns:sw="clr-namespace:WpfStyleableWindow.StyleableWindow;assembly=Common"
                  xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                  Title="Media Hub" x:Name="_mainView" HorizontalContentAlignment="Stretch"
-                 NonActiveWindowTitleBrush="{DynamicResource Theme.WindowsTile}"
-                 WindowTitleBrush="{DynamicResource Theme.WindowsTile}" FontSize="13" 
-                 Background="Black" BorderBrush="{DynamicResource Theme.HighlightColor}" NonActiveBorderBrush="Black"
+                 NonActiveWindowTitleBrush="{DynamicResource Theme.WindowsTile}" BorderThickness="2"
+                 WindowTitleBrush="{DynamicResource Theme.WindowsTile}" FontSize="13"
+                 BorderBrush="{DynamicResource Theme.HighlightColor}" NonActiveBorderBrush="Black"
                  ResizeMode="CanResizeWithGrip" WindowState="Maximized" WindowStartupLocation="Manual" 
-                 MinWidth="500" TitleCaps="False" TitlebarHeight="45" MinHeight="300"
+                 MinWidth="500" TitleCaps="False" TitlebarHeight="45" MinHeight="300" Background="{DynamicResource Theme.Background}"
                  FocusManager.FocusedElement="{Binding ElementName=ContentRegion,Path=Content}">
     
     <!--<mah:MetroWindow.Background>
-        <ImageBrush ImageSource="eminem-recovery-cover-album.jpg" TileMode="None"   Stretch="UniformToFill" ViewportUnits="RelativeToBoundingBox" />
+        <ImageBrush ImageSource="/Movies.GlobalResources;component/Images/check-1-icon.png" 
+                                    TileMode="Tile"   
+                                    Stretch="None" 
+                                    ViewportUnits="Absolute" 
+                                    Opacity="0.1" />
     </mah:MetroWindow.Background>-->
+    
     <mah:MetroWindow.TitleTemplate>
         <DataTemplate>
             <DockPanel>

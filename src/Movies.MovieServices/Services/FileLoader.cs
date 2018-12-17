@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Movies.MovieServices.Services
@@ -21,8 +22,12 @@ namespace Movies.MovieServices.Services
     public class FileLoader : IFileLoader
     {
         private static object padlock = new object();
-        private List<Task> ChildrenTasks = new List<Task>();
         private ISortService GetSortService;
+
+        private IFileExplorerCommonHelper filecommonhelper;
+        private IApplicationService applicationService;
+        private IDispatcherService _dispatcherservice;
+
         private IDataSource<VideoFolder> MovieDataSource
         {
             get
@@ -30,6 +35,7 @@ namespace Movies.MovieServices.Services
                 return ServiceLocator.Current.GetInstance<IDataSource<VideoFolder>>();
             }
         }
+
         private IStatusMessageManager StatusMessageManager
         {
             get
@@ -37,9 +43,9 @@ namespace Movies.MovieServices.Services
                 return ServiceLocator.Current.GetInstance<IStatusMessageManager>();
             }
         }
-        private IFileExplorerCommonHelper filecommonhelper;
-        private IApplicationService applicationService;
-        private IDispatcherService dispatcherservice;
+        
+        public IDispatcherService DispatcherService { get { return _dispatcherservice; } }
+        
         private IEventManager IEventManager
         {
             get
@@ -53,12 +59,11 @@ namespace Movies.MovieServices.Services
             get { return MovieDataSource.HasDataSource; }
         }
       
-
         public FileLoader(IFileExplorerCommonHelper fileExplorerCommonHelper, IApplicationService applicationService ,IDispatcherService dispatcherService)
         {
             this.filecommonhelper = fileExplorerCommonHelper;
             this.applicationService = applicationService;
-            this.dispatcherservice = dispatcherService;
+            this._dispatcherservice = dispatcherService;
             GetSortService = new SortService();
         }
        
@@ -73,11 +78,9 @@ namespace Movies.MovieServices.Services
         public VideoFolder GetFolderItems(VideoFolder item)
         {
             item.IsLoading = true;
-            List<Task> Tasks = new List<Task>();
             object padlock = new object();
             lock (item)
             {
-                int taskcount = 0;
                 if (item.OtherFiles == null)
                 {
                     var s = LoadParentFiles(item, item.SortedBy);
@@ -86,40 +89,19 @@ namespace Movies.MovieServices.Services
                 }
                 try
                 {
-                    Parallel.ForEach(item.OtherFiles, (s) =>
+                    foreach (var s in item.OtherFiles)
                     {
-
                         var temp = s;
                         if (s != null)
                         {
                             if (temp.FileType == GroupCatergory.Grouped)
                             {
-                                var task = Task.Factory.StartNew(() =>
-                                {
-                                    temp.IsLoading = true;
-                                    GetFolderItemsExtended(temp);
-                                    temp.IsLoading = false;
-                                });
-                                taskcount++;
-                                AddTask(Tasks, task, padlock);
-                            }
-                            //else
-                            //{
-                            //    var task = Task.Factory.StartNew(() =>
-                            //    {
-                            //        RunShellFunction(temp as VideoFolderChild);
-                            //    });
-                            //    taskcount++;
-                            //    AddTask(Tasks, task, padlock);
-                            //}
-                            if (taskcount % 5 == 0 && taskcount != 0)
-                            {
-                                Task.WaitAll(Tasks.ToArray());
-                                taskcount = 0;
-                                Tasks.Clear();
+                                temp.IsLoading = true;
+                                GetFolderItemsExtended(temp);
+                                temp.IsLoading = false;
                             }
                         }
-                    });
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -128,15 +110,7 @@ namespace Movies.MovieServices.Services
             item.IsLoading = false;
             return item;
         }
-
-        private void AddTask(List<Task> tasks, Task task, object padlock)
-        {
-            lock (padlock)
-            {
-                tasks.Add(task);
-            }
-        }
-
+        
         public VideoFolder DeepCopy(VideoFolder existing,VideoFolder videoFoldercopy)
         {
             var newcopy = new VideoFolder(videoFoldercopy, videoFoldercopy.FullName)
@@ -150,12 +124,10 @@ namespace Movies.MovieServices.Services
 
         private VideoFolder GetFolderItemsExtended(VideoFolder vfile)
         {
-            List<Task> Tasks = new List<Task>();
             var s = LoadParentFiles(vfile, vfile.SortedBy);
             if (s.OtherFiles == null )
                 return s;
-            int taskcount = 0;
-            for (int i = 0; i < s.OtherFiles.Count; i++)
+            for (int i = 0; i < s.OtherFiles.Count(); i++)
             {
                 try
                 {
@@ -168,21 +140,6 @@ namespace Movies.MovieServices.Services
                         GetSubFolderItems(temp);
                         temp.IsLoading = false;
                     }
-                    //else
-                    //{
-                    //    taskcount++;
-                    //    var task = Task.Factory.StartNew(() =>
-                    //    {
-                    //        RunShellFunction(temp as VideoFolderChild);
-                    //    });
-                    //    Tasks.Add(task);
-                    //}
-                    //if (taskcount % 3 == 0)
-                    //{
-                    //    Task.WaitAll(Tasks.ToArray());
-                    //    taskcount = 0;
-                    //    Tasks.Clear();
-                    //}
                 }
                 catch (Exception ex)
                 {
@@ -193,13 +150,11 @@ namespace Movies.MovieServices.Services
 
         private VideoFolder GetSubFolderItems(VideoFolder videoFolder)
         {
-            List<Task> Tasks = new List<Task>();
             Console.WriteLine("------Starting to Load {0} item-----",videoFolder);
 
             var s = LoadParentFiles(videoFolder, videoFolder.SortedBy);
             if (s.OtherFiles == null)
                 return s;
-            int taskcount = 0;
 
             Parallel.ForEach(s.OtherFiles, (k) =>
             {
@@ -215,21 +170,6 @@ namespace Movies.MovieServices.Services
                             temp.IsLoading = false;
                         }
                     }
-                    //else
-                    //{
-                    //    taskcount++;
-                    //    var task = Task.Factory.StartNew(() =>
-                    //    {
-                    //        RunShellFunction(temp as VideoFolderChild);
-                    //    }).ContinueWith(t => { }, TaskScheduler.Default);
-                    //    Tasks.Add(task);
-                    //}
-                    //if (taskcount % 3 == 0)
-                    //{
-                    //    Task.WaitAll(Tasks.ToArray());
-                    //    taskcount = 0;
-                    //    Tasks.Clear();
-                    //}
                 }
                 catch (Exception ex)
                 {
@@ -284,7 +224,7 @@ namespace Movies.MovieServices.Services
             if (ParentDir.OtherFiles == null || children.Count > ParentDir.OtherFiles.Count)
             {
                 ParentDir.OtherFiles = new ObservableCollection<VideoFolder>();
-                ParentDir.OtherFiles.AddRange(children);
+                ParentDir.AddRange(children);
                 GetRootDetails(sorttype, ref ParentDir);
             }
             
@@ -330,13 +270,12 @@ namespace Movies.MovieServices.Services
             return Toparent;
         }
         
-
-        private void RunShellFunction( VideoFolderChild vd)
+        private void RunShellFunction(VideoFolderChild vd)
         {
             string prop = null;
-                prop = GetMediaTitle(vd);
-                if (!string.IsNullOrEmpty(prop) && !prop.Contains("\""))
-                    vd.MediaTitle = prop;
+            prop = GetMediaTitle(vd);
+            if (!string.IsNullOrEmpty(prop) && !prop.Contains("\""))
+                vd.MediaTitle = prop;
         }
 
         private string GetMediaTitle(VideoFolderChild vd)
@@ -346,27 +285,11 @@ namespace Movies.MovieServices.Services
             {
                 var duration = shell.Properties.System.Media.Duration;
                 vd.Duration = duration.FormatForDisplay(PropertyDescriptionFormat.ShortTime);
-                //if (duration.Value != null)
-                //    vd.MaxiProgress = (int)(duration.Value / Math.Pow(10, 7));
             }
             catch (Exception ex)
             {
 
             }
-
-            //MediaInfo.MediaInfoWrapper mediaInfoWrapper = new MediaInfo.MediaInfoWrapper(vd.FullName);
-            //string result = null;
-            //if (mediaInfoWrapper.HasVideo)
-            //{
-            //    //Dispatcher.Invoke(new Action(() => {
-            //    // mediaInfoWrapper.Open(vd.FullName);
-            //    //result = mediaInfoWrapper.Get(MediaInfo.StreamKind.General, 0, 167);
-            //    result = (mediaInfoWrapper.Tags as AudioTags).Title;
-            //    vd.MaxiProgress = mediaInfoWrapper.Duration;
-            //    vd.Duration = mediaInfoWrapper.BestVideoStream.Duration.ToString();
-            //}
-            //mediaInfoWrapper.Close();
-            //}),DispatcherPriority.Background);
 
             return shell.Properties.System.Title.Value;
         }
@@ -374,7 +297,6 @@ namespace Movies.MovieServices.Services
         public static void GetShellInfo(VideoFolderChild vd)
         {
             GetMediaInfo(vd);
-            //GetMediaInfo(vd);
         }
 
         private static void GetMediaInfo(VideoFolderChild vd)
@@ -388,8 +310,6 @@ namespace Movies.MovieServices.Services
                     var duration = shell.Properties.System.Media.Duration;
                     vd.Duration = duration.FormatForDisplay(PropertyDescriptionFormat.ShortTime);
                 }
-                //if (duration.Value != null)
-                //    vd.MaxiProgress = (int)(duration.Value / Math.Pow(10, 7));
             }
             catch (Exception ex)
             {
@@ -397,6 +317,7 @@ namespace Movies.MovieServices.Services
             var prop = shell.Properties.System.Title.Value;
             if (!string.IsNullOrEmpty(prop) && !prop.Contains("\""))
                 vd.MediaTitle = prop;
+            vd.RefreshFileInfo();
         }
 
         public ObservableCollection<VideoFolder> LoadChildrenFiles(VideoFolder Parentdir, IList<FileInfo> files, 
@@ -445,6 +366,7 @@ namespace Movies.MovieServices.Services
             SetLastSeen(vfc);
             return vfc;
         }
+
         public void SetLastSeen(VideoFolderChild videoFolderChild)
         {
             PlayedFiles pdf = applicationService.SavedLastSeenCollection.GetLastSeen(videoFolderChild.FileInfo.Name) as PlayedFiles;
@@ -490,7 +412,6 @@ namespace Movies.MovieServices.Services
         public VideoFolder LoadParentFiles(VideoFolder Parentdir,IList<FileInfo> SubFiles, SortType sorttype)
         {
             VideoFolder videoFolder = new VideoFolder(Parentdir, SubFiles[0].Directory.FullName);
-
             var children = new ObservableCollection<VideoFolder>();
             children = LoadChildrenFiles(videoFolder, SubFiles);
             videoFolder.OtherFiles= children;
@@ -505,7 +426,6 @@ namespace Movies.MovieServices.Services
         {
             IDictionary<string, VideoFolder> allfile = new Dictionary<string, VideoFolder>();
             object padlock = new object();
-            List<Task> Tasks = new List<Task>();
             if (itemsSource != null)
             {
                 for (int i = 0; i < itemsSource.Count; i++)
@@ -518,40 +438,53 @@ namespace Movies.MovieServices.Services
 
                     if (item.FileType == GroupCatergory.Grouped)
                     {
-                        var task = Task.Factory.StartNew(() =>
+                        var statusMessage = StatusMessageManager.CreateMessage(item.Name + " Loading");
+
+                        foreach (var subitem in GetAllFiles(item.OtherFiles, item))
                         {
-                            Stopwatch stopwatch = new Stopwatch();
-                            var statusMessage = StatusMessageManager.CreateMessage(item.Name + " Loading");
-                            Console.WriteLine(item.Name + " Loading");
-                            stopwatch.Start();
-                            foreach (var subitem in GetAllFiles(item.OtherFiles, item))
+                            lock (padlock)
                             {
-                                lock (padlock)
-                                {
-                                    if (allfile.ContainsKey(subitem.Key)) continue;
-                                    allfile.Add(subitem);
-                                }
+                                if (allfile.ContainsKey(subitem.Key)) continue;
+                                allfile.Add(subitem);
                             }
-                            if (!allfile.ContainsKey(item.FullName))
-                                allfile.Add(item.FullName, item);
-                            stopwatch.Stop();
-                            Console.WriteLine(item.Name + " Loaded in {0} secs", stopwatch.ElapsedMilliseconds * 1.0 / 1000);
-                            statusMessage.Message = string.Format(item.Name + " Loaded in {0} secs", stopwatch.ElapsedMilliseconds * 1.0 / 1000);
-                            statusMessage.AutomateMessageDestroy(5000);
-                        }).ContinueWith(t => { }, TaskScheduler.Current);
-                        Tasks.Add(task);
+                        }
+                        if (!allfile.ContainsKey(item.FullName))
+                            allfile.Add(item.FullName, item);
+                        statusMessage.AutomateMessageDestroy(5000);
                     }
                     else
                         allfile.Add(item.FullName, item);
-
-                    //if (Tasks.Count % 2 == 0 && Tasks.Count != 0)
-                    //{
-                    //    Task.WaitAll(Tasks.ToArray());
-                    //    Tasks.Clear();
-                    //}
                 }
             }
-            Task.WaitAll(Tasks.ToArray());
+            return allfile;
+        }
+
+        public IDictionary<string, VideoFolder> GetAllFiles(VideoFolder videoFolder)
+        {
+            IDictionary<string, VideoFolder> allfile = new Dictionary<string, VideoFolder>();
+            VideoFolder item = videoFolder;
+            if (item == null) return allfile;
+
+            if (item.FileType == GroupCatergory.Grouped && item.ParentDirectory != null)
+                return allfile;
+
+            if (item.FileType == GroupCatergory.Grouped)
+            {
+                var statusMessage = StatusMessageManager.CreateMessage(item.Name + " Loading");
+
+                foreach (var subitem in GetAllFiles(item.OtherFiles, item))
+                {
+                    if (allfile.ContainsKey(subitem.Key)) continue;
+                    allfile.Add(subitem);
+                }
+                if (!allfile.ContainsKey(item.FullName))
+                    allfile.Add(item.FullName, item);
+
+                statusMessage.AutomateMessageDestroy(5000);
+            }
+            else
+                allfile.Add(item.FullName, item);
+
             return allfile;
         }
 
@@ -597,6 +530,22 @@ namespace Movies.MovieServices.Services
             {
                 this.MovieDataSource.DataSource = GetAllFiles(itemsSource);
             }
+        }
+
+        public VideoFolder InitGetAllFiles(VideoFolder videoFolder)
+        {
+            var data = GetAllFiles(videoFolder);
+            foreach (var item in data)
+            {
+                if (!this.MovieDataSource.DataSource.ContainsKey(item.Key))
+                {
+                    lock (padlock)
+                    {
+                        this.MovieDataSource.DataSource.Add(item);
+                    }
+                }
+            }
+            return videoFolder;
         }
 
         public void RemoveFromDataSource(VideoFolder existingVideoFolder)

@@ -1,14 +1,13 @@
-﻿<Page x:Class="VirtualizingListView.Pages.FilePageView"
+﻿<Page x:Class="VirtualizingListView.View.MyVidoePage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:Pagelocal="clr-namespace:VirtualizingListView.Pages"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:pagesViews="clr-namespace:VirtualizingListView.Pages"
       xmlns:presentationlib="clr-namespace:PresentationExtension;assembly=PresentationExtension"
-      xmlns:local="clr-namespace:VirtualizingListView"
-      mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
-      Title="FilePageView">
+      mc:Ignorable="d" x:Name="vidoePage"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="MyVidoePage">
 
     <Page.Resources>
         <ResourceDictionary>
@@ -118,57 +117,58 @@
             </Style>
         </ResourceDictionary>
     </Page.Resources>
-    <ScrollViewer VerticalScrollBarVisibility="Auto" PreviewMouseWheel="collections_PreviewMouseWheel">
-        <DockPanel Grid.Column="2" Grid.Row="0" LastChildFill="True" IsEnabled="{Binding IsLoading,Converter={StaticResource BooleanInversion}}">
-            <Border DockPanel.Dock="Top" 
-                    Height="50" 
-                    BorderBrush="{DynamicResource Theme.HighlightColor}" BorderThickness="0,0,0,0">
-            <DockPanel>
-                <Path DockPanel.Dock="Left"
+    
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
+            <DockPanel Grid.Column="2" Grid.Row="0" LastChildFill="True" IsEnabled="{Binding IsLoading,Converter={StaticResource BooleanInversion}}">
+                <Border DockPanel.Dock="Top" 
+                    Height="50" BorderBrush="{DynamicResource Theme.HighlightColor}" BorderThickness="0,0,0,0">
+                    <DockPanel>
+                        <Path DockPanel.Dock="Left"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center" Margin="15"
                                 Focusable="False" Fill="{DynamicResource Theme.HighlightColor}" 
                                 Data="M19,20H4C2.89,20 2,19.1 2,18V6C2,4.89 2.89,4 4,4H10L12,6H19C20.1,6 21,6.9 21,8H21L4,8V18L6.14,10H23.21L20.93,18.5C20.7,19.37 19.92,20 19,20Z" RenderTransformOrigin="0.5,0.5" >
-                        <Path.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform ScaleX="1.6" ScaleY="1.6"/>
-                                <RotateTransform />
-                            </TransformGroup>
-                        </Path.RenderTransform>
-                    </Path>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{Binding CurrentVideoFolder.Name}"
+                            <Path.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="1.6" ScaleY="1.6"/>
+                                    <RotateTransform />
+                                </TransformGroup>
+                            </Path.RenderTransform>
+                        </Path>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{Binding CurrentVideoFolder.Name}"
                                VerticalAlignment="Center"   TextTrimming="CharacterEllipsis" 
                                FontSize="22" Padding="3" FontWeight="Light"
                                Foreground="{DynamicResource Theme.Foreground}"/>
-                        <TextBlock Text="{Binding CurrentVideoFolder.FilePath}"  
+                            <TextBlock Text="{Binding CurrentVideoFolder.FilePath}"  
                                VerticalAlignment="Center" TextTrimming="CharacterEllipsis" 
                                FontSize="11" Padding="10,2,5,2" FontWeight="Light" ToolTip="{Binding CurrentVideoFolder.FilePath}"
                                Foreground="{DynamicResource Theme.Foreground}"/>
-                    </StackPanel>
-                </DockPanel>
-        </Border>
-            <DockPanel DockPanel.Dock="Top"  
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+                <DockPanel DockPanel.Dock="Top"  
                        Grid.Row="0" Background="Transparent" 
                        TextBlock.Foreground="{DynamicResource Theme.Foreground}" 
                        LastChildFill="True" >
-                <StackPanel DockPanel.Dock="Left"
+                    <StackPanel DockPanel.Dock="Left"
                             Orientation="Horizontal" Margin="10" Grid.Column="1">
 
-                    <TextBlock Margin="10,0,0,0" Foreground="{DynamicResource Theme.Foreground}" FontSize="15" 
+                        <TextBlock Margin="10,0,0,0" Foreground="{DynamicResource Theme.Foreground}" FontSize="15" 
                                Text="Sort By:" Padding="3"/>
-                    <presentationlib:ContextButton BorderThickness="0" 
+                        <presentationlib:ContextButton BorderThickness="0" 
                                          Style="{StaticResource zerobtnstyle}" 
                                          ContextMentPlacement="Center" Padding="3">
-                        <TextBlock Text="{Binding ActiveSortType,UpdateSourceTrigger=PropertyChanged}" 
+                            <TextBlock Text="{Binding ActiveSortType,UpdateSourceTrigger=PropertyChanged}" 
                                    Padding="3" Foreground="{DynamicResource Theme.HighlightColor}"
                                    FontSize="15" Cursor="Hand"/>
-                        <presentationlib:ContextButton.ShowContextOnClick>
-                            <ContextMenu ClipToBounds="True" ContextMenuService.ShowOnDisabled="True" 
+                            <presentationlib:ContextButton.ShowContextOnClick>
+                                <ContextMenu ClipToBounds="True" ContextMenuService.ShowOnDisabled="True" 
                                          ContextMenuService.HasDropShadow="True" StaysOpen="False" >
-                                <ContextMenu.Template>
-                                    <ControlTemplate>
-                                        <ListView Background="Black" Width="145"  
+                                    <ContextMenu.Template>
+                                        <ControlTemplate>
+                                            <ListView Background="Black" Width="145"  
                                                   BorderBrush="DarkGray" 
                                                   SnapsToDevicePixels="True"   
                                                   Style="{StaticResource NormalListVistStyle}"
@@ -177,33 +177,33 @@
                                                   ItemContainerStyle="{StaticResource EnumContainerStyle}"
                                                   ItemsSource="{Binding Source={StaticResource SortByEnum}}"
                                                   SelectedItem="{Binding ActiveSortType}">
-                                            <ListView.ItemTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Padding="5" Text="{Binding }" />
-                                                </DataTemplate>
-                                            </ListView.ItemTemplate>
-                                        </ListView>
-                                    </ControlTemplate>
-                                </ContextMenu.Template>
-                            </ContextMenu>
-                        </presentationlib:ContextButton.ShowContextOnClick>
-                    </presentationlib:ContextButton>
+                                                <ListView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Padding="5" Text="{Binding }" />
+                                                    </DataTemplate>
+                                                </ListView.ItemTemplate>
+                                            </ListView>
+                                        </ControlTemplate>
+                                    </ContextMenu.Template>
+                                </ContextMenu>
+                            </presentationlib:ContextButton.ShowContextOnClick>
+                        </presentationlib:ContextButton>
 
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" 
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" 
                             HorizontalAlignment="Right" Margin="10">
-                    <TextBlock Margin="10,0,0,0" Foreground="{DynamicResource Theme.Foreground}" FontSize="15" Text="View:" Padding="3"/>
-                    <presentationlib:ContextButton BorderThickness="0" 
+                        <TextBlock Margin="10,0,0,0" Foreground="{DynamicResource Theme.Foreground}" FontSize="15" Text="View:" Padding="3"/>
+                        <presentationlib:ContextButton BorderThickness="0" 
                                          Style="{StaticResource zerobtnstyle}"  
                                          ContextMentPlacement="Center" Padding="3">
-                    <TextBlock Text="{Binding ActiveViewType,UpdateSourceTrigger=PropertyChanged}" 
+                            <TextBlock Text="{Binding ActiveViewType,UpdateSourceTrigger=PropertyChanged}" 
                                Padding="3" Foreground="{DynamicResource Theme.HighlightColor}" FontSize="15" Cursor="Hand"/>
-                        <presentationlib:ContextButton.ShowContextOnClick>
-                        <ContextMenu ClipToBounds="True" ContextMenuService.ShowOnDisabled="True"  
+                            <presentationlib:ContextButton.ShowContextOnClick>
+                                <ContextMenu ClipToBounds="True" ContextMenuService.ShowOnDisabled="True"  
                                      ContextMenuService.HasDropShadow="True" StaysOpen="True">
-                            <ContextMenu.Template>
-                                <ControlTemplate>
-                                    <ListView Background="Black" Width="145"  
+                                    <ContextMenu.Template>
+                                        <ControlTemplate>
+                                            <ListView Background="Black" Width="145"  
                                               BorderBrush="DarkGray" 
                                               SnapsToDevicePixels="True" 
                                               Style="{StaticResource NormalListVistStyle}"
@@ -211,21 +211,21 @@
                                               ItemsSource="{Binding Source={StaticResource ViewByEnum}}"
                                               ItemContainerStyle="{StaticResource EnumContainerStyle}"
                                               SelectedItem="{Binding ActiveViewType}">
-                                        <ListView.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Padding="5" Text="{Binding }" />
-                                            </DataTemplate>
-                                        </ListView.ItemTemplate>
-                                    </ListView>
-                                </ControlTemplate>
-                            </ContextMenu.Template>
-                        </ContextMenu>
-                    </presentationlib:ContextButton.ShowContextOnClick>
-                    </presentationlib:ContextButton>
-                </StackPanel>
-            </DockPanel>
+                                                <ListView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Padding="5" Text="{Binding }" />
+                                                    </DataTemplate>
+                                                </ListView.ItemTemplate>
+                                            </ListView>
+                                        </ControlTemplate>
+                                    </ContextMenu.Template>
+                                </ContextMenu>
+                            </presentationlib:ContextButton.ShowContextOnClick>
+                        </presentationlib:ContextButton>
+                    </StackPanel>
+                </DockPanel>
 
-            <ListView Style="{Binding ListViewStyle}"   x:Name="collections"
+                <ListView Style="{Binding ListViewStyle}"   x:Name="collections"
                     ScrollViewer.VerticalScrollBarVisibility="Auto" 
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                     Background="Transparent"
@@ -233,21 +233,22 @@
                     ItemTemplateSelector="{Binding MyTemplateChange}"
                     ItemContainerStyle="{StaticResource CustomContainerStyle}"
                     Grid.RowSpan="2" >
-                <ListView.GroupStyle>
-                    <GroupStyle >
-                        <GroupStyle.HeaderTemplate>
-                            <DataTemplate>
-                                <!--<VirtualizingStackPanel Orientation="Vertical" Margin="5">
+                    <ListView.GroupStyle>
+                        <GroupStyle >
+                            <GroupStyle.HeaderTemplate>
+                                <DataTemplate>
+                                    <!--<VirtualizingStackPanel Orientation="Vertical" Margin="5">
                                 <TextBlock  Margin="10,2,2,2"  FontSize="18" Foreground="White" Text="{Binding Path=Name}"  />
                             </VirtualizingStackPanel>-->
-                            </DataTemplate>
-                        </GroupStyle.HeaderTemplate>
-                    </GroupStyle>
+                                </DataTemplate>
+                            </GroupStyle.HeaderTemplate>
+                        </GroupStyle>
 
-                </ListView.GroupStyle>
+                    </ListView.GroupStyle>
 
-            </ListView>
-        </DockPanel>
-    </ScrollViewer>
+                </ListView>
+            </DockPanel>
+        </ScrollViewer>
+        <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="HomePageDock"/>
+    </Grid>
 </Page>
-

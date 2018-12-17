@@ -37,9 +37,9 @@
 
     <DataTemplate x:Key="RadioStationTemplate">
         <presentationCmd:CustomButton Background="Transparent" ContextMenu="{StaticResource RadioStationContextMenu}"
-                                      Margin="4" x:Name="main"  Height="55" 
+                                      Margin="4" x:Name="main"  Height="55" Padding="5"
                                       Style="{StaticResource ContentContainer}" 
-                                      BorderThickness="0,0,0,1.5" BorderBrush="Transparent"
+                                      BorderThickness="2" BorderBrush="Transparent"
                                       presentationCmd:VideoItemDoubleClick.DoubleClickCommand="{x:Static internetRadioService:RadioHomePageService.OpenFolderCommand}"
                                       presentationCmd:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding 
                         DataContext, RelativeSource={RelativeSource Self}}"
@@ -125,10 +125,12 @@
         <DataTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <!--<Setter TargetName="main" Property="BorderBrush" Value="#FF337AD5"/>-->
-                <Setter TargetName="main" Property="Background" Value="{DynamicResource Theme.HighlightColor}"/>
+                <Setter TargetName="main" Property="Background" Value="{DynamicResource Theme.MouseOver}"/>
+                <Setter TargetName="main" Property="BorderBrush" Value="{DynamicResource Theme.HighlightColor}"/>
             </Trigger>
             <DataTrigger Binding="{Binding IsActive}" Value="True">
-                <Setter TargetName="main" Property="Background" Value="{DynamicResource Theme.HighlightColor}"/>
+                <Setter TargetName="main" Property="Background" Value="{DynamicResource Theme.IsActive}"/>
+                <Setter TargetName="main" Property="BorderBrush" Value="{DynamicResource Theme.MouseOver}"/>
             </DataTrigger>
 
             <DataTrigger Binding="{Binding IsFavorite}" Value="True">
@@ -139,9 +141,9 @@
 
     <DataTemplate x:Key="FavoriteRadioStationTemplate">
         <presentationCmd:CustomButton Background="Transparent" 
-                                      Margin="4" x:Name="main"  Height="53" 
+                                      Margin="2" x:Name="main"  Height="53" Padding="5"
                                       Style="{StaticResource ContentContainer}" 
-                                      BorderThickness="0,0,0,1.5" BorderBrush="Transparent"
+                                      BorderThickness="2" BorderBrush="Transparent"
                                       presentationCmd:VideoItemDoubleClick.DoubleClickCommand="{x:Static internetRadioService:RadioHomePageService.OpenFolderCommand}"
                                       presentationCmd:VideoItemDoubleClick.DoubleClickCommandParameter="{Binding DataContext, RelativeSource={RelativeSource Self}}"
                                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
@@ -228,11 +230,12 @@
         <DataTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <!--<Setter TargetName="main" Property="BorderBrush" Value="#FF337AD5"/>-->
-                <Setter TargetName="main" Property="Background" Value="{DynamicResource Theme.HighlightColor}"/>
-
+                <Setter TargetName="main" Property="Background" Value="{DynamicResource Theme.MouseOver}"/>
+                <Setter TargetName="main" Property="BorderBrush" Value="{DynamicResource Theme.HighlightColor}"/>
             </Trigger>
             <DataTrigger Binding="{Binding IsActive}" Value="True">
-                <Setter TargetName="main" Property="Background" Value="{DynamicResource Theme.HighlightColor}"/>
+                <Setter TargetName="main" Property="Background" Value="{DynamicResource Theme.IsActive}"/>
+                <Setter TargetName="main" Property="BorderBrush" Value="{DynamicResource Theme.MouseOver}"/>
             </DataTrigger>
 
             <DataTrigger Binding="{Binding IsFavorite}" Value="True">
@@ -288,7 +291,7 @@
         </presentationCmd:CustomButton>
         <DataTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="main" Property="Background" Value="{DynamicResource Theme.HighlightColor}"/>
+                <Setter TargetName="main" Property="Background" Value="{DynamicResource Theme.MouseOver}"/>
                 <!--<Setter TargetName="path" Property="Fill" Value="#FF337AD5"/>-->
             </Trigger>
         </DataTemplate.Triggers>

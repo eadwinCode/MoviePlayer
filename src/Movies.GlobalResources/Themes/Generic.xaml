@@ -32,7 +32,7 @@
                 TileMode="Tile"  Stretch="UniformToFill" 
                 ViewportUnits="Absolute" Opacity="0.1"/>
 
-    <ImageBrush x:Key="ImageOutline" ImageSource="/Movies.GlobalResources;component/Images/Movies - Copy.png" 
+    <ImageBrush x:Key="ImageOutline" ImageSource="/Movies.GlobalResources;component/Images/check-1-icon.png" 
                 TileMode="Tile" Stretch="None" 
                 ViewportUnits="Absolute" Opacity="0.3"/>
 
@@ -184,6 +184,25 @@
         <Setter Property="Focusable" Value="False"/>
         <!--<Setter Property="Background" Value="Transparent"/>-->
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                    <Border x:Name="container" Background="{TemplateBinding Background}" CornerRadius="3"
+                            Margin="{TemplateBinding Margin}" BorderThickness="2">
+                        <ContentPresenter HorizontalAlignment="Stretch" SnapsToDevicePixels="True" 
+                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="container" Property="Background" Value="{DynamicResource Theme.MouseOver}"/>
+                            <Setter TargetName="container" Property="BorderBrush" Value="{DynamicResource Theme.HighlightColor}"/>
+                            <Setter Property="TextBlock.Foreground" Value="White"/>
+                            <Setter  Property="TextBlock.FontWeight" Value="Bold"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style x:Key="ZeroContainerStyle" TargetType="ListBoxItem">

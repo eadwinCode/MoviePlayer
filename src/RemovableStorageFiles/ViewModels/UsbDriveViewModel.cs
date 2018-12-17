@@ -110,7 +110,9 @@ namespace RemovableStorageFiles.ViewModels
                 IEventManager.GetEvent<NavigateFolderItemToken>().Publish(obj);
             }
             else
+            {
                 LoadExternalDrives();
+            }
         }
 
         private void RemoveNonExstingFolders()

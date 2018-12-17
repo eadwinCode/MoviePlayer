@@ -151,7 +151,7 @@ namespace Movies.MovieServices.Services
                     .ContinueWith(t => 
                     {
                         //itemchild.IsLoading = false;
-                        itemchild.UpdateProperties();
+                        itemchild.RefreshFileInfo();
                     }, TaskScheduler.Current);
 
                 task.Wait();

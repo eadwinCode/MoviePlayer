@@ -326,7 +326,7 @@ namespace MovieHub.MediaPlayerElement.Service
 
         public bool HasVideo { get { return _vlcPlayer.VlcMediaPlayer.HasVideo; } }
 
-        public bool IsDisposed { get { return _isdispoed; } }
+        public bool IsDisposed { get { return _isdisposed; } }
 
         public bool CanPlay { get { return _vlcPlayer.VlcMediaPlayer.CanPlay; } }
 
@@ -337,7 +337,11 @@ namespace MovieHub.MediaPlayerElement.Service
         public MovieMediaState State { get { return state; } }
         
         public int Volume { get { return _vlcPlayer.Volume; }
-            set { _vlcPlayer.Volume = value; } }
+            set
+            {
+                _vlcPlayer.Volume = value;
+            }
+        }
 
         public bool IsSeekable { get { return _vlcPlayer.IsSeekable; } }
 
@@ -377,9 +381,10 @@ namespace MovieHub.MediaPlayerElement.Service
             get { return this.Dispatcher; }
         }
         string[] vlcoption = {
-            "-I", "dummy", "--ignore-config", "--no-video-title","--verbose=2"
+            "-I", "dummy", "--ignore-config", "--no-video-title","--verbose=2","--network-caching=1500",
+            "--http-reconnect","--preferred-resolution=1080"
         };
-        private bool _isdispoed = false;
+        private bool _isdisposed = false;
 
         public string[] VlcOption { get { return vlcoption; } set { vlcoption = value; } }
 
@@ -583,7 +588,7 @@ namespace MovieHub.MediaPlayerElement.Service
         {
             _vlcPlayer.Dispose();
             ApiManager.ReleaseAll();
-            _isdispoed = true;
+            _isdisposed = true;
         }
     
     }

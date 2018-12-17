@@ -32,12 +32,12 @@ namespace VirtualizingListView.Pages.ViewModel
         private HamburgerMenuIconItem hamburgermenuicon;
         private object Padlock = new object();
 
-        private INavigatorService NavigatorService
+        protected INavigatorService NavigatorService
         {
             get { return ServiceLocator.Current.GetInstance<INavigatorService>(); }
         }
 
-        IBackgroundService BackgroundService
+        protected IBackgroundService BackgroundService
         {
             get
             {
@@ -45,7 +45,7 @@ namespace VirtualizingListView.Pages.ViewModel
             }
         }
 
-        IApplicationService ApplicationService
+        protected IApplicationService ApplicationService
         {
             get
             {
@@ -53,7 +53,7 @@ namespace VirtualizingListView.Pages.ViewModel
             }
         }
 
-        IFileLoaderCompletion LoaderCompletion
+        protected IFileLoaderCompletion LoaderCompletion
         {
             get
             {
@@ -61,7 +61,7 @@ namespace VirtualizingListView.Pages.ViewModel
             }
         }
 
-        IFileLoader FileLoader
+        protected IFileLoader FileLoader
         {
             get
             {
@@ -69,7 +69,7 @@ namespace VirtualizingListView.Pages.ViewModel
             }
         }
 
-        IOpenFileCaller OpenFileCaller
+        protected IOpenFileCaller OpenFileCaller
         {
             get
             {
@@ -82,6 +82,7 @@ namespace VirtualizingListView.Pages.ViewModel
             get { return hamburgermenuicon; }
             set { hamburgermenuicon = value; RaisePropertyChanged(() => this.HamburgerMenuIcon); }
         }
+
         public Style ListViewStyle
         {
             get { return listviewstyle; }
@@ -171,6 +172,17 @@ namespace VirtualizingListView.Pages.ViewModel
         {
             this.FilePageDispatcher = dispatcher;
             navigationService.LoadCompleted += NavigationService_LoadCompleted;
+            Init();
+        }
+
+        public FilePageViewModel(Dispatcher dispatcher)
+        {
+            this.FilePageDispatcher = dispatcher;
+            Init();
+        }
+
+        private void Init()
+        {
             OpenFolderCommand = new DelegateCommand<object>(OpenFolderCommandAction);
             activeType = ApplicationService.AppSettings.ViewType;
             UpdateView(this.ActiveViewType);
@@ -179,6 +191,7 @@ namespace VirtualizingListView.Pages.ViewModel
         private void NavigationService_LoadCompleted(object sender, NavigationEventArgs e)
         {
             VideoFolder videoFolder = (VideoFolder)e.ExtraData;
+            FileWatceherSubscription(videoFolder);
             HamburgerMenuIcon = new HamburgerMenuIconItem()
             {
                 Label = videoFolder.Name,
@@ -186,17 +199,36 @@ namespace VirtualizingListView.Pages.ViewModel
             };
             this.IsLoading = true;
 
+            AsynLoadData(videoFolder, String.Format("Updating files in {0}", videoFolder.Name));
+
+            NavigatorService.NavigationService.LoadCompleted -= NavigationService_LoadCompleted;
+        }
+
+        protected void FileWatceherSubscription(VideoFolder videoFolder)
+        {
+            videoFolder.OnFileWatcherUpdate -= VideoFolder_OnFileWatcherUpdate;
+            videoFolder.OnFileWatcherUpdate += VideoFolder_OnFileWatcherUpdate;
+        }
+
+        private void VideoFolder_OnFileWatcherUpdate(object sender, EventArgs e)
+        {
+            this.RaisePropertyChanged(() => this.VideoItemViewCollection);
+            UpdateViewCollection();
+        }
+
+        protected void AsynLoadData(VideoFolder videoFolder,string message,Action callback = null)
+        {
             BackgroundService.Execute(() =>
             {
                 Thread.Sleep(1000);
                 GetVideoFolder(videoFolder);
-            }, String.Format("Updating files in {0}", videoFolder.Name), () =>
+            }, message, () =>
             {
                 this.IsLoading = false;
                 OnDataLoaded(videoFolder);
+                if (callback != null)
+                    callback();
             });
-
-            NavigatorService.NavigationService.LoadCompleted -= NavigationService_LoadCompleted;
         }
 
         private bool TemplateToggleAction()
@@ -225,10 +257,10 @@ namespace VirtualizingListView.Pages.ViewModel
             this.CurrentVideoFolder = result;
         }
 
-        private VideoFolder GetVideoFolder(VideoFolder obj)
+        protected VideoFolder GetVideoFolder(VideoFolder obj)
         {
             if (obj.HasCompleteLoad) return obj;
-            return FileLoader.LoadParentFiles(obj, ActiveSortType);
+            return FileLoader.InitGetAllFiles(obj);
         }
 
         private void UpdateViewCollection()

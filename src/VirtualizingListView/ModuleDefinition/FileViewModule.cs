@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using VirtualizingListView.Pages.ViewModel;
 using VirtualizingListView.View;
 
 namespace VirtualizingListView.ModuleDefinition
@@ -30,6 +31,7 @@ namespace VirtualizingListView.ModuleDefinition
         private void RegisterServices()
         {
             pageEventHost = new PageEventHost();
+            unityContainer.Resolve<IShellWindowService>().RegisterMenu(new MyVideoPageMenu());
         }
 
         private void RegisterViews()

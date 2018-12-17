@@ -22,6 +22,7 @@
                             </Style>
                         </ResourceDictionary>
                     </ControlTemplate.Resources>
+
                     <DockPanel x:Name="mainGrid" Background="{TemplateBinding Background}">
                         <ToggleButton x:Name="menuIcon" HorizontalAlignment="Left" VerticalAlignment="Top" DockPanel.Dock="Top"
                                       Height="40" Width="50" 
@@ -34,6 +35,7 @@
                                  Margin="0,5,0,0" VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
                         <ContentPresenter x:Name="MenuHiddenContent" Content="{TemplateBinding SubMenuHiddenContent}"/>
                     </DockPanel>
+
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsOpen" Value="False">
                             <Setter TargetName="MenuHiddenContent" Property="Visibility" Value="Collapsed"/>

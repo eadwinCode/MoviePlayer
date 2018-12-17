@@ -21,6 +21,7 @@ namespace Movies.MoviesInterfaces
         void Execute();
         void Execute(ITask task);
         ITask Execute(Action action, string message = null, Action callback = null);
+        event EventHandler OnTasksEnded;
         //Task CreateTask<T> (Action<T> action, string message, Action callback);
     }
     public interface ITask
@@ -81,11 +82,14 @@ namespace Movies.MoviesInterfaces
     public interface IFileLoader
     {
         bool HasDataSource { get; }
+        IDispatcherService DispatcherService { get; }
         IDictionary<string, VideoFolder> GetAllFiles(ObservableCollection<VideoFolder> itemsSource);
+        IDictionary<string, VideoFolder> GetAllFiles(VideoFolder videoFolder);
         VideoFolder GetExistingVideoFolderIfAny(VideoFolder videoFolder);
         VideoFolder GetFolderItems(VideoFolder item);
         void GetRootDetails(SortType sorttype, ref VideoFolder ParentDir);
         void InitGetAllFiles(ObservableCollection<VideoFolder> itemsSource);
+        VideoFolder InitGetAllFiles(VideoFolder videoFolder);
         VideoFolderChild LoadChildrenFiles(DirectoryInfo directoryInfo, bool newpath = false);
         ObservableCollection<VideoFolder> LoadChildrenFiles(VideoFolder Parentdir, bool newpath = false);
         ObservableCollection<VideoFolder> LoadChildrenFiles(VideoFolder Parentdir, IList<FileInfo> files, bool newpath = false);

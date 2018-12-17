@@ -121,7 +121,7 @@ namespace Movies.Models.Interfaces
 
         event OnFileNameChangedHandler OnFileNameChangedChanged;
         string ToString();
-        void UpdateProperties();
+        void RefreshFileInfo();
     }
 
     public interface IMediaPlayabeLastSeen

@@ -84,8 +84,13 @@ namespace LocalVideoFiles.ViewModels
 
         public void InitDataSource()
         {
-            if(!MovieDataSource.HasDataSource && !MovieDataSource.IsLoadingData)
+            if (!IsAllDataLoaded)
+            {
                 MovieDataSource.InitFileLoading();
+                IsAllDataLoaded = true;
+            }
+            //if(!MovieDataSource.HasDataSource && !MovieDataSource.IsLoadingData)
+                
         }
 
         private void OpenFolderCommandAction(VideoFolder obj)

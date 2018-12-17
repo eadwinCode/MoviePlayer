@@ -79,7 +79,7 @@ namespace Movies.StatusService.Services
             if (!messageCollection.ContainsKey(statusMessage.Id))
                 MessageCollection.Add(statusMessage.Id, statusMessage);
 
-            OnMessagePropertyChange();
+            OnMessagePropertyChange(statusMessage);
         }
         
         public void DestroyMessage(IStatusMessage statusMessage)
@@ -89,15 +89,24 @@ namespace Movies.StatusService.Services
                 if (messageCollection.ContainsKey(statusMessage.Id))
                     MessageCollection.Remove(statusMessage.Id);
 
-                OnMessagePropertyChange();
+                OnMessageDeletedNotifyPropertyChanged(statusMessage);
             }
         }
+        
 
-        private void OnMessagePropertyChange()
+        private void OnMessagePropertyChange(IStatusMessage statusMessage)
         {
             if (OnMessageCollectionChanged != null)
-                OnMessageCollectionChanged.Invoke(this, EventArgs.Empty);
-            EventManager.GetEvent<StatusMessageChangedEventToken>().Publish(true);
+                OnMessageCollectionChanged.Invoke(statusMessage, EventArgs.Empty);
+            EventManager.GetEvent<StatusMessageCreatedEventToken>().Publish(statusMessage);
+        }
+
+        private void OnMessageDeletedNotifyPropertyChanged(IStatusMessage statusMessage)
+        {
+            if (OnMessageCollectionChanged != null)
+                OnMessageCollectionChanged.Invoke(statusMessage, EventArgs.Empty);
+
+            EventManager.GetEvent<StatusMessageDeletedEventToken>().Publish(statusMessage);
         }
 
         public void DestroyMessage(IStatusMessage statusMessage, DestroyTime UsePredefinedTime)

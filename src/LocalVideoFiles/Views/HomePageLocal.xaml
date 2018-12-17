@@ -49,14 +49,14 @@
             <Button.Style>
                 <Style TargetType="{x:Type Button}" BasedOn="{StaticResource normbtn}">
                     <Setter Property="Background" Value="{DynamicResource Theme.HighlightColor}"/>
-                    <Setter Property="BorderThickness" Value="1"/>
-                    <Setter Property="BorderBrush" Value="{DynamicResource Theme.AddFolderHighlight}"/>
+                    <Setter Property="BorderThickness" Value="2"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource Theme.IsActive}"/>
                     <Setter Property="ToolTip" Value="{x:Null}"/>
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type Button}">
                                 <Border BorderThickness="{TemplateBinding BorderThickness}"                                
-                                                        BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="3"
+                                                        BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="4"
                                                         x:Name="wrapper" Background="{TemplateBinding Background}" 
                                                         Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
                                     <TextBlock  Text="+" x:Name="content" Opacity=".7"

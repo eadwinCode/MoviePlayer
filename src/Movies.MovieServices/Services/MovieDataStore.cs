@@ -20,6 +20,7 @@ namespace Movies.MovieServices.Services
     {
         IApplicationService ApplicationService;
         IFileLoader FileLoader;
+        readonly IBackgroundService BackgroundService;
         bool isLoadingData;
         private IDictionary<string, VideoFolder> data;
         private ObservableCollection<VideoFolder> allfolders;
@@ -72,10 +73,13 @@ namespace Movies.MovieServices.Services
             get { return isLoadingData; }
         }
 
-        public MovieDataStore(IApplicationService applicationService, IFileLoader fileLoader)
+        public MovieDataStore(IApplicationService applicationService, 
+            IFileLoader fileLoader, IBackgroundService backgroundService)
         {
             this.ApplicationService = applicationService;
             this.FileLoader = fileLoader;
+            this.BackgroundService = backgroundService;
+            data = new Dictionary<string, VideoFolder>();
         }
 
         public void InitFileLoading()
@@ -100,20 +104,42 @@ namespace Movies.MovieServices.Services
         private void StartFileLoading()
         {
             if (AllFoldersList != null && AllFoldersList.Count == 0) return;
-            var task = Task.Factory.StartNew(() =>
-               {
-                   isLoadingData = true;
-                   LoaderCompletion.FinishCollectionLoadProcess(AllFoldersList, true);
-                   FileLoader.InitGetAllFiles(AllFoldersList);
+            isLoadingData = true;
 
-               }).ContinueWith(t =>
-               {
-                   isLoadingData = false;
-                   CommandManager.InvalidateRequerySuggested();
-                   FolderItemChange();
-                   ResetAllFolderListIsloadingFlag();
-               }, TaskScheduler.FromCurrentSynchronizationContext());
+            BackgroundService.Execute(() =>
+            {
+                LoaderCompletion.FinishCollectionLoadProcess(AllFoldersList, true);
+            }, "", () => {
+                foreach (var item in AllFoldersList)
+                {
+                    BackgroundService.Execute(() =>
+                    {
+                        var movies = FileLoader.GetAllFiles(item);
+                        foreach (var movie in movies)
+                        {
+                            FileLoader.DispatcherService.InvokeDispatchAction(() => {
+                                lock (_lock)
+                                {
+                                    if (!this.data.ContainsKey(movie.Key))
+                                        this.data.Add(movie);
+                                }
+                            });
+                        }
+                    });
+                }
+                BackgroundService.OnTasksEnded += BackgroundService_OnTasksEnded;
 
+            });
+
+        }
+
+        private void BackgroundService_OnTasksEnded(object sender, EventArgs e)
+        {
+            isLoadingData = false;
+            CommandManager.InvalidateRequerySuggested();
+            FolderItemChange();
+            ResetAllFolderListIsloadingFlag();
+            BackgroundService.OnTasksEnded -= BackgroundService_OnTasksEnded;
         }
 
         private void ResetAllFolderListIsloadingFlag()
