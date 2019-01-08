@@ -28,7 +28,7 @@ namespace VirtualizingListView
 
         public void Execute(object parameter)
         {
-            var videofolder = parameter as VideoFolder;
+            var videofolder = parameter as MediaFolder;
             if (videofolder.Directory.Exists)
             {
                 //CollectionViewModel.Instance.OnVideoItemSelected(videofolder);

@@ -62,8 +62,8 @@ namespace RemovableStorageFiles.ViewModels
             }
         }
 
-        private ObservableCollection<VideoFolder> usbdrives;
-        public ObservableCollection<VideoFolder> UsbDrives
+        private ObservableCollection<MediaFolder> usbdrives;
+        public ObservableCollection<MediaFolder> UsbDrives
         {
             get { return usbdrives; }
             set { usbdrives = value; RaisePropertyChanged(() => this.UsbDrives); }
@@ -87,17 +87,17 @@ namespace RemovableStorageFiles.ViewModels
         private void LoadExternalDrives()
         {
             var drives = DriveInfo.GetDrives();
-            ObservableCollection<VideoFolder> folderlist = new ObservableCollection<VideoFolder>();
+            ObservableCollection<MediaFolder> folderlist = new ObservableCollection<MediaFolder>();
 
             foreach (var drive in drives)
             {
                 if (drive.DriveType == DriveType.Fixed)
                 {
                     if(drive.Name != "C:\\")
-                        folderlist.Add(new VideoFolder(drive.RootDirectory.FullName));
+                        folderlist.Add(new MediaFolder(drive.RootDirectory.FullName));
                 }
                 if(drive.DriveType == DriveType.Removable)
-                    folderlist.Add(new VideoFolder(drive.RootDirectory.FullName));
+                    folderlist.Add(new MediaFolder(drive.RootDirectory.FullName));
             }
             RemoveNonExstingFolders();
             MergeChanges(folderlist);
@@ -105,7 +105,7 @@ namespace RemovableStorageFiles.ViewModels
 
         private void OpenFolderCommandAction(object obj)
         {
-            if ((obj as VideoFolder).Directory.Exists)
+            if ((obj as MediaFolder).Directory.Exists)
             {
                 IEventManager.GetEvent<NavigateFolderItemToken>().Publish(obj);
             }
@@ -118,7 +118,7 @@ namespace RemovableStorageFiles.ViewModels
         private void RemoveNonExstingFolders()
         {
             if (UsbDrives == null) return;
-            IList<VideoFolder> usbdrives = new List<VideoFolder>(UsbDrives);
+            IList<MediaFolder> usbdrives = new List<MediaFolder>(UsbDrives);
             foreach (var item in usbdrives)
             {
                 if (!item.Exists)
@@ -126,14 +126,14 @@ namespace RemovableStorageFiles.ViewModels
             }
         }
 
-        private void MergeChanges(ObservableCollection<VideoFolder> folderlist)
+        private void MergeChanges(ObservableCollection<MediaFolder> folderlist)
         {
             if (UsbDrives == null || folderlist.Count == 0)
-                UsbDrives = new ObservableCollection<VideoFolder>();
+                UsbDrives = new ObservableCollection<MediaFolder>();
 
             foreach (var item in folderlist)
             {
-                VideoFolder videoFolder = item;
+                MediaFolder videoFolder = item;
                 if (UsbDrives.Contains(videoFolder)) continue;
                 var existingfolder = MovieDataStore.GetExistingCopy(videoFolder);
                 if(existingfolder != null)
@@ -180,11 +180,11 @@ namespace RemovableStorageFiles.ViewModels
             });
         }
 
-        IDataSource<VideoFolder> MovieDataStore
+        IDataSource<MediaFolder> MovieDataStore
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<IDataSource<VideoFolder>>();
+                return ServiceLocator.Current.GetInstance<IDataSource<MediaFolder>>();
             }
         }
 

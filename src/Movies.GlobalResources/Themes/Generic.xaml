@@ -493,7 +493,7 @@
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <VirtualizingStackPanel VirtualizingStackPanel.VirtualizationMode="Recycling" 
+                    <VirtualizingStackPanel VirtualizingStackPanel.VirtualizationMode="Standard" 
                                             VirtualizingStackPanel.IsVirtualizing="True" Margin="0,2,0,2" Orientation="Vertical"  />
                 </ItemsPanelTemplate>
             </Setter.Value>

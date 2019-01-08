@@ -17,5 +17,6 @@ namespace PresentationExtension.CommonEvent
     public class PlaylistCollectionChangedEventToken : EventToken<object> { }
     public class IsPlaylistManagerBusy : EventToken<bool> { }
     public class IsFlyoutBusy : EventToken<bool> { }
+    public class FullScreenNotice : EventToken<bool> { }
 
 }

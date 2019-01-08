@@ -27,12 +27,12 @@ namespace Movies.MoviesInterfaces
     {
         SortType ActiveSortType { get; set; }
         ViewType ActiveViewType { get; set; }
-        VideoFolder CurrentVideoFolder { get; set; }
+        MediaFolder CurrentVideoFolder { get; set; }
         HamburgerMenuIconItem HamburgerMenuIcon { get; set; }
         bool IsLoading { get; set; }
         Style ListViewStyle { get; set; }
         DataTemplateSelector MyTemplateChange { get; }
-        ObservableCollection<VideoFolder> VideoItemViewCollection { get; }
+        ObservableCollection<MediaFolder> VideoItemViewCollection { get; }
     }
 
     public interface IHomePlaylist
@@ -122,14 +122,14 @@ namespace Movies.MoviesInterfaces
 
     public interface IDataSource<T>
     {
-        IDictionary<string, VideoFolder> DataSource { get; set; }
+        IDictionary<string, MediaFolder> DataSource { get; set; }
         bool HasDataSource { get; }
         ObservableCollection<T> AllFoldersList { get; set; }
         IList<T> Data { get; }
         bool IsLoadingData { get; }
 
-        VideoFolder GetExistingCopy(VideoFolder videoFolder);
-        VideoFolder GetExistingCopy<T>(VideoFolder videoFolder, IList<T> enumerable) where T : VideoFolder;
+        MediaFolder GetExistingCopy(MediaFolder videoFolder);
+        MediaFolder GetExistingCopy<T>(MediaFolder videoFolder, IList<T> enumerable) where T : MediaFolder;
         void LoadAllFolders(ObservableCollection<MovieFolderModel> removedFolder = null);
         void InitFileLoading();
     }
@@ -152,6 +152,8 @@ namespace Movies.MoviesInterfaces
         void OnWindowsLoaded();
         void RegisterMenu(object flyoutSubMenuItem);
         void RegisterMenuAt(object flyoutSubMenuItem,int Position);
+        void SetAdditionalStatusItem(object view);
+        void ClearAdditionalStatusItem();
     }
    
 

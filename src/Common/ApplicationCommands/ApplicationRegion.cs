@@ -15,6 +15,7 @@ namespace Common.ApplicationCommands
         public const string SHELLRADIOREGION = "ShellRadioRegion"; 
         public const string SHELLTHEMEREGION = "ShellThemeRegion"; 
         public const string SHELLWINDOWREGION = "ShellWindowRegion";
+        public const string STATUSCONTROLREGION = "StatusControlRegion";
     }
     public static class ApplicationConstants
     {

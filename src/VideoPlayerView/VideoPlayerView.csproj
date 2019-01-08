@@ -85,8 +85,11 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomControl1.cs" />
     <Compile Include="FilePlayer\PlayFile.cs" />
+    <Compile Include="interfaces\IPlayFileExtended.cs" />
+    <Compile Include="MediaPlayerInfoView.xaml.cs">
+      <DependentUpon>MediaPlayerInfoView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MediaPlayerWindowView.xaml.cs">
       <DependentUpon>MediaPlayerWindowView.xaml</DependentUpon>
     </Compile>
@@ -111,6 +114,9 @@
     <Compile Include="Util\NativeMethods.cs" />
     <Compile Include="Util\TrackListConverter.cs" />
     <Compile Include="MediaPlayerWindowViewModel.cs" />
+    <Compile Include="View\DefaultPlayerControl.xaml.cs">
+      <DependentUpon>DefaultPlayerControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WindowsMediaPlayControl.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,6 +137,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="MediaPlayerInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MediaPlayerWindowView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -142,6 +152,10 @@
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\DefaultPlayerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -164,6 +178,10 @@
     <ProjectReference Include="..\Movies.Models\Movies.Models.csproj">
       <Project>{12ce1e5d-1e2d-4fe8-8084-b5e334cd54cd}</Project>
       <Name>Movies.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PresentationExtension\PresentationExtension.csproj">
+      <Project>{b622321d-0980-42df-9165-79341bf7e64e}</Project>
+      <Name>PresentationExtension</Name>
     </ProjectReference>
     <ProjectReference Include="..\ProjectInterfaces\Movies.MoviesInterfaces.csproj">
       <Project>{2d97da0a-18be-48a1-b4fc-78b0b3ceb6c8}</Project>

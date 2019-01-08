@@ -34,26 +34,28 @@
                         <DockPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
                             <ContentControl x:Name="PlaylistRegion" HorizontalAlignment="Right" VerticalAlignment="Bottom"
                                             Grid.Column="1" DockPanel.Dock="Top" Margin="10,0,5,0" Visibility="Visible"/>
-                            <ContentControl x:Name="MediaControlRegion" 
-                                                VerticalAlignment="Bottom"/>
+                            <DockPanel Background="#FFD6DBE9" DockPanel.Dock="Top" Margin="4" 
+                                   Visibility="{Binding MovieControl.MediaDetailProps.IsLastSeenEnabled,
+                        RelativeSource={RelativeSource AncestorType=local:MediaPlayerElement},
+                        Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <TextBlock Foreground="Black" FontSize="14" Opacity=".8" 
+                                       Text="{Binding MovieControl.MediaDetailProps.LastSeenTextInfo,
+                                RelativeSource={RelativeSource AncestorType=local:MediaPlayerElement},
+                                Converter={StaticResource TextContexter},ConverterParameter=LastSeenText}"
+                                       Margin="2" Padding="5" />
+                                    <Button Content="YES" Margin="3" Padding="3" Foreground="White" 
+                                    DockPanel.Dock="Right" Command="{x:Static local:MovieControl.SetLastSeenCommand}" 
+                                    Background="#FF364E6F" Style="{StaticResource lastSeenBtnStyle}">
+                                    </Button>
+                                    <Button Content="NO" Margin="3" DockPanel.Dock="Right" 
+                                    Foreground="White" Command="{x:Static local:MovieControl.CloseLastSeenCommand}" 
+                                    Background="#FF364E6F" Style="{StaticResource lastSeenBtnStyle}">
+                                    </Button>
+                                </StackPanel>
+                            </DockPanel>
+                            <ContentControl x:Name="MediaControlRegion" VerticalAlignment="Bottom"/>
                         </DockPanel>
-                        <!--<Button DockPanel.Dock="Right"  Width="40" Height="30"  
-                                            Visibility="{Binding IsCloseButtonVisible, 
-                                        RelativeSource={RelativeSource AncestorType=local:MediaPlayerElement},Converter={StaticResource BooleanToVisibilityConverter}}"  
-                                            HorizontalAlignment="Right" ToolTip="Close"   VerticalAlignment="Top" 
-                                           >
-                                        <Button.Style>
-                                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource CloseStyle}">
-                                                <Setter Property="Background" Value="Transparent"/>
-                                                <Setter Property="Foreground" Value="White"/>
-                                                <Style.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="true">
-                                                        <Setter Property="Background" Value="Red"/>
-                                                    </Trigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Button.Style>
-                                    </Button>-->
                     </Grid>
                 </DockPanel>
             </DockPanel>
@@ -78,11 +80,34 @@
             <DockPanel>
                 <DockPanel LastChildFill="True" Grid.Column="0">
                     <DockPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
-                            <ContentControl x:Name="PlaylistRegion" Visibility="Collapsed" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Grid.Column="1" 
-                                            DockPanel.Dock="Top" Margin="10,0,5,0" />
-                            <ContentControl x:Name="MediaControlRegion" 
-                                                VerticalAlignment="Bottom"/>
+                        <ContentControl x:Name="PlaylistRegion" Visibility="Collapsed" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Grid.Column="1" 
+                                        DockPanel.Dock="Top" Margin="10,0,5,0" />
+
+
+                        <DockPanel Background="#FFD6DBE9" DockPanel.Dock="Top" Margin="4" 
+                               Visibility="{Binding MovieControl.MediaDetailProps.IsLastSeenEnabled,
+                        RelativeSource={RelativeSource AncestorType=local:MediaPlayerElement},
+                        Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <TextBlock Foreground="Black" FontSize="12" Opacity=".8" 
+                                       Text="{Binding MovieControl.MediaDetailProps.LastSeenTextInfo,
+                                RelativeSource={RelativeSource AncestorType=local:MediaPlayerElement},
+                                Converter={StaticResource TextContexter},ConverterParameter=LastSeenText}"
+                                       Margin="2" Padding="5" />
+                                <Button Content="YES" Margin="3" Padding="3" Foreground="White" FontSize="12" Height="20" Width="25"
+                                    DockPanel.Dock="Right" Command="{x:Static local:MovieControl.SetLastSeenCommand}" 
+                                    Background="#FF364E6F" Style="{StaticResource lastSeenBtnStyle}">
+                                </Button>
+                                <Button Content="NO" Margin="3" DockPanel.Dock="Right" FontSize="12" Height="20" Width="25"
+                                    Foreground="White" Command="{x:Static local:MovieControl.CloseLastSeenCommand}" 
+                                    Background="#FF364E6F" Style="{StaticResource lastSeenBtnStyle}">
+                                </Button>
+                            </StackPanel>
                         </DockPanel>
+
+
+                        <ContentControl x:Name="MediaControlRegion" VerticalAlignment="Bottom"/>
+                    </DockPanel>
                         <ContentControl x:Name="MediaElementRegion" 
                                                 Grid.Column="1" AllowDrop="True"  
                                                 Margin="0,0,0,0" />

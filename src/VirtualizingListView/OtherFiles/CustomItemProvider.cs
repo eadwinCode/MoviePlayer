@@ -21,10 +21,10 @@ using VirtualizingListView.Pages.ViewModel;
 
 namespace VirtualizingListView.OtherFiles
 {
-    public class CustomItemProvider :Control, IItemsProvider<VideoFolder>
+    public class CustomItemProvider :Control, IItemsProvider<MediaFolder>
     {
         //int startindex, Endindex;
-        private ObservableCollection<VideoFolder> _videofolderchild
+        private ObservableCollection<MediaFolder> _videofolderchild
         { get { return FilePageViewModel.CurrentVideoFolder.OtherFiles; } }  
         private readonly int _count;
         private readonly int _fetchDelay;
@@ -66,7 +66,7 @@ namespace VirtualizingListView.OtherFiles
         {
             if ((ViewType)sender == ViewType.Large)
             {
-                object view = VideoItemViewCollection<VideoFolder>.GetCurrentViewItem();
+                object view = VideoItemViewCollection<MediaFolder>.GetCurrentViewItem();
                this.CompleteLoad(view);
             }
         }
@@ -106,7 +106,7 @@ namespace VirtualizingListView.OtherFiles
             // this.Cursor = Cursors.Wait;
             //if(CollectionVM.ViewType == ViewType.Large)
             //Thread.Sleep(100);
-            var list = (ObservableCollection<VideoFolder>)e.Argument;
+            var list = (ObservableCollection<MediaFolder>)e.Argument;
 
             for (int i = 0; i < list.Count(); i++)
             {
@@ -130,14 +130,14 @@ namespace VirtualizingListView.OtherFiles
             }
         }
 
-        private void SearchSubtitleFile(VideoFolder item)
+        private void SearchSubtitleFile(MediaFolder item)
         {
             if (item.FileType == GroupCatergory.Grouped) return;
-            if ((item as VideoFolderChild).HasSearchSubtitleFile) return;
+            if ((item as MediaFile).HasSearchSubtitleFile) return;
 
             Dispatcher.BeginInvoke(new Action(delegate
             {
-                var itemchild = (VideoFolderChild)item;
+                var itemchild = (MediaFile)item;
                 if (files == null)
                     //files = FileExplorerCommonHelper.GetSubtitleFiles(FilePageViewModel.CurrentVideoFolder.Directory);
 
@@ -145,7 +145,7 @@ namespace VirtualizingListView.OtherFiles
             }),DispatcherPriority.Background);
         }
 
-        private VideoFolder GetItems(VideoFolder item)
+        private MediaFolder GetItems(MediaFolder item)
         {
             //var s = FileLoader.FileLoaderInstance.LoadParentFiles(item, item.SortedBy);
             //foreach (var vfile in item.OtherFiles)
@@ -158,7 +158,7 @@ namespace VirtualizingListView.OtherFiles
             return null;
         }
 
-        private void LoadOtherFileDetails(VideoFolder item)
+        private void LoadOtherFileDetails(MediaFolder item)
         {
             Dispatcher.Invoke(new Action(delegate
             {
@@ -171,7 +171,7 @@ namespace VirtualizingListView.OtherFiles
                 }
                 else
                 {
-                    var itemchild = (VideoFolderChild)item;
+                    var itemchild = (MediaFile)item;
                     Task.Factory.StartNew(() => GetThumbnail(item.FilePath))
                         .ContinueWith(t => itemchild.Thumbnail = t.Result, TaskScheduler.FromCurrentSynchronizationContext());
                 }
@@ -192,7 +192,7 @@ namespace VirtualizingListView.OtherFiles
             return imageSource;
         }
 
-        private ObservableCollection<string> GetSubtitlePath(VideoFolder item)
+        private ObservableCollection<string> GetSubtitlePath(MediaFolder item)
         {
             //return FileExplorerCommonHelper.MatchSubToMedia(item.Name, files);
             return null;
@@ -216,13 +216,13 @@ namespace VirtualizingListView.OtherFiles
         /// <param name="startIndex">The start index.</param>
         /// <param name="count">The number of items to fetch.</param>
         /// <returns></returns>
-        public IList<VideoFolder> FetchRange(int startIndex, int count)
+        public IList<MediaFolder> FetchRange(int startIndex, int count)
         {
             Trace.WriteLine("FetchRange: " + startIndex + "," + count);
             count = GetPossibleNextItemsRange(startIndex, count);
             //Thread.Sleep(_fetchDelay);
 
-            ObservableCollection<VideoFolder> list = new ObservableCollection<VideoFolder>();
+            ObservableCollection<MediaFolder> list = new ObservableCollection<MediaFolder>();
 
             for (int i = startIndex; i < startIndex + count; i++)
             {

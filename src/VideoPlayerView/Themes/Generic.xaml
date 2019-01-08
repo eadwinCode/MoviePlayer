@@ -9,21 +9,8 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/MovieHub.MediaPlayerElement;component/Themes/Generic.xaml"/>
     </ResourceDictionary.MergedDictionaries>
-    <Style TargetType="{x:Type local:CustomControl1}">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:CustomControl1}">
-                    <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
 
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
 
-    
     <SolidColorBrush x:Key="WindowColor" Color="Red"/>
     <SolidColorBrush x:Key="WindowBackColor" Color="#FF191919"/>
     <SolidColorBrush x:Key="WindowForeColor" Color="#FF9C9797"/>

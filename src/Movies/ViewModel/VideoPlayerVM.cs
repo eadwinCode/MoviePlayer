@@ -33,6 +33,14 @@ namespace RealMediaControl.ViewModel
             get { return flyoutsubmenuitem; }
         }
 
+        private object _statusadditioninfo;
+
+        public object StatusAdditionInfo
+        {
+            get { return _statusadditioninfo; }
+            private set { _statusadditioninfo = value; RaisePropertyChanged(() => this.StatusAdditionInfo); }
+        }
+
 
         public ShellWindowService(IApplicationService applicationService, IRegionManager regionManager)
         {
@@ -114,6 +122,16 @@ namespace RealMediaControl.ViewModel
                     index = Position - 1;
                 flyoutsubmenuitem.Insert(index, item);
             }
+        }
+
+        public void SetAdditionalStatusItem(object view)
+        {
+            this.StatusAdditionInfo = view;
+        }
+
+        public void ClearAdditionalStatusItem()
+        {
+            this.StatusAdditionInfo = null;
         }
 
         public MetroWindow ShellWindow

@@ -20,7 +20,7 @@ namespace Movies.MoviesInterfaces
     {
         bool CanAnimate { get; set; }
         DelegateCommand CloseLastSeenCommand { get; }
-        VideoFolderChild CurrentVideoItem { get; }
+        MediaFile CurrentVideoItem { get; }
         ExecuteCommand CurrentVideoItemChangedEvent { get; set; }
         Slider DragPositionSlider { get; }
         bool HaslastSeen { get; set; }
@@ -54,7 +54,7 @@ namespace Movies.MoviesInterfaces
         double GetMousePointer(Control obj);
         IControllerView GetControllerView();
         void CloseMediaPlayer(bool wndClose = false);
-        void GetVideoItem(VideoFolderChild obj, bool frompl = false);
+        void GetVideoItem(MediaFile obj, bool frompl = false);
         void MainControl_MouseLeave(object sender, MouseEventArgs e);
         void MediaController_Loaded(object sender, RoutedEventArgs e);
         void MediaPlayStopAction();

@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace MovieHub.MediaPlayerElement.CustomControls
 {
-    internal class MediaSlider : Slider
+    public class MediaSlider : Slider
     {
         public event DragStartedEventHandler ThumbDragStarted;
         public event DragDeltaEventHandler ThumbDragDelta;

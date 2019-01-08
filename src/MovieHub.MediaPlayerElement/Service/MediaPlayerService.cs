@@ -328,9 +328,22 @@ namespace MovieHub.MediaPlayerElement.Service
 
         public bool IsDisposed { get { return _isdisposed; } }
 
-        public bool CanPlay { get { return _vlcPlayer.VlcMediaPlayer.CanPlay; } }
+        public bool CanPlay { get {
+                if (IsDisposed) return false;
+                if (_vlcPlayer.VlcMediaPlayer == null){
+                    return false;
+                }
+                return _vlcPlayer.VlcMediaPlayer.CanPlay;
+            }
+        }
 
-        public bool CanPause { get { return _vlcPlayer.VlcMediaPlayer.HasVideo; } }
+        public bool CanPause { get {
+                if (IsDisposed) return false;
+                if (_vlcPlayer.VlcMediaPlayer == null)
+                {
+                    return false;
+                }
+                return _vlcPlayer.VlcMediaPlayer.HasVideo; } }
         
         public float Rate { get { return _vlcPlayer.Rate; } }
 

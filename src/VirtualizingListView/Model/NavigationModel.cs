@@ -10,6 +10,6 @@ namespace VirtualizingListView.Model
     public class NavigationModel
     {
         public DirectoryInfo Dir { get; set; }
-        public VideoFolder VideoData { get; set; }
+        public MediaFolder VideoData { get; set; }
     }
 }

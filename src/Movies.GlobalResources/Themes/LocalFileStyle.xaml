@@ -460,6 +460,7 @@
                             Value="{StaticResource SliderThumb.Pressed.Border}"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Opacity" Value=".5"/>
                 <Setter Property="Fill" TargetName="grip" 
                             Value="{StaticResource SliderThumb.Disabled.Background}"/>
                 <Setter Property="Stroke" TargetName="grip" 

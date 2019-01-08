@@ -32,7 +32,7 @@
     <DockPanel LastChildFill="True">
         <Grid DockPanel.Dock="Top"  Height="50">
             <TextBlock Foreground="{DynamicResource Theme.Foreground}"  
-                       FontSize="20" Padding="10" FontWeight="Medium" Text="Playlist"/>
+                       FontSize="20" Padding="10" FontWeight="Medium" Text="PLAYLIST"/>
         </Grid>
         <ListView Margin="10" BorderThickness="0"
                   ItemsSource="{Binding PlayListCollection}"
@@ -40,7 +40,7 @@
                   ScrollViewer.VerticalScrollBarVisibility="Auto" 
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   ItemsPanel="{StaticResource VideoItemsPanel}"
-                  ItemContainerStyle="{StaticResource HomePageListViewContainerStyle}"
+                  ItemContainerStyle="{StaticResource CustomContainerStyle}"
                   ItemTemplate="{DynamicResource PlistlistViewTemplate}"
                   Background="Transparent">
         </ListView>

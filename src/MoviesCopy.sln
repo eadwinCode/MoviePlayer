@@ -49,6 +49,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieHub.MediaPlayerElement
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movies.MovieServices", "Movies.MovieServices\Movies.MovieServices.csproj", "{750FEF56-0FBF-4FD9-9FA1-21CF6F401F81}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Deployment", "Deployment\Deployment.vdproj", "{ABFBDCA9-E8BB-43F9-B5BF-FD6B5325558C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -319,6 +321,18 @@ Global
 		{750FEF56-0FBF-4FD9-9FA1-21CF6F401F81}.Release|Any CPU.Build.0 = Release|Any CPU
 		{750FEF56-0FBF-4FD9-9FA1-21CF6F401F81}.Release|x64.ActiveCfg = Release|Any CPU
 		{750FEF56-0FBF-4FD9-9FA1-21CF6F401F81}.Release|x86.ActiveCfg = Release|Any CPU
+		{ABFBDCA9-E8BB-43F9-B5BF-FD6B5325558C}.Debug|Any CPU.ActiveCfg = Debug
+		{ABFBDCA9-E8BB-43F9-B5BF-FD6B5325558C}.Debug|Any CPU.Build.0 = Debug
+		{ABFBDCA9-E8BB-43F9-B5BF-FD6B5325558C}.Debug|x64.ActiveCfg = Debug
+		{ABFBDCA9-E8BB-43F9-B5BF-FD6B5325558C}.Debug|x64.Build.0 = Debug
+		{ABFBDCA9-E8BB-43F9-B5BF-FD6B5325558C}.Debug|x86.ActiveCfg = Debug
+		{ABFBDCA9-E8BB-43F9-B5BF-FD6B5325558C}.Debug|x86.Build.0 = Debug
+		{ABFBDCA9-E8BB-43F9-B5BF-FD6B5325558C}.Release|Any CPU.ActiveCfg = Release
+		{ABFBDCA9-E8BB-43F9-B5BF-FD6B5325558C}.Release|Any CPU.Build.0 = Release
+		{ABFBDCA9-E8BB-43F9-B5BF-FD6B5325558C}.Release|x64.ActiveCfg = Release
+		{ABFBDCA9-E8BB-43F9-B5BF-FD6B5325558C}.Release|x64.Build.0 = Release
+		{ABFBDCA9-E8BB-43F9-B5BF-FD6B5325558C}.Release|x86.ActiveCfg = Release
+		{ABFBDCA9-E8BB-43F9-B5BF-FD6B5325558C}.Release|x86.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

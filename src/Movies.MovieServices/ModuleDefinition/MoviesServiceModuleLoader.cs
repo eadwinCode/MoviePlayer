@@ -39,7 +39,7 @@ namespace Movies.MovieServices.ModuleDefinition
             this.unityContainer.RegisterType<IFileLoader, FileLoader>(new ContainerControlledLifetimeManager());
             this.unityContainer.RegisterType<IFileExplorerCommonHelper, FileExplorerCommonHelper>();
             this.unityContainer.RegisterType<IFileLoaderCompletion, FileLoaderCompletion>();
-            this.unityContainer.RegisterType<IDataSource<VideoFolder>,MovieDataStore>
+            this.unityContainer.RegisterType<IDataSource<MediaFolder>,MovieDataStore>
                 (new ContainerControlledLifetimeManager());
             this.unityContainer.RegisterType<IDispatcherService, DispatcherService>(new ContainerControlledLifetimeManager());
             this.unityContainer.RegisterType<IOpenFileCaller, OpenFileCaller>();

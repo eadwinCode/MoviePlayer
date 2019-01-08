@@ -1,19 +1,16 @@
 using MediaControl;
-using System;
-using System.Windows;
 using Microsoft.Practices.ServiceLocation;
-using System.IO;
+using MovieHub.MediaPlayerElement;
+using Movies.Models.Interfaces;
+using Movies.Models.Model;
+using Movies.MoviesInterfaces;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Movies.MoviesInterfaces;
-using Movies.Models.Model;
-using Movies.Models.Interfaces;
-using System.Windows.Controls;
-using System.Collections.Generic;
-using System.Windows.Threading;
-using MovieHub.MediaPlayerElement.Interfaces;
-using System.Collections.ObjectModel;
-using VideoPlayerView;
+using System.Windows;
+using VideoPlayerView.interfaces;
+using VideoPlayerView.View;
 
 namespace VideoPlayerView.FilePlayer
 {
@@ -24,7 +21,8 @@ namespace VideoPlayerView.FilePlayer
         private bool HasScubscribed;
         private bool isplayingMedia = false;
         private object padlock = new object();
-        
+        private DefaultPlayerControl _defaultplayercontrol;
+
         IFileLoaderCompletion LoaderCompletion
         {
             get
@@ -33,7 +31,7 @@ namespace VideoPlayerView.FilePlayer
             }
         }
 
-        IRadioService RadioServicecs
+        IRadioService RadioService
         {
             get
             {
@@ -49,6 +47,12 @@ namespace VideoPlayerView.FilePlayer
         }
 
         public bool IsPlayingMedia { get { return isplayingMedia; } }
+        
+
+        public PlayFile()
+        {
+
+        }
 
         public void ShutDown()
         {
@@ -63,6 +67,7 @@ namespace VideoPlayerView.FilePlayer
                 WindowsMediaPlayer.Close();
             }
         }
+        
     }
 
     public partial class PlayFile
@@ -76,8 +81,8 @@ namespace VideoPlayerView.FilePlayer
         {
             try
             {
-                if (RadioServicecs.IsRadioOn)
-                    RadioServicecs.ShutDown();
+                if (RadioService.IsRadioOn)
+                    RadioService.ShutDown();
                 if (_videoelement == null)
                 {
                     _videoelement = new MediaPlayerWindow();
@@ -92,7 +97,9 @@ namespace VideoPlayerView.FilePlayer
                 {
                     WindowsMediaPlayer.Close();
                 }
-            (_videoelement).Show();
+
+                (_videoelement).Show();
+
                 isplayingMedia = true;
                 if (!HasScubscribed)
                 {
@@ -138,8 +145,8 @@ namespace VideoPlayerView.FilePlayer
             #region Creating VideoPlayer Object
             try
             {
-                if (RadioServicecs.IsRadioOn)
-                    RadioServicecs.ShutDown();
+                if (RadioService.IsRadioOn)
+                    RadioService.ShutDown();
 
                 if (WindowsMediaPlayer == null)
                 {
@@ -151,7 +158,7 @@ namespace VideoPlayerView.FilePlayer
                 {
                     (_videoelement).Close();
                 }
-                WindowsMediaPlayer.OpenFile((VideoFolderChild)obj);
+                WindowsMediaPlayer.OpenFile((MediaFile)obj);
                 WindowsMediaPlayer.Show();
                 isplayingMedia = true;
                 if (!HasScubscribed)
@@ -224,7 +231,7 @@ namespace VideoPlayerView.FilePlayer
         public void AddFiletoPlayList(IVideoData obj)
         {
             InitPlayerView();
-            VideoFolderChild vfc = (VideoFolderChild)obj;
+            MediaFile vfc = (MediaFile)obj;
             _videoelement.AddToPlaylist(vfc);
         }
 
@@ -239,8 +246,8 @@ namespace VideoPlayerView.FilePlayer
         {
             lock (padlock)
             {
-                VideoFolder videoFolder = obj as VideoFolder;
-                VideoFolderChild item = (VideoFolderChild)videoFolder.OtherFiles.FirstOrDefault(x => x is VideoFolderChild);
+                MediaFolder videoFolder = obj as MediaFolder;
+                MediaFile item = (MediaFile)videoFolder.OtherFiles.FirstOrDefault(x => x is MediaFile);
                 if (item != null)
                 {
                     var task = Task.Factory.StartNew(() =>
@@ -258,12 +265,12 @@ namespace VideoPlayerView.FilePlayer
         {
             lock (padlock)
             {
-                VideoFolder videoFolder = obj as VideoFolder;
-                var item = videoFolder.OtherFiles.FirstOrDefault(x => x is VideoFolderChild);
+                MediaFolder videoFolder = obj as MediaFolder;
+                var item = videoFolder.OtherFiles.FirstOrDefault(x => x is MediaFile);
                 if (item != null)
                 {
                     InitPlayerView();
-                    VideoFolder vf = (VideoFolder)obj;
+                    MediaFolder vf = (MediaFolder)obj;
                     IEnumerable<IPlayable> playables = vf.OtherFiles.OfType<IPlayable>();
                     _videoelement.AddRangeToPlaylist(playables);
                 }
@@ -279,12 +286,13 @@ namespace VideoPlayerView.FilePlayer
             MediaPlayerWindow mediaPlayerWindow = new MediaPlayerWindow();
             Ipagenavigator.AddView(mediaPlayerWindow, typeof(MediaPlayerWindow).Name);
             mediaPlayerWindow.Visibility = Visibility.Hidden;
-            mediaPlayerWindow.Loaded += (s, e) => {
+            mediaPlayerWindow.Loaded += (s, e) =>
+            {
                 Ipagenavigator.RemoveView(typeof(MediaPlayerWindow).Name);
-                mediaPlayerWindow.MediaPlayerElement.Dispose();
+                mediaPlayerWindow.Close();
                 mediaPlayerWindow = null;
             };
-           
+
         }
 
         public void WMPPlayFileInit(IFolder vfc)

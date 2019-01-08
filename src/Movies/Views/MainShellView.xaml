@@ -8,22 +8,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="600" BorderBrush="{DynamicResource Theme.HighlightColor}" BorderThickness="0,1,0,0">
     <DockPanel>
-        <Border BorderBrush="{DynamicResource Theme.HighlightColor}" Height="40"
-                Grid.Row="2" IsEnabled="{Binding HasAction, Converter={StaticResource BooleanInversion}}"
-                BorderThickness="0,1,0,0"
-                Visibility="Visible" VerticalAlignment="Bottom"
-                DockPanel.Dock="Bottom">
-            <DockPanel Grid.Column="0">
-                <StatusBar Background="Transparent">
-                    <ContentControl prism:RegionManager.RegionName="StatusBarRegion"/>
-                </StatusBar>
-                <!--<TextBlock Text="Status Message" Foreground="{DynamicResource Theme.Foreground}" FontSize="15" FontWeight="Regular" Padding="5" VerticalAlignment="Center" Opacity=".7"/>-->
-                <!--<ProgressBar Margin="2" VerticalAlignment="Stretch"  LargeChange="0"  Foreground="White"  
-                             Value="{Binding LoadingProgress}" 
-                             Style="{DynamicResource loadingprogressbar}" 
-                />-->
-            </DockPanel>
-        </Border>
         <!--<VideoList:FileView Grid.Row="2" prism:RegionManager.RegionName="SubMenuItemsRegion" Background="{DynamicResource Theme.Background}" SubMenuHiddenContent x:Name="pagenavigatorhost" VerticalAlignment="Stretch" />-->
         <flyout:Flyout Background="Transparent">
             <flyout:Flyout.FlyoutMenu>

@@ -8,6 +8,7 @@ using Movies.InternetRadio.StreamManager;
 using Movies.InternetRadio.Util;
 using Movies.InternetRadio.ViewModels;
 using Movies.InternetRadio.Views;
+using Movies.Models.Interfaces;
 using Movies.Models.Model;
 using Movies.MoviesInterfaces;
 using System;
@@ -32,7 +33,11 @@ namespace Movies.InternetRadio
         private bool Isclosing;
         private RadioStreamHomePageControl radioPlayerView;
         private static DelegateCommand starcommand;
-        
+        private MovieControl defaultPlayerControl
+        {
+            get { return ServiceLocator.Current.GetInstance<IHomeControl>().MovieControl as MovieControl;  }
+        }
+
         private void StarCommandAction()
         {
             RadioHomePageService.CheckFavoriteItemCommand.Execute(CurrentRadioStation, (IRadioService as RadioService).RadioHomepage as Page);
@@ -43,6 +48,14 @@ namespace Movies.InternetRadio
             get
             {
                 return ServiceLocator.Current.GetInstance<IRadioService>();
+            }
+        }
+
+        IPlayFile FilePlayerManager
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<IPlayFile>();
             }
         }
 
@@ -142,6 +155,7 @@ namespace Movies.InternetRadio
             };
             RadioStationDetails = new RadioStationDetails() { DataContext = this };
             NetworkConnectionStatus = new NetworkConnectionStatus();
+           
             InitMediaPlayerService();
 
             this.Content = radioPlayerView;
@@ -169,23 +183,39 @@ namespace Movies.InternetRadio
         {
             MediaPlayerElement = new MediaPlayerElement
             {
-                CanMediaFastForwardOrRewind = false,
+                CanMediaFastForwardOrRewind = true,
                 AllowMovieControlAnimation = false,
                 AllowMediaPlayerAutoDispose = false,
                 IsMediaContextMenuEnabled = false,
-                MediaPlayerViewType = MediaPlayerViewType.MiniMediaPanel
+                //MediaPlayerViewType = MediaPlayerViewType.MiniMediaPanel
             };
+            MediaPlayerElement.UseSecondaryControl = defaultPlayerControl;
             var control = MediaPlayerElement.MovieControl;
-            control.ControlViewType = MediaControlViewType.MiniView;
-            control.IsMediaOptionToggleEnabled = false;
-            control.IsShowMenuToggleEnabled = false;
-            control.IsFullScreenToggleEnabled = false;
-            control.DisableMovieBoardText = true;
-            control.MediaDurationDisplayVisible = false;
-            control.IsMediaSliderEnabled = false;
+            //control.ControlViewType = MediaControlViewType.MiniView;
+
+            MovieControlSettings controlSettings = new MovieControlSettings()
+            {
+                IsMediaOptionToggleEnabled = false,
+                IsShowMenuToggleEnabled = false,
+                IsFullScreenToggleEnabled = false,
+                DisableMovieBoardText = true,
+                MediaDurationDisplayVisible = false,
+                IsMediaSliderEnabled = false,
+                IsNextButtonEnabled = true,
+                IsPreviousButtonEnabled = true,
+                IsRepeatToggleEnabled = false
+            };
+
+            control.SetControlSettings(controlSettings);
 
             MediaPlayerElement.OnMediaTitleChanged += MediaPlayerElement_OnMediaTitleChanged;
             MediaPlayerElement.OnMediaInfoChanged += RadioPlayer_OnMediaInfoChanged;
+            MediaPlayerElement.OnCloseWindowToggled += MediaPlayerElement_OnCloseWindowToggled;
+        }
+
+        private void MediaPlayerElement_OnCloseWindowToggled(object sender, System.Windows.RoutedEventArgs e)
+        {
+            (IRadioService as RadioService)._idispatcherService.ExecuteTimerAction(() => IRadioService.ShutDown(), 50);
         }
 
         private void RadioPlayer_OnMediaInfoChanged(object sender, MediaInfoChangedEventArgs e)
@@ -196,14 +226,17 @@ namespace Movies.InternetRadio
         private void MediaPlayerElement_OnMediaTitleChanged(object sender, System.Windows.RoutedEventArgs e)
         {
             this.ShellWindowService.ShellWindow.Title = string.Format("{0} - Radio", MediaPlayerElement.MediaTitle);
+            defaultPlayerControl.SetMovieTitleBoard(this.ShellWindowService.ShellWindow.Title);
         }
 
         private void DestroyHomePageView()
         {
             this.Content = null;
-            PageNavigatorHost.RemoveView(typeof(RadioPlayer).Name);
+            ShellWindowService.ClearAdditionalStatusItem();
+            //PageNavigatorHost.RemoveView(typeof(RadioPlayer).Name);
             MediaPlayerElement.Dispose();
             MediaPlayerElement = null;
+            defaultPlayerControl.InitializeMediaPlayerControl(null);
             this.ShellWindowService.ShellWindow.Title = ApplicationConstants.SHELLWINDOWTITLE;
             this.CurrentRadioStation.IsActive = false;
         }
@@ -221,7 +254,8 @@ namespace Movies.InternetRadio
 
         public void HostViewInHomePage()
         {
-            PageNavigatorHost.AddView(this, typeof(RadioPlayer).Name);
+            ShellWindowService.SetAdditionalStatusItem(this);
+            //PageNavigatorHost.AddView(this, typeof(RadioPlayer).Name);
         }
 
         public void Shutdown()

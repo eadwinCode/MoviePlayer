@@ -23,11 +23,11 @@ namespace Movies.MovieServices.Services
         private IFileLoader fileloader;
         private IFileExplorerCommonHelper filecommonhelper;
         private IDispatcherService dispatcherService;
-        IDataSource<VideoFolder> MovieDataSource
+        IDataSource<MediaFolder> MovieDataSource
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<IDataSource<VideoFolder>>();
+                return ServiceLocator.Current.GetInstance<IDataSource<MediaFolder>>();
             }
         }
 
@@ -39,7 +39,7 @@ namespace Movies.MovieServices.Services
             this.dispatcherService = dispatcherService;
         }
 
-        public void FinishCollectionLoadProcess(IList<VideoFolder> itemsSource, Dispatcher dispatcherUnit = null)
+        public void FinishCollectionLoadProcess(IList<MediaFolder> itemsSource, Dispatcher dispatcherUnit = null)
         {
             Parallel.ForEach(itemsSource, (o) =>
             {
@@ -57,13 +57,13 @@ namespace Movies.MovieServices.Services
             //}
         }
 
-        public void FinishCollectionLoadProcess(ObservableCollection<VideoFolder> itemsSource,bool IsMovieFolder)
+        public void FinishCollectionLoadProcess(ObservableCollection<MediaFolder> itemsSource,bool IsMovieFolder)
         {
             dispatcherService.InvokeDispatchAction(new Action(delegate
             {
                 for (int i = 0; i < itemsSource.Count();i++)
                 {
-                    VideoFolder VideoFolder = itemsSource[i];
+                    MediaFolder VideoFolder = itemsSource[i];
                     if (VideoFolder.HasCompleteLoad)
                         continue;
 
@@ -81,9 +81,9 @@ namespace Movies.MovieServices.Services
 
                     if (VideoFolder.ParentDirectory != null)
                     {
-                        VideoFolder videoFoldercopy = null;
-                        VideoFolder ExistingParent =
-                            MovieDataSource.GetExistingCopy((VideoFolder)VideoFolder.ParentDirectory);
+                        MediaFolder videoFoldercopy = null;
+                        MediaFolder ExistingParent =
+                            MovieDataSource.GetExistingCopy((MediaFolder)VideoFolder.ParentDirectory);
                         if (ExistingParent != null && ExistingParent.OtherFiles != null)
                             videoFoldercopy =
                                 ExistingParent.OtherFiles.Where(j => j.Equals(VideoFolder)).FirstOrDefault();
@@ -103,32 +103,32 @@ namespace Movies.MovieServices.Services
         }
 
 
-        private void MergeSameVideoData(ref VideoFolder videoFolder, VideoFolder videoFoldercopy)
+        private void MergeSameVideoData(ref MediaFolder videoFolder, MediaFolder videoFoldercopy)
         {
             (fileloader as FileLoader).DeepCopy(videoFolder, videoFoldercopy);
         }
 
-        private void SearchSubtitleFile(VideoFolder item)
+        private void SearchSubtitleFile(MediaFolder item)
         {
             if (item.FileType == GroupCatergory.Grouped) return;
-            if ((item as VideoFolderChild).HasSearchSubtitleFile) return;
+            if ((item as MediaFile).HasSearchSubtitleFile) return;
             if (files == null)
                 files = filecommonhelper.GetSubtitleFiles(item.ParentDirectory.Directory);
             var subs = GetSubtitlePath(item.Name);
             dispatcherService.BeginInvokeDispatchAction(new Action(delegate
             {
-                var itemchild = (VideoFolderChild)item;
+                var itemchild = (MediaFile)item;
                 itemchild.SubPath = subs;
             }));
         }
 
-        private VideoFolder GetItems(VideoFolder item)
+        private MediaFolder GetItems(MediaFolder item)
         {
             var s = fileloader.GetFolderItems(item);
             return s;
         }
 
-        private void LoadOtherFileDetails(VideoFolder item, Dispatcher dispatcherunit)
+        private void LoadOtherFileDetails(MediaFolder item, Dispatcher dispatcherunit)
         {
             if (item.FileType == GroupCatergory.Grouped)
             {
@@ -140,7 +140,7 @@ namespace Movies.MovieServices.Services
             }
             else
             {
-                var itemchild = (VideoFolderChild)item;
+                var itemchild = (MediaFile)item;
                 Task task = Task.Factory.StartNew(() => {
                     dispatcherService.BeginInvokeDispatchAction(dispatcherunit,new Action(delegate
                     {
@@ -159,7 +159,7 @@ namespace Movies.MovieServices.Services
             }
         }
 
-        private void GetThumbnail(VideoFolderChild file)
+        private void GetThumbnail(MediaFile file)
         {
             ImageSource imageSource = null;
             dispatcherService.InvokeDispatchAction(new Action(delegate

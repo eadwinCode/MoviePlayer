@@ -13,7 +13,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    <Grid>
+    <Grid Margin="5,5,5,2">
         <DockPanel>
             <DockPanel DockPanel.Dock="Top">
                 <Button Command="{Binding ReloadCommand}" Style="{StaticResource dialogbtn}" VerticalAlignment="Center" 
@@ -23,7 +23,7 @@
                                    VerticalAlignment="Center" FontWeight="DemiBold"
                                    FontSize="15" Foreground="OldLace"/>
                 </Button>
-                <TextBlock Text="Removeable Storage" 
+                <TextBlock Text="REMOVABLE STORAGES" 
                        Foreground="{DynamicResource Theme.Foreground}" 
                        FontSize="20" Padding="10" 
                        FontWeight="Medium" />

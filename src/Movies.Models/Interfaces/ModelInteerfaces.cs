@@ -11,7 +11,22 @@ using System.Windows.Media;
 
 namespace Movies.Models.Interfaces
 {
-    public delegate void OnFileNameChangedHandler(string oldname, VideoFolder videoItem);
+    public delegate void OnFileNameChangedHandler(string oldname, MediaFolder videoItem);
+
+
+    public interface IHomeControl
+    {
+        IMovieControl MovieControl { get; }
+    }
+
+    public interface IMovieControl
+    {
+        void CloseLastSeenBoard();
+        void NotifyLastSeen(IMediaPlayabeLastSeen playablelastseen);
+        void OnApplyTemplate();
+        void SetMediaVolume(double vol);
+        void SetMovieTitleBoard(string info);
+    }
 
     public interface ISubtitleFiles
     {
@@ -79,7 +94,7 @@ namespace Movies.Models.Interfaces
         FileInfo FileInfo { get; }
         ObservableCollection<PlayedFiles> LastSeenCollection { get; set; }
         string Name { get; }
-        ObservableCollection<VideoFolder> OtherFiles { get; set; }
+        ObservableCollection<MediaFolder> OtherFiles { get; set; }
         IFolder ParentDirectory { get; }
         SortType SortedBy { get; set; }
 

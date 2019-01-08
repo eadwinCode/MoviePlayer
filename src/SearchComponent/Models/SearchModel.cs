@@ -9,7 +9,7 @@ namespace SearchComponent.Model
 {
     public class SearchModel : ISearchModel
     {
-        public ICollection<VideoFolder> Results { get; set; }
+        public ICollection<MediaFolder> Results { get; set; }
         public string SearchQuery { get; set; }
 
         public SearchModel()

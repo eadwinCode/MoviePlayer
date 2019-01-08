@@ -14,6 +14,7 @@ using System.Windows.Threading;
 
 namespace Movies.MoviesInterfaces
 {
+    
     public interface IBackgroundService
     {
         void Shutdown();
@@ -34,7 +35,7 @@ namespace Movies.MoviesInterfaces
         void Run();
         void Stop();
     }
-        public interface ISettings
+    public interface ISettings
     {
         DirectoryInfo LastDirectory { get; set; }
         ViewType ViewType { get; set; }
@@ -83,30 +84,30 @@ namespace Movies.MoviesInterfaces
     {
         bool HasDataSource { get; }
         IDispatcherService DispatcherService { get; }
-        IDictionary<string, VideoFolder> GetAllFiles(ObservableCollection<VideoFolder> itemsSource);
-        IDictionary<string, VideoFolder> GetAllFiles(VideoFolder videoFolder);
-        VideoFolder GetExistingVideoFolderIfAny(VideoFolder videoFolder);
-        VideoFolder GetFolderItems(VideoFolder item);
-        void GetRootDetails(SortType sorttype, ref VideoFolder ParentDir);
-        void InitGetAllFiles(ObservableCollection<VideoFolder> itemsSource);
-        VideoFolder InitGetAllFiles(VideoFolder videoFolder);
-        VideoFolderChild LoadChildrenFiles(DirectoryInfo directoryInfo, bool newpath = false);
-        ObservableCollection<VideoFolder> LoadChildrenFiles(VideoFolder Parentdir, bool newpath = false);
-        ObservableCollection<VideoFolder> LoadChildrenFiles(VideoFolder Parentdir, IList<FileInfo> files, bool newpath = false);
-        VideoFolder LoadParentFiles(VideoFolder Parentdir, IList<DirectoryInfo> SubDirectory, IList<FileInfo> SubFiles, SortType sorttype);
-        VideoFolder LoadParentFiles(VideoFolder Parentdir, IList<DirectoryInfo> SubDirectory, SortType sorttype);
-        VideoFolder LoadParentFiles(VideoFolder Parentdir, IList<FileInfo> SubFiles, SortType sorttype);
-        VideoFolder LoadParentFiles(VideoFolder ParentDir, SortType sorttype);
-        void RemoveFromDataSource(VideoFolder existingVideoFolder);
-        VideoFolder SortList(SortType sorttype, VideoFolder parent);
-        VideoFolderChild CreateVideoFolderChild(IFolder Parentdir, FileInfo fileInfo);
-        void SetLastSeen(VideoFolderChild videoFolderChild);
+        IDictionary<string, MediaFolder> GetAllFiles(ObservableCollection<MediaFolder> itemsSource);
+        IDictionary<string, MediaFolder> GetAllFiles(MediaFolder videoFolder);
+        MediaFolder GetExistingVideoFolderIfAny(MediaFolder videoFolder);
+        MediaFolder GetFolderItems(MediaFolder item);
+        void GetRootDetails(SortType sorttype, ref MediaFolder ParentDir);
+        void InitGetAllFiles(ObservableCollection<MediaFolder> itemsSource);
+        MediaFolder InitGetAllFiles(MediaFolder videoFolder);
+        MediaFile LoadChildrenFiles(DirectoryInfo directoryInfo, bool newpath = false);
+        ObservableCollection<MediaFolder> LoadChildrenFiles(MediaFolder Parentdir, bool newpath = false);
+        ObservableCollection<MediaFolder> LoadChildrenFiles(MediaFolder Parentdir, IList<FileInfo> files, bool newpath = false);
+        MediaFolder LoadParentFiles(MediaFolder Parentdir, IList<DirectoryInfo> SubDirectory, IList<FileInfo> SubFiles, SortType sorttype);
+        MediaFolder LoadParentFiles(MediaFolder Parentdir, IList<DirectoryInfo> SubDirectory, SortType sorttype);
+        MediaFolder LoadParentFiles(MediaFolder Parentdir, IList<FileInfo> SubFiles, SortType sorttype);
+        MediaFolder LoadParentFiles(MediaFolder ParentDir, SortType sorttype);
+        void RemoveFromDataSource(MediaFolder existingVideoFolder);
+        MediaFolder SortList(SortType sorttype, MediaFolder parent);
+        MediaFile CreateVideoFolderChild(IFolder Parentdir, FileInfo fileInfo);
+        void SetLastSeen(MediaFile videoFolderChild);
     }
 
     public interface IFileLoaderCompletion
     {
-        void FinishCollectionLoadProcess(IList<VideoFolder> itemsSource, Dispatcher dispatcherUnit);
-        void FinishCollectionLoadProcess(ObservableCollection<VideoFolder> itemsSource, bool IsMovieFolder);
+        void FinishCollectionLoadProcess(IList<MediaFolder> itemsSource, Dispatcher dispatcherUnit);
+        void FinishCollectionLoadProcess(ObservableCollection<MediaFolder> itemsSource, bool IsMovieFolder);
     }
 
 

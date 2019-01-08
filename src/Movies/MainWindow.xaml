@@ -25,7 +25,7 @@
         <DataTemplate>
             <DockPanel>
                 <Path/>
-                <TextBlock Text="{Binding}" Opacity=".8" 
+                <TextBlock Text="Media Hub" Opacity=".8" 
                            FontSize="15" VerticalAlignment="Center" 
                            Padding="5" FontWeight="Regular" />
                 
@@ -47,8 +47,22 @@
     <Window.Resources>
     </Window.Resources>
     <!--<VideoList:VideoComponentList/> prism:RegionManager.RegionName="ShellWindowRegion"-->
-    <Grid sw:WindowDragBehavior.LeftMouseButtonDrag="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}">
+    <DockPanel sw:WindowDragBehavior.LeftMouseButtonDrag="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}">
+        <Border BorderBrush="{DynamicResource Theme.HighlightColor}" 
+                Grid.Row="2" IsEnabled="{Binding HasAction, Converter={StaticResource BooleanInversion}}"
+                BorderThickness="0,1,0,0" x:Name="statusBorder"
+                Visibility="Visible" VerticalAlignment="Bottom"
+                DockPanel.Dock="Bottom">
+            <StatusBar Background="Transparent">
+                <StatusBarItem MaxWidth="300">
+                    <ContentControl Content="{Binding StatusAdditionInfo}"/>
+                </StatusBarItem>
+                <StatusBarItem HorizontalAlignment="Right" >
+                    <ContentControl prism:RegionManager.RegionName="StatusControlRegion"/>
+                </StatusBarItem>
+            </StatusBar>
+        </Border>
         <ContentControl x:Name="ContentRegion"  Content="{Binding CurrentView}"/>
-    </Grid>
+    </DockPanel>
 
 </mah:MetroWindow>

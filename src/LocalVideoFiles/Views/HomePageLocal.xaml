@@ -14,7 +14,7 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid>
+    <Grid Margin="5,5,5,2">
         <ScrollViewer 
                 VerticalScrollBarVisibility="Auto"
                 PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
@@ -24,7 +24,7 @@
                         Height="50" BorderThickness="0,0,0,0">
                     <TextBlock Foreground="{DynamicResource Theme.Foreground}" 
                                FontSize="20" Padding="10" FontWeight="Medium"
-                               Text="All Movie Folders"/>
+                               Text="ALL MOVIE FOLDERS"/>
             </Border>
                 <DockPanel>
                     <ListView   x:Name="collections" Margin="10,10,2,10"

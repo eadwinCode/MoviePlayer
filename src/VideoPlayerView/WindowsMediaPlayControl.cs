@@ -24,7 +24,7 @@ namespace MediaControl
             }
         }
 
-        public VideoFolderChild CurrentVideoItem;
+        public MediaFile CurrentVideoItem;
         private DispatcherTimer MediaPositionTimer;
 
         public WindowsMediaPlayControl()
@@ -95,7 +95,7 @@ namespace MediaControl
 
         }
 
-        internal void OpenFile(VideoFolderChild obj)
+        internal void OpenFile(MediaFile obj)
         {
             if (CurrentVideoItem == null)
             {

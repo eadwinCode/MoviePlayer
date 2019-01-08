@@ -79,6 +79,7 @@
     </Compile>
     <Compile Include="Util\CommonHelper.cs" />
     <Compile Include="Util\ControlParts.cs" />
+    <Compile Include="Util\PropertyCopy.cs" />
     <Compile Include="WindowsStyleClass\ControlDoubleClickBehavior.cs" />
     <Compile Include="WindowsStyleClass\ShowSystemMenuBehavior.cs" />
     <Compile Include="WindowsStyleClass\SystemMenuManager.cs" />

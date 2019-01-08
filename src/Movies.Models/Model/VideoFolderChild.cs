@@ -12,7 +12,7 @@ using Common.ApplicationCommands;
 namespace Movies.Models.Model
 {
 
-    public class VideoFolderChild : VideoFolder, IVideoData,IPlayable, IComparable<VideoFolderChild>,IEquatable<VideoFolderChild>
+    public class MediaFile : MediaFolder, IVideoData,IPlayable, IComparable<MediaFile>,IEquatable<MediaFile>
     {
         private string duration = ApplicationDummyMessage.DurationNotYetLoaded;
         private ObservableCollection<string> subpath;
@@ -23,17 +23,17 @@ namespace Movies.Models.Model
         private int? maxprogress;
         public override event OnFileNameChangedHandler OnFileNameChangedChanged;
 
-        public VideoFolderChild(string filepath):base(filepath)
+        public MediaFile(string filepath):base(filepath)
         {
         }
 
-        public VideoFolderChild(FileInfo fileinfo)
+        public MediaFile(FileInfo fileinfo)
             : base(fileinfo)
         {
 
         }
 
-        public VideoFolderChild(IFolder ParentDir, string filepath)
+        public MediaFile(IFolder ParentDir, string filepath)
             : base(ParentDir, filepath)
         {
             ParentDir.ParentDirectoryChanged += ParentDir_ParentDirectoryChanged;
@@ -49,7 +49,7 @@ namespace Movies.Models.Model
                 OnFileNameChangedChanged.Invoke(oldname, this);
         }
 
-        public VideoFolderChild(IFolder ParentDir, FileInfo fileinfo)
+        public MediaFile(IFolder ParentDir, FileInfo fileinfo)
             : this(ParentDir, fileinfo.FullName)
         {
         }
@@ -219,7 +219,7 @@ namespace Movies.Models.Model
             }
         }
 
-        public int CompareTo(VideoFolderChild other)
+        public int CompareTo(MediaFile other)
         {
             if (this.FileType == other.FileType)
             {
@@ -232,7 +232,7 @@ namespace Movies.Models.Model
             return 1;
         }
 
-        public bool Equals(VideoFolderChild other)
+        public bool Equals(MediaFile other)
         {
             return this.MediaTitle.Equals(other.MediaTitle);
         }

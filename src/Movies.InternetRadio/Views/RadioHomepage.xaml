@@ -15,7 +15,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <Style TargetType="{x:Type Button}" x:Key="HomePageButton">
-                <Setter Property="BorderThickness" Value="2"/>
+                <Setter Property="BorderThickness" Value="0,0,0,3"/>
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="Margin" Value="4"/>
                 <Setter Property="Height" Value="46"/>
@@ -24,18 +24,18 @@
                 <Setter Property="Template" >
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
-                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="3"
-                                    Padding="{TemplateBinding Padding}" BorderThickness="{TemplateBinding BorderThickness}">
-                                <DockPanel   TextBlock.Foreground="{DynamicResource Theme.Foreground}" LastChildFill="True" TextBlock.FontStyle="Italic">
+                            <Border Background="{TemplateBinding Background}"  CornerRadius="3">
+                                <Border Padding="5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                    <DockPanel   TextBlock.Foreground="{DynamicResource Theme.Foreground}" LastChildFill="True" TextBlock.FontStyle="Italic">
                                     <Border Grid.Column="0" Width="60" DockPanel.Dock="Left" Margin="2,0,0,0">
                                         <Grid HorizontalAlignment="Left"  Height="30">
-                                            <Path  Fill="{DynamicResource Theme.MovieFile}" x:Name="path" HorizontalAlignment="Center" 
+                                                <Path  Fill="{DynamicResource Theme.HighlightColor}" x:Name="path" HorizontalAlignment="Center" 
                                                    StrokeThickness=".5" 
                                                    Data="M10,4H4C2.89,4 2,4.89 2,6V18C2,19.1 2.9,20 4,
                                20H20C21.1,20 22,19.1 22,18V8C22,6.89 
                                21.1,6 20,6H12L10,4Z"  >
                                                 <Path.LayoutTransform>
-                                                    <ScaleTransform ScaleX="1.3" ScaleY="1.3"/>
+                                                    <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
                                                 </Path.LayoutTransform>
                                             </Path>
                                         </Grid>
@@ -47,17 +47,18 @@
                                                 <TextBlock ToolTip="{Binding Content.TooltipMessage,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" 
                                                            ToolTipService.InitialShowDelay="1500"
                                                            Text="{Binding Content.RadioName,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"  
-                                                           TextWrapping="Wrap" FontSize="15"   
+                                                           TextWrapping="Wrap" FontSize="14"   
                                                            TextTrimming="CharacterEllipsis"/>
                                             </DockPanel>
                                         </Grid>
                                     </Border>
                                 </DockPanel>
+                                </Border>
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <!--<Setter Property="BorderBrush" Value="{DynamicResource Theme.HighlightColor}"/>-->
-                                    <Setter Property="Background" Value="{DynamicResource Theme.HighlightColor}"/>
+                                    <Setter Property="Background" Value="{DynamicResource Theme.MouseOver}"/>
                                     <!--<Setter TargetName="path" Property="Fill" Value="{DynamicResource Theme.HighlightColor}"/>-->
                                 </Trigger>
                                 <Trigger Property="IsPressed" Value="true">
@@ -153,14 +154,14 @@
             </Style>
         </ResourceDictionary>
     </Page.Resources>
-    
-    <Grid x:Name="_parent">
+
+    <Grid x:Name="_parent"  Margin="0,5,0,0">
         <DockPanel>
             <DockPanel>
                 <DockPanel DockPanel.Dock="Top">
                     <DockPanel>
                         <Path DockPanel.Dock="Left"/>
-                        <TextBlock Text="Radio Stations" 
+                        <TextBlock Text="INTERNET RADIO" 
                                Foreground="{DynamicResource Theme.Foreground}" 
                                FontSize="20" Padding="10" 
                                FontWeight="Medium" />
@@ -175,18 +176,18 @@
                                      Content="{Binding FavoriteRadioGroup}"   CommandParameter="{Binding  FavoriteRadioGroup}"/>
                     
                 </WrapPanel>
-                <ItemsControl Style="{StaticResource listViewControl}"  
-                              BorderBrush="Transparent" Margin="10,5,0,2"
-                              BorderThickness="0"  x:Name="collections"
-                              ScrollViewer.VerticalScrollBarVisibility="Auto" 
-                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                              Background="Transparent"
-                              SizeChanged="Collections_SizeChanged"
-                              ItemsSource="{Binding RadioModelCollection}"
-                              ItemTemplateSelector="{StaticResource DataTemplateSelector}"
-                              Grid.RowSpan="2" >
+                <ListView Style="{StaticResource listViewControl}"  
+                        BorderBrush="Transparent" Margin="10,5,0,2"
+                        BorderThickness="0"  x:Name="collections"
+                        ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                        Background="Transparent"
+                        ItemsSource="{Binding RadioModelCollection}"
+                        ItemTemplateSelector="{StaticResource DataTemplateSelector}"
+                        ItemContainerStyle="{StaticResource CustomContainerStyle}"
+                        Grid.RowSpan="2" >
 
-                </ItemsControl>
+                </ListView>
         </DockPanel>
         </DockPanel>
         <Button Command="{Binding AddStationGroup}" Style="{StaticResource AddButton}" 

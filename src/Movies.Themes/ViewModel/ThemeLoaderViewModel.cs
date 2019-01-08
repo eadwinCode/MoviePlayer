@@ -61,12 +61,12 @@ namespace Movies.Themes.ViewModel
                     ThemePath = "/Movies.Themes;component/Themes/BlackSkin.xaml",
                     IsActive = false
                 },
-                new ThemeModel
-                {
-                    ThemeName = "White Skin",
-                    ThemePath = "/Movies.Themes;component/Themes/WhiteSkin.xaml",
-                    IsActive = false
-                },
+                //new ThemeModel
+                //{
+                //    ThemeName = "White Skin",
+                //    ThemePath = "/Movies.Themes;component/Themes/WhiteSkin.xaml",
+                //    IsActive = false
+                //},
                 new ThemeModel
                 {
                     ThemeName = "Hybrid Skin",

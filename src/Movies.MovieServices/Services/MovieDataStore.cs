@@ -16,14 +16,14 @@ using System.Windows.Input;
 namespace Movies.MovieServices.Services
 {
     public delegate void FileLoaderHandler();
-    public class MovieDataStore : IDataSource<VideoFolder>
+    public class MovieDataStore : IDataSource<MediaFolder>
     {
         IApplicationService ApplicationService;
         IFileLoader FileLoader;
         readonly IBackgroundService BackgroundService;
         bool isLoadingData;
-        private IDictionary<string, VideoFolder> data;
-        private ObservableCollection<VideoFolder> allfolders;
+        private IDictionary<string, MediaFolder> data;
+        private ObservableCollection<MediaFolder> allfolders;
         object _lock = new object();
 
         private IEventManager IEventManager
@@ -34,18 +34,18 @@ namespace Movies.MovieServices.Services
             }
         }
 
-        public IList<VideoFolder> Data
+        public IList<MediaFolder> Data
         {
             get
             {
                 if (DataSource == null)
                     DataSource = FileLoader.GetAllFiles(AllFoldersList);
 
-                return new ObservableCollection<VideoFolder>(DataSource.Values);
+                return new ObservableCollection<MediaFolder>(DataSource.Values);
             }
         }
 
-        public IDictionary<string, VideoFolder> DataSource
+        public IDictionary<string, MediaFolder> DataSource
         {
             get
             {
@@ -62,7 +62,7 @@ namespace Movies.MovieServices.Services
                 return data != null && data.Count > 0; }
         }
         
-        public ObservableCollection<VideoFolder> AllFoldersList
+        public ObservableCollection<MediaFolder> AllFoldersList
         {
             get { return allfolders; }
             set { allfolders = value; FolderItemChange(); }
@@ -79,7 +79,7 @@ namespace Movies.MovieServices.Services
             this.ApplicationService = applicationService;
             this.FileLoader = fileLoader;
             this.BackgroundService = backgroundService;
-            data = new Dictionary<string, VideoFolder>();
+            data = new Dictionary<string, MediaFolder>();
         }
 
         public void InitFileLoading()
@@ -90,13 +90,13 @@ namespace Movies.MovieServices.Services
                 this.LoadAllFolders();
         }
 
-        public VideoFolder GetExistingCopy(VideoFolder videoFolder)
+        public MediaFolder GetExistingCopy(MediaFolder videoFolder)
         {
             if (allfolders == null) return null;
             return allfolders.Where(x => x.Equals(videoFolder)).FirstOrDefault();
         }
         
-        public VideoFolder GetExistingCopy<T>(VideoFolder videoFolder, IList<T> enumerable) where T : VideoFolder
+        public MediaFolder GetExistingCopy<T>(MediaFolder videoFolder, IList<T> enumerable) where T : MediaFolder
         {
             return enumerable.Where(x => x.Equals(videoFolder)).FirstOrDefault();
         }
@@ -144,7 +144,7 @@ namespace Movies.MovieServices.Services
 
         private void ResetAllFolderListIsloadingFlag()
         {
-            foreach (VideoFolder videofolder in AllFoldersList)
+            foreach (MediaFolder videofolder in AllFoldersList)
             {
                 if (videofolder.IsLoading)
                 {
@@ -160,14 +160,14 @@ namespace Movies.MovieServices.Services
                 RemoveFolders(ref removedFolder);
             }
             var moviefolders = ApplicationService.AppSettings.MovieFolders;
-            var folderlist = new ObservableCollection<VideoFolder>();
+            var folderlist = new ObservableCollection<MediaFolder>();
 
             for (int i = 0; i < moviefolders.Count; i++)
             {
                 System.IO.DirectoryInfo directoryInfo = new System.IO.DirectoryInfo(moviefolders[i].FullName);
                 if (directoryInfo.Exists)
                 {
-                    var vf = new VideoFolder(moviefolders[i].FullName);
+                    var vf = new MediaFolder(moviefolders[i].FullName);
                     folderlist.Add(vf);
                 }
                 else
@@ -185,7 +185,7 @@ namespace Movies.MovieServices.Services
             if (removedFolder != null && removedFolder.Count == 0) return;
             foreach (var item in removedFolder)
             {
-                VideoFolder videoFolder = null;
+                MediaFolder videoFolder = null;
                 if (DataSource != null)
                     DataSource.TryGetValue(item.FullName, out videoFolder);
 
@@ -197,22 +197,22 @@ namespace Movies.MovieServices.Services
             }
         }
 
-        private void MergeChanges(ObservableCollection<VideoFolder> folderlist)
+        private void MergeChanges(ObservableCollection<MediaFolder> folderlist)
         {
             if (AllFoldersList == null)
                 InitializeAllFolderCollection();
 
             foreach (var item in folderlist)
             {
-                VideoFolder videoFolder = item;
+                MediaFolder videoFolder = item;
                 var dir = new System.IO.DirectoryInfo(item.FullName);
 
                 if (dir.Parent != null)
                 {
-                    var newparent = new VideoFolder(dir.Parent.FullName.ToString());
-                    var ExistingParent = GetExistingCopy<VideoFolder>(newparent, folderlist);
+                    var newparent = new MediaFolder(dir.Parent.FullName.ToString());
+                    var ExistingParent = GetExistingCopy<MediaFolder>(newparent, folderlist);
                     if (ExistingParent != null)
-                        videoFolder = new VideoFolder(ExistingParent, item.FullName);
+                        videoFolder = new MediaFolder(ExistingParent, item.FullName);
                 }
                 if (!AddVideoItem(videoFolder)) continue;
             }
@@ -227,7 +227,7 @@ namespace Movies.MovieServices.Services
 
         private void InitializeAllFolderCollection()
         {
-            AllFoldersList = new ObservableCollection<VideoFolder>();
+            AllFoldersList = new ObservableCollection<MediaFolder>();
             AllFoldersList.CollectionChanged += AllFoldersList_CollectionChanged;
         }
 
@@ -236,7 +236,7 @@ namespace Movies.MovieServices.Services
             FolderItemChange();
         }
 
-        private bool AddVideoItem(VideoFolder videoFolder)
+        private bool AddVideoItem(MediaFolder videoFolder)
         {
             if (AllFoldersList.Contains(videoFolder)) return false;
             AllFoldersList.Add(videoFolder);
@@ -244,7 +244,7 @@ namespace Movies.MovieServices.Services
             return true;
         }
 
-        private bool RemoveVideoItem(VideoFolder videoFolder)
+        private bool RemoveVideoItem(MediaFolder videoFolder)
         {
             if (!AllFoldersList.Contains(videoFolder)) return false;
             AllFoldersList.Remove(videoFolder);
@@ -261,12 +261,12 @@ namespace Movies.MovieServices.Services
             IEventManager.GetEvent<FolderItemChangeEventToken>().Publish(true);
         }
 
-        private VideoFolder GetRootDirectory(VideoFolder newparent)
+        private MediaFolder GetRootDirectory(MediaFolder newparent)
         {
             var dir = new System.IO.DirectoryInfo(newparent.FullName);
             if (dir.Parent != null)
             {
-                var root = new VideoFolder(dir.Parent.FullName.ToString());
+                var root = new MediaFolder(dir.Parent.FullName.ToString());
                 var rootparent = GetRootDirectory(root);
                 if (rootparent != null)
                 {

@@ -34,9 +34,9 @@ namespace VirtualizingListView.Pages.ViewModel
                 this.RaisePropertyChanged(() => this.MyTemplateChange);
             }
         }
-        private ObservableCollection<VideoFolder> searchresults;
+        private ObservableCollection<MediaFolder> searchresults;
 
-        public ObservableCollection<VideoFolder> SearchResults
+        public ObservableCollection<MediaFolder> SearchResults
         {
             get { return searchresults; }
             set { searchresults = value; RaisePropertyChanged(() => this.SearchResults); }
@@ -78,7 +78,7 @@ namespace VirtualizingListView.Pages.ViewModel
         private void NavigationService_LoadCompleted(object sender, NavigationEventArgs e)
         {
             ISearchModel searchmodel = (ISearchModel)e.ExtraData;
-            SearchResults = (ObservableCollection<VideoFolder>)searchmodel.Results;
+            SearchResults = (ObservableCollection<MediaFolder>)searchmodel.Results;
             ResultText = searchmodel.SearchQuery;
             ResultTextInDetail = SearchResults.Count.ToString();
             NavigatorService.NavigationService.LoadCompleted -= NavigationService_LoadCompleted;
@@ -111,7 +111,7 @@ namespace VirtualizingListView.Pages.ViewModel
 
         private void OpenFolderCommandAction(object obj)
         {
-            VideoFolder videoFolder = (VideoFolder)obj;
+            MediaFolder videoFolder = (MediaFolder)obj;
             if (videoFolder.FileType == GroupCatergory.Grouped)
             {
                 this.NavigatorService.NavigatePage(new FilePageView(this.NavigatorService.NavigationService), obj);

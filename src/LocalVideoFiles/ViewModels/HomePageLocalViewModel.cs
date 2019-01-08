@@ -37,7 +37,7 @@ namespace LocalVideoFiles.ViewModels
             }
         }
 
-        public ObservableCollection<VideoFolder> AllFoldersList
+        public ObservableCollection<MediaFolder> AllFoldersList
         {
             get
             {
@@ -57,13 +57,13 @@ namespace LocalVideoFiles.ViewModels
         }
 
         public DelegateCommand AddFolderCommand { get; private set; }
-        public DelegateCommand<VideoFolder> OpenFolderCommand { get; private set; }
+        public DelegateCommand<MediaFolder> OpenFolderCommand { get; private set; }
 
         public HomePageLocalViewModel(IMainPage owner)
         {
             PageOwner = owner;
             AddFolderCommand = new DelegateCommand(AddFolderCommandAction);
-            OpenFolderCommand = new DelegateCommand<VideoFolder>(OpenFolderCommandAction);
+            OpenFolderCommand = new DelegateCommand<MediaFolder>(OpenFolderCommandAction);
 
             IEventManager.GetEvent<NoFolderNoticeEventToken>().Subscribe((o) => 
             {
@@ -93,7 +93,7 @@ namespace LocalVideoFiles.ViewModels
                 
         }
 
-        private void OpenFolderCommandAction(VideoFolder obj)
+        private void OpenFolderCommandAction(MediaFolder obj)
         {
             IEventManager.GetEvent<NavigateFolderItemToken>().Publish(obj);
         }
@@ -143,11 +143,11 @@ namespace LocalVideoFiles.ViewModels
                 return ServiceLocator.Current.GetInstance<IApplicationService>();
             }
         }
-        IDataSource<VideoFolder> MovieDataSource
+        IDataSource<MediaFolder> MovieDataSource
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<IDataSource<VideoFolder>>();
+                return ServiceLocator.Current.GetInstance<IDataSource<MediaFolder>>();
             }
         }
         IFileLoaderCompletion LoaderCompletion

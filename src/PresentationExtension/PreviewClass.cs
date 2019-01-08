@@ -21,7 +21,7 @@ namespace PresentationExtension
         protected override void OnToolTipOpening(ToolTipEventArgs e)
         {
 
-            VideoFolderChild videodata = DataContext as VideoFolderChild;
+            MediaFile videodata = DataContext as MediaFile;
             if (videodata == null)
                 return;
 
@@ -76,7 +76,7 @@ namespace PresentationExtension
 
         protected override void OnToolTipClosing(ToolTipEventArgs e)
         {
-            VideoFolder videodata = DataContext as VideoFolder;
+            MediaFolder videodata = DataContext as MediaFolder;
             if (videodata == null)
                 return;
 

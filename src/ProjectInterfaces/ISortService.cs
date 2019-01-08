@@ -9,6 +9,6 @@ namespace Movies.MoviesInterfaces
     public interface ISortService
     {
         IEnumerable<T> SortList<T>(SortType sorttype, IEnumerable<T> list) where T : IItemSort;
-        VideoFolder SortList(SortType sorttype, VideoFolder parent);
+        MediaFolder SortList(SortType sorttype, MediaFolder parent);
     }
 }

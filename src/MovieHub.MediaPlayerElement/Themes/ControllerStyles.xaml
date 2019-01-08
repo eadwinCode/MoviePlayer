@@ -121,7 +121,7 @@
                     </Border>
 
                     <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding MediaPlayerViewType,RelativeSource={RelativeSource AncestorType=MediaElement:MediaPlayerElement}}" Value="MiniMediaPanel">
+                        <DataTrigger Binding="{Binding MediaPlayerElement.MediaPlayerViewType,RelativeSource={RelativeSource AncestorType=MediaElement:MovieControl}}" Value="MiniMediaPanel">
                             <Setter Property="Image.Uid" TargetName="contentPresenter" Value="maximize.png"/>
                             <Setter Property="ToolTip" TargetName="contentPresenter" Value="Maximize Video"/>
                         </DataTrigger>
@@ -162,7 +162,7 @@
                     </Border>
 
                     <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding IsPlaying,RelativeSource={RelativeSource AncestorType=MediaElement:MediaPlayerElement}}" Value="True">
+                        <DataTrigger Binding="{Binding MediaPlayerElement.IsPlaying,RelativeSource={RelativeSource AncestorType=MediaElement:MovieControl}}" Value="True">
                             <Setter Property="Image.Uid" TargetName="contentPresenter" Value="pause.png"/>
                             <Setter Property="ToolTip" TargetName="contentPresenter" Value="Pause"/>
                         </DataTrigger>
@@ -239,12 +239,12 @@
                     </Border>
 
                     <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding RepeatMode,RelativeSource={RelativeSource AncestorType=MediaElement:MovieControl},
+                        <DataTrigger Binding="{Binding MediaDetailProps.RepeatMode,RelativeSource={RelativeSource AncestorType=MediaElement:MovieControl},
                             Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:RepeatMode}}" Value="Repeat">
                             <Setter Property="ToolTip" TargetName="contentPresenter" Value="Repeat All"/>
                             <Setter Property="Opacity" TargetName="contentPresenter" Value=".7"/>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding RepeatMode,RelativeSource={RelativeSource AncestorType=MediaElement:MovieControl},
+                        <DataTrigger Binding="{Binding MediaDetailProps.RepeatMode,RelativeSource={RelativeSource AncestorType=MediaElement:MovieControl},
                             Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:RepeatMode}}" Value="RepeatOnce">
                             <Setter Property="Opacity" TargetName="contentPresenter" Value="1"/>
                             <Setter Property="ToolTip" TargetName="contentPresenter" Value="Repeat Once"/>
@@ -264,6 +264,58 @@
                             <Setter Property="Opacity" TargetName="contentPresenter" Value=".3"/>
 
                             <Setter Property="Background" TargetName="border" Value="#FF18170D"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+
+                            <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Button" x:Key="RepeatButtonStyle1">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border CornerRadius="16" SnapsToDevicePixels="True"  x:Name="border"  Background="Transparent"
+                            Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+
+                        <Path Data="M2,5.27L3.28,4L20,20.72L18.73,22L15.73,19H7V22L3,18L7,14V17H13.73L7,10.27V11H5V8.27L2,5.27M17,13H19V17.18L17,15.18V13M17,5V2L21,6L17,10V7H8.82L6.82,5H17Z"
+                              Opacity=".7" x:Name="contentPresenter" Fill="WhiteSmoke" ToolTip="Repeat Off" />
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding MediaDetailProps.RepeatMode,RelativeSource={RelativeSource AncestorType=MediaElement:MovieControl},
+                            Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:RepeatMode}}" Value="Repeat">
+                            <Setter Property="ToolTip" TargetName="contentPresenter" Value="Repeat All"/>
+                            <Setter Property="Data" TargetName="contentPresenter" 
+                                    Value="M17,17H7V14L3,18L7,22V19H19V13H17M7,7H17V10L21,6L17,2V5H5V11H7V7Z"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding MediaDetailProps.RepeatMode,RelativeSource={RelativeSource AncestorType=MediaElement:MovieControl},
+                            Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:RepeatMode}}" Value="RepeatOnce">
+                            <Setter Property="Data" TargetName="contentPresenter" 
+                                    Value="M13,15V9H12L10,10V11H11.5V15M17,17H7V14L3,18L7,22V19H19V13H17M7,7H17V10L21,6L17,2V5H5V11H7V7Z"/>
+                            <Setter Property="ToolTip" TargetName="contentPresenter" Value="Repeat Once"/>
+                        </DataTrigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Opacity" TargetName="contentPresenter" Value="1"/>
+                        </Trigger>
+                        <Trigger Property="IsDefaulted" Value="true">
+                            <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="LayoutTransform" TargetName="contentPresenter">
+                                <Setter.Value>
+                                    <ScaleTransform ScaleX=".99" ScaleY="0.99"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="BorderBrush" TargetName="border"  Value="{StaticResource Button.Pressed.Border}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" TargetName="contentPresenter" Value=".3"/>
+
                             <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
 
                             <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>

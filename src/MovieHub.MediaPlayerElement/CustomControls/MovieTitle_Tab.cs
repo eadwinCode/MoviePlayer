@@ -4,7 +4,7 @@ using System.Windows.Controls;
 
 namespace MovieHub.MediaPlayerElement
 {
-    internal class MovieTitleBar : Control
+    public class MovieTitleBar : Control
     {
         static MovieTitleBar()
         {

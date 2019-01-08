@@ -24,7 +24,7 @@ namespace VirtualizingListView.Pages.ViewModel
     public class FilePageViewModel : NotificationObject, IFilePageViewModel
     {
         private readonly Dispatcher FilePageDispatcher;
-        private VideoFolder currentvideofolder;
+        private MediaFolder currentvideofolder;
         private MovieItemProvider ItemProvider;
         private bool isloading;
         private DataTemplateSelector mytemplatechange;
@@ -89,7 +89,7 @@ namespace VirtualizingListView.Pages.ViewModel
             set { listviewstyle = value; RaisePropertyChanged(() => this.ListViewStyle); }
         }
 
-        public VideoFolder CurrentVideoFolder
+        public MediaFolder CurrentVideoFolder
         {
             get { return currentvideofolder; }
             set
@@ -101,19 +101,19 @@ namespace VirtualizingListView.Pages.ViewModel
                     UpdateViewCollection();
             }
         }
-        public ObservableCollection<VideoFolder> VideoItemViewCollection
+        public ObservableCollection<MediaFolder> VideoItemViewCollection
         {
             get { return CurrentVideoFolder == null ? null : CurrentVideoFolder.OtherFiles; }
         }
         public DelegateCommand<object> OpenFolderCommand { get; private set; }
 
-        private SortType activesorttype = SortType.Date;
+        //private SortType activesorttype = SortType.Date;
         public SortType ActiveSortType
         {
-            get { return activesorttype; }
+            get { return ApplicationService.AppSettings.SortType; }
             set
             {
-                activesorttype = value;
+                ApplicationService.AppSettings.SortType = value;
                 RaisePropertyChanged(() => this.ActiveSortType);
                 CheckSort();
             }
@@ -159,7 +159,7 @@ namespace VirtualizingListView.Pages.ViewModel
                 MyTemplateChange = new ItemListSelector();
                 ListViewStyle = (Style)Application.Current.FindResource("listViewControl");
             }
-           // UpdateViewCollection();
+            // UpdateViewCollection();
         }
 
         public bool IsLoading
@@ -190,7 +190,7 @@ namespace VirtualizingListView.Pages.ViewModel
 
         private void NavigationService_LoadCompleted(object sender, NavigationEventArgs e)
         {
-            VideoFolder videoFolder = (VideoFolder)e.ExtraData;
+            MediaFolder videoFolder = (MediaFolder)e.ExtraData;
             FileWatceherSubscription(videoFolder);
             HamburgerMenuIcon = new HamburgerMenuIconItem()
             {
@@ -204,7 +204,7 @@ namespace VirtualizingListView.Pages.ViewModel
             NavigatorService.NavigationService.LoadCompleted -= NavigationService_LoadCompleted;
         }
 
-        protected void FileWatceherSubscription(VideoFolder videoFolder)
+        protected void FileWatceherSubscription(MediaFolder videoFolder)
         {
             videoFolder.OnFileWatcherUpdate -= VideoFolder_OnFileWatcherUpdate;
             videoFolder.OnFileWatcherUpdate += VideoFolder_OnFileWatcherUpdate;
@@ -216,7 +216,7 @@ namespace VirtualizingListView.Pages.ViewModel
             UpdateViewCollection();
         }
 
-        protected void AsynLoadData(VideoFolder videoFolder,string message,Action callback = null)
+        protected void AsynLoadData(MediaFolder videoFolder,string message,Action callback = null)
         {
             BackgroundService.Execute(() =>
             {
@@ -252,12 +252,13 @@ namespace VirtualizingListView.Pages.ViewModel
         }
 
 
-        private void OnDataLoaded(VideoFolder result)
+        private void OnDataLoaded(MediaFolder result)
         {
             this.CurrentVideoFolder = result;
+            CheckSort();
         }
 
-        protected VideoFolder GetVideoFolder(VideoFolder obj)
+        protected MediaFolder GetVideoFolder(MediaFolder obj)
         {
             if (obj.HasCompleteLoad) return obj;
             return FileLoader.InitGetAllFiles(obj);
@@ -307,7 +308,7 @@ namespace VirtualizingListView.Pages.ViewModel
 
         private void OpenFolderCommandAction(object obj)
         {
-            VideoFolder videoFolder = (VideoFolder)obj;
+            MediaFolder videoFolder = (MediaFolder)obj;
             if (videoFolder.Exists)
             {
                 if (videoFolder.FileType == GroupCatergory.Grouped)

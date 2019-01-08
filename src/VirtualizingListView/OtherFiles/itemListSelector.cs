@@ -14,7 +14,7 @@ namespace VirtualizingListView
     {
         public override DataTemplate SelectTemplate(object item, System.Windows.DependencyObject container)
         {
-            VideoFolder itm = item as VideoFolder;
+            MediaFolder itm = item as MediaFolder;
             if (itm == null) return item as DataTemplate;
             if (itm.FileType == GroupCatergory.Grouped)
             {

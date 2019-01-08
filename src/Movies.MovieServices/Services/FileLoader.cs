@@ -28,11 +28,11 @@ namespace Movies.MovieServices.Services
         private IApplicationService applicationService;
         private IDispatcherService _dispatcherservice;
 
-        private IDataSource<VideoFolder> MovieDataSource
+        private IDataSource<MediaFolder> MovieDataSource
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<IDataSource<VideoFolder>>();
+                return ServiceLocator.Current.GetInstance<IDataSource<MediaFolder>>();
             }
         }
 
@@ -67,15 +67,15 @@ namespace Movies.MovieServices.Services
             GetSortService = new SortService();
         }
        
-        public VideoFolder GetExistingVideoFolderIfAny(VideoFolder videoFolder)
+        public MediaFolder GetExistingVideoFolderIfAny(MediaFolder videoFolder)
         {
-            VideoFolder folder = null;
+            MediaFolder folder = null;
             if(MovieDataSource.DataSource != null)
                 MovieDataSource.DataSource.TryGetValue(videoFolder.FullName,out folder);
             return folder;
         }
 
-        public VideoFolder GetFolderItems(VideoFolder item)
+        public MediaFolder GetFolderItems(MediaFolder item)
         {
             item.IsLoading = true;
             object padlock = new object();
@@ -108,12 +108,13 @@ namespace Movies.MovieServices.Services
                 }
             }
             item.IsLoading = false;
+            item.RefreshFileInfo();
             return item;
         }
         
-        public VideoFolder DeepCopy(VideoFolder existing,VideoFolder videoFoldercopy)
+        public MediaFolder DeepCopy(MediaFolder existing,MediaFolder videoFoldercopy)
         {
-            var newcopy = new VideoFolder(videoFoldercopy, videoFoldercopy.FullName)
+            var newcopy = new MediaFolder(videoFoldercopy, videoFoldercopy.FullName)
             {
                 OtherFiles = videoFoldercopy.OtherFiles,
                 HasCompleteLoad = videoFoldercopy.HasCompleteLoad,
@@ -122,7 +123,7 @@ namespace Movies.MovieServices.Services
             return newcopy;
         }
 
-        private VideoFolder GetFolderItemsExtended(VideoFolder vfile)
+        private MediaFolder GetFolderItemsExtended(MediaFolder vfile)
         {
             var s = LoadParentFiles(vfile, vfile.SortedBy);
             if (s.OtherFiles == null )
@@ -148,7 +149,7 @@ namespace Movies.MovieServices.Services
             return s;
         }
 
-        private VideoFolder GetSubFolderItems(VideoFolder videoFolder)
+        private MediaFolder GetSubFolderItems(MediaFolder videoFolder)
         {
             Console.WriteLine("------Starting to Load {0} item-----",videoFolder);
 
@@ -182,12 +183,12 @@ namespace Movies.MovieServices.Services
         }
 
         private  void LoadParentSubDirectories(IList<DirectoryInfo> parentSubDir, 
-             ObservableCollection<VideoFolder> existingchildren, VideoFolder parentdir)
+             ObservableCollection<MediaFolder> existingchildren, MediaFolder parentdir)
         {
             for (int i = 0; i < parentSubDir.Count; i++)
             {
                 if (parentSubDir[i] == null) continue;
-                VideoFolder child = LoadDirInfo(parentdir, parentSubDir[i]);
+                MediaFolder child = LoadDirInfo(parentdir, parentSubDir[i]);
                  var originalcopy = MovieDataSource.GetExistingCopy(child);
                 if (originalcopy != null)
                 {
@@ -201,29 +202,29 @@ namespace Movies.MovieServices.Services
                 parentdir.HasSubFolders = true;
         }
         
-        public VideoFolder LoadParentFiles(VideoFolder ParentDir, SortType sorttype)
+        public MediaFolder LoadParentFiles(MediaFolder ParentDir, SortType sorttype)
         {
             if (ParentDir.HasCompleteLoad == true) return ParentDir;
 
-            ObservableCollection<VideoFolder> children;
+            ObservableCollection<MediaFolder> children;
             List<DirectoryInfo> ParentSubDir = 
                 filecommonhelper.GetParentSubDirectory(ParentDir.Directory, applicationService.Formats);
 
             if (ParentSubDir == null)
             {
-                return new VideoFolder(ParentDir, "");
+                return new MediaFolder(ParentDir, "");
             }
 
             ParentDir.MediaFileWatcher = new MediaFileWatcher(ParentDir);
 
-            children = new ObservableCollection<VideoFolder>();
+            children = new ObservableCollection<MediaFolder>();
             children = LoadChildrenFiles(ParentDir);
 
             LoadParentSubDirectories(ParentSubDir,  children, ParentDir);
             
             if (ParentDir.OtherFiles == null || children.Count > ParentDir.OtherFiles.Count)
             {
-                ParentDir.OtherFiles = new ObservableCollection<VideoFolder>();
+                ParentDir.OtherFiles = new ObservableCollection<MediaFolder>();
                 ParentDir.AddRange(children);
                 GetRootDetails(sorttype, ref ParentDir);
             }
@@ -234,7 +235,7 @@ namespace Movies.MovieServices.Services
 
         }
 
-        private void ParentDir_OnFileNameChangedChanged(string oldname, VideoFolder videoItem)
+        private void ParentDir_OnFileNameChangedChanged(string oldname, MediaFolder videoItem)
         {
             if(MovieDataSource.DataSource != null && MovieDataSource.DataSource.ContainsKey(oldname))
             {
@@ -243,19 +244,19 @@ namespace Movies.MovieServices.Services
             }
         }
 
-        private static VideoFolder LoadDirInfo(VideoFolder parent, DirectoryInfo directoryInfo)
+        private static MediaFolder LoadDirInfo(MediaFolder parent, DirectoryInfo directoryInfo)
         {
-            return new VideoFolder(parent, directoryInfo.FullName); ;
+            return new MediaFolder(parent, directoryInfo.FullName); ;
         }
 
-        public VideoFolder SortList(SortType sorttype, VideoFolder parent)
+        public MediaFolder SortList(SortType sorttype, MediaFolder parent)
         {
             return GetSortService.SortList(sorttype, parent);  
         }
 
-        public ObservableCollection<VideoFolder> LoadChildrenFiles(VideoFolder Parentdir, bool newpath = false)
+        public ObservableCollection<MediaFolder> LoadChildrenFiles(MediaFolder Parentdir, bool newpath = false)
         {
-            ObservableCollection<VideoFolder> Toparent = new ObservableCollection<VideoFolder>();
+            ObservableCollection<MediaFolder> Toparent = new ObservableCollection<MediaFolder>();
             List<Task> Tasks = new List<Task>();
             List<FileInfo> files = 
                 filecommonhelper.GetFilesByExtensions(Parentdir.Directory,applicationService.Formats);
@@ -263,14 +264,14 @@ namespace Movies.MovieServices.Services
             for (int i = 0; i < files.Count; i++)
             {
                 if (files[i] == null) continue;
-                VideoFolderChild vd = CreateVideoFolderChild(Parentdir, files[i]);
+                MediaFile vd = CreateVideoFolderChild(Parentdir, files[i]);
                 if (vd != null)
                     Toparent.Add(vd);
             }
             return Toparent;
         }
         
-        private void RunShellFunction(VideoFolderChild vd)
+        private void RunShellFunction(MediaFile vd)
         {
             string prop = null;
             prop = GetMediaTitle(vd);
@@ -278,7 +279,7 @@ namespace Movies.MovieServices.Services
                 vd.MediaTitle = prop;
         }
 
-        private string GetMediaTitle(VideoFolderChild vd)
+        private string GetMediaTitle(MediaFile vd)
         {
             ShellObject shell = ShellObject.FromParsingName(vd.FilePath);
             try
@@ -294,12 +295,12 @@ namespace Movies.MovieServices.Services
             return shell.Properties.System.Title.Value;
         }
 
-        public static void GetShellInfo(VideoFolderChild vd)
+        public static void GetShellInfo(MediaFile vd)
         {
             GetMediaInfo(vd);
         }
 
-        private static void GetMediaInfo(VideoFolderChild vd)
+        private static void GetMediaInfo(MediaFile vd)
         {
             ShellObject shell = ShellObject.FromParsingName(vd.FilePath);
             try
@@ -320,29 +321,29 @@ namespace Movies.MovieServices.Services
             vd.RefreshFileInfo();
         }
 
-        public ObservableCollection<VideoFolder> LoadChildrenFiles(VideoFolder Parentdir, IList<FileInfo> files, 
+        public ObservableCollection<MediaFolder> LoadChildrenFiles(MediaFolder Parentdir, IList<FileInfo> files, 
             bool newpath = false)
         {
-            ObservableCollection<VideoFolder> Toparent = new ObservableCollection<VideoFolder>();
+            ObservableCollection<MediaFolder> Toparent = new ObservableCollection<MediaFolder>();
             for (int i = 0; i < files.Count; i++)
             {
                 if (files[i] == null) continue;
-                VideoFolderChild vd = CreateVideoFolderChild(Parentdir, files[i]);
+                MediaFile vd = CreateVideoFolderChild(Parentdir, files[i]);
                 if(vd != null)
                     Toparent.Add(vd);
             }
             return Toparent;
         }
 
-        public VideoFolderChild LoadChildrenFiles(DirectoryInfo directoryInfo, bool newpath = false)
+        public MediaFile LoadChildrenFiles(DirectoryInfo directoryInfo, bool newpath = false)
         {
-            VideoFolder vf = null;
+            MediaFolder vf = null;
             MovieDataSource.DataSource.TryGetValue(directoryInfo.FullName, out vf);
             if (vf == null)
             {
-                VideoFolder Parentdir = new VideoFolder(directoryInfo.Parent.FullName);
+                MediaFolder Parentdir = new MediaFolder(directoryInfo.Parent.FullName);
                 FileInfo fileInfo = new FileInfo(directoryInfo.FullName);
-                VideoFolderChild vfc = CreateVideoFolderChild(Parentdir, fileInfo);
+                MediaFile vfc = CreateVideoFolderChild(Parentdir, fileInfo);
                 #region Search For Subtitle
                 //IEnumerable<FileInfo> files = null;
                 //files = filecommonhelper.GetSubtitleFiles(directoryInfo.Parent);
@@ -353,12 +354,12 @@ namespace Movies.MovieServices.Services
                 return vfc;
             }
            
-            return (VideoFolderChild)vf;
+            return (MediaFile)vf;
         }
 
-        public VideoFolderChild CreateVideoFolderChild(IFolder Parentdir,FileInfo fileInfo)
+        public MediaFile CreateVideoFolderChild(IFolder Parentdir,FileInfo fileInfo)
         {
-            VideoFolderChild vfc = new VideoFolderChild(Parentdir, fileInfo)
+            MediaFile vfc = new MediaFile(Parentdir, fileInfo)
             {
                 FileSize = filecommonhelper.FileSizeConverter(fileInfo.Length)
             };
@@ -367,7 +368,7 @@ namespace Movies.MovieServices.Services
             return vfc;
         }
 
-        public void SetLastSeen(VideoFolderChild videoFolderChild)
+        public void SetLastSeen(MediaFile videoFolderChild)
         {
             PlayedFiles pdf = applicationService.SavedLastSeenCollection.GetLastSeen(videoFolderChild.FileInfo.Name) as PlayedFiles;
             if (pdf != null)
@@ -380,15 +381,15 @@ namespace Movies.MovieServices.Services
             }
         }
 
-        public void GetRootDetails(SortType sorttype, ref VideoFolder ParentDir)
+        public void GetRootDetails(SortType sorttype, ref MediaFolder ParentDir)
         {
             ParentDir = SortList(sorttype, ParentDir);
         }
 
-        public VideoFolder LoadParentFiles(VideoFolder Parentdir,IList<DirectoryInfo> SubDirectory, SortType sorttype)
+        public MediaFolder LoadParentFiles(MediaFolder Parentdir,IList<DirectoryInfo> SubDirectory, SortType sorttype)
         {
-            VideoFolder videoFolder = new VideoFolder(Parentdir, SubDirectory[0].Parent.FullName);
-            var children = new ObservableCollection<VideoFolder>();
+            MediaFolder videoFolder = new MediaFolder(Parentdir, SubDirectory[0].Parent.FullName);
+            var children = new ObservableCollection<MediaFolder>();
             LoadParentSubDirectories(SubDirectory, children, videoFolder);
             videoFolder.OtherFiles = children;
             GetFolderItems(videoFolder);
@@ -396,10 +397,10 @@ namespace Movies.MovieServices.Services
             return videoFolder;
         }
 
-        public VideoFolder LoadParentFiles(VideoFolder Parentdir,IList<DirectoryInfo> SubDirectory, IList<FileInfo> SubFiles, SortType sorttype)
+        public MediaFolder LoadParentFiles(MediaFolder Parentdir,IList<DirectoryInfo> SubDirectory, IList<FileInfo> SubFiles, SortType sorttype)
         {
-            VideoFolder videoFolder = new VideoFolder(Parentdir, SubDirectory[0].Parent.FullName);
-            var children = new ObservableCollection<VideoFolder>();
+            MediaFolder videoFolder = new MediaFolder(Parentdir, SubDirectory[0].Parent.FullName);
+            var children = new ObservableCollection<MediaFolder>();
             children = LoadChildrenFiles(videoFolder,SubFiles);
             LoadParentSubDirectories(SubDirectory,  children, videoFolder);
             videoFolder.OtherFiles = children;
@@ -409,10 +410,10 @@ namespace Movies.MovieServices.Services
             return videoFolder;
         }
 
-        public VideoFolder LoadParentFiles(VideoFolder Parentdir,IList<FileInfo> SubFiles, SortType sorttype)
+        public MediaFolder LoadParentFiles(MediaFolder Parentdir,IList<FileInfo> SubFiles, SortType sorttype)
         {
-            VideoFolder videoFolder = new VideoFolder(Parentdir, SubFiles[0].Directory.FullName);
-            var children = new ObservableCollection<VideoFolder>();
+            MediaFolder videoFolder = new MediaFolder(Parentdir, SubFiles[0].Directory.FullName);
+            var children = new ObservableCollection<MediaFolder>();
             children = LoadChildrenFiles(videoFolder, SubFiles);
             videoFolder.OtherFiles= children;
             videoFolder.HasSubFolders = false;
@@ -422,15 +423,15 @@ namespace Movies.MovieServices.Services
             return videoFolder;
         }
 
-        public IDictionary<string, VideoFolder> GetAllFiles(ObservableCollection<VideoFolder> itemsSource)
+        public IDictionary<string, MediaFolder> GetAllFiles(ObservableCollection<MediaFolder> itemsSource)
         {
-            IDictionary<string, VideoFolder> allfile = new Dictionary<string, VideoFolder>();
+            IDictionary<string, MediaFolder> allfile = new Dictionary<string, MediaFolder>();
             object padlock = new object();
             if (itemsSource != null)
             {
                 for (int i = 0; i < itemsSource.Count; i++)
                 {
-                    VideoFolder item = itemsSource[i];
+                    MediaFolder item = itemsSource[i];
                     if (item == null) continue;
 
                     if (item.FileType == GroupCatergory.Grouped && item.ParentDirectory != null)
@@ -459,10 +460,10 @@ namespace Movies.MovieServices.Services
             return allfile;
         }
 
-        public IDictionary<string, VideoFolder> GetAllFiles(VideoFolder videoFolder)
+        public IDictionary<string, MediaFolder> GetAllFiles(MediaFolder videoFolder)
         {
-            IDictionary<string, VideoFolder> allfile = new Dictionary<string, VideoFolder>();
-            VideoFolder item = videoFolder;
+            IDictionary<string, MediaFolder> allfile = new Dictionary<string, MediaFolder>();
+            MediaFolder item = videoFolder;
             if (item == null) return allfile;
 
             if (item.FileType == GroupCatergory.Grouped && item.ParentDirectory != null)
@@ -488,9 +489,9 @@ namespace Movies.MovieServices.Services
             return allfile;
         }
 
-        private IDictionary<string, VideoFolder> GetAllFiles(IList<VideoFolder> itemsSource, VideoFolder videoFolder = null)
+        private IDictionary<string, MediaFolder> GetAllFiles(IList<MediaFolder> itemsSource, MediaFolder videoFolder = null)
         {
-            IDictionary<string, VideoFolder> allfile = new Dictionary<string, VideoFolder>();
+            IDictionary<string, MediaFolder> allfile = new Dictionary<string, MediaFolder>();
             if (itemsSource == null)
             {
                 videoFolder = GetFolderItems(videoFolder);
@@ -501,11 +502,11 @@ namespace Movies.MovieServices.Services
             {
                 for (int i = 0; i < itemsSource.Count; i++)
                 {
-                    VideoFolder item = itemsSource[i];
+                    MediaFolder item = itemsSource[i];
                     if (item == null) continue;
                     if (item.FileType == GroupCatergory.Grouped)
                     {
-                        IDictionary<string, VideoFolder> items = GetAllFiles(item.OtherFiles, item);
+                        IDictionary<string, MediaFolder> items = GetAllFiles(item.OtherFiles, item);
                         foreach (var subitem in items)
                         {
                             if (allfile.ContainsKey(subitem.Key)) continue;
@@ -524,7 +525,7 @@ namespace Movies.MovieServices.Services
             return allfile;
         }
 
-        public void InitGetAllFiles(ObservableCollection<VideoFolder> itemsSource)
+        public void InitGetAllFiles(ObservableCollection<MediaFolder> itemsSource)
         {
             lock (padlock)
             {
@@ -532,7 +533,7 @@ namespace Movies.MovieServices.Services
             }
         }
 
-        public VideoFolder InitGetAllFiles(VideoFolder videoFolder)
+        public MediaFolder InitGetAllFiles(MediaFolder videoFolder)
         {
             var data = GetAllFiles(videoFolder);
             foreach (var item in data)
@@ -548,7 +549,7 @@ namespace Movies.MovieServices.Services
             return videoFolder;
         }
 
-        public void RemoveFromDataSource(VideoFolder existingVideoFolder)
+        public void RemoveFromDataSource(MediaFolder existingVideoFolder)
         {
             if (existingVideoFolder == null) return;
             switch (existingVideoFolder.FileType)

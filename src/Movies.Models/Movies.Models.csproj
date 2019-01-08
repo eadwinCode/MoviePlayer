@@ -65,6 +65,7 @@
     <Compile Include="Interfaces\IRadioCollection.cs" />
     <Compile Include="Interfaces\IRadioModelGroup.cs" />
     <Compile Include="Interfaces\ModelInteerfaces.cs" />
+    <Compile Include="Model\DefaultControlSettings.cs" />
     <Compile Include="Model\DefaultRadioGroup.cs" />
     <Compile Include="Model\DefaultRadioModel.cs" />
     <Compile Include="Model\DummyIMediaPlayabeLastSeen.cs" />

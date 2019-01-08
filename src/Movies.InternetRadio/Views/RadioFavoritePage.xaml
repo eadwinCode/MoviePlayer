@@ -14,7 +14,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    <Grid x:Name="_parent">
+    <Grid x:Name="_parent"  Margin="0,10,0,0">
         <DockPanel>
             <DockPanel>
                 <DockPanel DockPanel.Dock="Top">
@@ -26,8 +26,8 @@
                                        FontSize="15" Foreground="OldLace"/>
                     </Button>
                     <DockPanel>
-                        <Path DockPanel.Dock="Left" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15"
-                              Focusable="False" Fill="{DynamicResource Theme.Foreground}" 
+                        <Path DockPanel.Dock="Left" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15,5,15,15"
+                              Focusable="False" Fill="{DynamicResource Theme.HighlightColor}" 
                               Data="M10,4H4C2.89,4 2,4.89 2,6V18C2,19.1 2.9,20 4,
                                20H20C21.1,20 22,19.1 22,18V8C22,6.89 
                                21.1,6 20,6H12L10,4Z"
@@ -45,16 +45,16 @@
                                Foreground="{DynamicResource Theme.Foreground}"/>
                     </DockPanel>
                 </DockPanel>
-                <ItemsControl Style="{StaticResource listViewControl}"  BorderBrush="Transparent" 
+                <ListView Style="{StaticResource listViewControl}"  BorderBrush="Transparent" 
                               BorderThickness="0"  x:Name="collections"
                               ScrollViewer.VerticalScrollBarVisibility="Auto"  Margin="10,5,0,2"
                               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                               Background="Transparent"
-                              SizeChanged="Collections_SizeChanged"
                               ItemsSource="{Binding RadioModelCollection}"
+                          ItemContainerStyle="{StaticResource CustomContainerStyle}"
                               ItemTemplate="{StaticResource FavoriteRadioStationTemplate}"
                               Grid.RowSpan="2" >
-                    <ItemsControl.GroupStyle>
+                    <ListView.GroupStyle>
                         <GroupStyle >
                             <GroupStyle.HeaderTemplate>
                                 <DataTemplate>
@@ -65,8 +65,8 @@
                             </GroupStyle.HeaderTemplate>
                         </GroupStyle>
 
-                    </ItemsControl.GroupStyle>
-                </ItemsControl>
+                    </ListView.GroupStyle>
+                </ListView>
             </DockPanel>
         </DockPanel>
         <Border HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,5,0" 

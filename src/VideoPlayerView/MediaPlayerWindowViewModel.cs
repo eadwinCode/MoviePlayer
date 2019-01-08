@@ -1,34 +1,30 @@
 ﻿using Common.ApplicationCommands;
-using Delimon.Win32.IO;
 using MahApps.Metro.Controls;
 using Microsoft.Practices.Prism.Commands;
-using Microsoft.Practices.Prism.ViewModel;
 using Microsoft.Practices.ServiceLocation;
 using MovieHub.MediaPlayerElement;
 using MovieHub.MediaPlayerElement.Models;
 using Movies.Models.Interfaces;
 using Movies.Models.Model;
 using Movies.MoviesInterfaces;
+using PresentationExtension.CommonEvent;
+using PresentationExtension.InterFaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace VideoPlayerView
 {
-    public class MediaPlayerWindow : MovieBase,INotifyPropertyChanged
+    public sealed class MediaPlayerWindow : MovieBase
     {
         private MediaPlayerWindowView mediaplayerwindowview;
         private MediaPlayerElement mediaplayerelement;
         private IPlayable CurrentPlayingItem;
         private WindowState _previousState;
-        private dynamic _previousSettings;
+        private IHomeControl _defaultPlayerControl;
+        private MediaPlayerInfoView _mediaPlayerInfo;
 
         private IShellWindowService ShellWindowService
         {
@@ -46,6 +42,22 @@ namespace VideoPlayerView
             }
         }
 
+        IEventManager EventManager
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<IEventManager>();
+            }
+        }
+
+        IDispatcherService DispatcherService
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<IDispatcherService>();
+            }
+        }
+
         private MetroWindow GetWindow
         {
             get { return ShellWindowService.ShellWindow; }
@@ -54,7 +66,7 @@ namespace VideoPlayerView
         public MediaPlayerElement MediaPlayerElement
         {
             get { return mediaplayerelement; }
-            set { mediaplayerelement = value;RaisePropertyChanged(() => this.MediaPlayerElement); }
+            private set { mediaplayerelement = value;RaisePropertyChanged(() => this.MediaPlayerElement); }
         }
         
         private DelegateCommand closemediaplayerwindow;
@@ -65,7 +77,9 @@ namespace VideoPlayerView
             {
                 if(closemediaplayerwindow == null)
                 {
-                    closemediaplayerwindow = new DelegateCommand(() => ClosePlayerActionFromPage());
+                    closemediaplayerwindow = new DelegateCommand(() =>
+                    DispatcherService.ExecuteTimerAction(() =>
+                        ClosePlayerActionFromPage(), 50));
                 }
                 return closemediaplayerwindow;
             }
@@ -76,9 +90,30 @@ namespace VideoPlayerView
         public bool IsMediaPlayerWindowEnabled
         {
             get { return ismediaplayerwindowenabled; }
-            set { ismediaplayerwindowenabled = value; RaisePropertyChanged(() => this.IsMediaPlayerWindowEnabled); }
+            private set { ismediaplayerwindowenabled = value; RaisePropertyChanged(() => this.IsMediaPlayerWindowEnabled); }
         }
-        
+
+        private MediaInformation _mediainformation;
+
+        public MediaInformation MediaInformation
+        {
+            get { return _mediainformation; }
+            private set
+            {
+                _mediainformation = value;
+                HasMediaInfo = value != null && value.NowPlaying != null ? true : false;
+                RaisePropertyChanged(() => this.MediaInformation);
+            }
+        }
+
+        private bool _hasmediainfo;
+
+        public bool HasMediaInfo
+        {
+            get { return _hasmediainfo; }
+            private set { _hasmediainfo = value; RaisePropertyChanged(() => this.HasMediaInfo); }
+        }
+
         internal bool CanUnload { get; private set; }
 
         public MediaPlayerWindow()
@@ -95,6 +130,17 @@ namespace VideoPlayerView
             MediaPlayerElement = new MediaPlayerElement();
             this.Content = mediaplayerwindowview;
             TrackWindowState();
+            _mediaPlayerInfo = new MediaPlayerInfoView() { DataContext = this };
+            InitiControl();
+        }
+
+        private void InitiControl()
+        {
+            _defaultPlayerControl = ServiceLocator.Current.GetInstance<IHomeControl>();
+            var control = _defaultPlayerControl.MovieControl as MovieControl;
+            MediaPlayerElement.UseSecondaryControl = control;
+            control.SetControlSettings(new MovieControlSettings());
+            control.MovieControlSettings.DisableMovieBoardText = false;
         }
 
         internal void Close()
@@ -109,14 +155,20 @@ namespace VideoPlayerView
         {
             MediaPlayerElement.IsCloseButtonVisible = false;
             MediaPlayerElement.CanEscapeKeyCloseMedia = true;
-            MediaPlayerElement.MovieControl.IsMinimizeControlButtonEnabled = true;
+            MediaPlayerElement.MovieControl.MovieControlSettings.IsMinimizeControlButtonEnabled = true;
             this.MediaPlayerElement.AllowMediaPlayerAutoDispose = false;
             MediaPlayerElement.SetWindowTopMostProperty += MediaPlayerElement_SetWindowTopMostProperty;
             MediaPlayerElement.OnFullScreenButtonToggle += MediaPlayerElement_OnFullScreenButtonToggle;
             MediaPlayerElement.OnMediaSizeChanged += MediaPlayerElement_OnMediaSizeChanged;
             MediaPlayerElement.OnMediaTitleChanged += MediaPlayerElement_OnMediaTitleChanged;
             MediaPlayerElement.OnCloseWindowToggled += MediaPlayerElement_OnCloseWindowToggled;
-            MediaPlayerElement.OnMinimizedControlExecuted += MediaPlayerElement_OnMinimizedControlExecuted; 
+            MediaPlayerElement.OnMinimizedControlExecuted += MediaPlayerElement_OnMinimizedControlExecuted;
+            this.MediaPlayerElement.OnMediaInfoChanged += MediaPlayerElement_OnMediaInfoChanged;
+        }
+
+        private void MediaPlayerElement_OnMediaInfoChanged(object sender, MediaInfoChangedEventArgs e)
+        {
+            MediaInformation = e.MediaInformation;
         }
 
         private void MediaPlayerElement_OnMinimizedControlExecuted(object sender, MediaPlayerViewTypeRoutedEventArgs e)
@@ -166,30 +218,35 @@ namespace VideoPlayerView
 
         private void MediaPlayerElement_OnCloseWindowToggled(object sender, RoutedEventArgs e)
         {
-            ClosePlayerAction();
+            if (this.MediaPlayerElement.MediaPlayerViewType == MediaPlayerViewType.FullMediaPanel)
+                ClosePlayerAction();
+            else
+                ClosePlayerActionFromPage();
         }
-        
+
         private void ClosePlayerActionFromPage()
+        {
+            PageNavigatorHost.RemoveView(typeof(MediaPlayerWindow).Name);
+            ClosePlayerCommon();
+        }
+
+        private void ClosePlayerCommon()
         {
             this.GetWindow.Title = ApplicationConstants.SHELLWINDOWTITLE;
             CanUnload = true;
-
-            PageNavigatorHost.RemoveView(typeof(MediaPlayerWindow).Name);
+            ShellWindowService.ClearAdditionalStatusItem();
             if (GetWindow.Topmost)
                 GetWindow.Topmost = false;
+
             MediaPlayerElement.Dispose();
+            (_defaultPlayerControl.MovieControl as MovieControl).InitializeMediaPlayerControl(null);
         }
 
         private void ClosePlayerAction()
         {
-            this.GetWindow.Title = ApplicationConstants.SHELLWINDOWTITLE;
             FullScreenAction(WindowFullScreenState.Normal);
-            CanUnload = true;
-
             ShellWindowService.RemoveView(typeof(MediaPlayerWindow).Name);
-            if (GetWindow.Topmost)
-                GetWindow.Topmost = false;
-            MediaPlayerElement.Dispose();
+            ClosePlayerCommon();
         }
 
         private void MediaPlayerElement_OnMediaTitleChanged(object sender, RoutedEventArgs e)
@@ -221,6 +278,21 @@ namespace VideoPlayerView
                 default:
                     break;
             }
+            ActiveMediaPlayerControl(fullScreenState);
+        }
+
+        private void ActiveMediaPlayerControl(WindowFullScreenState fullScreenState)
+        {
+            if(fullScreenState == WindowFullScreenState.FullScreen)
+            {
+                MediaPlayerElement.UseSecondaryControl = null;
+                EventManager.GetEvent<FullScreenNotice>().Publish(true);
+            }
+            else
+            {
+                MediaPlayerElement.UseSecondaryControl = _defaultPlayerControl.MovieControl as MovieControl;
+                EventManager.GetEvent<FullScreenNotice>().Publish(false);
+            }
         }
 
         private void TrackWindowState()
@@ -230,8 +302,8 @@ namespace VideoPlayerView
 
         private void MediaPlayerElement_OnMediaSizeChanged(object sender, MediaSizeChangedRoutedArgs e)
         {
-            GetWindow.Width = e.MediaWidth;
-            GetWindow.Height = e.MediaHeight;
+            //GetWindow.Width = e.MediaWidth;
+            //GetWindow.Height = e.MediaHeight;
         }
 
         private void MediaPlayerElement_SetWindowTopMostProperty(object sender, RoutedEventArgs e)
@@ -258,22 +330,35 @@ namespace VideoPlayerView
 
         public void LoadMediaFile(IPlayable playablefile)
         {
+            MaximizeWindow();
+
             this.CurrentPlayingItem = playablefile;
             MediaPlayerElement.Source(playablefile);
         }
 
+        private void MaximizeWindow()
+        {
+            ShellWindowService.ShellWindow.WindowState = WindowState.Maximized;
+        }
+
         public void LoadMediaFile(Uri FileUrl)
         {
+            MaximizeWindow();
+
             MediaPlayerElement.Source(FileUrl);
         }
 
         public void LoadMediaFile(IPlaylistModel plm)
         {
+            MaximizeWindow();
+
             MediaPlayerElement.Source(plm);
         }
 
         public void LoadMediaFile(IPlayable playFile, IEnumerable<IPlayable> TemperalList)
         {
+            MaximizeWindow();
+
             //LoadMediaFile(playFile);
             MediaPlayerElement.Source(playFile, TemperalList);
         }
@@ -292,6 +377,8 @@ namespace VideoPlayerView
         {
             if (!IsMediaPlayerWindowEnabled)
             {
+                ShellWindowService.SetAdditionalStatusItem(_mediaPlayerInfo);
+
                 ShellWindowService.AddView(this, typeof(MediaPlayerWindow).Name);
                 this.Focus();
                 FocusManager.SetFocusedElement(this, MediaPlayerElement);

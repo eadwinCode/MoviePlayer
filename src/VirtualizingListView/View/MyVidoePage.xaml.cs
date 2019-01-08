@@ -1,27 +1,10 @@
-﻿using MahApps.Metro.Controls;
-using Microsoft.Practices.Prism.Commands;
-using Microsoft.Practices.Prism.ViewModel;
-using Microsoft.Practices.ServiceLocation;
-using Movies.Enums;
-using Movies.Models.Interfaces;
+﻿using Movies.Models.Interfaces;
 using Movies.Models.Model;
 using Movies.MoviesInterfaces;
-using PresentationExtension.CommonEvent;
-using PresentationExtension.InterFaces;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using VirtualizingListView.Pages.ViewModel;
 
@@ -68,7 +51,7 @@ namespace VirtualizingListView.View
         public MyVidoePageViewModel(IMainPage owner,Dispatcher dispatcher):base(dispatcher)
         {
             PageOwner = owner;
-            CurrentVideoFolder = new VideoFolder(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos));
+            CurrentVideoFolder = new MediaFolder(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos));
             FileWatceherSubscription(CurrentVideoFolder);
         }
         

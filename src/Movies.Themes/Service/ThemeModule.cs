@@ -3,10 +3,6 @@ using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Unity;
 using Movies.Themes.Views;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Movies.Themes.Service
 {

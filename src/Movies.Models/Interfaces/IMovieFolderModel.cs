@@ -24,7 +24,7 @@ namespace Movies.Models.Interfaces
 
     public interface ISearchModel
     {
-        ICollection<VideoFolder> Results { get; set; }
+        ICollection<MediaFolder> Results { get; set; }
         string SearchQuery { get; set; }
     }
 }

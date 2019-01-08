@@ -138,7 +138,7 @@
                     </Path>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{Binding CurrentVideoFolder.Name}"
-                               VerticalAlignment="Center"   TextTrimming="CharacterEllipsis" 
+                               VerticalAlignment="Center" TextTrimming="CharacterEllipsis" 
                                FontSize="22" Padding="3" FontWeight="Light"
                                Foreground="{DynamicResource Theme.Foreground}"/>
                         <TextBlock Text="{Binding CurrentVideoFolder.FilePath}"  

@@ -13,14 +13,14 @@ using System.Windows;
 
 namespace Movies.Models.Model
 {
-    public class VideoFolder :  IFolder, INotifyPropertyChanged, IDisposable
+    public class MediaFolder :  IFolder, INotifyPropertyChanged, IDisposable
     {
         private int childcount;
         private string filepath;
         private FileInfo fileinfo;
         private bool hassubfolders = false;
         private string filesize;
-        private ObservableCollection<VideoFolder> childrenfiles;
+        private ObservableCollection<MediaFolder> childrenfiles;
         public int intChildCount;
         private DirectoryInfo directory;
         private IFolder parentdirectory;
@@ -79,18 +79,18 @@ namespace Movies.Models.Model
             }
         }
 
-        public VideoFolder(IFolder ParentDir, string filepath)
+        public MediaFolder(IFolder ParentDir, string filepath)
             : this(filepath)
         {
             this.parentdirectory = ParentDir;
         }
 
-        public VideoFolder(string filepath)
+        public MediaFolder(string filepath)
         {
             this.filepath = filepath;
         }
 
-        public VideoFolder(FileInfo fileinfo)
+        public MediaFolder(FileInfo fileinfo)
         {
             this.fileinfo = fileinfo;
             this.filepath = fileinfo.FullName;
@@ -116,7 +116,7 @@ namespace Movies.Models.Model
             get { return FileInfo.CreationTime; }
         }
 
-        public ObservableCollection<VideoFolder> OtherFiles
+        public ObservableCollection<MediaFolder> OtherFiles
         {
             get { return this.childrenfiles; }
             set
@@ -197,9 +197,9 @@ namespace Movies.Models.Model
 
         public override bool Equals(object obj)
         {
-            if (obj != null && (obj is VideoFolder))
+            if (obj != null && (obj is MediaFolder))
             {
-                return ((VideoFolder)obj).FullName == this.FullName;
+                return ((MediaFolder)obj).FullName == this.FullName;
             }
 
             return false;
@@ -289,13 +289,13 @@ namespace Movies.Models.Model
                 MediaFileWatcher.UnloadWatch();
         }
 
-        public void AddChild(VideoFolder videoFolder,bool fileWatchChanges =false)
+        public void AddChild(MediaFolder videoFolder,bool fileWatchChanges =false)
         {
             this.childrenfiles.Add(videoFolder);
             if (fileWatchChanges)
                 FileWatcherUpdate();
         }
-        public void AddRange(IEnumerable<VideoFolder> videoFolders, bool fileWatchChanges = false)
+        public void AddRange(IEnumerable<MediaFolder> videoFolders, bool fileWatchChanges = false)
         {
             foreach (var item in videoFolders)
             {
@@ -303,7 +303,7 @@ namespace Movies.Models.Model
             }
         }
 
-        public void RemoveChild(VideoFolder videoFolder, bool fileWatchChanges = false)
+        public void RemoveChild(MediaFolder videoFolder, bool fileWatchChanges = false)
         {
             this.childrenfiles.Remove(videoFolder);
             if (fileWatchChanges)

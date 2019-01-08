@@ -33,7 +33,7 @@ namespace Movies.Services
         {
             var commandbings = IShell.CommandBindings;
             commandbings.Add(new CommandBinding(VideoPlayerCommands.Play, Play_executed, CanExecute));
-            commandbings.Add(new CommandBinding(VideoPlayerCommands.AddtoPlayList, AddtoPlayList_executed,CanExecute));
+            commandbings.Add(new CommandBinding(VideoPlayerCommands.AddtoPlayList, AddtoPlayList_executed, CanExecute));
             commandbings.Add(new CommandBinding(VideoPlayerCommands.WMPPlay, WMPPlay_executed, CanExecute));
             commandbings.Add(new CommandBinding(VideoPlayerCommands.AddTo, AddTo_executed, CanExecute));
             commandbings.Add(new CommandBinding(VideoPlayerCommands.NewPlaylist, NewPlaylist_executed, CanExecute));
@@ -48,13 +48,13 @@ namespace Movies.Services
 
         private void RemoveFromLS_enabled(object sender, CanExecuteRoutedEventArgs e)
         {
-            VideoFolderChild vfc = (VideoFolderChild)e.Parameter;
+            MediaFile vfc = (MediaFile)e.Parameter;
             e.CanExecute = vfc.HasLastSeen;
         }
 
         private void RemoveFromLS_executed(object sender, ExecutedRoutedEventArgs e)
         {
-            VideoFolderChild vfc = (VideoFolderChild)e.Parameter;
+            MediaFile vfc = (MediaFile)e.Parameter;
             IFolder folder = vfc.ParentDirectory;
             vfc.Progress = 0;
             ApplicationService.SavedLastSeenCollection.Remove((PlayedFiles)vfc.LastPlayedPoisition);
@@ -63,8 +63,8 @@ namespace Movies.Services
 
         private void NewPlaylist_executed(object sender, ExecutedRoutedEventArgs e)
         {
-            VideoFolder vfc = (VideoFolder)e.Parameter;
-            if (e.Parameter is VideoFolderChild)
+            MediaFolder vfc = (MediaFolder)e.Parameter;
+            if (e.Parameter is MediaFile)
             {
                 HomePlaylistService.CreateNewPlayList(vfc.FullName);
             }
@@ -83,11 +83,11 @@ namespace Movies.Services
             }
         }
 
-        private List<string> GetListPath(VideoFolder vfc)
+        private List<string> GetListPath(MediaFolder vfc)
         {
             var listpath = new List<string>();
             var padlock = new object();
-            Parallel.ForEach(vfc.OtherFiles.Where(s => s is VideoFolderChild), (s) => {
+            Parallel.ForEach(vfc.OtherFiles.Where(s => s is MediaFile), (s) => {
                 lock (padlock)
                 {
                     listpath.Add(s.FullName);
@@ -100,7 +100,7 @@ namespace Movies.Services
         private void AddTo_executed(object sender, ExecutedRoutedEventArgs e)
         {
             var selectedplaylist = e.Parameter as PlaylistModel;
-            VideoFolder vf = ((e.OriginalSource as Button).DataContext as VideoFolder);
+            MediaFolder vf = ((e.OriginalSource as Button).DataContext as MediaFolder);
 
             if (selectedplaylist.IsActive && vf != null)
             {
@@ -114,33 +114,33 @@ namespace Movies.Services
 
         private void AddtoPlayList_executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (e.Parameter is VideoFolderChild)
+            if (e.Parameter is MediaFile)
             {
-                IVideoData vfc = (VideoFolderChild)e.Parameter;
+                IVideoData vfc = (MediaFile)e.Parameter;
                 IPlayFile.AddFiletoPlayList(vfc);
                 return;
             }
 
-            IFolder videofolder = e.Parameter as VideoFolder;
+            IFolder videofolder = e.Parameter as MediaFolder;
             IPlayFile.AddFiletoPlayList(videofolder);
         }
 
         private void Play_executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (e.Parameter is VideoFolderChild)
+            if (e.Parameter is MediaFile)
             {
-                IVideoData vfc = (VideoFolderChild)e.Parameter;
+                IVideoData vfc = (MediaFile)e.Parameter;
                 IPlayFile.PlayFileInit(vfc);
                 return;
             }
 
-            IFolder videofolder = e.Parameter as VideoFolder;
+            IFolder videofolder = e.Parameter as MediaFolder;
             IPlayFile.PlayFileInit(videofolder);
         }
 
         private void WMPPlay_executed(object sender, ExecutedRoutedEventArgs e)
         {
-            IVideoData vfc = (VideoFolderChild)e.Parameter;
+            IVideoData vfc = (MediaFile)e.Parameter;
             if (vfc != null)
             {
                 IPlayFile.WMPPlayFileInit(vfc);

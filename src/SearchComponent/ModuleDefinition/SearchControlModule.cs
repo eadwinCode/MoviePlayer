@@ -30,7 +30,7 @@ namespace SearchComponent.ModuleDefinition
 
         private void RegisterServices()
         {
-            this.unityContainer.RegisterType<ISearchControl<VideoFolder>,SearchControl<VideoFolder>>
+            this.unityContainer.RegisterType<ISearchControl<MediaFolder>,SearchControl<MediaFolder>>
                 (new ContainerControlledLifetimeManager());
         }
 

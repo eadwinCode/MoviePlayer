@@ -17,8 +17,8 @@ namespace Movies.MovieServices.Services
 {
     public class MediaFileWatcher : System.IO.FileSystemWatcher, IFileSystemWatcher
     {
-        private readonly VideoFolder MediaFolder;
-        public MediaFileWatcher(VideoFolder mediafolder)
+        private readonly MediaFolder MediaFolder;
+        public MediaFileWatcher(MediaFolder mediafolder)
         {
             this.MediaFolder = mediafolder;
             this.Path = MediaFolder.FullName;
@@ -90,7 +90,7 @@ namespace Movies.MovieServices.Services
             DispatcherService.InvokeDispatchAction(new Action(() =>
             {
                 var Mediafolder = ((MediaFileWatcher)sender).MediaFolder;
-                VideoFolder videoFolder = new VideoFolder(e.OldFullPath);
+                MediaFolder videoFolder = new MediaFolder(e.OldFullPath);
                 for (int i = 0; i < Mediafolder.OtherFiles.Count; i++)
                 {
                     var oldfolder = Mediafolder.OtherFiles[i];
@@ -112,14 +112,14 @@ namespace Movies.MovieServices.Services
             DispatcherService.InvokeDispatchAction(new Action(() =>
             {
                 var Mediafolder = ((MediaFileWatcher)sender).MediaFolder;
-                VideoFolder videoFolder = null;
-                VideoFolderChild folderChild = null;
+                MediaFolder videoFolder = null;
+                MediaFile folderChild = null;
                 FileInfo fileInfo = new FileInfo(fullPath);
 
                 if (string.IsNullOrEmpty(fileInfo.Extension))
-                    videoFolder = new VideoFolder(fullPath);
+                    videoFolder = new MediaFolder(fullPath);
                 else
-                    folderChild = new VideoFolderChild(Mediafolder, fileInfo);
+                    folderChild = new MediaFile(Mediafolder, fileInfo);
 
                 if(folderChild != null)
                 {
@@ -174,13 +174,13 @@ namespace Movies.MovieServices.Services
             }));
         }
 
-        private static VideoFolder CreateDirectory(VideoFolder MediaFolder,DirectoryInfo directoryInfo)
+        private static MediaFolder CreateDirectory(MediaFolder MediaFolder,DirectoryInfo directoryInfo)
         {
             var subdir = Fileexplorercommonhelper.GetParentSubDirectory(directoryInfo,
                    ApplicationService.Formats);
             var files = Fileexplorercommonhelper.GetFilesByExtensions(directoryInfo,
               ApplicationService.Formats);
-            VideoFolder videoFolder = null;
+            MediaFolder videoFolder = null;
 
             if (subdir.Count > 0 && files.Count > 0)
                 videoFolder = FileLoader.LoadParentFiles(MediaFolder,subdir, files, MediaFolder.SortedBy);

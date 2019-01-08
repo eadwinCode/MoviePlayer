@@ -48,7 +48,7 @@ namespace SearchComponent.Views
             this.IsEnabled = false;
         }
 
-        private void SearchControl_UpdateEvent(ICollection<VideoFolder> arrayArgs, string searchquery)
+        private void SearchControl_UpdateEvent(ICollection<MediaFolder> arrayArgs, string searchquery)
         {
             this.IsEnabled = true;
             if (OnFinished != null)
@@ -97,11 +97,11 @@ namespace SearchComponent.Views
             e.Handled = true;
         }
 
-        private ISearchControl<VideoFolder> ISearchControl
+        private ISearchControl<MediaFolder> ISearchControl
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<ISearchControl<VideoFolder>>();
+                return ServiceLocator.Current.GetInstance<ISearchControl<MediaFolder>>();
             }
         }
 

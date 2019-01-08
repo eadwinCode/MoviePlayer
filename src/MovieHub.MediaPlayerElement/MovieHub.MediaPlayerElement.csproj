@@ -77,6 +77,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\OtherComponentStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\PlaylistStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -94,13 +98,16 @@
     <Compile Include="CustomControls\MediaSlider.cs" />
     <Compile Include="CustomControls\MovieTitle_Tab.cs" />
     <Compile Include="CustomControls\VolumeControl.cs" />
+    <Compile Include="Interfaces\IMediaPlayerElement.cs" />
     <Compile Include="Interfaces\IMediaInfo.cs" />
     <Compile Include="Interfaces\IMediaPlayerService.cs" />
     <Compile Include="MediaMenuViewModel.cs" />
     <Compile Include="MediaPlayerElement.cs" />
     <Compile Include="Models\AudioTracksManagement.cs" />
     <Compile Include="Models\ChapterManagement.cs" />
+    <Compile Include="Models\ControlSettings.cs" />
     <Compile Include="Models\MediaBufferingEventArgs.cs" />
+    <Compile Include="Models\MediaDetailProps.cs" />
     <Compile Include="Models\MediaInfoChangedEventArgs.cs" />
     <Compile Include="Models\MediaInformation.cs" />
     <Compile Include="Models\MediaPlayerViewTypeRoutedEventArgs.cs" />
@@ -173,7 +180,7 @@
       <Name>Movies.GlobalResources</Name>
     </ProjectReference>
     <ProjectReference Include="..\Movies.Models\Movies.Models.csproj">
-      <Project>{12CE1E5D-1E2D-4FE8-8084-B5E334CD54CD}</Project>
+      <Project>{12ce1e5d-1e2d-4fe8-8084-b5e334cd54cd}</Project>
       <Name>Movies.Models</Name>
     </ProjectReference>
     <ProjectReference Include="..\PresentationExtension\PresentationExtension.csproj">

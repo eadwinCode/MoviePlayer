@@ -5,10 +5,6 @@ using Microsoft.Practices.Unity;
 using Movies.MoviesInterfaces;
 using Movies.StatusService.Services;
 using Movies.StatusService.Views;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Movies.StatusService.ModuleDefinition
 {

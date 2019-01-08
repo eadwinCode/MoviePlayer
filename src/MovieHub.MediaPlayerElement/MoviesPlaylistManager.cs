@@ -595,7 +595,7 @@ namespace MovieHub.MediaPlayerElement
         {
             get
             {
-                if (mediaPlayer.MovieControl.RepeatMode == RepeatMode.Repeat)
+                if (mediaPlayer.MovieControl.MediaDetailProps.RepeatMode == RepeatMode.Repeat)
                 {
                     _canNext = true;
                     return _canNext;
@@ -610,7 +610,7 @@ namespace MovieHub.MediaPlayerElement
         {
             get
             {
-                if (mediaPlayer.MovieControl.RepeatMode == RepeatMode.Repeat)
+                if (mediaPlayer.MovieControl.MediaDetailProps.RepeatMode == RepeatMode.Repeat)
                 {
                     _canPrevious = true;
                     return _canPrevious;
@@ -624,14 +624,14 @@ namespace MovieHub.MediaPlayerElement
         public IPlayable GetNextItem()
         {
             int curreentpos = NowPlayingIndex;
-            if (mediaPlayer.MovieControl.RepeatMode == RepeatMode.RepeatOnce)
+            if (mediaPlayer.MovieControl.MediaDetailProps.RepeatMode == RepeatMode.RepeatOnce)
             {
                 return NowPlaying;
             }
             if (CanNext)
             {
                 int finalpos = curreentpos + 1;
-                if (mediaPlayer.MovieControl.RepeatMode == RepeatMode.Repeat)
+                if (mediaPlayer.MovieControl.MediaDetailProps.RepeatMode == RepeatMode.Repeat)
                 {
                     if (finalpos > PlayListCollection.Count - 1)
                     {
@@ -649,7 +649,7 @@ namespace MovieHub.MediaPlayerElement
             if (CanPrevious)
             {
                 int finalpos = curreentpos - 1;
-                if (mediaPlayer.MovieControl.RepeatMode == RepeatMode.Repeat)
+                if (mediaPlayer.MovieControl.MediaDetailProps.RepeatMode == RepeatMode.Repeat)
                 {
                     if (finalpos < 0)
                     {
@@ -702,7 +702,7 @@ namespace MovieHub.MediaPlayerElement
             if (CanNext)
             {
                 int finalpos = NowPlayingIndex + 1;
-                if (mediaPlayer.MovieControl.RepeatMode == RepeatMode.Repeat)
+                if (mediaPlayer.MovieControl.MediaDetailProps.RepeatMode == RepeatMode.Repeat)
                 {
                     if (finalpos > PlayListCollection.Count - 1)
                     {
@@ -719,7 +719,7 @@ namespace MovieHub.MediaPlayerElement
             if (CanPrevious)
             {
                 int finalpos = NowPlayingIndex - 1;
-                if (mediaPlayer.MovieControl.RepeatMode == RepeatMode.Repeat)
+                if (mediaPlayer.MovieControl.MediaDetailProps.RepeatMode == RepeatMode.Repeat)
                 {
                     if (finalpos < 0)
                     {

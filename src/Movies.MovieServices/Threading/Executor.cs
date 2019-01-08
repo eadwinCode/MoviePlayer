@@ -9,11 +9,11 @@ namespace Movies.MovieServices.Threading
 {
     public abstract class Executor : IBackgroundService
     {
-        public TaskCollection TaskCollection { get; }
+        public TaskCollection TaskCollection { get { return _taskcollection; } }
 
         public Executor()
         {
-            TaskCollection = new TaskCollection();
+            _taskcollection = new TaskCollection();
             TaskCollection.TasksEnded += (s, e) =>
               {
                   if (OnTasksEnded != null)
@@ -131,7 +131,9 @@ namespace Movies.MovieServices.Threading
             if (task.IsBusy) task.Stop();
         }
 
-       
+
+
+        public Threading.TaskCollection _taskcollection { get; set; }
     }
 
     public class ExecutorImpl : Executor

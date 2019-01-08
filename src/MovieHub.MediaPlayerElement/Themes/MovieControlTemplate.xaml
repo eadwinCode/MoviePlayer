@@ -4,16 +4,14 @@
                     xmlns:y="clr-namespace:MovieHub.MediaPlayerElement"
                     xmlns:cmd="clr-namespace:Common.ApplicationCommands;assembly=Common"
                     xmlns:customControl="clr-namespace:MovieHub.MediaPlayerElement.CustomControls"
-                     xmlns:MediaElement="clr-namespace:MovieHub.MediaPlayerElement"
-                    
+                    xmlns:MediaElement="clr-namespace:MovieHub.MediaPlayerElement"
                     xmlns:util="clr-namespace:Common.Util;assembly=Common">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/MovieHub.MediaPlayerElement;component/Themes/PlaylistStyles.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/MovieHub.MediaPlayerElement;component/Themes/OtherComponentStyle.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <y:TextConverter x:Key="TextConverter"/>
     <y:ViewConverter x:Key="ViewConverter"/>
-    <local:VolumeTextConverter x:Key="VolumeTextConverter"/>
     <local:TrackListConverter x:Key="TrackListConverter" />
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
@@ -46,83 +44,6 @@
                         <DataTrigger Binding="{Binding ElementName=tbx,Path=Visibility}" Value="Visible" >
                             <Setter Property="Visibility" Value="Collapsed" TargetName="tbmarquee"/>
                         </DataTrigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style TargetType="{x:Type local:VolumeControl}">
-        <Setter Property="TextBlock.FontSize" Value="16"/>
-        <Setter Property="TextBlock.FontWeight" Value="Bold"/>
-        <Setter Property="Width" Value="130"/>
-        <Setter Property="Height" Value="35"/>
-        <Setter Property="Background" Value="Orange"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:VolumeControl}">
-                    <Border Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" Background="{TemplateBinding Background}">
-                        <StackPanel  DockPanel.Dock="Right" Orientation="Vertical" Opacity="{TemplateBinding Opacity}"
-                                HorizontalAlignment="Stretch" 
-                                VerticalAlignment="Center">
-                            <TextBlock x:Name="tb" Padding="5"  SnapsToDevicePixels="True" TextAlignment="Center" 
-                                       VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                                       Text="{Binding ElementName=volslider,Path=Value, 
-                                Converter={StaticResource VolumeTextConverter},StringFormat=Volume {0}}"/>
-                            <DockPanel x:Name="showbtn" Visibility="Collapsed" Width="130" Background="Transparent"
-                                       VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                                <!--<Button Command="{Binding Mute,Mode=TwoWay}" DockPanel.Dock="Right" Width="24" Style="{StaticResource ContentContainer}">
-                                <Image Opacity=".7" x:Name="contentPresenter"
-                                       Margin="2" Uid="sound-icone-4732-32.png" />
-                            </Button>-->
-                                <DockPanel DockPanel.Dock="Top" Height="10" Background="Transparent">
-                                    <Button  Style="{StaticResource ControlButtonStyle}" Command="{x:Static local:MovieControl.Mute}">
-                                        <TextBlock x:Name="muteText" DockPanel.Dock="Left" Foreground="WhiteSmoke" Margin="5,0,5,0" FontSize="10" Cursor="Hand"
-                                               ToolTip="Mute audio" Text="Audio Active"/>
-                                    </Button>
-                                    <TextBlock  Foreground="WhiteSmoke"  FontSize="10" Margin="2,0,5,0" SnapsToDevicePixels="True" HorizontalAlignment="Right"
-                                       Text="{Binding ElementName=volslider,Path=Value,Converter={StaticResource VolumeTextConverter}, StringFormat=Vol: {0}}"/>
-                                </DockPanel>
-
-                                <Slider Margin="2" Style="{StaticResource VolumeSliderStyle}" 
-                                    Value="{Binding VolumeLevel, RelativeSource={RelativeSource AncestorType=local:VolumeControl}}" 
-                                    x:Name="volslider" Maximum="200" Cursor="Hand"
-                                    SmallChange="0.1"/>
-                            </DockPanel>
-                        </StackPanel>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Visibility" TargetName="showbtn" Value="Visible"/>
-                            <Setter Property="Visibility" TargetName="tb" Value="Collapsed"/>
-                            <Setter Property="TextBlock.FontSize" Value="12"/>
-                            <Setter Property="TextBlock.TextAlignment" TargetName="tb" Value="Center"/>
-                        </Trigger>
-
-                        <DataTrigger Binding="{Binding VolumeState,RelativeSource={RelativeSource AncestorType=MediaElement:MediaPlayerElement}}" Value="Muted">
-                            <Setter Property="Text"  TargetName="muteText" Value="Audio Mute"/>
-                            <Setter Property="ToolTip"  TargetName="muteText" Value="Unmute sound"/>
-                            <Setter Property="IsEnabled" TargetName="volslider" Value="False"/>
-                        </DataTrigger>
-                        <!--<Trigger Property="IsMouseOver" Value="True">
-                            <Trigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="textonly" Duration="0:0:0.2" To="0" 
-                                                         Storyboard.TargetProperty="Width" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.EnterActions>
-                            <Trigger.ExitActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="textonly" Duration="0:0:0.2" To="120" 
-                                                         Storyboard.TargetProperty="Width" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.ExitActions>-->
-                        <!--<Setter TargetName="textonly" Property="Visibility" Value="Collapsed"/>
-                        </Trigger>-->
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -193,26 +114,6 @@
                 </LinearGradientBrush>
             </Border.Background>
             <DockPanel>
-                <DockPanel Background="#FFD6DBE9" DockPanel.Dock="Top" Margin="4" 
-                                          Visibility="{Binding IsLastSeenEnabled,
-                        RelativeSource={RelativeSource AncestorType=local:MovieControl},
-                        Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBlock Foreground="Black" FontSize="14" Opacity=".8" 
-                                       Text="{Binding LastSeenTextInfo,
-                                RelativeSource={RelativeSource AncestorType=local:MovieControl},
-                                Converter={StaticResource TextContexter},ConverterParameter=LastSeenText}"
-                                                   Margin="2" Padding="5" />
-                        <Button Content="YES" Margin="3" Padding="3" Foreground="White" 
-                                                DockPanel.Dock="Right" Command="{Binding SetLastSeenCommand,RelativeSource={RelativeSource AncestorType=local:MovieControl}}" 
-                                                Background="#FF364E6F" Style="{StaticResource lastSeenBtnStyle}">
-                        </Button>
-                        <Button Content="NO" Margin="3" DockPanel.Dock="Right" 
-                                                Foreground="White" Command="{Binding CloseLastSeenCommand,RelativeSource={RelativeSource AncestorType=local:MovieControl}}" 
-                                                Background="#FF364E6F" Style="{StaticResource lastSeenBtnStyle}">
-                        </Button>
-                    </StackPanel>
-                </DockPanel>
 
                 <Border BorderThickness="2" Padding="4,0,0,4" x:Name="Part_ParentRoot" TextBlock.Foreground="White" Background="Transparent">
                     <DockPanel  Background="Transparent" x:Name="GroupSlider" Grid.Column="0">
@@ -221,7 +122,7 @@
 
                                 <Button SnapsToDevicePixels="True" Width="34"
                                                 DockPanel.Dock="Left" VerticalAlignment="Center" Margin="5,0,5,5"
-                                                Visibility="{Binding IsPreviousButtonEnabled,
+                                                Visibility="{Binding MovieControlSettings.IsPreviousButtonEnabled,
                                             RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                             Converter={StaticResource BooleanToVisibilityConverter}}"
                                                 Command="{x:Static local:MovieControl.Previous}"
@@ -241,7 +142,7 @@
 
                                 <Button Width="30" DockPanel.Dock="Left" x:Name="Previous"  
                                         VerticalAlignment="Center" Margin="0,0,5,5"
-                                                Visibility="{Binding IsNextButtonEnabled,
+                                                Visibility="{Binding MovieControlSettings.IsNextButtonEnabled,
                                             RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                             Converter={StaticResource BooleanToVisibilityConverter}}"
                                                 ToolTip="Next"  Style="{StaticResource ControlButtonStyle}"
@@ -256,7 +157,7 @@
 
                                 <Button  Width="34" DockPanel.Dock="Left"  Margin="0,1,0,0" 
                                          VerticalAlignment="Center"
-                                                 Visibility="{Binding IsMediaOptionToggleEnabled,
+                                                 Visibility="{Binding MovieControlSettings.IsMediaOptionToggleEnabled,
                                              RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                             Converter={StaticResource BooleanToVisibilityConverter}}"
                                                  Style="{StaticResource ControlButtonStyle}"
@@ -278,7 +179,7 @@
                                     <Button SnapsToDevicePixels="True" Width="28" HorizontalAlignment="Center" 
                                             Margin="0,0,0,5" x:Name="repeatbtn" ToolTip="Playlist" 
                                             VerticalAlignment="Center"
-                                                    Visibility="{Binding IsPlaylistToggleEnabled,
+                                                    Visibility="{Binding MovieControlSettings.IsPlaylistToggleEnabled,
                                                  RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                             Converter={StaticResource BooleanToVisibilityConverter}}"
                                                     Style="{StaticResource ControlButtonStyle}"
@@ -295,7 +196,7 @@
                                     <Button SnapsToDevicePixels="True" Width="20"  ToolTip="{Binding RepeatMode}"   
                                                     Style="{StaticResource RepeatButtonStyle}" VerticalAlignment="Center"   
                                             HorizontalAlignment="Center" Margin="6"
-                                                    Visibility="{Binding IsRepeatToggleEnabled,
+                                                    Visibility="{Binding MovieControlSettings.IsRepeatToggleEnabled,
                                                  RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                             Converter={StaticResource BooleanToVisibilityConverter}}"
                                                     Command="{x:Static local:MovieControl.RepeatCommand}" >
@@ -303,7 +204,7 @@
 
                                     <Button  Width="20" Margin="5,0,5,5" ToolTip="FullScreen"
                                                      Style="{StaticResource FullScreenToggle}"
-                                                     Visibility="{Binding IsFullScreenToggleEnabled,
+                                                     Visibility="{Binding MovieControlSettings.IsFullScreenToggleEnabled,
                                                  RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                             Converter={StaticResource BooleanToVisibilityConverter}}"
                                                      x:Name="FulBtn" Command="{x:Static local:MovieControl.FullScreen}"
@@ -315,7 +216,7 @@
                                                 Style="{StaticResource ControlMaxMinButtonStyle}"
                                                 Command="{x:Static local:MovieControl.MinimizeControlCommand}" Foreground="White" 
                                                 Height="18" Margin="5,5,5,5"
-                                                Visibility="{Binding IsMinimizeControlButtonEnabled,
+                                                Visibility="{Binding MovieControlSettings.IsMinimizeControlButtonEnabled,
                                              RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                         Converter={StaticResource BooleanToVisibilityConverter}}"
                                                CommandParameter="{StaticResource optionsPop}"
@@ -326,7 +227,7 @@
                                                 Style="{StaticResource ControlButtonStyle}"
                                                 Command="{x:Static local:MovieControl.CloseMediaWindow}" Foreground="White" 
                                                 Height="40" Margin="6,0,5,5"
-                                                Visibility="{Binding IsControlMediaCloseButtonEnabled,
+                                                Visibility="{Binding MovieControlSettings.IsControlMediaCloseButtonEnabled,
                                              RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                         Converter={StaticResource BooleanToVisibilityConverter}}"
                                                CommandParameter="{StaticResource optionsPop}"
@@ -353,41 +254,41 @@
                                 <StackPanel VerticalAlignment="Center" DockPanel.Dock="Right"  Background="Transparent"
                                     Orientation="Horizontal">
                                     <TextBlock  TextBlock.FontSize="18" Margin="2,0,0,0"
-                                                        Visibility="{Binding CurrentTimerDisplayVisible,
+                                                        Visibility="{Binding MovieControlSettings.CurrentTimerDisplayVisible,
                                                  RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                             Converter={StaticResource BooleanToVisibilityConverter}}"
-                                                        Text="{Binding CurrentMediaTime,
+                                                        Text="{Binding MediaDetailProps.CurrentMediaTime,
                                                 RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                                 Converter={StaticResource TextConverter},  UpdateSourceTrigger=PropertyChanged,
                                                 FallbackValue='00:00:00'}" 
                                                         HorizontalAlignment="Left" Padding="2" />
                                     <TextBlock Text="/" Padding="2" 
-                                                       Visibility="{Binding ShowTimerSeperator,
+                                                       Visibility="{Binding MovieControlSettings.ShowTimerSeperator,
                                                  RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                             Converter={StaticResource BooleanToVisibilityConverter}}"
                                                        FontSize="18"/>
                                     <TextBlock HorizontalAlignment="Right" TextBlock.FontSize="18" 
-                                                       Text="{  Binding MediaDuration, 
+                                                       Text="{  Binding MediaDetailProps.MediaDuration, 
                                                  RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                                 Converter={StaticResource TextConverter},  UpdateSourceTrigger=PropertyChanged,
                                                 FallbackValue='00:00:00'}" 
-                                                       Visibility="{Binding MediaDurationDisplayVisible,
+                                                       Visibility="{Binding MovieControlSettings.MediaDurationDisplayVisible,
                                                  RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                             Converter={StaticResource BooleanToVisibilityConverter}}"
                                                        DockPanel.Dock="Top" TextAlignment="Right" Padding="2"/>
                                 </StackPanel>
-                                <y:MovieTitleBar Padding="2" Grid.Row="1" x:Name="Part_MovieBoard" />
+                                <y:MovieTitleBar Padding="2" Grid.Row="1" x:Name="Part_MovieBoard"/>
                             </DockPanel>
                             <customControl:MediaSlider ToolTipService.InitialShowDelay="0" 
-                                                               ToolTipService.BetweenShowDelay="0"
-                                                               ToolTipService.ShowDuration="20000" 
-                                                               AutoToolTipPrecision="2" 
-                                                               Value="{Binding CurrentMediaTime,
+                                                        ToolTipService.BetweenShowDelay="0"
+                                                        ToolTipService.ShowDuration="20000" 
+                                                        AutoToolTipPrecision="2" 
+                                                        Value="{Binding MediaDetailProps.CurrentMediaTime,
                                                 RelativeSource={RelativeSource AncestorType=local:MovieControl},UpdateSourceTrigger=PropertyChanged}"
-                                                               Visibility="{Binding IsMediaSliderEnabled,
+                                                               Visibility="{Binding MovieControlSettings.IsMediaSliderEnabled,
                                                  RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                             Converter={StaticResource BooleanToVisibilityConverter}}"
-                                                               Maximum="{Binding MediaDuration,
+                                                               Maximum="{Binding MediaDetailProps.MediaDuration,
                                                 RelativeSource={RelativeSource AncestorType=local:MovieControl},UpdateSourceTrigger=PropertyChanged}"
                                                x:Name="Part_MediaSlider" Minimum="0" />
                         </DockPanel>
@@ -406,39 +307,17 @@
                 </LinearGradientBrush>
             </Border.Background>
             <DockPanel>
-
-                <DockPanel Background="#FFD6DBE9" DockPanel.Dock="Top" Margin="4" 
-                               Visibility="{Binding IsLastSeenEnabled,
-                        RelativeSource={RelativeSource AncestorType=local:MovieControl},
-                        Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBlock Foreground="Black" FontSize="14" Opacity=".8" 
-                                       Text="{Binding LastSeenTextInfo,
-                                RelativeSource={RelativeSource AncestorType=local:MovieControl},
-                                Converter={StaticResource TextContexter},ConverterParameter=LastSeenText}"
-                                       Margin="2" Padding="5" />
-                        <Button Content="YES" Margin="3" Padding="3" Foreground="White" 
-                                    DockPanel.Dock="Right" Command="{Binding SetLastSeenCommand,RelativeSource={RelativeSource AncestorType=local:MovieControl}}" 
-                                    Background="#FF364E6F" Style="{StaticResource lastSeenBtnStyle}">
-                        </Button>
-                        <Button Content="NO" Margin="3" DockPanel.Dock="Right" 
-                                    Foreground="White" Command="{Binding CloseLastSeenCommand,RelativeSource={RelativeSource AncestorType=local:MovieControl}}" 
-                                    Background="#FF364E6F" Style="{StaticResource lastSeenBtnStyle}">
-                        </Button>
-                    </StackPanel>
-                </DockPanel>
-                
-                <customControl:MediaSlider ToolTipService.InitialShowDelay="0" DockPanel.Dock="Top"                 
+                <customControl:MediaSlider ToolTipService.InitialShowDelay="0" DockPanel.Dock="Top"   Focusable="False"              
                                            ToolTipService.BetweenShowDelay="0" ToolTipService.ShowDuration="20000" 
                                            AutoToolTipPrecision="2" Margin="10,0,10,0" x:Name="Part_MediaSlider"
-                                           Visibility="{Binding IsMediaSliderEnabled,
+                                           Visibility="{Binding MovieControlSettings.IsMediaSliderEnabled,
                                             RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                             Converter={StaticResource BooleanToVisibilityConverter}}"
                                            Style="{StaticResource MiniTemplate}"
-                                           Value="{Binding CurrentMediaTime,
+                                           Value="{Binding MediaDetailProps.CurrentMediaTime,
                                                 RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                                 UpdateSourceTrigger=PropertyChanged}"
-                                           Maximum="{Binding MediaDuration,
+                                           Maximum="{Binding MediaDetailProps.MediaDuration,
                                                 RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                                 UpdateSourceTrigger=PropertyChanged}" 
                                            Minimum="0" />
@@ -449,51 +328,46 @@
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" MinHeight="45" Height="45" VerticalAlignment="Center"  Background="Transparent" DockPanel.Dock="Left">
                             <Button SnapsToDevicePixels="True" Width="30" VerticalAlignment="Center"
                                             DockPanel.Dock="Left"  Margin="0,0,5,5" 
-                                            Visibility="{Binding IsPreviousButtonEnabled,
+                                            Visibility="{Binding MovieControlSettings.IsPreviousButtonEnabled,
                             RelativeSource={RelativeSource AncestorType=local:MovieControl},
                             Converter={StaticResource BooleanToVisibilityConverter}}"
                                             Command="{x:Static local:MovieControl.Previous}"
+                                    CommandParameter="{Binding MediaPlayerElement,RelativeSource={RelativeSource AncestorType=y:MovieControl}}"
                                             Style="{StaticResource ControlButtonStyle}">
                                 <Path Data="M6,18V6H8V18H6M9.5,12L18,6V18L9.5,12Z" Fill="White"
                                               VerticalAlignment="Center" Stroke="Transparent">
-                                    <Path.LayoutTransform>
-                                        <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
-                                    </Path.LayoutTransform>
                                 </Path>
                             </Button>
 
                             <Button Margin="0,1,0,0" DockPanel.Dock="Left" Width="40" 
                                                     Command="{x:Static local:MovieControl.PausePlay}" 
-                                                    CommandParameter="{Binding}"  ToolTip="{Binding PlayText}"
+                                    CommandParameter="{Binding MediaPlayerElement,RelativeSource={RelativeSource AncestorType=y:MovieControl}}"
+                                                    ToolTip="{Binding PlayText}"
                                                     Style="{StaticResource PauseorPlayControlButtonStyle}">
                             </Button>
 
                             <Button Width="28" DockPanel.Dock="Left" x:Name="Previous" HorizontalAlignment="Center" 
                                     VerticalAlignment="Center" Margin="0,0,0,4"
-                                            Visibility="{Binding IsNextButtonEnabled,
+                                            Visibility="{Binding MovieControlSettings.IsNextButtonEnabled,
                                         RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                         Converter={StaticResource BooleanToVisibilityConverter}}"
                                             ToolTip="Next"  Style="{StaticResource ControlButtonStyle}"
-                                            Command="{x:Static local:MovieControl.Next}" >
+                                            Command="{x:Static local:MovieControl.Next}"
+                                    CommandParameter="{Binding MediaPlayerElement,RelativeSource={RelativeSource AncestorType=y:MovieControl}}">
                                 <Path Data="M16,18H18V6H16M6,18L14.5,12L6,6V18Z" Fill="White" 
                                               VerticalAlignment="Center" Stroke="Transparent">
-                                    <Path.LayoutTransform>
-                                        <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
-                                    </Path.LayoutTransform>
                                 </Path>
                             </Button>
 
                             <Button  Width="28" DockPanel.Dock="Left"  VerticalAlignment="Center" HorizontalAlignment="Stretch"
-                                            Visibility="{Binding IsMediaOptionToggleEnabled,
+                                            Visibility="{Binding MovieControlSettings.IsMediaOptionToggleEnabled,
                                         RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                     Converter={StaticResource BooleanToVisibilityConverter}}" Margin="4,0,5,0"
                                             Style="{StaticResource ControlButtonStyle}"
                                             ToolTip="Media Option" Background="Transparent" 
                                             Command="{x:Static local:MovieControl.ToggleMediaMenu}" >
                                 <Path Fill="WhiteSmoke" SnapsToDevicePixels="True" Data="M21,13C21,17.97 16.97,22 12,22C7.03,22 3,17.97 3,13L3.03,4.43C5.68,2.88 8.76,2 12.05,2C15.3,2 18.36,2.87 21,4.38V13M13,19.93C16.39,19.44 19,16.5 19,13V5.59C16.9,4.57 14.54,4 12.05,4C9.5,4 7.08,4.6 4.94,5.66L5,13C5,16.5 7.63,19.44 11,19.93V18H13V19.93M11,16H8L6,13L9,14H10L11,13H13L14,14H15L18,13L16,16H13L12,15L11,16M6,9.03C6.64,8.4 7.5,8.05 8.5,8.05C9.45,8.05 10.34,8.4 11,9.03C10.34,9.65 9.45,10 8.5,10C7.5,10 6.64,9.65 6,9.03M13,9.03C13.64,8.4 14.5,8.05 15.5,8.05C16.45,8.05 17.34,8.4 18,9.03C17.34,9.65 16.45,10 15.5,10C14.5,10 13.64,9.65 13,9.03Z">
-                                    <Path.LayoutTransform>
-                                        <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
-                                    </Path.LayoutTransform>
+                                 
                                 </Path>
                             </Button>
 
@@ -506,31 +380,31 @@
                                 <Button SnapsToDevicePixels="True" Width="28" 
                                                 x:Name="repeatbtn" ToolTip="Playlist" VerticalAlignment="Center" HorizontalAlignment="Center"
                                         Margin="0,0,0,5"
-                                                Visibility="{Binding IsPlaylistToggleEnabled,
+                                                Visibility="{Binding MovieControlSettings.IsPlaylistToggleEnabled,
                                              RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                         Converter={StaticResource BooleanToVisibilityConverter}}"
                                                 Style="{StaticResource ControlButtonStyle}"
+                                        CommandParameter="{Binding MediaPlayerElement,RelativeSource={RelativeSource AncestorType=y:MovieControl}}"
                                                 Command="{x:Static cmd:VideoPlayerCommands.PlayList}"  
                                                 DockPanel.Dock="Left">
                                     <Path Fill="White"  HorizontalAlignment="Center" VerticalAlignment="Center" 
                                                   SnapsToDevicePixels="True" Data="M9,5V9H21V5M9,19H21V15H9M9,14H21V10H9M4,9H8V5H4M4,19H8V15H4M4,14H8V10H4V14Z">
-                                        <Path.LayoutTransform>
-                                            <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
-                                        </Path.LayoutTransform>
+                                        
                                     </Path>
                                 </Button>
 
                                 <Button SnapsToDevicePixels="True" Width="20"  ToolTip="{Binding RepeatMode}"   
-                                                Style="{StaticResource RepeatButtonStyle}"
-                                                Visibility="{Binding IsRepeatToggleEnabled,
+                                                Style="{StaticResource RepeatButtonStyle1}"
+                                                Visibility="{Binding MovieControlSettings.IsRepeatToggleEnabled,
                                              RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                         Converter={StaticResource BooleanToVisibilityConverter}}" VerticalAlignment="Center"
-                                                Command="{x:Static local:MovieControl.RepeatCommand}" Margin="6">
+                                                Command="{x:Static local:MovieControl.RepeatCommand}" Margin="5,1,5,5">
                                 </Button>
 
                                 <Button  Width="24"  ToolTip="FullScreen" VerticalAlignment="Center" Height="25" Margin="0,2,5,5"
-                                                 Style="{StaticResource FullScreenToggle}"
-                                                 Visibility="{Binding IsFullScreenToggleEnabled,
+                                         Style="{StaticResource FullScreenToggle}"
+                                         CommandParameter="{Binding MediaPlayerElement,RelativeSource={RelativeSource AncestorType=y:MovieControl}}"
+                                                 Visibility="{Binding MovieControlSettings.IsFullScreenToggleEnabled,
                                              RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                         Converter={StaticResource BooleanToVisibilityConverter}}"
                                                  x:Name="FulBtn" Command="{x:Static local:MovieControl.FullScreen}"
@@ -538,11 +412,11 @@
                                 </Button>
                             </DockPanel>
 
-                            <Button Width="18"  VerticalAlignment="Center" DockPanel.Dock="Right" 
+                            <Button Width="17"  VerticalAlignment="Center" DockPanel.Dock="Right" 
                                                 Style="{StaticResource ControlMaxMinButtonStyle}"
                                                 Command="{x:Static local:MovieControl.MinimizeControlCommand}" Foreground="White" 
-                                                Height="18" Margin="5,5,10,5"
-                                                Visibility="{Binding IsMinimizeControlButtonEnabled,
+                                                Height="18" Margin="5,2,10,5"
+                                                Visibility="{Binding MovieControlSettings.IsMinimizeControlButtonEnabled,
                                              RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                         Converter={StaticResource BooleanToVisibilityConverter}}"
                                                CommandParameter="{StaticResource optionsPop}"
@@ -553,7 +427,7 @@
                                                 Style="{StaticResource ControlButtonStyle}"
                                                 Command="{x:Static local:MovieControl.CloseMediaWindow}" Foreground="White" 
                                                 Height="30" Margin="0,0,0,5"
-                                                Visibility="{Binding IsControlMediaCloseButtonEnabled,
+                                                Visibility="{Binding MovieControlSettings.IsControlMediaCloseButtonEnabled,
                                              RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                         Converter={StaticResource BooleanToVisibilityConverter}}"
                                                CommandParameter="{StaticResource optionsPop}"
@@ -567,7 +441,7 @@
                             </Button>
 
                             <y:VolumeControl HorizontalAlignment="Center" 
-                                                     Background="Transparent" Width="130"
+                                                     Background="Transparent" FontSize="16"
                                                      x:Name="Part_VolumeControl"
                                                      VerticalAlignment="Center" Margin="0,0,0,2" 
                                                      DockPanel.Dock="Left" />
@@ -577,31 +451,31 @@
                             <DockPanel  Background="Transparent" DockPanel.Dock="Bottom">
                                 <StackPanel VerticalAlignment="Center" DockPanel.Dock="Right"  Background="Transparent"
                                                     Orientation="Horizontal">
-                                    <TextBlock  TextBlock.FontSize="18" Margin="2,0,0,0"
-                                                        Visibility="{Binding CurrentTimerDisplayVisible,
+                                    <TextBlock  TextBlock.FontSize="16" Margin="2,0,0,0"
+                                                        Visibility="{Binding MovieControlSettings.CurrentTimerDisplayVisible,
                                             RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                             Converter={StaticResource BooleanToVisibilityConverter}}"
-                                                        Text="{Binding CurrentMediaTime,
+                                                        Text="{Binding MediaDetailProps.CurrentMediaTime,
                                                                 RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                                                 Converter={StaticResource TextConverter},  UpdateSourceTrigger=PropertyChanged,
                                                                 FallbackValue='00:00:00'}" 
                                                         HorizontalAlignment="Left" Padding="2" />
                                     <TextBlock Text="/" Padding="2" 
-                                                       Visibility="{Binding ShowTimerSeperator,
+                                                       Visibility="{Binding MovieControlSettings.ShowTimerSeperator,
                                             RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                             Converter={StaticResource BooleanToVisibilityConverter}}"
                                                        FontSize="18"/>
-                                    <TextBlock HorizontalAlignment="Right" TextBlock.FontSize="18" 
-                                                       Visibility="{Binding MediaDurationDisplayVisible,
+                                    <TextBlock HorizontalAlignment="Right" TextBlock.FontSize="16" 
+                                                       Visibility="{Binding MovieControlSettings.MediaDurationDisplayVisible,
                                             RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                             Converter={StaticResource BooleanToVisibilityConverter}}"
-                                                       Text="{Binding MediaDuration, 
+                                                       Text="{Binding MediaDetailProps.MediaDuration, 
                                                  RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                                 Converter={StaticResource TextConverter},  UpdateSourceTrigger=PropertyChanged,
                                                 FallbackValue='00:00:00'}" 
                                                        DockPanel.Dock="Top" TextAlignment="Right" Padding="2"/>
                                 </StackPanel>
-                                <y:MovieTitleBar Padding="2" Grid.Row="1" x:Name="Part_MovieBoard" />
+                                <y:MovieTitleBar Padding="2" Grid.Row="1" FontSize="16" x:Name="Part_MovieBoard"/>
                             </DockPanel>
                             
                         </DockPanel>
@@ -621,35 +495,13 @@
                 </LinearGradientBrush>
             </Border.Background>
             <DockPanel>
-
-                <DockPanel Background="#FFD6DBE9" DockPanel.Dock="Top" Margin="4" 
-                               Visibility="{Binding IsLastSeenEnabled,
-                        RelativeSource={RelativeSource AncestorType=local:MovieControl},
-                        Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBlock Foreground="Black" FontSize="12" Opacity=".8" 
-                                       Text="{Binding LastSeenTextInfo,
-                                RelativeSource={RelativeSource AncestorType=local:MovieControl},
-                                Converter={StaticResource TextContexter},ConverterParameter=LastSeenText}"
-                                       Margin="2" Padding="5" />
-                        <Button Content="YES" Margin="3" Padding="3" Foreground="White" FontSize="12" Height="20" Width="25"
-                                    DockPanel.Dock="Right" Command="{Binding SetLastSeenCommand,RelativeSource={RelativeSource AncestorType=local:MovieControl}}" 
-                                    Background="#FF364E6F" Style="{StaticResource lastSeenBtnStyle}">
-                        </Button>
-                        <Button Content="NO" Margin="3" DockPanel.Dock="Right" FontSize="12" Height="20" Width="25"
-                                    Foreground="White" Command="{Binding CloseLastSeenCommand,RelativeSource={RelativeSource AncestorType=local:MovieControl}}" 
-                                    Background="#FF364E6F" Style="{StaticResource lastSeenBtnStyle}">
-                        </Button>
-                    </StackPanel>
-                </DockPanel>
-                
-                <ProgressBar Maximum="{Binding MediaDuration,
+                <ProgressBar Maximum="{Binding MediaDetailProps.MediaDuration,
                                 RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                 UpdateSourceTrigger=PropertyChanged}" 
-                             Visibility="{Binding IsMediaSliderEnabled,
+                             Visibility="{Binding MovieControlSettings.IsMediaSliderEnabled,
                                             RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                             Converter={StaticResource BooleanToVisibilityConverter}}"
-                                     Value="{Binding CurrentMediaTime,
+                                     Value="{Binding MediaDetailProps.CurrentMediaTime,
                                 RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                 UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MovieHubProgressBar}"
                                      DockPanel.Dock="Bottom" Height="4" MaxHeight="4" />
@@ -657,15 +509,15 @@
                     <DockPanel  Background="Transparent" Grid.Column="0">
 
                         <customControl:MediaSlider ToolTipService.InitialShowDelay="0" 
-                                                ToolTipService.BetweenShowDelay="0"
+                                                ToolTipService.BetweenShowDelay="0" Focusable="False"
                                                 ToolTipService.ShowDuration="20000" Margin="5,0,5,2"
                                                 AutoToolTipPrecision="2" VerticalAlignment="Center"
                                                 x:Name="Part_MediaSlider" DockPanel.Dock="Top"
                                                 Style="{StaticResource MiniTemplate}"
-                                                Value="{Binding CurrentMediaTime,
+                                                Value="{Binding MediaDetailProps.CurrentMediaTime,
                                 RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                 UpdateSourceTrigger=PropertyChanged}"
-                                                Maximum="{Binding MediaDuration,
+                                                Maximum="{Binding MediaDetailProps.MediaDuration,
                                 RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                 UpdateSourceTrigger=PropertyChanged}" 
                                                 Minimum="0" Visibility="Collapsed"/>
@@ -674,7 +526,7 @@
                                    DockPanel.Dock="Left">
                             <Button SnapsToDevicePixels="True" Width="20" Margin="2,0,6,3"
                                             DockPanel.Dock="Left"  VerticalAlignment="Center"
-                                            Visibility="{Binding IsPreviousButtonEnabled,
+                                            Visibility="{Binding MovieControlSettings.IsPreviousButtonEnabled,
                             RelativeSource={RelativeSource AncestorType=local:MovieControl},
                             Converter={StaticResource BooleanToVisibilityConverter}}"
                                             Command="{x:Static local:MovieControl.Previous}"
@@ -694,7 +546,7 @@
                             </Button>
 
                             <Button  DockPanel.Dock="Left" x:Name="Previous" Width="20" VerticalAlignment="Center" Margin="2,0,0,3" 
-                                            Visibility="{Binding IsNextButtonEnabled,
+                                            Visibility="{Binding MovieControlSettings.IsNextButtonEnabled,
                                         RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                         Converter={StaticResource BooleanToVisibilityConverter}}"
                                             ToolTip="Next"  Style="{StaticResource ControlButtonStyle}"
@@ -735,7 +587,7 @@
                                                 Style="{StaticResource ControlMaxMinButtonStyle}"
                                                 Command="{x:Static local:MovieControl.MinimizeControlCommand}" Foreground="White" 
                                                 Height="18" Margin="5,5,5,5"
-                                                Visibility="{Binding IsMinimizeControlButtonEnabled,
+                                                Visibility="{Binding MovieControlSettings.IsMinimizeControlButtonEnabled,
                                              RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                         Converter={StaticResource BooleanToVisibilityConverter}}"
                                                CommandParameter="{StaticResource optionsPop}"
@@ -753,31 +605,31 @@
                             <StackPanel VerticalAlignment="Center" Margin="0" DockPanel.Dock="Right"  Background="Transparent"
                                                     Orientation="Horizontal">
                                 <TextBlock  TextBlock.FontSize="14" Margin="2,0,0,0" VerticalAlignment="Center"
-                                                        Visibility="{Binding CurrentTimerDisplayVisible,
+                                                        Visibility="{Binding MovieControlSettings.CurrentTimerDisplayVisible,
                                             RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                             Converter={StaticResource BooleanToVisibilityConverter}}"
-                                                        Text="{Binding CurrentMediaTime,
+                                                        Text="{Binding MediaDetailProps.CurrentMediaTime,
                                                                 RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                                                 Converter={StaticResource TextConverter},  UpdateSourceTrigger=PropertyChanged,
                                                                 FallbackValue='00:00:00'}" 
                                                         HorizontalAlignment="Left" Padding="2" />
                                 <TextBlock Text="/" Padding="2" VerticalAlignment="Center"
-                                                       Visibility="{Binding ShowTimerSeperator,
+                                                       Visibility="{Binding MovieControlSettings.ShowTimerSeperator,
                                             RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                             Converter={StaticResource BooleanToVisibilityConverter}}"
                                                        FontSize="14"/>
                                 <TextBlock HorizontalAlignment="Right" TextBlock.FontSize="14" VerticalAlignment="Center"
-                                                       Visibility="{Binding MediaDurationDisplayVisible,
+                                                       Visibility="{Binding MovieControlSettings.MediaDurationDisplayVisible,
                                             RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                             Converter={StaticResource BooleanToVisibilityConverter}}"
-                                                       Text="{Binding MediaDuration, 
+                                                       Text="{Binding MediaDetailProps.MediaDuration, 
                                                  RelativeSource={RelativeSource AncestorType=local:MovieControl},
                                                 Converter={StaticResource TextConverter},  UpdateSourceTrigger=PropertyChanged,
                                                 FallbackValue='00:00:00'}" 
                                                        DockPanel.Dock="Top" TextAlignment="Right" Padding="2"/>
                             </StackPanel>
                             <y:MovieTitleBar Padding="2" Grid.Row="1" Margin="10,00,0,0" x:Name="Part_MovieBoard" HorizontalAlignment="Left" TextBlock.FontSize="14" 
-                                             Visibility="Visible"/>
+                                             Visibility="Visible" />
                         </DockPanel>
                     </DockPanel>
                 </Border>
@@ -785,7 +637,265 @@
             </DockPanel>
         </Border>
     </ControlTemplate>
-    
+
+    <ControlTemplate x:Key="HomeControlView" TargetType="{x:Type local:MovieControl}">
+        <Grid>
+            <Border VerticalAlignment="Bottom" DockPanel.Dock="Bottom">
+                <DockPanel>
+                    <DockPanel Margin="5,0"  Background="Transparent" DockPanel.Dock="Left" Width="500"
+                           VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                        <customControl:MediaSlider ToolTipService.InitialShowDelay="0" DockPanel.Dock="Top"                 
+                                           ToolTipService.BetweenShowDelay="0" ToolTipService.ShowDuration="20000" 
+                                           AutoToolTipPrecision="2" Margin="5,0,5,0" x:Name="Part_MediaSlider" Focusable="False"
+                                           IsEnabled="{Binding MovieControlSettings.IsMediaSliderEnabled,
+                                            RelativeSource={RelativeSource AncestorType=y:MovieControl}}"
+                                           Style="{StaticResource MiniTemplate}"
+                                           Value="{Binding MediaDetailProps.CurrentMediaTime,
+                                                RelativeSource={RelativeSource AncestorType=y:MovieControl},
+                                                UpdateSourceTrigger=PropertyChanged}"
+                                           Maximum="{Binding MediaDetailProps.MediaDuration,
+                                                RelativeSource={RelativeSource AncestorType=y:MovieControl},
+                                                UpdateSourceTrigger=PropertyChanged}" 
+                                           Minimum="0" />
+
+                        <DockPanel  Background="Transparent" DockPanel.Dock="Bottom">
+                            <StackPanel VerticalAlignment="Center" DockPanel.Dock="Right"   Background="Transparent"
+                                    Orientation="Horizontal">
+                                <TextBlock  TextBlock.FontSize="12" Margin="2,0,0,0"
+                                                        Visibility="{Binding MovieControlSettings.CurrentTimerDisplayVisible,
+                                            RelativeSource={RelativeSource AncestorType=y:MovieControl},
+                                            Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                        Text="{Binding MediaDetailProps.CurrentMediaTime,
+                                                                RelativeSource={RelativeSource AncestorType=y:MovieControl},
+                                                                Converter={StaticResource TextConverter},  UpdateSourceTrigger=PropertyChanged,
+                                                                FallbackValue='00:00:00'}" 
+                                                        HorizontalAlignment="Left" Padding="2" />
+                                <TextBlock Text="/" Padding="2" 
+                                                       Visibility="{Binding MovieControlSettings.ShowTimerSeperator,
+                                            RelativeSource={RelativeSource AncestorType=y:MovieControl},
+                                            Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                       FontSize="12"/>
+                                <TextBlock HorizontalAlignment="Right" TextBlock.FontSize="12" 
+                                                       Visibility="{Binding MovieControlSettings.MediaDurationDisplayVisible,
+                                            RelativeSource={RelativeSource AncestorType=y:MovieControl},
+                                            Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                       Text="{Binding MediaDetailProps.MediaDuration, 
+                                                 RelativeSource={RelativeSource AncestorType=y:MovieControl},
+                                                Converter={StaticResource TextConverter},  UpdateSourceTrigger=PropertyChanged,
+                                                FallbackValue='00:00:00'}" 
+                                                       DockPanel.Dock="Top" TextAlignment="Right" Padding="2"/>
+                            </StackPanel>
+                            <y:MovieTitleBar Padding="2"  Grid.Row="1" FontSize="12" x:Name="Part_MovieBoard" />
+                        </DockPanel>
+                    </DockPanel>
+
+                    <Border BorderThickness="2" Padding="4,0,0,2" DockPanel.Dock="Right" MinHeight="45" 
+                        Height="50" x:Name="Part_ParentRoot" HorizontalAlignment="Right"
+                        TextBlock.Foreground="White" Background="Transparent" >
+                        <StackPanel Orientation="Horizontal" 
+                                    MinHeight="45" Height="45" VerticalAlignment="Center"  
+                                    Background="Transparent" DockPanel.Dock="Right">
+                            <Button SnapsToDevicePixels="True" Width="28" 
+                                                x:Name="repeatbtn" ToolTip="Playlist" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                        Margin="0,0,0,5"
+                                    CommandParameter="{Binding MediaPlayerElement,RelativeSource={RelativeSource AncestorType=y:MovieControl}}"
+                                                Visibility="{Binding MovieControlSettings.IsPlaylistToggleEnabled,
+                                             RelativeSource={RelativeSource AncestorType=y:MovieControl},
+                                        Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                Style="{StaticResource ControlButtonStyle}"
+                                                Command="{x:Static cmd:VideoPlayerCommands.PlayList}"  
+                                                DockPanel.Dock="Left">
+                                <Path Fill="White"  HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                                  SnapsToDevicePixels="True" Data="M9,5V9H21V5M9,19H21V15H9M9,14H21V10H9M4,9H8V5H4M4,19H8V15H4M4,14H8V10H4V14Z">
+
+                                </Path>
+                            </Button>
+
+                            <Button SnapsToDevicePixels="True" Width="30" VerticalAlignment="Center"
+                                            DockPanel.Dock="Left"  Margin="0,0,5,5" 
+                                            Visibility="{Binding MovieControlSettings.IsPreviousButtonEnabled,
+                            RelativeSource={RelativeSource AncestorType=y:MovieControl},
+                            Converter={StaticResource BooleanToVisibilityConverter}}"
+                                            Command="{x:Static y:MovieControl.Previous}"
+                                  CommandParameter="{Binding MediaPlayerElement,RelativeSource={RelativeSource AncestorType=y:MovieControl}}"                                    
+                                            Style="{StaticResource ControlButtonStyle}">
+                                <Path Data="M6,18V6H8V18H6M9.5,12L18,6V18L9.5,12Z" Fill="White"
+                                              VerticalAlignment="Center" Stroke="Transparent">
+                                </Path>
+                            </Button>
+
+                            <Button Margin="0,1,0,0" DockPanel.Dock="Left" Width="40" 
+                                                    Command="{x:Static y:MovieControl.PausePlay}" 
+                                                    ToolTip="{Binding PlayText}"
+                                   CommandParameter="{Binding MediaPlayerElement,RelativeSource={RelativeSource AncestorType=y:MovieControl}}"
+                                                    Style="{StaticResource PauseorPlayControlButtonStyle}">
+                            </Button>
+
+                            <Button Width="28" DockPanel.Dock="Left" x:Name="Previous" HorizontalAlignment="Center" 
+                                    VerticalAlignment="Center" Margin="0,0,0,4"
+                                            Visibility="{Binding MovieControlSettings.IsNextButtonEnabled,
+                                        RelativeSource={RelativeSource AncestorType=y:MovieControl},
+                                        Converter={StaticResource BooleanToVisibilityConverter}}"
+                                            ToolTip="Next"  Style="{StaticResource ControlButtonStyle}"
+                                            Command="{x:Static y:MovieControl.Next}"
+                                    CommandParameter="{Binding MediaPlayerElement,RelativeSource={RelativeSource AncestorType=y:MovieControl}}">
+                                <Path Data="M16,18H18V6H16M6,18L14.5,12L6,6V18Z" Fill="White" 
+                                              VerticalAlignment="Center" Stroke="Transparent">
+                                </Path>
+                            </Button>
+
+                            <Button  Width="28" DockPanel.Dock="Left"  VerticalAlignment="Center"
+                                     Visibility="{Binding MovieControlSettings.IsMediaOptionToggleEnabled,
+                                        RelativeSource={RelativeSource AncestorType=y:MovieControl},
+                                    Converter={StaticResource BooleanToVisibilityConverter}}" Margin="4,0,5,0"
+                                            Style="{StaticResource ControlButtonStyle}"
+                                            ToolTip="Media Option" Background="Transparent" 
+                                            Command="{x:Static y:MovieControl.ToggleMediaMenu}" >
+                                <Path Fill="WhiteSmoke" SnapsToDevicePixels="True" Data="M21,13C21,17.97 16.97,22 12,22C7.03,22 3,17.97 3,13L3.03,4.43C5.68,2.88 8.76,2 12.05,2C15.3,2 18.36,2.87 21,4.38V13M13,19.93C16.39,19.44 19,16.5 19,13V5.59C16.9,4.57 14.54,4 12.05,4C9.5,4 7.08,4.6 4.94,5.66L5,13C5,16.5 7.63,19.44 11,19.93V18H13V19.93M11,16H8L6,13L9,14H10L11,13H13L14,14H15L18,13L16,16H13L12,15L11,16M6,9.03C6.64,8.4 7.5,8.05 8.5,8.05C9.45,8.05 10.34,8.4 11,9.03C10.34,9.65 9.45,10 8.5,10C7.5,10 6.64,9.65 6,9.03M13,9.03C13.64,8.4 14.5,8.05 15.5,8.05C16.45,8.05 17.34,8.4 18,9.03C17.34,9.65 16.45,10 15.5,10C14.5,10 13.64,9.65 13,9.03Z">
+
+                                </Path>
+                            </Button>
+                            
+                            <Grid IsEnabled="{Binding MovieControlSettings.IsRepeatToggleEnabled}">
+                                <Button SnapsToDevicePixels="True" Width="20"  ToolTip="{Binding RepeatMode}"   
+                                                    Style="{StaticResource RepeatButtonStyle1}" VerticalAlignment="Center"
+                                                    Command="{x:Static y:MovieControl.RepeatCommand}" Margin="1,2,6,4">
+                                </Button>
+                            </Grid>
+                            
+                            <Button Width="18"  VerticalAlignment="Center" DockPanel.Dock="Right" 
+                                                Style="{StaticResource ControlMaxMinButtonStyle}"
+                                                Command="{x:Static local:MovieControl.MinimizeControlCommand}" Foreground="White" 
+                                                Margin="6,5,0,5"
+                                                Visibility="{Binding MovieControlSettings.IsMinimizeControlButtonEnabled,
+                                             RelativeSource={RelativeSource AncestorType=local:MovieControl},
+                                        Converter={StaticResource BooleanToVisibilityConverter}}"
+                                               CommandParameter="{StaticResource optionsPop}"
+                                                BorderThickness="0" >
+                            </Button>
+                            <y:VolumeControl HorizontalAlignment="Right" Margin="5,0,0,0" IsEnabled="{Binding ElementName=Homeoption,Path=IsEnabled}"
+                                            Background="Transparent" FontSize="12"
+                                            x:Name="Part_VolumeControl" ControlViewType="SmallView"
+                                            VerticalAlignment="Center"
+                                            DockPanel.Dock="Left" />
+
+                            <Button SnapsToDevicePixels="True" Width="20"  ToolTip="Control Options"  x:Name="Homeoption" 
+                                    Style="{StaticResource ControlButtonStyle}" VerticalAlignment="Center"
+                                    Margin="4,0,4,6" Command="{x:Static y:MovieControl.ToggleMediaOption}"
+                                    CommandParameter="{Binding ElementName=HomeOptionsPopup}" ClipToBounds="True">
+                                <Path Fill="WhiteSmoke"
+                                      Data="M12,16C13.1,16 14,16.9 14,18C14,19.1 13.1,20 12,20C10.9,20 10,19.1 10,18C10,16.9 10.9,16 12,16M12,10C13.1,10 14,10.9 14,12C14,13.1 13.1,14 12,14C10.9,14 10,13.1 10,12C10,10.9 10.9,10 12,10M12,4C13.1,4 14,4.9 14,6C14,7.1 13.1,8 12,8C10.9,8 10,7.1 10,6C10,4.9 10.9,4 12,4Z"/>
+                            </Button>
+                        </StackPanel>
+                    </Border>
+                </DockPanel>
+            </Border>
+            <Popup IsOpen="False" StaysOpen="False" VerticalOffset="-60" HorizontalOffset="-30"
+                   x:Name="HomeOptionsPopup" Placement="Center"
+                   PopupAnimation="Fade" PlacementTarget="{Binding ElementName=Homeoption}">
+                <Popup.Resources>
+                    <Style TargetType="{x:Type MenuItem}">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        <Setter Property="Padding" Value="8"/>
+                        <Setter Property="TextBlock.FontSize" Value="12"/>
+                        <Setter Property="TextBlock.Foreground" Value="WhiteSmoke"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type MenuItem}">
+                                    <Border x:Name="templateRoot" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                                        <Grid Margin="-1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition MinWidth="22" SharedSizeGroup="MenuItemIconColumnGroup" Width="Auto"/>
+                                                <ColumnDefinition Width="13"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="30"/>
+                                                <ColumnDefinition SharedSizeGroup="MenuItemIGTColumnGroup" Width="Auto"/>
+                                                <ColumnDefinition Width="20"/>
+                                            </Grid.ColumnDefinitions>
+                                            <ContentPresenter x:Name="Icon" Content="{TemplateBinding Icon}" ContentSource="Icon" HorizontalAlignment="Center" Height="16" Margin="3" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center" Width="16"/>
+                                            <Border x:Name="GlyphPanel" BorderBrush="#FF26A0DA" BorderThickness="1" Background="#3D26A0DA" ClipToBounds="False" HorizontalAlignment="Center" Height="22" Margin="-1,0,0,0" Visibility="Hidden" VerticalAlignment="Center" Width="22">
+                                                <Path x:Name="Glyph" Data="F1M10,1.2L4.7,9.1 4.5,9.1 0,5.2 1.3,3.5 4.3,6.1 8.3,0 10,1.2z" Fill="#FF212121" FlowDirection="LeftToRight" Height="11" Width="10"/>
+                                            </Border>
+                                            <ContentPresenter x:Name="menuHeaderContainer" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" Grid.Column="2" ContentStringFormat="{TemplateBinding HeaderStringFormat}" ContentSource="Header" HorizontalAlignment="Left" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center"/>
+                                            <TextBlock x:Name="menuGestureText" Grid.Column="4" Margin="{TemplateBinding Padding}" Opacity="0.7" Text="{TemplateBinding InputGestureText}" VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="Icon" Value="{x:Null}">
+                                            <Setter Property="Visibility" TargetName="Icon" Value="Collapsed"/>
+                                        </Trigger>
+                                        <Trigger Property="IsChecked" Value="True">
+                                            <Setter Property="Visibility" TargetName="GlyphPanel" Value="Visible"/>
+                                            <Setter Property="Visibility" TargetName="Icon" Value="Collapsed"/>
+                                        </Trigger>
+                                        <Trigger Property="IsHighlighted" Value="True">
+                                            <Setter Property="Background" TargetName="templateRoot" Value="{DynamicResource Theme.MouseOver}"/>
+                                            <Setter Property="BorderBrush" TargetName="templateRoot" Value="{DynamicResource Theme.HighlightColor}"/>
+                                        </Trigger>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="TextElement.Foreground" TargetName="templateRoot" Value="#FF707070"/>
+                                            <Setter Property="Fill" TargetName="Glyph" Value="#FF707070"/>
+                                        </Trigger>
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="IsHighlighted" Value="True"/>
+                                                <Condition Property="IsEnabled" Value="False"/>
+                                            </MultiTrigger.Conditions>
+                                            <Setter Property="Background" TargetName="templateRoot" Value="#0A000000"/>
+                                            <Setter Property="BorderBrush" TargetName="templateRoot" Value="#21000000"/>
+                                        </MultiTrigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+
+                    <Style TargetType="{x:Type Menu}">
+                        <!--<Setter Property="ItemContainerStyle">
+                                        <Setter.Value>
+                                            <Style TargetType="MenuItem">
+                                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                            </Style>
+                                        </Setter.Value>
+                                    </Setter>-->
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="TextBlock.Foreground" Value="White"/>
+                        <Setter Property="ItemsPanel">
+                            <Setter.Value>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel Margin="1" Orientation="Vertical"/>
+                                </ItemsPanelTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Popup.Resources>
+                <Border Padding="2" Background="Black"  BorderThickness="1" BorderBrush="{DynamicResource Theme.HighlightColor}">
+                    <StackPanel Orientation="Vertical">
+                        <MenuItem Header="FullScreen" IsCheckable="False" DockPanel.Dock="Top"
+                                  Command="{x:Static local:MovieControl.FullScreen}"
+                                  CommandParameter="{Binding MediaPlayerElement,RelativeSource={RelativeSource AncestorType=y:MovieControl}}">
+                            <MenuItem.Icon>
+                                <Image Uid="fullscreen.png" Stretch="Uniform" Width="16" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Close Media" IsCheckable="False"
+                                  Command="{x:Static local:MovieControl.CloseMediaWindow}">
+                            <MenuItem.Icon>
+                                <Path Fill="Red"  HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                                  SnapsToDevicePixels="True" Data="M19,3H16.3H7.7H5C3.9,3 3,3.9 3,5V7.7V16.4V19C3,20.1 3.9,21 5,21H7.7H16.4H19C20.1,21 21,20.1 21,19V16.3V7.7V5C21,3.9 20.1,3 19,3M15.6,17L12,13.4L8.4,17L7,15.6L10.6,12L7,8.4L8.4,7L12,10.6L15.6,7L17,8.4L13.4,12L17,15.6L15.6,17Z">
+                                    <Path.LayoutTransform>
+                                        <ScaleTransform ScaleX=".86" ScaleY=".86"/>
+                                    </Path.LayoutTransform>
+                                </Path>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </StackPanel>
+                </Border>
+            </Popup>
+        </Grid>
+    </ControlTemplate>
+
     <Style TargetType="local:MovieControl">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
@@ -799,6 +909,10 @@
 
             <Trigger Property="local:MovieControl.UseLargeControlView" Value="LargeView">
                 <Setter Property="Template" Value="{StaticResource LargeControlView}"/>
+            </Trigger>
+
+            <Trigger Property="local:MovieControl.UseLargeControlView" Value="HomeView">
+                <Setter Property="Template" Value="{StaticResource HomeControlView}"/>
             </Trigger>
 
             <MultiTrigger>

@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using MovieHub.MediaPlayerElement.Util;
 using System.Windows.Media;
 using System.Dynamic;
+using Common.Util;
 
 namespace MovieHub.MediaPlayerElement
 {
@@ -32,7 +33,7 @@ namespace MovieHub.MediaPlayerElement
     };
     
     [TemplatePart(Name = "MediaControlRegion", Type = typeof(ContentControl))]
-    public sealed class MediaPlayerElement : Control
+    public sealed class MediaPlayerElement : Control, IMediaPlayerElement
     {
         private ContentControl _mediaControlRegion;
         private ContentControl _mediaelementregion;
@@ -42,12 +43,13 @@ namespace MovieHub.MediaPlayerElement
         private IPlayable _currentstreamingitem;
         private bool _hasInitialised;
         private bool _isDragging;
-        private bool _isrewindorfastforward;
+        internal bool _isrewindorfastforward;
         private bool _awaitHostToRender;
         private bool _canAnimateControl = true;
         private bool _isPlaylistVisible = false;
         private bool _allowmediaAutodispose = true;
-        private bool _allowMediaSizeEventExecute = true;
+        private MovieControl _savedSecondaryControl = null;
+        internal bool _allowMediaSizeEventExecute = true;
         private DispatcherTimer _controlAnimationTimer;
         private static bool IscheckingForRepeating = false;
         private static MediaPlayerElement _current;
@@ -185,17 +187,6 @@ namespace MovieHub.MediaPlayerElement
             DependencyProperty.Register("MediaTitle", typeof(string), typeof(MediaPlayerElement), new PropertyMetadata("-No title-"));
 
 
-        public VolumeState VolumeState
-        {
-            get { return (VolumeState)GetValue(VolumeStateProperty); }
-            private set { SetValue(VolumeStateProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for IsMuted.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty VolumeStateProperty =
-            DependencyProperty.Register("VolumeState", typeof(VolumeState), typeof(MediaPlayerElement), new FrameworkPropertyMetadata(VolumeState.Active));
-
-        
         public bool IsPlaying
         {
             get { return (bool)GetValue(IsPlayingProperty); }
@@ -206,8 +197,7 @@ namespace MovieHub.MediaPlayerElement
         public static readonly DependencyProperty IsPlayingProperty =
             DependencyProperty.Register("IsPlaying", typeof(bool), typeof(MediaPlayerElement), new PropertyMetadata(false));
 
-
-
+        
         public WindowFullScreenState WindowFullScreenState
         {
             get { return (WindowFullScreenState)GetValue(WindowFullScreenStateProperty); }
@@ -219,6 +209,35 @@ namespace MovieHub.MediaPlayerElement
             DependencyProperty.Register("WindowFullScreenState", typeof(WindowFullScreenState), typeof(MediaPlayerElement), new FrameworkPropertyMetadata() { DefaultValue = WindowFullScreenState.Normal});
 
 
+
+        public bool CanRenderControl
+        {
+            get { return (bool)GetValue(CanRenderControlProperty); }
+            set { SetValue(CanRenderControlProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CanRenderControl.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CanRenderControlProperty =
+            DependencyProperty.Register("CanRenderControl", typeof(bool), typeof(MediaPlayerElement), new PropertyMetadata(true,OnCanrenderControlChanged));
+
+        private static void OnCanrenderControlChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            MediaPlayerElement mediaplayerelement = d as MediaPlayerElement;
+            if (mediaplayerelement != null)
+            {
+                var newValue = (Boolean)e.NewValue;
+
+                mediaplayerelement.AllowMovieControlAnimation = newValue;
+                if (mediaplayerelement._mediaControlRegion == null) return;
+
+                if (newValue)
+                {
+                    mediaplayerelement._mediaControlRegion.Content = mediaplayerelement.MovieControl;
+                    return;
+                }
+                mediaplayerelement._mediaControlRegion.Content = null;
+            }
+        }
 
         public bool IsCloseButtonVisible
         {
@@ -236,7 +255,7 @@ namespace MovieHub.MediaPlayerElement
             MediaPlayerElement mediaplayerelement = d as MediaPlayerElement;
             if (mediaplayerelement != null)
             {
-                mediaplayerelement.MovieControl.IsControlMediaCloseButtonEnabled = (bool)e.NewValue;
+                mediaplayerelement.MovieControl.MovieControlSettings.IsControlMediaCloseButtonEnabled = (bool)e.NewValue;
             }
         }
 
@@ -276,6 +295,51 @@ namespace MovieHub.MediaPlayerElement
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MediaPlayerServiceProperty =
             DependencyProperty.Register("MediaPlayerService", typeof(IMediaPlayerService), typeof(MediaPlayerElement), new PropertyMetadata(null));
+        
+        public MovieControl UseSecondaryControl
+        {
+            get { return (MovieControl)GetValue(UseSecondaryControlProperty); }
+            set { SetValue(UseSecondaryControlProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for UseSecondaryControl.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty UseSecondaryControlProperty =
+            DependencyProperty.Register("UseSecondaryControl", typeof(MovieControl), typeof(MediaPlayerElement), new PropertyMetadata(null,OnSecondaryControlChanged));
+
+        private static void OnSecondaryControlChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            MediaPlayerElement mediaplayerelement = d as MediaPlayerElement;
+            if (mediaplayerelement != null)
+            {
+                MovieControl movieControl = e.NewValue as MovieControl;
+                if (e.NewValue != null)
+                {
+                    mediaplayerelement.CanRenderControl = false;
+                    movieControl.InitializeMediaPlayerControl(mediaplayerelement);
+                    mediaplayerelement._savedSecondaryControl = movieControl;
+                }
+
+                bool shouldRender = false;
+                if (movieControl == null)
+                {
+                    movieControl = new MovieControl(mediaplayerelement);
+                    shouldRender = true;
+                    var oldcontrol = e.OldValue as MovieControl;
+                    if (oldcontrol != null)
+                    {
+                        oldcontrol.InitializeMediaPlayerControl(null,true);
+                    }
+                    movieControl.SetControlSettings(oldcontrol.MovieControlSettings);
+                    movieControl.MediaDetailProps = oldcontrol.MediaDetailProps;
+                }
+                movieControl.ApplyTemplate();
+                mediaplayerelement.MovieControl = movieControl;
+                if (shouldRender)
+                {
+                    mediaplayerelement.CanRenderControl = shouldRender;
+                }
+            }
+        }
 
         public MovieControl MovieControl
         {
@@ -283,9 +347,16 @@ namespace MovieHub.MediaPlayerElement
             private set { SetValue(MovieControlProperty, value); }
         }
 
+        public VolumeState VolumeState
+        {
+            get { return MovieControl.VolumeControl.VolumeState; }
+            private set { MovieControl.VolumeControl.VolumeState = value; }
+        }
+
         // Using a DependencyProperty as the backing store for MovieControl.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MovieControlProperty =
             DependencyProperty.Register("MovieControl", typeof(MovieControl), typeof(MediaPlayerElement), new PropertyMetadata(null));
+        
 
         #endregion
 
@@ -435,7 +506,7 @@ namespace MovieHub.MediaPlayerElement
         private void InitializeComponents()
         {
             MediaPlayerServices = new MediaPlayerService();
-            MovieControl = new MovieControl(MediaPlayerServices);
+            MovieControl = new MovieControl(this);
             AllowMovieControlAnimation = true;
             _current = this;
         }
@@ -448,7 +519,11 @@ namespace MovieHub.MediaPlayerElement
                 _controlAnimationTimer.Tick += _controlAnimationTimer_Tick;
                 return;
             }
-            _controlAnimationTimer = new DispatcherTimer(DispatcherPriority.Background);
+            if (_controlAnimationTimer != null)
+            {
+                _controlAnimationTimer.Tick -= _controlAnimationTimer_Tick;
+                _controlAnimationTimer = new DispatcherTimer(DispatcherPriority.Background);
+            }
         }
 
         public override void OnApplyTemplate()
@@ -468,10 +543,46 @@ namespace MovieHub.MediaPlayerElement
             //    this.PlaylistRegion.Content = IPlaylistManager.GetPlaylistView();
 
             MovieControl.ApplyTemplate();
-            _mediaControlRegion.Content = MovieControl;
+            if (CanRenderControl)
+            {
+                _mediaControlRegion.Content = MovieControl;
+            }
             _hasInitialised = true;
             _awaitHostToRender = true;
-            MediaPlayerUtil.ExecuteTimerAction(()=> HookUpEvents(),20);
+            if (MediaPlayerViewType == MediaPlayerViewType.FullMediaPanel)
+            {
+                _mediaelementregion.MouseDoubleClick += _mediaelementregion_MouseDoubleClick;
+            }
+            //MediaPlayerUtil.ExecuteTimerAction(()=> HookUpEvents(),50);
+        }
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+        }
+
+        protected override void OnKeyUp(KeyEventArgs e)
+        {
+            base.OnKeyUp(e);
+        }
+
+    
+        protected override void OnMouseDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseDown(e);
+            e.Handled = this.MovieControl.Focus();
+        }
+
+        //protected override void OnRender(DrawingContext drawingContext)
+        //{
+        //    base.OnRender(drawingContext);
+        //    this.Focus();
+        //}
+
+        protected override void OnPreviewMouseRightButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnPreviewMouseRightButtonDown(e);
+            e.Handled = true;
         }
 
         protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
@@ -479,55 +590,11 @@ namespace MovieHub.MediaPlayerElement
             base.OnMouseDoubleClick(e);
         }
 
-        protected override void OnPreviewKeyDown(KeyEventArgs e)
-        {
-            base.OnPreviewKeyDown(e);
-            if (!IsKeyboardFocusWithin)
-            {
-                e.Handled = this.Focus();
-            }
-
-            if(e.Key == Key.Escape)
-            {
-                if(WindowFullScreenState == WindowFullScreenState.FullScreen)
-                    WindowsFullScreenAction();
-                else if(CanEscapeKeyCloseMedia)
-                    WindowsClosedAction();
-            }
-        }
-
-        protected override void OnKeyUp(KeyEventArgs e)
-        {
-            base.OnKeyUp(e);
-            if (_isrewindorfastforward)
-            {
-                RestoreRewindFastforwardSettings();
-            }
-        }
-
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
             if (e.Source == this)
                 StartControlAnimation();
-        }
-
-        protected override void OnMouseDown(MouseButtonEventArgs e)
-        {
-            base.OnMouseDown(e);
-            e.Handled = this.Focus();
-        }
-
-        protected override void OnRender(DrawingContext drawingContext)
-        {
-            base.OnRender(drawingContext);
-            this.Focus();
-        }
-
-        protected override void OnPreviewMouseRightButtonDown(MouseButtonEventArgs e)
-        {
-            base.OnPreviewMouseRightButtonDown(e);
-            e.Handled = true;
         }
 
         #region Command Management
@@ -674,303 +741,46 @@ namespace MovieHub.MediaPlayerElement
         private static void RegisterControlCommands()
         {
             //Each Control shud have the commands
-            RegisterCommandBings(typeof(MediaPlayerElement), MovieControl.PausePlay, new CommandBinding(MovieControl.PausePlay, PauseOrPlay_Executed, PauseOrPlay_Enabled));
-            RegisterCommandBings(typeof(MediaPlayerElement), VideoPlayerCommands.PlayList, new CommandBinding(VideoPlayerCommands.PlayList, PlayListToggle_Executed,Playlist_Enabled));
-            RegisterCommandBings(typeof(MediaPlayerElement), MovieControl.RepeatCommand, new CommandBinding(MovieControl.RepeatCommand, RepeatCommand_Executed));
-            RegisterCommandBings(typeof(MediaPlayerElement), MovieControl.ToggleMediaMenu, new CommandBinding(MovieControl.ToggleMediaMenu, ToggleMediaMenu_Executed, ToggleMediaMenu_Enabled));
-            RegisterCommandBings(typeof(MediaPlayerElement), MovieControl.ResizeMediaAlways, new CommandBinding(MovieControl.ResizeMediaAlways, ResizeMediaAlways_Executed));
-            RegisterCommandBings(typeof(MediaPlayerElement), MovieControl.TopMost, new CommandBinding(MovieControl.TopMost, TopMostCommand_Executed));
-            RegisterCommandBings(typeof(MediaPlayerElement), MovieControl.CloseMediaWindow, new CommandBinding(MovieControl.CloseMediaWindow, CloseMediaWindow_Executed));
-
-            RegisterCommandBings(typeof(MediaPlayerElement), MovieControl.Mute, new CommandBinding(MovieControl.Mute, Mute_executed));
-            RegisterCommandBings(typeof(MediaPlayerElement), MovieControl.Rewind, new CommandBinding(MovieControl.Rewind, Rewind_executed, Rewind_enabled));
-            RegisterCommandBings(typeof(MediaPlayerElement), MovieControl.ShiftRewind, new CommandBinding(MovieControl.ShiftRewind, ShiftRewind_executed, Rewind_enabled));
-
-            RegisterCommandBings(typeof(MediaPlayerElement), MovieControl.FastForward, new CommandBinding(MovieControl.FastForward, FastForward_executed, Rewind_enabled));
-            RegisterCommandBings(typeof(MediaPlayerElement), MovieControl.ShiftFastForward, new CommandBinding(MovieControl.ShiftFastForward, ShiftFastForward_executed, Rewind_enabled));
-
-
-            RegisterCommandBings(typeof(MediaPlayerElement), MovieControl.VolUp, new CommandBinding(MovieControl.VolUp, VolUp_Executed, Volume_Enabled));
-            RegisterCommandBings(typeof(MediaPlayerElement), MovieControl.VolDown, new CommandBinding(MovieControl.VolDown, VolDown_Executed, Volume_Enabled));
-            RegisterCommandBings(typeof(MediaPlayerElement), MovieControl.FullScreen, new CommandBinding(MovieControl.FullScreen, FullScreen_Executed, FullScreen_Enabled));
-            RegisterCommandBings(typeof(MediaPlayerElement), MovieControl.Next, new CommandBinding(MovieControl.Next, Next_Executed, Next_Enabled));
-            RegisterCommandBings(typeof(MediaPlayerElement), MovieControl.Previous, new CommandBinding(MovieControl.Previous, Previous_Executed, Previous_Enabled));
-            RegisterCommandBings(typeof(MediaPlayerElement), MovieControl.ControlViewChangeCommand, new CommandBinding(MovieControl.ControlViewChangeCommand, ControlViewChangeCommand_Executed));
-            RegisterCommandBings(typeof(MediaPlayerElement), MovieControl.MinimizeControlCommand, new CommandBinding(MovieControl.MinimizeControlCommand, MinimizeControlCommand_Executed, MinimizeControlCommand_Enabled));
-
+           
         }
 
-        private static void MinimizeControlCommand_Enabled(object sender, CanExecuteRoutedEventArgs e)
-        {
-            MediaPlayerElement mediaPlayerElement = sender as MediaPlayerElement;
-            if (mediaPlayerElement != null)
-                e.CanExecute = mediaPlayerElement.MediaPlayerServices.CanPause;
-            else
-                e.CanExecute = false;
-        }
+      
 
-        private static void MinimizeControlCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            MediaPlayerElement mediaPlayerElement = sender as MediaPlayerElement;
-            if (mediaPlayerElement != null)
-                mediaPlayerElement.MinimizeControlAction();
-        }
-        
-        private static void CloseMediaWindow_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            MediaPlayerElement mediaPlayerElement = sender as MediaPlayerElement;
-            if (mediaPlayerElement != null)
-                mediaPlayerElement.WindowsClosedAction(); 
-        }
-        
-        private static void ControlViewChangeCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            MediaPlayerElement mediaPlayerElement = sender as MediaPlayerElement;
-            if (mediaPlayerElement != null)
-            {
-                mediaPlayerElement.ControlViewChangeCommandAction();
-            }
-        }
-        
-        private static void Previous_Enabled(object sender, CanExecuteRoutedEventArgs e)
-        {
-            MediaPlayerElement mediaPlayerElement = sender as MediaPlayerElement;
-            if (mediaPlayerElement != null)
-            {
-                e.CanExecute = mediaPlayerElement.PlaylistManager == null ? false : mediaPlayerElement.PlaylistManager.CanPrevious;
-            }
-        }
-
-        private static void Previous_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            MediaPlayerElement mediaPlayerElement = sender as MediaPlayerElement;
-            if (mediaPlayerElement != null)
-            {
-                mediaPlayerElement.PreviousAction();
-            }
-        }
-        
-        private static void Next_Enabled(object sender, CanExecuteRoutedEventArgs e)
-        {
-            MediaPlayerElement mediaPlayerElement = sender as MediaPlayerElement;
-            if (mediaPlayerElement != null)
-            {
-                e.CanExecute = mediaPlayerElement.PlaylistManager == null? false : mediaPlayerElement.PlaylistManager.CanNext ;
-            }
-        }
-
-        private static void Next_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            MediaPlayerElement mediaPlayerElement = sender as MediaPlayerElement;
-            if (mediaPlayerElement != null)
-            {
-                mediaPlayerElement.NextAction();
-            }
-        }
-        
-        private static void FullScreen_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            MediaPlayerElement mediaPlayerElement = sender as MediaPlayerElement;
-            if (mediaPlayerElement != null)
-                mediaPlayerElement.WindowsFullScreenAction();
-        }
-
-        private static void FullScreen_Enabled(object sender, CanExecuteRoutedEventArgs e)
-        {
-            MediaPlayerElement mediaPlayerElement = sender as MediaPlayerElement;
-            if (mediaPlayerElement != null)
-                e.CanExecute = mediaPlayerElement.MovieControl.IsFullScreenToggleEnabled;
-            else
-                e.CanExecute = false;
-        }
-
-        private static void ResizeMediaAlways_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            MediaPlayerElement mediaPlayerElement = sender as MediaPlayerElement;
-            if (mediaPlayerElement != null)
-            {
-                mediaPlayerElement._allowMediaSizeEventExecute = !mediaPlayerElement._allowMediaSizeEventExecute;
-            }
-        }
-
-        private static void TopMostCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            MediaPlayerElement mediaPlayerElement = sender as MediaPlayerElement;
-            if (mediaPlayerElement != null)
-            {
-                mediaPlayerElement.MediaPlayerElementRaiseEvent(SetWindowTopMostPropertyEvent);
-            }
-        }
-
-        private static void Volume_Enabled(object sender, CanExecuteRoutedEventArgs e)
-        {
-            MediaPlayerElement mediaPlayerElement = sender as MediaPlayerElement;
-            if (mediaPlayerElement != null)
-                e.CanExecute = mediaPlayerElement.VolumeState != VolumeState.Muted;
-            else
-                e.CanExecute = false;
-        }
-
-        private static void VolDown_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            MediaPlayerElement mediaPlayerElement = sender as MediaPlayerElement;
-            if (mediaPlayerElement != null)
-            {
-                mediaPlayerElement.MovieControl.VolumeControl.VolumeLevel -= 10;
-                mediaPlayerElement.PreviewControl();
-            }
-        }
-
-        private static void VolUp_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            MediaPlayerElement mediaPlayerElement = sender as MediaPlayerElement;
-            if (mediaPlayerElement != null)
-            {
-                mediaPlayerElement.MovieControl.VolumeControl.VolumeLevel += 10;
-                mediaPlayerElement.PreviewControl();
-            }
-        }
-
-        private static void ToggleMediaMenu_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            MediaPlayerElement mediaPlayerElement = sender as MediaPlayerElement;
-            if (mediaPlayerElement != null)
-                mediaPlayerElement._mediaMenu.ShowDialog();
-        }
-
-        private static void ToggleMediaMenu_Enabled(object sender, CanExecuteRoutedEventArgs e)
-        {
-            MediaPlayerElement mediaPlayerElement = sender as MediaPlayerElement;
-            if (mediaPlayerElement != null)
-                e.CanExecute = !mediaPlayerElement.MediaPlayerServices.HasStopped;
-            else
-                e.CanExecute = false;
-        }
-
-        private static void Mute_executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            MediaPlayerElement mediaPlayerElement = sender as MediaPlayerElement;
-            if (mediaPlayerElement != null)
-                mediaPlayerElement.MuteAction();
-        }
-
-        private static void RepeatCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            MediaPlayerElement mediaPlayerElement = sender as MediaPlayerElement;
-            if (mediaPlayerElement != null)
-                mediaPlayerElement.RepeatModeAction(); ;
-        }
-
-        private static void PlayListToggle_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            MediaPlayerElement mediaPlayerElement = sender as MediaPlayerElement;
-            if (mediaPlayerElement != null)
-            {
-                mediaPlayerElement.TogglePlaylistView();
-            }
-        }
-
-        private static void Playlist_Enabled(object sender, CanExecuteRoutedEventArgs e)
-        {
-            MediaPlayerElement mediaPlayerElement = sender as MediaPlayerElement;
-            if (mediaPlayerElement != null)
-            {
-                e.CanExecute = mediaPlayerElement.PlaylistManager != null && mediaPlayerElement.MediaPlayerViewType == MediaPlayerViewType.FullMediaPanel;
-            }
-            
-        }
-
-        private static void PauseOrPlay_Enabled(object sender, CanExecuteRoutedEventArgs e)
-        {
-            MediaPlayerElement mediaPlayerElement = sender as MediaPlayerElement;
-            if (mediaPlayerElement != null)
-                e.CanExecute = mediaPlayerElement.CurrentStreamingitem != null || !mediaPlayerElement.MediaPlayerServices.HasLoadedMedia;
-            else
-                e.CanExecute = false;
-        }
-
-        private static void PauseOrPlay_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            MediaPlayerElement mediaPlayerElement = sender as MediaPlayerElement;
-            if (mediaPlayerElement != null)
-                mediaPlayerElement.PauseOrPlayAction();
-        }
-
-        private static void ShiftFastForward_executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            MediaPlayerElement mediaPlayerElement = sender as MediaPlayerElement;
-            if (mediaPlayerElement != null)
-            {
-                mediaPlayerElement.ReWindFastForward();
-                mediaPlayerElement.MediaPlayerServices.CurrentTimer += TimeSpan.FromMilliseconds(1500);
-            }
-        }
-
-        private static void Rewind_enabled(object sender, CanExecuteRoutedEventArgs e)
-        {
-            MediaPlayerElement mediaPlayerElement = sender as MediaPlayerElement;
-            if (mediaPlayerElement != null)
-                e.CanExecute = mediaPlayerElement.MediaPlayerServices.IsSeekable;
-            else
-                e.CanExecute = false;
-        }
-
-        private static void FastForward_executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            MediaPlayerElement mediaPlayerElement = sender as MediaPlayerElement;
-            if (mediaPlayerElement != null)
-            {
-                mediaPlayerElement.ReWindFastForward();
-                mediaPlayerElement.MediaPlayerServices.CurrentTimer += TimeSpan.FromMilliseconds(10000);
-            }
-        }
-
-        private static void ShiftRewind_executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            MediaPlayerElement mediaPlayerElement = sender as MediaPlayerElement;
-            if (mediaPlayerElement != null)
-            {
-                mediaPlayerElement.ReWindFastForward();
-                mediaPlayerElement.MediaPlayerServices.CurrentTimer -= TimeSpan.FromMilliseconds(1500);
-            }
-        }
-
-        private static void Rewind_executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            MediaPlayerElement mediaPlayerElement = sender as MediaPlayerElement;
-            if (mediaPlayerElement != null)
-            {
-                mediaPlayerElement.ReWindFastForward();
-                mediaPlayerElement.MediaPlayerServices.CurrentTimer -= TimeSpan.FromMilliseconds(10000);
-            }
-        }
         #endregion
 
-        private void HookUpEvents()
+        internal void HookUpEvents()
         {
             _mediaMenu = new MediaMenu(this);
 
-            MovieControl.MouseEnter += (s, e) =>
-            {
-                _canAnimateControl = false;
-            };
-            MovieControl.MouseLeave += (s, e) =>
-            {
-                _canAnimateControl = true;
-            };
-            if (MediaPlayerViewType == MediaPlayerViewType.FullMediaPanel)
-            {
-                _mediaelementregion.MouseDoubleClick += _mediaelementregion_MouseDoubleClick;
-            }
+            HookUpControllerEvents();
+           // _hasRegisteredEvents = true;
+        }
 
-            if (MovieControl.IsMediaSliderEnabled)
+        private void HookUpControllerEvents()
+        {
+            MovieControl.MouseEnter -= MovieControl_MouseEnter;
+            MovieControl.MouseLeave -= MovieControl_MouseLeave;
+            MovieControl.MouseEnter += MovieControl_MouseEnter;
+            MovieControl.MouseLeave += MovieControl_MouseLeave;
+            
+
+            if (MovieControl.MovieControlSettings.IsMediaSliderEnabled && MovieControl.MediaSlider != null)
             {
+                MovieControl.MediaSlider.ThumbDragStarted -= MediaSlider_ThumbDragStarted;
+                MovieControl.MediaSlider.ThumbDragCompleted -= MediaSlider_ThumbDragCompleted;
                 MovieControl.MediaSlider.ThumbDragStarted += MediaSlider_ThumbDragStarted;
                 MovieControl.MediaSlider.ThumbDragCompleted += MediaSlider_ThumbDragCompleted;
             }
-           
-           // _hasRegisteredEvents = true;
+        }
 
+        private void MovieControl_MouseLeave(object sender, MouseEventArgs e)
+        {
+            _canAnimateControl = true;
+        }
+
+        private void MovieControl_MouseEnter(object sender, MouseEventArgs e)
+        {
+            _canAnimateControl = false;
         }
 
         private void _controlAnimationTimer_Tick(object sender, EventArgs e)
@@ -1006,7 +816,8 @@ namespace MovieHub.MediaPlayerElement
 
         private void _mediaelementregion_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            WindowsFullScreenAction();
+            if(this.MediaPlayerViewType == MediaPlayerViewType.FullMediaPanel)
+                WindowsFullScreenAction();
         }
         
         private void UnloadComponents()
@@ -1032,19 +843,19 @@ namespace MovieHub.MediaPlayerElement
             #endregion
         }
 
-        private void MediaPlayerElementRaiseEvent(RoutedEventArgs _event)
+        internal void MediaPlayerElementRaiseEvent(RoutedEventArgs _event)
         {
             RaiseEvent(_event);
         }
 
-        private void MediaPlayerElementRaiseEvent(RoutedEvent _event)
+        internal void MediaPlayerElementRaiseEvent(RoutedEvent _event)
         {
             RaiseEvent(new RoutedEventArgs(_event, this));
         }
 
         private void SetMediaControlDetails()
         {
-            this.MovieControl.MediaDuration = MediaPlayerServices.Duration.TotalSeconds;
+            this.MovieControl.MediaDetailProps.MediaDuration = MediaPlayerServices.Duration.TotalSeconds;
             this.MovieControl.SetMediaVolume(MovieControl.VolumeControl.VolumeLevel);
         }
         
@@ -1052,8 +863,8 @@ namespace MovieHub.MediaPlayerElement
         {
             if (!_isDragging)
             {
-                MovieControl.CurrentMediaTime = MediaPlayerServices.CurrentTimer.TotalSeconds;
-                PlayableLastSeen.Progress = Math.Round(((MovieControl.CurrentMediaTime / MovieControl.MediaDuration) * 100), 2);
+                MovieControl.MediaDetailProps.CurrentMediaTime = MediaPlayerServices.CurrentTimer.TotalSeconds;
+                PlayableLastSeen.Progress = Math.Round(((MovieControl.MediaDetailProps.CurrentMediaTime / MovieControl.MediaDetailProps.MediaDuration) * 100), 2);
             }
         }
 
@@ -1077,12 +888,12 @@ namespace MovieHub.MediaPlayerElement
             MovieControl.CloseLastSeenBoard();
             PlayableLastSeenSaveAction();
             CurrentStreamingitem.IsActive = false;
-            MovieControl.CurrentMediaTime = 0.0;
+            MovieControl.MediaDetailProps.CurrentMediaTime = 0.0;
         }
 
-        private void ControlViewChangeCommandAction()
+        internal void ControlViewChangeCommandAction()
         {
-            MovieControl.ControlViewType = MovieControl.ControlViewType == MediaControlViewType.LargeView ? MediaControlViewType.MiniView : MediaControlViewType.LargeView;
+            // MovieControl.ControlViewType = MovieControl.ControlViewType == MediaControlViewType.LargeView ? MediaControlViewType.MiniView : MediaControlViewType.LargeView;
         }
 
         private void PlayableLastSeenSaveAction()
@@ -1112,15 +923,18 @@ namespace MovieHub.MediaPlayerElement
             if (!IscheckingForRepeating)
             {
                 IscheckingForRepeating = true;
-                if (PlaylistManager != null && MovieControl.RepeatMode != RepeatMode.NoRepeat)
+                if (PlaylistManager != null && MovieControl.MediaDetailProps.RepeatMode != RepeatMode.NoRepeat)
                     MediaPlayerUtil.ExecuteTimerAction(() => StartRepeatAction(), 50);
+                else
+                    IscheckingForRepeating = false;
             }
         }
 
         private void StartRepeatAction()
         {
             IscheckingForRepeating = false;
-            if (MovieControl.RepeatMode == RepeatMode.RepeatOnce)
+
+            if (MovieControl.MediaDetailProps.RepeatMode == RepeatMode.RepeatOnce)
             {
                 Source(CurrentStreamingitem);
                 return;
@@ -1131,7 +945,7 @@ namespace MovieHub.MediaPlayerElement
                 this.Source(vfc);
         }
 
-        private void ReWindFastForward()
+        internal void ReWindFastForward()
         {
             if (!_isrewindorfastforward)
             {
@@ -1145,7 +959,7 @@ namespace MovieHub.MediaPlayerElement
             }
         }
 
-        private void RestoreRewindFastforwardSettings()
+        internal void RestoreRewindFastforwardSettings()
         {
             if (VolumeState == VolumeState.Active)
             {
@@ -1156,25 +970,25 @@ namespace MovieHub.MediaPlayerElement
             StartControlAnimation();
         }
 
-        private void RepeatModeAction()
+        internal void RepeatModeAction()
         {
-            if (MovieControl.RepeatMode == RepeatMode.NoRepeat)
+            if (MovieControl.MediaDetailProps.RepeatMode == RepeatMode.NoRepeat)
             {
-                MovieControl.RepeatMode = RepeatMode.Repeat;
+                MovieControl.MediaDetailProps.RepeatMode = RepeatMode.Repeat;
             }
             else
-            if (MovieControl.RepeatMode == RepeatMode.Repeat)
+            if (MovieControl.MediaDetailProps.RepeatMode == RepeatMode.Repeat)
             {
-                MovieControl.RepeatMode = RepeatMode.RepeatOnce;
+                MovieControl.MediaDetailProps.RepeatMode = RepeatMode.RepeatOnce;
             }
             else
-            if (MovieControl.RepeatMode == RepeatMode.RepeatOnce)
+            if (MovieControl.MediaDetailProps.RepeatMode == RepeatMode.RepeatOnce)
             {
-                MovieControl.RepeatMode = RepeatMode.NoRepeat;
+                MovieControl.MediaDetailProps.RepeatMode = RepeatMode.NoRepeat;
             }
         }
 
-        private void MuteAction()
+        internal void MuteAction()
         {
             if (!MediaPlayerServices.IsMute)
             {
@@ -1190,21 +1004,21 @@ namespace MovieHub.MediaPlayerElement
             }
         }
 
-        private void PreviousAction()
+        internal void PreviousAction()
         {
             if (!MediaPlayerServices.HasStopped)
                 MediaPlayerServices.Stop();
             Source(PlaylistManager.GetPreviousItem());
         }
 
-        private void NextAction()
+        internal void NextAction()
         {
             if (!MediaPlayerServices.HasStopped)
                 MediaPlayerServices.Stop();
             Source(PlaylistManager.GetNextItem());
         }
 
-        private void WindowsFullScreenAction()
+        internal void WindowsFullScreenAction()
         {
             WindowFullScreenState = WindowFullScreenState == WindowFullScreenState.Normal ? WindowFullScreenState.FullScreen : WindowFullScreenState.Normal;
             var routedevent = new WindowFullScreenRoutedEventArgs(OnFullScreenButtonToggleEvent, this, WindowFullScreenState);
@@ -1216,14 +1030,22 @@ namespace MovieHub.MediaPlayerElement
             MediaPlayerServices.VideoStretch = newValue;
         }
 
-        private void MinimizeControlAction()
+        internal void MinimizeControlAction()
         {
             if (this.MediaPlayerViewType == MediaPlayerViewType.FullMediaPanel)
             {
                 SaveMediaDefinitedSettings();
                 if (_isPlaylistVisible)
                     TogglePlaylistView();
-                this.MovieControl.ControlViewType = MediaControlViewType.MiniView;
+
+                if(_savedSecondaryControl != null)
+                {
+                    _savedSecondaryControl.SetControlSettings(this.MovieControl.MovieControlSettings);
+                    this.UseSecondaryControl = _savedSecondaryControl;
+                }
+                else
+                    this.MovieControl.ControlViewType = MediaControlViewType.MiniView;
+
                 this.MediaPlayerViewType = MediaPlayerViewType.MiniMediaPanel;
                 this.MediaStretch = Stretch.UniformToFill;
                 _allowMediaSizeEventExecute = false;
@@ -1242,7 +1064,9 @@ namespace MovieHub.MediaPlayerElement
 
         private void RestoreMediaDefinitedSetting()
         {
-            this.MovieControl.ControlViewType = _savedSettings.MovieControlViewType;
+            if(_savedSecondaryControl == null)
+                this.MovieControl.ControlViewType = _savedSettings.MovieControlViewType;
+
             this.MediaPlayerViewType = _savedSettings.MediaPlayerMode;
             this.IsMediaContextMenuEnabled = _savedSettings.AllowContextMenu;
             this._allowMediaSizeEventExecute = _savedSettings.AllowMediaResize;
@@ -1265,7 +1089,7 @@ namespace MovieHub.MediaPlayerElement
             _savedSettings.IsContextMenuEnabled = IsMediaContextMenuEnabled;
         }
 
-        private void WindowsClosedAction()
+        internal void WindowsClosedAction()
         {
             this.MediaPlayerElementRaiseEvent(OnCloseWindowToggledEvent);
         }
@@ -1282,7 +1106,7 @@ namespace MovieHub.MediaPlayerElement
             this.Cursor = Cursors.None;
         }
 
-        private void PreviewControl()
+        internal void PreviewControl()
         {
             _controlAnimationTimer.Stop();
             ShowControl();
@@ -1312,7 +1136,7 @@ namespace MovieHub.MediaPlayerElement
             MediaPlayerUtil.ExecuteTimerAction(action, milliseconds);
         }
 
-        private void PauseOrPlayAction(bool igonreMediaState = false)
+        internal void PauseOrPlayAction(bool igonreMediaState = false)
         {
             if (igonreMediaState)
             {

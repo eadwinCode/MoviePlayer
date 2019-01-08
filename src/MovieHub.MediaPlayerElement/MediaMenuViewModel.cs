@@ -2,7 +2,6 @@
 using Microsoft.Practices.ServiceLocation;
 using MovieHub.MediaPlayerElement.Interfaces;
 using MovieHub.MediaPlayerElement.Models;
-using Movies.MoviesInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

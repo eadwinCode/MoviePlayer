@@ -15,56 +15,56 @@ namespace Movies.MovieServices.Services
     internal class SortService : ISortService
     {
         private object _lock = new object();
-        public VideoFolder SortList(SortType sorttype, VideoFolder parent)
+        public MediaFolder SortList(SortType sorttype, MediaFolder parent)
         {
             lock (_lock)
             {
                 if (parent.OtherFiles == null) return parent;
 
-                ObservableCollection<VideoFolder> asd = new ObservableCollection<VideoFolder>();
+                ObservableCollection<MediaFolder> asd = new ObservableCollection<MediaFolder>();
                 if (sorttype == SortType.Date)
                 {
-                    IEnumerable<VideoFolder> de = (parent.OtherFiles).OrderBy(x => x, new SortByDate());
+                    IEnumerable<MediaFolder> de = (parent.OtherFiles).OrderBy(x => x, new SortByDate());
                     asd.AddRange(de);
                 }
                 else if (sorttype == SortType.Extension)
                 {
-                    IEnumerable<VideoFolder> de = parent.OtherFiles.OrderBy(x => x, new SortByExtension());
+                    IEnumerable<MediaFolder> de = parent.OtherFiles.OrderBy(x => x, new SortByExtension());
                     asd.AddRange(de);
                 }
                 else
                 {
-                    IEnumerable<VideoFolder> de = parent.OtherFiles.OrderBy(x => x, new SortByNames());
+                    IEnumerable<MediaFolder> de = parent.OtherFiles.OrderBy(x => x, new SortByNames());
                     asd.AddRange(de);
                 }
                 parent.OtherFiles.Clear();
                 parent.OtherFiles = asd;
-                //parent.SortedBy = sorttype;
+                parent.SortedBy = sorttype;
                 return parent;
             }
 
         }
 
-        public ObservableCollection<VideoFolder> SortList(SortType sorttype, ObservableCollection<VideoFolder> list)
+        public ObservableCollection<MediaFolder> SortList(SortType sorttype, ObservableCollection<MediaFolder> list)
         {
             lock (this)
             {
                 if (list == null) return list;
 
-                ObservableCollection<VideoFolder> asd = new ObservableCollection<VideoFolder>();
+                ObservableCollection<MediaFolder> asd = new ObservableCollection<MediaFolder>();
                 if (sorttype == SortType.Date)
                 {
-                    IEnumerable<VideoFolder> de = (list).OrderBy(x => x, new SortByDate());
+                    IEnumerable<MediaFolder> de = (list).OrderBy(x => x, new SortByDate());
                     asd.AddRange(de);
                 }
                 else if (sorttype == SortType.Extension)
                 {
-                    IEnumerable<VideoFolder> de = list.OrderBy(x => x, new SortByExtension());
+                    IEnumerable<MediaFolder> de = list.OrderBy(x => x, new SortByExtension());
                     asd.AddRange(de);
                 }
                 else
                 {
-                    IEnumerable<VideoFolder> de = list.OrderBy(x => x, new SortByNames());
+                    IEnumerable<MediaFolder> de = list.OrderBy(x => x, new SortByNames());
                     asd.AddRange(de);
                 }
                 return asd;

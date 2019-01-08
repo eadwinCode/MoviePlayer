@@ -1,0 +1,181 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:local="clr-namespace:MovieHub.MediaPlayerElement"
+                    xmlns:y="clr-namespace:MovieHub.MediaPlayerElement"
+                    xmlns:cmd="clr-namespace:Common.ApplicationCommands;assembly=Common"
+                    xmlns:customControl="clr-namespace:MovieHub.MediaPlayerElement.CustomControls"
+                    xmlns:MediaElement="clr-namespace:MovieHub.MediaPlayerElement"
+                    xmlns:util="clr-namespace:Common.Util;assembly=Common">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MovieHub.MediaPlayerElement;component/Themes/PlaylistStyles.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <local:VolumeTextConverter x:Key="VolumeTextConverter"/>
+    
+    <ControlTemplate TargetType="{x:Type local:VolumeControl}" x:Key="VolumeDefaultTemplate">
+        <Border Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" Background="{TemplateBinding Background}">
+            <StackPanel  DockPanel.Dock="Right" Orientation="Vertical" Opacity="{TemplateBinding Opacity}"
+                                HorizontalAlignment="Stretch" 
+                                VerticalAlignment="Center">
+                <TextBlock x:Name="tb" Padding="5"  SnapsToDevicePixels="True" TextAlignment="Center" 
+                                       VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                       Text="{Binding ElementName=volslider,Path=Value, 
+                                Converter={StaticResource VolumeTextConverter},StringFormat=Volume {0}}"/>
+                <DockPanel x:Name="showbtn" Visibility="Collapsed" Width="130" Background="Transparent"
+                                       VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <!--<Button Command="{Binding Mute,Mode=TwoWay}" DockPanel.Dock="Right" Width="24" Style="{StaticResource ContentContainer}">
+                                <Image Opacity=".7" x:Name="contentPresenter"
+                                       Margin="2" Uid="sound-icone-4732-32.png" />
+                            </Button>-->
+                    <DockPanel DockPanel.Dock="Top" Height="10" Background="Transparent">
+                        <Button  Style="{StaticResource ControlButtonStyle}" Command="{x:Static local:MovieControl.Mute}">
+                            <TextBlock x:Name="muteText" DockPanel.Dock="Left" Foreground="WhiteSmoke" Margin="5,0,5,0" FontSize="10" Cursor="Hand"
+                                               ToolTip="Mute audio" Text="Audio Active"/>
+                        </Button>
+                        <TextBlock  Foreground="WhiteSmoke"  FontSize="10" Margin="2,0,5,0" SnapsToDevicePixels="True" HorizontalAlignment="Right"
+                                       Text="{Binding ElementName=volslider,Path=Value,Converter={StaticResource VolumeTextConverter}, StringFormat=Vol: {0}}"/>
+                    </DockPanel>
+
+                    <Slider Margin="2" Style="{StaticResource VolumeSliderStyle}" 
+                                    Value="{Binding VolumeLevel, RelativeSource={RelativeSource AncestorType=local:VolumeControl}}" 
+                                    x:Name="volslider" Maximum="200" Cursor="Hand"
+                                    SmallChange="0.1"/>
+                </DockPanel>
+            </StackPanel>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="Visibility" TargetName="showbtn" Value="Visible"/>
+                <Setter Property="Visibility" TargetName="tb" Value="Collapsed"/>
+                <Setter Property="TextBlock.FontSize" Value="12"/>
+                <Setter Property="TextBlock.TextAlignment" TargetName="tb" Value="Center"/>
+            </Trigger>
+
+            <Trigger Property="VolumeState" Value="Muted">
+                <Setter Property="Text"  TargetName="muteText" Value="Audio Mute"/>
+                <Setter Property="ToolTip"  TargetName="muteText" Value="Unmute sound"/>
+                <Setter Property="IsEnabled" TargetName="volslider" Value="False"/>
+            </Trigger>
+            <!--<Trigger Property="IsMouseOver" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="textonly" Duration="0:0:0.2" To="0" 
+                                                         Storyboard.TargetProperty="Width" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="textonly" Duration="0:0:0.2" To="120" 
+                                                         Storyboard.TargetProperty="Width" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>-->
+            <!--<Setter TargetName="textonly" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>-->
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate TargetType="{x:Type local:VolumeControl}" x:Key="VolumePopTemplate">
+        <Grid>
+            <DockPanel Width="60" Background="Transparent">
+                <Button Margin="5,0,5,5" Command="{x:Static local:VolumeControl.TogglepopUp}" ClipToBounds="True"
+                        Style="{StaticResource ControlButtonStyle}" x:Name="VolumeBtn" CommandParameter="{Binding ElementName=volumePopup}"
+                        DockPanel.Dock="Left">
+                    <DockPanel>
+                        <TextBlock x:Name="tb" Padding="3" DockPanel.Dock="Right" SnapsToDevicePixels="True"  Margin="0,2.5,0,0"
+                                       VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="WhiteSmoke"
+                                       Text="{Binding ElementName=volslider,Path=Value, 
+                                Converter={StaticResource VolumeTextConverter}}"/>
+                        <Path Fill="WhiteSmoke" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="istBtn"
+                              Data="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.84 14,18.7V20.77C18,19.86 21,16.28 21,12C21,7.72 18,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16C15.5,15.29 16.5,13.76 16.5,12M3,9V15H7L12,20V4L7,9H3Z"/>
+                    </DockPanel>
+                </Button>
+            </DockPanel>
+            <Popup IsOpen="False" StaysOpen="False" VerticalOffset="-55" HorizontalOffset="-30"
+                    Width="200" Height="60" Placement="Center" x:Name="volumePopup"
+                    PopupAnimation="Scroll" HorizontalAlignment="Center"
+                    PlacementTarget="{Binding ElementName=VolumeBtn}">
+                <Border  Background="{TemplateBinding Background}" BorderThickness="1" BorderBrush="{DynamicResource Theme.HighlightColor}">
+                    <DockPanel>
+                        <TextBlock DockPanel.Dock="Top" Padding="3" TextAlignment="Center" Text="Media Volume" Foreground="WhiteSmoke"/>
+                        <DockPanel x:Name="showbtn" Background="Transparent" Opacity="{TemplateBinding Opacity}"
+                                       VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <!--<Button Command="{Binding Mute,Mode=TwoWay}" DockPanel.Dock="Right" Width="24" Style="{StaticResource ContentContainer}">
+                                <Image Opacity=".7" x:Name="contentPresenter"
+                                       Margin="2" Uid="sound-icone-4732-32.png" />
+                            </Button>-->
+
+                            <Button  Style="{StaticResource ControlButtonStyle}" DockPanel.Dock="Left" x:Name="btnmuteText"
+                                 Command="{x:Static local:MovieControl.Mute}" Margin="4">
+                                <Path Fill="WhiteSmoke" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="muteText"
+                                  Data="{Binding ElementName=istBtn,Path=Data}"/>
+                                <!--<TextBlock  Padding="5" Foreground="WhiteSmoke" Margin="5,0,5,0" FontSize="10" Cursor="Hand"
+                                                Text="Audio Active"/>-->
+                            </Button>
+                            <TextBlock  Foreground="WhiteSmoke" Padding="5" FontSize="10.5" Margin="2,0,5,0" VerticalAlignment="Center"
+                                        SnapsToDevicePixels="True" HorizontalAlignment="Center" DockPanel.Dock="Right"
+                                       Text="{Binding ElementName=volslider,Path=Value,Converter={StaticResource VolumeTextConverter}}"/>
+                            <Slider Margin="3" VerticalAlignment="Center" Style="{StaticResource VolumeSliderStyle}"
+                                Value="{Binding VolumeLevel, RelativeSource={RelativeSource AncestorType=local:VolumeControl}}" 
+                                x:Name="volslider" Maximum="200" Cursor="Hand"
+                                SmallChange="0.1"/>
+                        </DockPanel>
+                    </DockPanel>
+                </Border>
+            </Popup>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <!--<Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="Visibility" TargetName="showbtn" Value="Visible"/>
+                <Setter Property="Visibility" TargetName="tb" Value="Collapsed"/>
+                <Setter Property="TextBlock.FontSize" Value="12"/>
+                <Setter Property="TextBlock.TextAlignment" TargetName="tb" Value="Center"/>
+            </Trigger>-->
+            <Trigger Property="VolumeState" Value="Muted">
+                <Setter Property="Data"  TargetName="istBtn" Value="M3,9H7L12,4V20L7,15H3V9M16.59,12L14,9.41L15.41,8L18,10.59L20.59,8L22,9.41L19.41,12L22,14.59L20.59,16L18,13.41L15.41,16L14,14.59L16.59,12Z"/>
+                <Setter Property="IsEnabled" TargetName="volslider" Value="False"/>
+            </Trigger>
+            <!--<Trigger Property="IsMouseOver" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="textonly" Duration="0:0:0.2" To="0" 
+                                                         Storyboard.TargetProperty="Width" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="textonly" Duration="0:0:0.2" To="120" 
+                                                         Storyboard.TargetProperty="Width" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>-->
+            <!--<Setter TargetName="textonly" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>-->
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    
+    <Style TargetType="{x:Type local:VolumeControl}">
+        <Setter Property="TextBlock.FontSize" Value="16"/>
+        <Setter Property="TextBlock.FontWeight" Value="Bold"/>
+
+        <Setter Property="Height" Value="35"/>
+        <Style.Triggers>
+            <Trigger Property="local:VolumeControl.VolumeControlStyle" Value="DefaultView">
+                <Setter Property="Width" Value="130"/>
+                <Setter Property="Template" Value="{StaticResource VolumeDefaultTemplate}"/>
+            </Trigger>
+
+            <Trigger Property="local:VolumeControl.VolumeControlStyle" Value="SmallView">
+                <Setter Property="Width" Value="60"/>
+                <Setter Property="Template" Value="{StaticResource VolumePopTemplate}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>
