@@ -2,7 +2,8 @@
 
 # Movie Hub
 Movie Hub is a desktop application used to play and organise your locally stored movies.
-###Features
+
+### Features
 
 - Movie decoder based on VLC.
 - Internet radio with 2000 stations available.
@@ -25,10 +26,10 @@ See also the list of [contributors](https://github.com/your/project/contributors
 ## License
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 ## Preview
-<img src="">
-<img src="">
-<img src="">
-<img src="">
-<img src="">
-<img src="">
-<img src="">
+<img src="src/img/blackOne_list.PNG">
+<img src="src/img/blackOne_Large.PNG">
+<img src="src/img/PinkOne_Large.PNG">
+<img src="src/img/PinkOne_list.PNG">
+<img src="src/img/playing_full.PNG"">
+<img src="src/img/playing_small.PNG">
+<img src="src/img/radio_full.PNG">
